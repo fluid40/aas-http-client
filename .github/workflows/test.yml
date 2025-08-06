@@ -17,9 +17,9 @@ jobs:
           - 8075:5060
         env:
           SERVER_PORT: 5060
-          SERVER_HOST: basyx_java_repo_server       
+          SERVER_HOST: javaaasserver       
         options: >-
-          --health-cmd="curl --fail http://localhost:8080/health || exit 1"
+          --health-cmd="curl --fail http://localhost:8075/health || exit 1"
           --health-interval=5s
           --health-timeout=2s
           --health-retries=10

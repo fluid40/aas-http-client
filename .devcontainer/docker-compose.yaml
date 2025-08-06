@@ -18,7 +18,7 @@ services:
       - '8075:5060'
     environment:
       - SERVER_PORT=5060
-      - SERVER_HOST=basyx_java_repo_server
+      - SERVER_HOST=javaaasserver
 
 networks:
   bridge:
