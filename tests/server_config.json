@@ -1,5 +1,5 @@
 {
-    "base_url": "http://javaaasserver:5060/",
+    "base_url": "http://localhost:8075/",
     "api_base_path": "",
     "time_out": 200,
     "https_proxy": null,
