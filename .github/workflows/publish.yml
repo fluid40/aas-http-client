@@ -1,26 +1,66 @@
 name: Publish to PyPI
 
-# Trigger this workflow when another workflow finishes.
-# Replace "Name of Tests Workflow" with the exact name: the `name:` from test.yml
 on:
-  workflow_run:
-    workflows:
-      - "Name of Tests Workflow"
-    types:
-      - completed
-
-permissions:
-  contents: read
+  push:
+    branches:
+      - '**'
 
 jobs:
-  build-and-publish:
-    # run only when the triggering workflow concluded successfully and the run targets branch 'main'
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+  Unit_Tests:
     runs-on: ubuntu-latest
 
+    services:
+      java_aas_server:
+        image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
+        ports:
+          - 8075:5060
+        env:
+          SERVER_PORT: 5060
+          SERVER_HOST: javaaasserver       
+        options: >-
+          --health-cmd="curl --fail http://localhost:8075/health || exit 1"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=10
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Wait for server to be healthy
+        run: |
+          echo "Waiting for server..."
+          for i in {1..30}; do
+            if curl -sSf http://localhost:8080/health > /dev/null; then
+              echo "Server is ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Run tests
+        env:
+          SERVER_URL: http://localhost:8080
+        run: pytest -v
+
+  Publish_Package:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: Unit_Tests
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -39,9 +79,4 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          if [ -z "${TWINE_PASSWORD}" ]; then
-            echo "PYPI_API_TOKEN is not set. Aborting."
-            exit 1
-          fi
-          twine upload dist/*
+        run: twine upload dist/*
