@@ -65,8 +65,8 @@ def log_response_errors(response: Response):
         logger.error(result_error_message)
 
 
-class HttpClient(BaseModel):
-    """Represents a HttpClient to communicate with a REST API."""
+class AasxServerInterface(BaseModel):
+    """Represents a AasxServerInterface to communicate with a REST API."""
 
     base_url: str = "http://basyx_aas_server:80/"
     username: str | None = None
@@ -80,7 +80,7 @@ class HttpClient(BaseModel):
     namespace: str | None = None
 
     def initialize(self, password: str):
-        """Initialize the HttpClient with the given URL, username and password.
+        """Initialize the AasxServerInterface with the given URL, username and password.
 
         :param password: password
         """
@@ -134,17 +134,20 @@ class HttpClient(BaseModel):
 
         return json.loads(response.content)
 
-    def post_shells(self, aas_data: dict) -> dict | None:
+    def post_shells(self, aas: AssetAdministrationShell) -> dict | None:
         """Post an Asset Administration Shell (AAS) to the REST API.
 
-        :param aas_data: Json data of the Asset Administration Shell to post
+        :param aas: Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
+        aas_dict_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+        aas_dict = json.loads(aas_dict_string)
+
         url = f"{self.base_url}/shells"
         logger.debug(f"Call REST API url '{url}'")
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.post(url, headers=HEADERS, json=aas_dict, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -158,18 +161,21 @@ class HttpClient(BaseModel):
         content = json.loads(response.content)
         return dict(sorted(content.items()))
 
-    def put_shells(self, identifier: str, aas_data: dict) -> bool:
+    def put_shells(self, identifier: str, aas: AssetAdministrationShell) -> bool:
         """Update an Asset Administration Shell (AAS) by its ID in the REST API.
 
         :param identifier: Identifier of the AAS to update
-        :param aas_data: Json data of the Asset Administration Shell data to update
+        :param aas: Asset Administration Shell data to update
         :return: True if the update was successful, False otherwise
         """
+        aas_dict_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+        aas_dict = json.loads(aas_dict_string)
+
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.put(url, headers=HEADERS, json=aas_dict, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code is not STATUS_CODE_204:
@@ -182,19 +188,22 @@ class HttpClient(BaseModel):
 
         return True
 
-    def put_shells_submodels(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
+    def put_shells_submodels(self, aas_id: str, submodel_id: str, submodel: Submodel) -> bool:
         """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to update the submodel for
-        :param submodel_data: Json data to the Submodel to update
+        :param submodel: Submodel data to update
         :return: True if the update was successful, False otherwise
         """
+        sm_dict_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+        sm_dict = json.loads(sm_dict_string)
+
         decoded_aas_id: str = decode_base_64(aas_id)
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(url, headers=HEADERS, json=sm_dict, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -207,10 +216,10 @@ class HttpClient(BaseModel):
 
         return True
 
-    def get_shells(self) -> list[dict] | None:
+    def get_shells(self) -> list[AssetAdministrationShell] | None:
         """Get all Asset Administration Shells (AAS) from the REST API.
 
-        :return: List of Asset Administration Shells data or None if an error occurred
+        :return: AAS objects or None if an error occurred
         """
         url = f"{self.base_url}/shells"
 
@@ -237,22 +246,24 @@ class HttpClient(BaseModel):
             logger.warning("No AAS found in the REST API results.")
             return []
 
-        aas_list: list[dict] = []
+        aas_list: list[AssetAdministrationShell] = []
 
         for result in results:
             if not isinstance(result, dict):
                 logger.error(f"Invalid AAS data: {result}")
                 return None
 
-            aas_list.append(result)
+            aas_dict_string = json.dumps(result)
+            aas = json.loads(aas_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+            aas_list.append(aas)
 
         return aas_list
 
-    def get_shells_by_id(self, aas_id: str) -> dict | None:
+    def get_shells_by_id(self, aas_id: str) -> AssetAdministrationShell | None:
         """Get an Asset Administration Shell (AAS) by its ID from the REST API.
 
         :param aas_id: ID of the AAS to retrieve
-        :return: Asset Administration Shells data or None if an error occurred
+        :return: AAS object or None if an error occurred
         """
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
@@ -270,8 +281,7 @@ class HttpClient(BaseModel):
             return None
 
         aas_dict_string = response.content.decode("utf-8")
-        return json.loads(aas_dict_string)
-
+        return json.loads(aas_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
         decoded_aas_id: str = decode_base_64(aas_id)
@@ -540,7 +550,7 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
     namespace: str = "",
-) -> HttpClient | None:
+) -> AasxServerInterface | None:
     """Create a BaSyx server interface client from the given parameters.
 
     :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
@@ -551,7 +561,7 @@ def create_client_by_url(
     :param time_out: timeout for the API calls, defaults to 200
     :param connection_time_out: timeout for the connection to the API, defaults to 60
     :param ssl_verify: whether to verify SSL certificates, defaults to True
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of AasxServerInterface initialized with the provided parameters.
     """
     logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
@@ -567,12 +577,12 @@ def create_client_by_url(
     return _create_client(config_string, password)
 
 
-def create_client_by_config(config_file: Path, password: str = "") -> HttpClient | None:
+def create_client_by_config(config_file: Path, password: str = "") -> AasxServerInterface | None:
     """Create a BaSyx server interface client from the given parameters.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of AasxServerInterface initialized with the provided parameters.
     """
     logger.info(f"Create BaSyx server interface client from config file '{config_file}'")
     if not config_file.exists():
@@ -585,10 +595,10 @@ def create_client_by_config(config_file: Path, password: str = "") -> HttpClient
     return _create_client(config_string, password)
 
 
-def _create_client(config_string: str, password) -> HttpClient | None:
+def _create_client(config_string: str, password) -> AasxServerInterface | None:
     try:
-        connection_settings = HttpClient.model_validate_json(config_string)
-        client = HttpClient(**connection_settings.model_dump())
+        connection_settings = AasxServerInterface.model_validate_json(config_string)
+        client = AasxServerInterface(**connection_settings.model_dump())
     except ValidationError as ve:
         raise ValidationError(f"Invalid BaSyx server connection file: {ve}") from ve
 
@@ -611,7 +621,7 @@ def _create_client(config_string: str, password) -> HttpClient | None:
     return client
 
 
-def _connect_to_api(client: HttpClient) -> bool:
+def _connect_to_api(client: AasxServerInterface) -> bool:
     start_time = time.time()
     logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds")
     counter: int = 0
