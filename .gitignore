@@ -178,3 +178,4 @@ lint_results/
 docs/auto_api/
 reports/
 .devcontainer/storage/
+_log
