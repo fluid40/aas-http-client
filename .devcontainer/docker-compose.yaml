@@ -8,5 +8,17 @@ services:
     networks:
       - bridge
 
+  java_aas_server:
+    image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
+    # Java server do not accept '_' in container names
+    container_name: javaaasserver
+    networks:
+      - bridge
+    ports:
+      - '8075:5060'
+    environment:
+      - SERVER_PORT=5060
+      - SERVER_HOST=javaaasserver
+
 networks:
   bridge:
