@@ -8,6 +8,9 @@ __version__ = importlib.metadata.version(__name__)
 __project__ = "aas-http-client"
 __package__ = "aas-http-client"
 
+from aas_http_client.core.version_check import check_for_update
 from aas_http_client.client import create_client_by_config, create_client_by_url, AasxServerInterface
+
+check_for_update()
 
 __all__ = ["create_client_by_config", "create_client_by_url", "AasxServerInterface"]
