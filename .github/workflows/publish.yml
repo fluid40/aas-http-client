@@ -14,7 +14,7 @@ jobs:
       java_aas_server:
         image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
         ports:
-          - 8075:5060
+          - 8075:5060 # host_port:container_port
         env:
           SERVER_PORT: 5060
           SERVER_HOST: javaaasserver       
@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "Waiting for server..."
           for i in {1..30}; do
-            if curl -sSf http://localhost:5060/shells > /dev/null; then
+            if curl -sSf http://localhost:8075/shells > /dev/null; then
               echo "Server is ready!"
               break
             fi
@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         env:
-          SERVER_URL: http://localhost:5060
+          SERVER_URL: http://localhost:8075
         run: pytest -v
 
   Publish_Package:
