@@ -1,17 +1,26 @@
 name: Publish to PyPI
 
+# Trigger this workflow when another workflow finishes.
+# Replace "Name of Tests Workflow" with the exact name: the `name:` from test.yml
 on:
-  push:
-    branches:
-      - '**'
+  workflow_run:
+    workflows:
+      - "Name of Tests Workflow"
+    types:
+      - completed
+
+permissions:
+  contents: read
 
 jobs:
   build-and-publish:
-    if: github.ref == 'refs/heads/main'
+    # run only when the triggering workflow concluded successfully and the run targets branch 'main'
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,4 +39,9 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+        run: |
+          if [ -z "${TWINE_PASSWORD}" ]; then
+            echo "PYPI_API_TOKEN is not set. Aborting."
+            exit 1
+          fi
+          twine upload dist/*
