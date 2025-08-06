@@ -15,9 +15,9 @@ services:
     networks:
       - bridge
     ports:
-      - '8075:5060'
+      - '8075:8075'
     environment:
-      - SERVER_PORT=5060
+      - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
 
 networks:

@@ -14,12 +14,12 @@ jobs:
       java_aas_server:
         image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
         ports:
-          - 8075:5060 # host_port:container_port
+          - 8075:8075 # host_port:container_port
         env:
-          SERVER_PORT: 5060
+          SERVER_PORT: 8075
           SERVER_HOST: javaaasserver       
         options: >-
-          --health-cmd="curl --fail http://localhost:5060/shells || exit 1"
+          --health-cmd="curl --fail http://localhost:8075/shells || exit 1"
           --health-interval=5s
           --health-timeout=2s
           --health-retries=10
