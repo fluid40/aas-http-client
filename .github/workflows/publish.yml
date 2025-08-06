@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         env:
-          SERVER_URL: http://localhost:8080
+          SERVER_URL: http://localhost:5060
         run: pytest -v
 
   Publish_Package:
