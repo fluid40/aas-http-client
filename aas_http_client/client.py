@@ -63,8 +63,8 @@ def log_response_errors(response: Response):
         logger.error(result_error_message)
 
 
-class HttpClient(BaseModel):
-    """Represents a HttpClient to communicate with a REST API."""
+class AasHttpClient(BaseModel):
+    """Represents a AasHttpClient to communicate with a REST API."""
 
     base_url: str = "http://javaaasserver:5060/"
     api_base_path: str = ""
@@ -78,7 +78,7 @@ class HttpClient(BaseModel):
     _session: Session = PrivateAttr(default=None)
 
     def initialize(self, password: str):
-        """Initialize the HttpClient with the given URL, username and password.
+        """Initialize the AasHttpClient with the given URL, username and password.
 
         :param password: password
         """
@@ -475,8 +475,8 @@ def create_client_by_url(
     time_out: int = 200,
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
-) -> HttpClient | None:
-    """Create a BaSyx server interface client from the given parameters.
+) -> AasHttpClient | None:
+    """Create a AAS HTTP client from the given parameters.
 
     :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
     :param username: username for the BaSyx server interface client, defaults to ""_
@@ -486,7 +486,7 @@ def create_client_by_url(
     :param time_out: timeout for the API calls, defaults to 200
     :param connection_time_out: timeout for the connection to the API, defaults to 60
     :param ssl_verify: whether to verify SSL certificates, defaults to True
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of AasHttpClient initialized with the provided parameters.
     """
     logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
@@ -502,8 +502,8 @@ def create_client_by_url(
     return _create_client(config_string, password)
 
 
-def create_client_by_config(config_file: Path, password: str = "") -> HttpClient | None:
-    """Create a BaSyx server interface client from the given parameters.
+def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
+    """Create a AAS HTTP client from the given parameters.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
@@ -520,10 +520,10 @@ def create_client_by_config(config_file: Path, password: str = "") -> HttpClient
     return _create_client(config_string, password)
 
 
-def _create_client(config_string: str, password) -> HttpClient | None:
+def _create_client(config_string: str, password) -> AasHttpClient | None:
     try:
-        connection_settings = HttpClient.model_validate_json(config_string)
-        client = HttpClient(**connection_settings.model_dump())
+        connection_settings = AasHttpClient.model_validate_json(config_string)
+        client = AasHttpClient(**connection_settings.model_dump())
     except ValidationError as ve:
         raise ValidationError(f"Invalid BaSyx server connection file: {ve}") from ve
 
@@ -547,7 +547,7 @@ def _create_client(config_string: str, password) -> HttpClient | None:
     return client
 
 
-def _connect_to_api(client: HttpClient) -> bool:
+def _connect_to_api(client: AasHttpClient) -> bool:
     start_time = time.time()
     logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds")
     counter: int = 0

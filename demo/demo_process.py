@@ -1,6 +1,6 @@
 import logging
 import aas_http_client.utilities.model_builder as model_builder
-from aas_http_client.client import create_client_by_config, HttpClient
+from aas_http_client.client import create_client_by_config, AasHttpClient
 from aas_http_client.wrapper.sdk_wrapper import SdkWrapper, create_wrapper_by_config
 from pathlib import Path
 import json
@@ -49,7 +49,7 @@ def _create_shell() -> AssetAdministrationShell:
     
     return aas
 
-def _create_client() -> HttpClient:
+def _create_client() -> AasHttpClient:
     """Create client for java servers."""
 
     try:

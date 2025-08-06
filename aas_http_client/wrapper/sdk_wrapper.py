@@ -7,12 +7,12 @@ from pathlib import Path
 import basyx.aas.adapter.json
 
 from basyx.aas.model import AssetAdministrationShell, Reference, Submodel
-from aas_http_client.client import HttpClient, _create_client
+from aas_http_client.client import AasHttpClient, _create_client
 logger = logging.getLogger(__name__)
 
 class SdkWrapper():
     """Represents a SdkWrapper to communicate with a REST API."""
-    _client: HttpClient = None
+    _client: AasHttpClient = None
 
     def post_shells(self, aas: AssetAdministrationShell) -> dict | None:
         """Post an Asset Administration Shell (AAS) to the REST API.
@@ -252,7 +252,7 @@ def create_wrapper_by_url(
     
 
 
-def create_wrapper_by_config(config_file: Path, password: str = "") -> HttpClient | None:
+def create_wrapper_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
     """Create a BaSyx server interface client from the given parameters.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
