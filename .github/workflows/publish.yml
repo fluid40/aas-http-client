@@ -1,4 +1,4 @@
-name: Publish to PyPI
+name: Test and Publish to PyPI
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
           SERVER_PORT: 5060
           SERVER_HOST: javaaasserver       
         options: >-
-          --health-cmd="curl --fail http://localhost:8075/shells || exit 1"
+          --health-cmd="curl --fail http://localhost:5060/shells || exit 1"
           --health-interval=5s
           --health-timeout=2s
           --health-retries=10
