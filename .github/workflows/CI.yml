@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      java_aas_server:
+      dotnet_aas_server:
         image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
         ports:
           - 5043:5043 # host_port:container_port  
