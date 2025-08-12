@@ -1,60 +1,97 @@
 # 🚀 Getting Started
 
-In this guide we'll walk you through using `aas-http-client`.
+This guide will walk you through installing and using `aas-http-client`.
 
-# Installation
+---
 
-Use command:
-```shell
+## 📦 Installation
+
+Install via pip:
+
+```bash
 pip install aas-http-client
-```
-to install the package.
+````
 
-# Client Usage
+---
 
-This chapter handles the usage of the AAS HTTP Client
+## 💻 Usage
 
-## Server Configuration
-To configure the HTTP server connections there are two possible ways.
-- by using a configuration file
-- by using parameters 
+### 1️⃣ Server Configuration
 
-### Configuration File
-As configuration file a YAML file is provided with the following format
+You can configure the HTTP server connection in two ways:
+
+* **Using a configuration file** (recommended)
+* **Passing parameters directly** to the client creation function
+
+---
+
+#### 📄 Configuration File
+
+Provide a YAML configuration file with the following format:
+
 ```yaml
-{
-    "base_url": "http://myaasserver:5043/",   # The base url of the aas server. E.g. 'http://www.myaasserver.de/' or 'http://myaasserver:5043/api/v3.0'
-    "username": "",                           # username for authentication (optional)
-    "https_proxy": null,                      # HTTPS settings for proxy (optional)
-    "http_proxy": null,                       # HTTP settings for proxy (optional)
-    "time_out": 10,                           # Timeout for single API calls in seconds (optional, default is '200')
-    "connection_time_out": 10,                # Timeout when establishing the connection from the client to the server (optional, default is '100')
-    "ssl_verify": True                        # Verification of TLS/SSL certificates when establishing an connection (optional, default is 'True')
-}
+base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
+username: ""                           # Username for authentication (optional, default: "")
+https_proxy: null                      # HTTPS proxy (optional, default: null)
+http_proxy: null                       # HTTP proxy (optional, default: null)
+time_out: 200                          # API call timeout in seconds (optional, default: 200)
+connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
+ssl_verify: true                       # Verify TLS/SSL certificates (optional, default: true)
 ```
-## Create client
 
-In the python project import the `aas-http-client` classes and methods:
+---
+
+#### 📌 Create Client from Configuration File
 
 ```python
-from aas_http_client import AasHttpClient, create_client_by_config, create_client_by_url
-```
-Then create a client by using a config file (e.g. `server_config.yaml`, see [Configuration File](#Configuration-File)) via the `create_client_by_config` function.  
-If a password for authentication is needed, provide the password as parameter.
-```python
+from pathlib import Path
+from aas_http_client import create_client_by_config
+
 config_file = Path("./server_config.yaml")
 client = create_client_by_config(config_file, password="")
 ```
 
-or by configuration with parameters via the `create_client_by_url` function.  
-Only `base_url` is required, all other parameters are optional (see [Configuration File](#Configuration-File)).
+---
+
+#### 📌 Create Client via Parameters
+
 ```python
-client = create_client_by_config(base_url="http://myaasserver:5043/",
-    username="",
-    password="",
-    http_proxy="",
-    https_proxy="",
-    time_out=200,
-    connection_time_out=60,
-    ssl_verify= True)
+from aas_http_client import create_client_by_url
+
+client = create_client_by_url(
+    base_url="http://myaasserver:5043/",  # required
+    username="",                          # optional
+    password="",                          # optional
+    http_proxy="",                        # optional
+    https_proxy="",                       # optional
+    time_out=200,                         # optional, default: 200
+    connection_time_out=100,              # optional, default: 100
+    ssl_verify=True                       # optional, default: True
+)
+```
+
+---
+
+## 📚 API Reference
+
+Coming soon...
+
+---
+
+## ⚠️ Notes
+
+* When `ssl_verify` is set to `False`, SSL/TLS verification is disabled (⚠️ not recommended in production).
+* Default timeouts are intentionally high for development; adjust for production usage.
+* The client supports both **parameter-based** and **YAML-based** configuration.
+
+---
+
+## 📜 License
+
+MIT License – see [LICENSE](LICENSE) for details.
+
+```
+
+Wenn du willst, könnte ich hier gleich noch einen **"Quickstart" Block** ganz oben einbauen, der Installation + Beispiel in 10 Zeilen zeigt, damit Nutzer sofort loslegen können.  
+Das ist bei PyPI-Projekten oft Gold wert.
 ```
