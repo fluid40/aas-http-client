@@ -22,7 +22,7 @@ jobs:
           --health-cmd="curl --fail http://localhost:8075/shells || exit 1"
           --health-interval=5s
           --health-timeout=2s
-          --health-retries=10
+          --health-retries=5
 
     steps:
       - name: Checkout code
@@ -42,7 +42,7 @@ jobs:
       - name: Wait for server to be healthy
         run: |
           echo "Waiting for server..."
-          for i in {1..30}; do
+          for i in {1..10}; do
             if curl -sSf http://localhost:8075/shells > /dev/null; then
               echo "Server is ready!"
               break
@@ -65,10 +65,10 @@ jobs:
         ports:
           - 5043:5043 # host_port:container_port  
         options: >-
-          --health-cmd="curl --fail http://localhost:5043/shells || exit 1"
+          --health-cmd="curl --fail http://localhost:5043/ || exit 1"
           --health-interval=5s
           --health-timeout=2s
-          --health-retries=10
+          --health-retries=4
 
     steps:
       - name: Checkout code
@@ -88,7 +88,7 @@ jobs:
       - name: Wait for server to be healthy
         run: |
           echo "Waiting for server..."
-          for i in {1..30}; do
+          for i in {1..10}; do
             if curl -sSf http://localhost:5043/ > /dev/null; then
               echo "Server is ready!"
               break
