@@ -13,7 +13,7 @@
 
 [![License: em](https://img.shields.io/badge/license-emSL-%23f8a602?label=License&labelColor=%23992b2e)](LICENSES/LicenseRef-em.txt)
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/Ci.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
-[![PyPI version](https://img.shields.io/pypi/v/aas-http-client .svg)](https://pypi.org/project/aas-http-client /)
+[![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
 A generic HTTP client for communicating with various types of AAS and submodel repository servers. The client works with Python dictionaries for the input and output parameters.
 In addition, wrappers are provided that work with various AAS frameworks and use the http client as middleware. 
