@@ -11,7 +11,7 @@
 
 ---
 
-[![License: em](https://img.shields.io/badge/license-emSL-%23f8a602?label=License&labelColor=%23992b2e)](LICENSES/LicenseRef-em.txt)
+[![License: em](https://img.shields.io/badge/license-emSL-%23f8a602?label=License&labelColor=%23992b2e)](LICENSE)
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
@@ -32,3 +32,5 @@ Currently, wrappers are available for the following frameworks:
 🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
+
+📜 [MIT License](LICENSE)
