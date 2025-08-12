@@ -89,7 +89,7 @@ Unit_Tests_dotNet_Server:
         run: |
           echo "Waiting for server..."
           for i in {1..30}; do
-            if curl -sSf http://localhost:8075/shells > /dev/null; then
+            if curl -sSf http://localhost:5043/shells > /dev/null; then
               echo "Server is ready!"
               break
             fi
@@ -98,10 +98,10 @@ Unit_Tests_dotNet_Server:
 
       - name: Run tests
         env:
-          SERVER_URL: http://localhost:8075
+          SERVER_URL: http://localhost:5043
         run: pytest -v tests/test_client_dotnet_server.py
 
-  Publish_PyPI_Package:
+Publish_PyPI_Package:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
