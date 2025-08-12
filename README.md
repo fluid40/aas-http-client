@@ -33,4 +33,20 @@ Currently, wrappers are available for the following frameworks:
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
-📜 [MIT License](LICENSE)
+📜 [em AG Software License](LICENSE)
+
+## ⚡ Quickstart
+
+```bash
+pip install aas-http-client
+````
+
+```python
+from aas_http_client import create_client_by_url
+
+client = create_client_by_url(
+    base_url="http://myaasserver:5043/"
+)
+
+print(client.get_shells())
+```
