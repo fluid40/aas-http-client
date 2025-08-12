@@ -6,8 +6,8 @@ on:
       - '**'
 
 jobs:
-  Unit_Tests:
-    name: Unit Tests
+  Unit_Tests_Java_Server:
+    name: Unit Tests for Java Server
     runs-on: ubuntu-latest
 
     services:
@@ -53,7 +53,7 @@ jobs:
       - name: Run tests
         env:
           SERVER_URL: http://localhost:8075
-        run: pytest -v
+        run: pytest -v tests/test_client_java_server.py
 
   Publish_PyPI_Package:
     name: Publish PyPI Package
