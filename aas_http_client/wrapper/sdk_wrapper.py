@@ -47,7 +47,7 @@ class SdkWrapper():
         sm_data_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
         sm_data = json.loads(sm_data_string)
 
-        return self._client.put_shells_submodels(aas_id, submodel_id, sm_data)
+        return self._client.put_shells_submodels_by_id(aas_id, submodel_id, sm_data)
 
     def get_shells(self) -> list[AssetAdministrationShell] | None:
         """Get all Asset Administration Shells (AAS) from the REST API.
@@ -91,14 +91,14 @@ class SdkWrapper():
         content: dict = self._client.get_shells_reference_by_id(aas_id)
         return json.load(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
-    def get_shells_submodels(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> Submodel | None:
         """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to retrieve the submodel from
         :param submodel_id: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        content: dict = self._client.get_shells_by_id(aas_id)
+        content: dict = self._client.get_shells_submodels_by_id(aas_id, submodel_id)
         return json.load(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def delete_shells_by_id(self, aas_id: str) -> bool:
@@ -120,7 +120,7 @@ class SdkWrapper():
 
         return self._client.post_submodels(sm_data)
 
-    def put_submodels(self, identifier: str, submodel: Submodel) -> bool:
+    def put_submodels_by_id(self, identifier: str, submodel: Submodel) -> bool:
         """Update a submodel by its ID in the REST API.
 
         :param identifier: Identifier of the submodel to update
@@ -130,25 +130,7 @@ class SdkWrapper():
         sm_data_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
         sm_data = json.loads(sm_data_string)
 
-        return self._client.put_submodels(identifier, sm_data)
-
-    def get_submodel_by_id(self, submodel_id: str) -> Submodel | None:
-        """Get a submodel by its ID from the REST API.
-
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
-        """
-        content = self._client.get_submodel_by_id(submodel_id)
-        
-        if not content:
-            logger.warning(f"No submodel found with ID '{submodel_id}' in the REST API.")
-            return None
-
-        if not isinstance(content, dict):
-            logger.error(f"Invalid submodel data: {content}")
-            return None
-        
-        return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return self._client.put_submodels_by_id(identifier, sm_data)
 
     def get_submodels(self) -> list[Submodel] | None:
         """Get all submodels from the REST API.
@@ -213,7 +195,6 @@ class SdkWrapper():
 
 def create_wrapper_by_url(
     base_url: str,
-    api_base_path: str = "",
     username: str = "",
     password: str = "",
     http_proxy: str = "",
@@ -237,7 +218,6 @@ def create_wrapper_by_url(
     logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
-    config_dict["api_base_path"] = api_base_path
     config_dict["username"] = username
     config_dict["http_proxy"] = http_proxy
     config_dict["https_proxy"] = https_proxy
