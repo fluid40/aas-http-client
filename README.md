@@ -37,7 +37,7 @@ Currently, wrappers are available for the following frameworks:
 
 ## ⚡ Quickstart
 
-For a detailed start read [Getting Started](docs/getting_started.md)
+For a detailed introduction, please read [Getting Started](docs/getting_started.md).
 
 ```bash
 pip install aas-http-client
