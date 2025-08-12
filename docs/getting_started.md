@@ -34,4 +34,8 @@ As configuration file a YAML file is provided with the following format
 ```
 ## Create client
 
-In the python project import the 
+In the python project import the `aas-http-client` classes and methods:
+
+```python
+from aas_http_client import AasHttpClient, create_client_by_config, create_client_by_url
+```
