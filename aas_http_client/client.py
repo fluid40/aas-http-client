@@ -257,7 +257,7 @@ class AasHttpClient(BaseModel):
         ref_dict_string = response.content.decode("utf-8")
         return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
-    def get_shells_submodels(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> Submodel | None:
         """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to retrieve the submodel from
@@ -268,6 +268,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
+        #/shells/{aasIdentifier}/submodels/{submodelIdentifier}
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -307,7 +308,7 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def post_submodels(self, submodel_data: dict) -> bool:
+    def post_submodels(self, submodel_data: dict) -> dict:
         """Post a submodel to the REST API.
 
         :param submodel_data: Json data of the Submodel to post
@@ -327,7 +328,8 @@ class AasHttpClient(BaseModel):
             logger.error(f"Error call REST API: {e}")
             return False
 
-        return True
+        content = response.content.decode("utf-8")
+        return json.loads(content)
 
     def put_submodels(self, identifier: str, submodel_data: dict) -> bool:
         """Update a submodel by its ID in the REST API.
@@ -352,30 +354,6 @@ class AasHttpClient(BaseModel):
             return False
 
         return True
-
-    def get_submodel_by_id(self, submodel_id: str) -> dict | None:
-        """Get a submodel by its ID from the REST API.
-
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
-
-        try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
 
     def get_submodels(self) -> list[dict] | None:
         """Get all submodels from the REST API.

@@ -20,5 +20,13 @@ services:
       - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
 
+  basyx_dotnet_repo_server:
+    image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
+    container_name: dotnetaasserver
+    networks:
+      - bridge
+    ports:
+      - "5043:5043"
+
 networks:
   bridge:
