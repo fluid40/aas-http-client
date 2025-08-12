@@ -55,7 +55,7 @@ jobs:
           SERVER_URL: http://localhost:8075
         run: pytest -v tests/test_client_java_server.py
 
-Unit_Tests_dotNet_Server:
+  Unit_Tests_dotNet_Server:
     name: Unit Tests for dotNet Server
     runs-on: ubuntu-latest
 
@@ -101,7 +101,7 @@ Unit_Tests_dotNet_Server:
           SERVER_URL: http://localhost:5043
         run: pytest -v tests/test_client_dotnet_server.py
 
-Publish_PyPI_Package:
+  Publish_PyPI_Package:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
