@@ -45,10 +45,10 @@ ssl_verify: true                       # Verify TLS/SSL certificates (optional, 
 
 ```python
 from pathlib import Path
-from aas_http_client import create_client_by_config
+from aas_http_client import AasHttpClient, create_client_by_config
 
 config_file = Path("./server_config.yaml")
-client = create_client_by_config(config_file, password="")
+client: AasHttpClient = create_client_by_config(config_file, password="")
 ```
 
 ---
@@ -56,9 +56,9 @@ client = create_client_by_config(config_file, password="")
 #### 📌 Create Client via Parameters
 
 ```python
-from aas_http_client import create_client_by_url
+from aas_http_client import AasHttpClient, create_client_by_url
 
-client = create_client_by_url(
+client: AasHttpClient = create_client_by_url(
     base_url="http://myaasserver:5043/",  # required
     username="",                          # optional
     password="",                          # optional

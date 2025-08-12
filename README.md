@@ -42,9 +42,9 @@ pip install aas-http-client
 ````
 
 ```python
-from aas_http_client import create_client_by_url
+from aas_http_client import AasHttpClient, create_client_by_url
 
-client = create_client_by_url(
+client: AasHttpClient = create_client_by_url(
     base_url="http://myaasserver:5043/"
 )
 
