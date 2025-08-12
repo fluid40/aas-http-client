@@ -444,7 +444,6 @@ class AasHttpClient(BaseModel):
 
 def create_client_by_url(
     base_url: str,
-    api_base_path: str = "",
     username: str = "",
     password: str = "",
     http_proxy: str = "",
@@ -468,7 +467,6 @@ def create_client_by_url(
     logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
-    config_dict["api_base_path"] = api_base_path
     config_dict["username"] = username
     config_dict["http_proxy"] = http_proxy
     config_dict["https_proxy"] = https_proxy
