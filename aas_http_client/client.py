@@ -67,7 +67,6 @@ class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
 
     base_url: str = "http://javaaasserver:5060/"
-    api_base_path: str = ""
     username: str | None = None
     _password: str | None = PrivateAttr(default=None)
     https_proxy: str | None = None
@@ -507,7 +506,6 @@ def _create_client(config_string: str, password) -> AasHttpClient | None:
 
     logger.info(
         f"Using server configuration: '{client.base_url}' | "
-        f"API base path: '{client.api_base_path}' | "
         f"timeout: '{client.time_out}' | "
         f"username: '{client.username}' | "
         f"https_proxy: '{client.https_proxy}' | "
