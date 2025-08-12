@@ -166,7 +166,7 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def put_shells_submodels(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
+    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
         """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to update the submodel for
@@ -331,7 +331,7 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def put_submodels(self, identifier: str, submodel_data: dict) -> bool:
+    def put_submodels_by_id(self, identifier: str, submodel_data: dict) -> bool:
         """Update a submodel by its ID in the REST API.
 
         :param identifier: Identifier of the submodel to update

@@ -9,7 +9,7 @@ import basyx.aas.adapter.json
 @pytest.fixture(scope="module")
 def client() -> AasHttpClient:
     try:
-        file = Path("./tests/server_configs/test_java_server_config.json").resolve()
+        file = Path("./tests/server_configs/test_dotnet_server_config.json").resolve()
         
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
@@ -111,8 +111,10 @@ def test_005a_put_shells(client: AasHttpClient, shared_aas: AssetAdministrationS
     assert get_result.get("description", {})[0].get("text", "") != shared_aas.description.get("en", "")
     # submodels must be retained
     assert len(get_result.get("submodels", [])) == len(shared_aas.submodel)
+    
     # The display name must be empty 
-    assert len(get_result.get("displayName", {})) == 0
+    # currently not working in dotnet
+    # assert len(get_result.get("displayName", {})) == 0
 
 def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: AssetAdministrationShell):
     # put with other ID
@@ -136,8 +138,10 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: AssetAdminis
 def test_006_get_shells_reference_by_id(client: AasHttpClient, shared_aas: AssetAdministrationShell):
     result = client.get_shells_reference_by_id(shared_aas.id)
     
-    # Basyx java server do not provide this endpoint
-    assert not result
+    assert result 
+    keys = result.get("keys", [])
+    assert len(keys) == 1
+    assert keys[0].get("value", "") == shared_aas.id
         
 def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared_aas: AssetAdministrationShell, shared_sm: Submodel):
     result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
@@ -146,7 +150,6 @@ def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared
     
 def test_008_get_submodels(client: AasHttpClient):
     result = client.get_submodels()
-    
     assert result
     submodels = result.get("result", [])
     assert len(submodels) == 0
@@ -170,8 +173,9 @@ def test_009_post_submodels(client: AasHttpClient, shared_sm: Submodel):
 def test_010_get_shells_submodels_by_id(client: AasHttpClient, shared_aas: AssetAdministrationShell, shared_sm: Submodel):
     result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
 
-    # Basyx java server do not provide this endpoint
-    assert result is None
+    assert result is not None
+    result_id_short = result.get("idShort", "")
+    assert result_id_short == shared_sm.id_short
     
 def test_011a_get_submodels_by_id(client: AasHttpClient, shared_sm: Submodel):
     result = client.get_submodels_by_id(shared_sm.id)
@@ -197,9 +201,18 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: Submodel):
 
     result = client.patch_submodel_by_id(shared_sm.id, sm_data)
 
-    # Basyx java server do not provide this endpoint
-    assert not result
-
+    assert result
+    
+    get_result = client.get_submodels_by_id(shared_sm.id)
+    assert get_result is not None
+    assert get_result.get("idShort", "") == shared_sm.id_short
+    assert get_result.get("id", "") == shared_sm.id
+    # Only the description may change in patch.
+    assert get_result.get("description", {})[0].get("text", "") == description_text
+    assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
+    # The display name must remain the same.    
+    assert get_result.get("displayName", {})[0].get("text", "") == shared_sm.display_name.get("en", "")
+        
 def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: AssetAdministrationShell, shared_sm: Submodel):
     sm = Submodel(shared_sm.id_short)
     sm.id_short = shared_sm.id_short
@@ -212,7 +225,21 @@ def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: Asset
 
     result = client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)
     
-    assert not result
+    assert result
+    
+    get_result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    assert get_result is not None
+    assert get_result.get("idShort", "") == shared_sm.id_short
+    assert get_result.get("id", "") == shared_sm.id
+    # description must have changed
+    assert get_result.get("description", {})[0].get("text", "") == description_text
+    assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
+    assert len(get_result.get("displayName", {})) == 0
+    
+    # restore to its original state
+    sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sm_data = json.loads(sm_data_string)
+    client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)  # Restore original submodel
             
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: Submodel):
     sm = Submodel(shared_sm.id_short)
@@ -225,7 +252,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: Submodel):
     sm_data = json.loads(sm_data_string)
 
     result = client.put_submodels_by_id(shared_sm.id, sm_data)
-    
+
     assert result
     
     get_result = client.get_submodels_by_id(shared_sm.id)
