@@ -34,7 +34,10 @@ def create_base_submodel(id_short: str, namespace: str = "basyx_python_aas_serve
     :param description: description of the Submodel, defaults to ""
     :return: Submodel instance
     """
-    identifier = f"{namespace}/{id_short}"
+    if namespace:
+        identifier = f"{namespace}/{id_short}"
+    else:   
+        identifier = id_short
     sm = Submodel(identifier)
     sm.id_short = id_short
 
@@ -101,7 +104,10 @@ def create_base_asset_information(id_short: str, namespace: str = "basyx_python_
     :param namespace: namespace of the AssetInformation, defaults to "basyx_python_aas_server"
     :return: AssetInformation instance
     """
-    identifier = f"{namespace}/{id_short}"
+    if namespace:
+        identifier = f"{namespace}/{id_short}"
+    else:   
+        identifier = id_short
     return AssetInformation(AssetKind.INSTANCE, identifier)
 
 

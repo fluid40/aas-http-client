@@ -14,7 +14,9 @@ __package__ = "aas-http-client"
 
 from aas_http_client.core.version_check import check_for_update
 from aas_http_client.client import create_client_by_config, create_client_by_url, AasHttpClient
+from aas_http_client.utilities import model_builder
+from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, create_wrapper_by_url, SdkWrapper
 
 check_for_update()
 
-__all__ = ["create_client_by_config", "create_client_by_url", "AasHttpClient"]
+__all__ = ["create_client_by_config", "create_client_by_url", "AasHttpClient", "model_builder", "create_wrapper_by_config", "create_wrapper_by_url", "SdkWrapper"]
