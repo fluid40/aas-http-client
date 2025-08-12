@@ -72,22 +72,8 @@ client = create_client_by_url(
 
 ---
 
-## 📚 API Reference
-
-Coming soon...
-
----
-
 ## ⚠️ Notes
 
 * When `ssl_verify` is set to `False`, SSL/TLS verification is disabled (⚠️ not recommended in production).
 * Default timeouts are intentionally high for development; adjust for production usage.
 * The client supports both **parameter-based** and **YAML-based** configuration.
-
----
-
-## 📜 License
-
-MIT License – see [LICENSE](LICENSE) for details.
-
-```
