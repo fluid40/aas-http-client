@@ -9,7 +9,6 @@ from basyx.aas.model import (
     AssetAdministrationShell,
     AssetInformation,
     AssetKind,
-    Key,
     ModelReference,
     MultiLanguageTextType,
     Submodel,
