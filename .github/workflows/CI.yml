@@ -59,7 +59,7 @@ jobs:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: Unit_Tests
+    needs: Unit_Tests_Java_Server
 
     steps:
       - uses: actions/checkout@v4
