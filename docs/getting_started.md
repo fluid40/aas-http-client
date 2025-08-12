@@ -14,7 +14,7 @@ pip install aas-http-client
 
 ---
 
-## 💻 Usage
+## 💻 Client Usage
 
 ### 1️⃣ Server Configuration
 
@@ -41,7 +41,7 @@ ssl_verify: true                       # Verify TLS/SSL certificates (optional, 
 
 ---
 
-#### 📌 Create Client from Configuration File
+### 📌 Create Client from Configuration File
 
 ```python
 from pathlib import Path
@@ -53,7 +53,7 @@ client = create_client_by_config(config_file, password="")
 
 ---
 
-#### 📌 Create Client via Parameters
+### 📌 Create Client via Parameters
 
 ```python
 from aas_http_client import create_client_by_url
