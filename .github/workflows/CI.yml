@@ -55,8 +55,8 @@ jobs:
           SERVER_URL: http://localhost:8075
         run: pytest -v
 
-  Publish_Package:
-    name: Publish Package
+  Publish_PyPI_Package:
+    name: Publish PyPI Package
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: Unit_Tests
@@ -82,3 +82,29 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: twine upload dist/*
+
+  Github_Release:
+    name: Create GitHub Release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: Publish_PyPI_Package
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from pyproject.toml
+        id: get_version
+        run: |
+          VERSION=$(grep -Po '(?<=^version = ")[^"]*' pyproject.toml)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: 🚀 Release v${{ steps.get_version.outputs.version }}
+          body: |
+            - Contains PyPI package
+            - Version: v${{ steps.get_version.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
