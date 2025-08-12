@@ -93,7 +93,7 @@ jobs:
       - name: Run tests
         env:
           SERVER_URL: http://localhost:5043
-        run: pytest -v tests/dotnet/test_client_dotnet_server.py
+        run: pytest -v tests/dotNet/test_client_dotnet_server.py
 
 
   Publish_PyPI_Package:
