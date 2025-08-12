@@ -10,7 +10,7 @@ Install via pip:
 
 ```bash
 pip install aas-http-client
-````
+```
 
 ---
 
@@ -90,8 +90,4 @@ Coming soon...
 
 MIT License – see [LICENSE](LICENSE) for details.
 
-```
-
-Wenn du willst, könnte ich hier gleich noch einen **"Quickstart" Block** ganz oben einbauen, der Installation + Beispiel in 10 Zeilen zeigt, damit Nutzer sofort loslegen können.  
-Das ist bei PyPI-Projekten oft Gold wert.
 ```
