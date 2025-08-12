@@ -39,14 +39,15 @@ In the python project import the `aas-http-client` classes and methods:
 ```python
 from aas_http_client import AasHttpClient, create_client_by_config, create_client_by_url
 ```
-Then create a client by using a config file (e.g. `server_config.yaml`, see [Configuration File](#Configuration-File)) via the `create_client_by_config` function.
+Then create a client by using a config file (e.g. `server_config.yaml`, see [Configuration File](#Configuration-File)) via the `create_client_by_config` function.  
 If a password for authentication is needed, provide the password as parameter.
 ```python
 config_file = Path("./server_config.yaml")
 client = create_client_by_config(config_file, password="")
 ```
 
-or by configuration with parameters via the `create_client_by_url` function. Only `base_url` is required, all other parameters are optional (see [Configuration File](#Configuration-File)).
+or by configuration with parameters via the `create_client_by_url` function.  
+Only `base_url` is required, all other parameters are optional (see [Configuration File](#Configuration-File)).
 ```python
 client = create_client_by_config(base_url="http://myaasserver:5043/",
     username="",
