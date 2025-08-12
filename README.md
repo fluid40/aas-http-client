@@ -26,4 +26,4 @@ Proof of concept for a AAS application using the BaSyx Python SDK and Python AAS
 
 🤖 [Releases](https://github.com/engineering-methods/basyx_python_poc/releases)
 
-📦 [Pypi Package](https://pypi.org/project/aas-http-client/)
+📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
