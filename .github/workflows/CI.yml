@@ -89,7 +89,7 @@ jobs:
         run: |
           echo "Waiting for server..."
           for i in {1..30}; do
-            if curl -sSf http://localhost:5043/shells > /dev/null; then
+            if curl -sSf http://localhost:5043/ > /dev/null; then
               echo "Server is ready!"
               break
             fi
