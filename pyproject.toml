@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aas-http-client"
-version = "0.1.92"
+version = "0.2.00"
 description = "Generic HTTP client for communicating with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
