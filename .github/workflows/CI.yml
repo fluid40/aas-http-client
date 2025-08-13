@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   Detect_Project_Changes:
-    name: Check changes in pyproject.toml
+    name: Check for new version
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check.outputs.changed }}
