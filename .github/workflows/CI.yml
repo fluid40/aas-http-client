@@ -9,7 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  detect_pyproject_changes:
+  Detect_Project_Changes:
+    name: Check changes in pyproject.toml
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check.outputs.changed }}
@@ -113,9 +114,9 @@ jobs:
 
   Publish_PyPI_Package:
     name: Publish PyPI Package
-    if: github.ref == 'refs/heads/main' && needs.detect_pyproject_changes.outputs.changed == 'true'
+    if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
-    needs: [Client_Tests_Java_Server, Client_Tests_dotNet_Server, detect_pyproject_changes]
+    needs: [Client_Tests_Java_Server, Client_Tests_dotNet_Server, Detect_Project_Changes]
 
     steps:
       - uses: actions/checkout@v4
@@ -147,7 +148,7 @@ jobs:
 
   Github_Release:
     name: Create GitHub Release
-    if: github.ref == 'refs/heads/main' && needs.detect_pyproject_changes.outputs.changed == 'true'
+    if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     needs: Publish_PyPI_Package
 
