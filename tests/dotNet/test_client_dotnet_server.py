@@ -22,18 +22,6 @@ def client() -> AasHttpClient:
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
 
-    for shell in shells.get("result", []):
-        id = shell.get("id", "")
-        client.delete_shells_by_id(id)
-        
-    submodels = client.get_submodels()
-    if submodels is None:
-        raise RuntimeError("No submodels found on server. Please check the server configuration.")
-
-    for submodel in submodels.get("result", []):
-        id = submodel.get("id", "")
-        client.delete_submodels_by_id(id)        
-
     return client
 
 @pytest.fixture(scope="module")
@@ -42,7 +30,7 @@ def shared_sm() -> Submodel:
     return model_builder.create_base_submodel("sm_http_client_unit_tests", "")
 
 @pytest.fixture(scope="module")
-def shared_aas(client: AasHttpClient, shared_sm: Submodel) -> AssetAdministrationShell:
+def shared_aas(shared_sm: Submodel) -> AssetAdministrationShell:
     # create an AAS
     aas = model_builder.create_base_ass(id_short="aas_http_client_unit_tests", namespace="")
 
@@ -103,7 +91,7 @@ def test_005a_put_shells(client: AasHttpClient, shared_aas: AssetAdministrationS
     
     get_result = client.get_shells_by_id(shared_aas.id)
     
-    assert get_result is not None
+    assert get_result
     assert get_result.get("idShort", "") == shared_aas.id_short
     assert get_result.get("id", "") == shared_aas.id
     # description must have changed
@@ -126,10 +114,8 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: AssetAdminis
     description_text = {"en": "Updated description for unit tests"}
     aas.description = MultiLanguageTextType(description_text)
     
-    aas_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
-    
-    aas_data["id"] = "updated_id"  # Ensure the id is included in the update
     
     result = client.put_shells(shared_aas.id, aas_data)
     
@@ -138,7 +124,7 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: AssetAdminis
 def test_006_get_shells_reference_by_id(client: AasHttpClient, shared_aas: AssetAdministrationShell):
     result = client.get_shells_reference_by_id(shared_aas.id)
     
-    assert result 
+    assert result is not None
     keys = result.get("keys", [])
     assert len(keys) == 1
     assert keys[0].get("value", "") == shared_aas.id
@@ -150,7 +136,7 @@ def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared
     
 def test_008_get_submodels(client: AasHttpClient):
     result = client.get_submodels()
-    assert result
+    assert result is not None
     submodels = result.get("result", [])
     assert len(submodels) == 0
     
