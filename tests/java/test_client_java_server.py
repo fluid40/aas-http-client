@@ -22,18 +22,6 @@ def client() -> AasHttpClient:
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
 
-    for shell in shells.get("result", []):
-        id = shell.get("id", "")
-        client.delete_shells_by_id(id)
-        
-    submodels = client.get_submodels()
-    if submodels is None:
-        raise RuntimeError("No submodels found on server. Please check the server configuration.")
-
-    for submodel in submodels.get("result", []):
-        id = submodel.get("id", "")
-        client.delete_submodels_by_id(id)        
-
     return client
 
 @pytest.fixture(scope="module")
@@ -42,7 +30,7 @@ def shared_sm() -> Submodel:
     return model_builder.create_base_submodel("sm_http_client_unit_tests", "")
 
 @pytest.fixture(scope="module")
-def shared_aas(client: AasHttpClient, shared_sm: Submodel) -> AssetAdministrationShell:
+def shared_aas(shared_sm: Submodel) -> AssetAdministrationShell:
     # create an AAS
     aas = model_builder.create_base_ass(id_short="aas_http_client_unit_tests", namespace="")
 
@@ -53,7 +41,7 @@ def shared_aas(client: AasHttpClient, shared_sm: Submodel) -> AssetAdministratio
  
 def test_001_connect(client: AasHttpClient):
     assert client is not None
-    
+
 def test_002_get_shells(client: AasHttpClient):
     result = client.get_shells()
     assert result is not None
@@ -124,10 +112,8 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: AssetAdminis
     description_text = {"en": "Updated description for unit tests"}
     aas.description = MultiLanguageTextType(description_text)
     
-    aas_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
-    
-    aas_data["id"] = "updated_id"  # Ensure the id is included in the update
     
     result = client.put_shells(shared_aas.id, aas_data)
     
@@ -147,7 +133,7 @@ def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared
 def test_008_get_submodels(client: AasHttpClient):
     result = client.get_submodels()
     
-    assert result
+    assert result is not None
     submodels = result.get("result", [])
     assert len(submodels) == 0
     
@@ -212,6 +198,7 @@ def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: Asset
 
     result = client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)
     
+    # Basyx java server do not provide this endpoint
     assert not result
             
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: Submodel):

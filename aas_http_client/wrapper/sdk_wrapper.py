@@ -6,7 +6,7 @@ from pathlib import Path
 
 import basyx.aas.adapter.json
 
-from basyx.aas.model import AssetAdministrationShell, Reference, Submodel
+from basyx.aas.model import AssetAdministrationShell, Reference, Submodel, ModelReference
 from aas_http_client.client import AasHttpClient, _create_client
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class SdkWrapper():
 
         return self._client.put_shells(identifier, aas_data)
 
-    def put_shells_submodels(self, aas_id: str, submodel_id: str, submodel: Submodel) -> bool:
+    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel: Submodel) -> bool:
         """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to update the submodel for
@@ -85,11 +85,16 @@ class SdkWrapper():
         :return: AAS object or None if an error occurred
         """
         content: dict = self._client.get_shells_by_id(aas_id)
-        return json.load(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        aas_dict_string = json.dumps(content)
+        return json.loads(aas_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
-        content: dict = self._client.get_shells_reference_by_id(aas_id)
-        return json.load(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        #workaround because serialization not working
+        aas = self.get_shells_by_id(aas_id)
+        return ModelReference.from_referable(aas)
+        
+        # content: dict = self._client.get_shells_reference_by_id(aas_id)
+        # return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> Submodel | None:
         """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
@@ -99,7 +104,8 @@ class SdkWrapper():
         :return: Submodel object or None if an error occurred
         """
         content: dict = self._client.get_shells_submodels_by_id(aas_id, submodel_id)
-        return json.load(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        sm_dict_string = json.dumps(content)
+        return json.loads(sm_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def delete_shells_by_id(self, aas_id: str) -> bool:
         """Get an Asset Administration Shell (AAS) by its ID from the REST API.
@@ -176,8 +182,9 @@ class SdkWrapper():
         if not isinstance(content, dict):
             logger.error(f"Invalid submodel data: {content}")
             return None
-#
-        return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        
+        sm_dict_string = json.dumps(content)
+        return json.loads(sm_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel: Submodel):
         sm_dict_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
@@ -248,5 +255,10 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> AasHttpCl
         logger.debug(f"Server config  file '{config_file}' found.")
 
     wrapper = SdkWrapper()
-    wrapper._client = _create_client(config_string, password)                           
+    client = _create_client(config_string, password)
+    
+    if not client:
+        return None
+    
+    wrapper._client = _create_client(config_string, password)       
     return wrapper

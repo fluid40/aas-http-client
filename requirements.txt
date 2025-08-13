@@ -1,10 +1,7 @@
 git+https://github.com/eclipse-basyx/basyx-python-sdk@main#subdirectory=sdk
 typing>=3.7.4.3
-PyYAML>=6.0
-argparse>=1.4.0
 pydantic>=2.11.5
 requests>=2.32.3
-python-json-logger>=3.3.0
 pytest>=8.3.5
 pytest-cov>=6.1.1
 build>=1.2.2
