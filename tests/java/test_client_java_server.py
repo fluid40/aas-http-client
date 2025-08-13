@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.client import create_client_by_config, AasHttpClient, create_client_by_url
+from aas_http_client.client import create_client_by_config, AasHttpClient
 from basyx.aas.model import AssetAdministrationShell, Submodel, MultiLanguageTextType
 import aas_http_client.utilities.model_builder as model_builder
 import json
@@ -198,6 +198,7 @@ def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: Asset
 
     result = client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)
     
+    # Basyx java server do not provide this endpoint
     assert not result
             
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: Submodel):
