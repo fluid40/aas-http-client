@@ -20,6 +20,7 @@ STATUS_CODE_200 = 200
 STATUS_CODE_201 = 201
 STATUS_CODE_202 = 202
 STATUS_CODE_204 = 204
+STATUS_CODE_404 = 404
 HEADERS = {"Content-Type": "application/json"}
 
 
@@ -484,13 +485,14 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of HttpClient initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx server interface client from config file '{config_file}'")
+    config_file = config_file.resolve()
+    logger.info(f"Create AAS HTTP client from Configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
-        logger.warning(f"Server config file '{config_file}' not found. Using default config.")
+        logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
-        logger.debug(f"Server config  file '{config_file}' found.")
+        logger.debug(f"Configuration  file '{config_file}' found.")
 
     return _create_client(config_string, password)
 
@@ -529,12 +531,12 @@ def _connect_to_api(client: AasHttpClient) -> bool:
         try:
             root = client.get_root()
             if root:
-                logger.info(f"Connected to REST API at '{client.base_url}' successfully.")
+                logger.info(f"Connected to server API at '{client.base_url}' successfully.")
                 return True
         except requests.exceptions.ConnectionError:
             pass
         if time.time() - start_time > client.connection_time_out:
-            raise TimeoutError(f"Connection to REST API timed out after {client.connection_time_out} seconds.")
+            raise TimeoutError(f"Connection to server API timed out after {client.connection_time_out} seconds.")
 
         counter += 1
         logger.warning(f"Retrying connection (attempt: {counter})")

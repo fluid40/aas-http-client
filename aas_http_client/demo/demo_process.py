@@ -53,7 +53,7 @@ def _create_client() -> AasHttpClient:
     """Create client for java servers."""
 
     try:
-        file = Path("./demo/server_config.json")
+        file = Path("./aas_http_client/demo/server_config.json")
         client = create_client_by_config(file, password="")
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")
@@ -65,7 +65,7 @@ def _create_sdk_wrapper() -> SdkWrapper:
     """Create client for java servers."""
 
     try:
-        file = Path("./demo/server_config.json")
+        file = Path("./aas_http_client/demo/server_config.json")
         client = create_wrapper_by_config(file, password="")
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")

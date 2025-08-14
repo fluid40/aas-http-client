@@ -3,6 +3,7 @@
 import json
 import logging
 from pathlib import Path
+from typing import Any
 
 import basyx.aas.adapter.json
 
@@ -20,9 +21,7 @@ class SdkWrapper():
         :param aas: Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
-        aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        aas_data = json.loads(aas_data_string)
-
+        aas_data = _to_dict(aas)
         return self._client.post_shells(aas_data)
 
     def put_shells(self, identifier: str, aas: AssetAdministrationShell) -> bool:
@@ -32,9 +31,7 @@ class SdkWrapper():
         :param aas: Asset Administration Shell data to update
         :return: True if the update was successful, False otherwise
         """
-        aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        aas_data = json.loads(aas_data_string)
-
+        aas_data = _to_dict(aas)
         return self._client.put_shells(identifier, aas_data)
 
     def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel: Submodel) -> bool:
@@ -44,9 +41,7 @@ class SdkWrapper():
         :param submodel: Submodel data to update
         :return: True if the update was successful, False otherwise
         """
-        sm_data_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        sm_data = json.loads(sm_data_string)
-
+        sm_data = _to_dict(submodel)
         return self._client.put_shells_submodels_by_id(aas_id, submodel_id, sm_data)
 
     def get_shells(self) -> list[AssetAdministrationShell] | None:
@@ -57,24 +52,25 @@ class SdkWrapper():
         content: dict = self._client.get_shells()
         
         if not content:
-            logger.warning("No AAS found in the REST API.")
+            logger.warning("No shells found on server.")
             return []
 
         results: list = content.get("result", [])
         if not results:
-            logger.warning("No AAS found in the REST API results.")
+            logger.warning("No shells found on server.")
             return []
 
         aas_list: list[AssetAdministrationShell] = []
 
         for result in results:
             if not isinstance(result, dict):
-                logger.error(f"Invalid AAS data: {result}")
+                logger.error(f"Invalid shell data: {result}")
                 return None
 
-            aas_dict_string = json.dumps(result)
-            aas = json.loads(aas_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
-            aas_list.append(aas)
+            aas = _to_object(result)
+
+            if aas:
+                aas_list.append(aas)
 
         return aas_list
 
@@ -85,8 +81,7 @@ class SdkWrapper():
         :return: AAS object or None if an error occurred
         """
         content: dict = self._client.get_shells_by_id(aas_id)
-        aas_dict_string = json.dumps(content)
-        return json.loads(aas_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return _to_object(content)
 
     def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
         #workaround because serialization not working
@@ -104,8 +99,7 @@ class SdkWrapper():
         :return: Submodel object or None if an error occurred
         """
         content: dict = self._client.get_shells_submodels_by_id(aas_id, submodel_id)
-        sm_dict_string = json.dumps(content)
-        return json.loads(sm_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return _to_object(content)
 
     def delete_shells_by_id(self, aas_id: str) -> bool:
         """Get an Asset Administration Shell (AAS) by its ID from the REST API.
@@ -121,9 +115,7 @@ class SdkWrapper():
         :param submodel: submodel data as a dictionary
         :return: Response data as a dictionary or None if an error occurred
         """
-        sm_data_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        sm_data = json.loads(sm_data_string)
-
+        sm_data = _to_dict(submodel)
         return self._client.post_submodels(sm_data)
 
     def put_submodels_by_id(self, identifier: str, submodel: Submodel) -> bool:
@@ -133,9 +125,7 @@ class SdkWrapper():
         :param submodel: Submodel data to update
         :return: True if the update was successful, False otherwise
         """
-        sm_data_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        sm_data = json.loads(sm_data_string)
-
+        sm_data = _to_dict(submodel)
         return self._client.put_submodels_by_id(identifier, sm_data)
 
     def get_submodels(self) -> list[Submodel] | None:
@@ -161,9 +151,10 @@ class SdkWrapper():
                 logger.error(f"Invalid submodel data: {result}")
                 return None
 
-            sm_dict_string = json.dumps(result)
-            submodel = json.loads(sm_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
-            submodels.append(submodel)
+            submodel = _to_object(result)
+
+            if submodel:
+                submodels.append(submodel)
 
         return submodels
 
@@ -183,14 +174,11 @@ class SdkWrapper():
             logger.error(f"Invalid submodel data: {content}")
             return None
         
-        sm_dict_string = json.dumps(content)
-        return json.loads(sm_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return _to_object(content)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel: Submodel):
-        sm_dict_string = json.dumps(submodel, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        sm_dict = json.loads(sm_dict_string)
-
-        return self._client.patch_submodel_by_id(submodel_id, sm_dict)
+        sm_data = _to_dict(submodel)
+        return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
     def delete_submodels_by_id(self, submodel_id: str) -> bool:
         """Delete a submodel by its ID from the REST API.
@@ -199,6 +187,22 @@ class SdkWrapper():
         :return: True if the deletion was successful, False otherwise
         """
         return self._client.delete_submodels_by_id(submodel_id)
+
+def _to_object(content: dict) -> Any | None:
+    try:
+        dict_string = json.dumps(content)
+        return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON: {e}")
+        return None
+    
+def _to_dict(object: Any) -> dict | None:
+    try:
+        data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+        return json.loads(data_string)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON: {e}")
+        return None    
 
 def create_wrapper_by_url(
     base_url: str,
@@ -234,7 +238,12 @@ def create_wrapper_by_url(
     config_string = json.dumps(config_dict, indent=4)
     
     wrapper = SdkWrapper()
-    wrapper._client = _create_client(config_string, password)                           
+    client = _create_client(config_string, password)      
+    
+    if not client:
+        return None
+    
+    wrapper._client = client          
     return wrapper
     
 
@@ -246,13 +255,13 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> AasHttpCl
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of HttpClient initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx server interface client from config file '{config_file}'")
+    logger.info(f"Create BaSyx Python SDK wrapper from configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
-        logger.warning(f"Server config file '{config_file}' not found. Using default config.")
+        logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
-        logger.debug(f"Server config  file '{config_file}' found.")
+        logger.debug(f"Configuration file '{config_file}' found.")
 
     wrapper = SdkWrapper()
     client = _create_client(config_string, password)
@@ -260,5 +269,5 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> AasHttpCl
     if not client:
         return None
     
-    wrapper._client = _create_client(config_string, password)       
+    wrapper._client = client       
     return wrapper
