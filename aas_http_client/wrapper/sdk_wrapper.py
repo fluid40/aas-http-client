@@ -192,16 +192,18 @@ def _to_object(content: dict) -> Any | None:
     try:
         dict_string = json.dumps(content)
         return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error decoding JSON: {e}")
+    except Exception as e:
+        logger.error(f"Decoding error: {e}")
+        logger.error(f"In JSON: {content}")
         return None
     
 def _to_dict(object: Any) -> dict | None:
     try:
         data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
         return json.loads(data_string)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error decoding JSON: {e}")
+    except Exception as e:
+        logger.error(f"Encoding error: {e}")
+        logger.error(f"In object: {object}")
         return None    
 
 def create_wrapper_by_url(
