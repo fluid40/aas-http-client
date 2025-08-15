@@ -41,6 +41,10 @@ ssl_verify: true                       # Verify TLS/SSL certificates (optional, 
 
 ---
 
+### Client
+
+The client communicates directly with the server and uses generic dictionaries (dict) for input and output. The serialization and deserialization of the request and response body must be performed on the runtime side.
+
 #### 📌 Create Client from Configuration File
 
 ```python
