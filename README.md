@@ -21,7 +21,7 @@ It should be compatible with various types of AAS repository server. Tested serv
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
 - [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
 - [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
-- [Eclipse AASX server](https://github.com/eclipse-aaspe)
+- [Eclipse AASX server](https://github.com/eclipse-aaspe)  
 Depending on the details of the implementation and how close it is to the specification, the behavior may vary. Similarly, which endpoints are provided by the server
 
 Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. These wrappers use the SDK-specific data model classes for function input and output parameters.
