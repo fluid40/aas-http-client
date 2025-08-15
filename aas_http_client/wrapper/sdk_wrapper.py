@@ -52,8 +52,7 @@ class SdkWrapper():
         content: dict = self._client.get_shells()
         
         if not content:
-            logger.warning("No shells found on server.")
-            return []
+            return None
 
         results: list = content.get("result", [])
         if not results:
@@ -81,6 +80,11 @@ class SdkWrapper():
         :return: AAS object or None if an error occurred
         """
         content: dict = self._client.get_shells_by_id(aas_id)
+        
+        if not content:
+            logger.warning(f"No shell found with ID '{aas_id}' on server.")
+            return None
+        
         return _to_object(content)
 
     def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
@@ -136,12 +140,11 @@ class SdkWrapper():
         content: list = self._client.get_submodels()
 
         if not content:
-            logger.warning("No submodels found in the REST API.")
             return []
 
         results: list = content.get("result", [])
         if not results:
-            logger.warning("No submodels found in the REST API results.")
+            logger.warning("No submodels found on server.")
             return []
 
         submodels: list[Submodel] = []
@@ -167,11 +170,7 @@ class SdkWrapper():
         content = self._client.get_submodels_by_id(submodel_id)
 
         if not content:
-            logger.warning(f"No submodel found with ID '{submodel_id}' in the REST API.")
-            return None
-        
-        if not isinstance(content, dict):
-            logger.error(f"Invalid submodel data: {content}")
+            logger.warning(f"No submodel found with ID '{submodel_id}' on server.")
             return None
         
         return _to_object(content)

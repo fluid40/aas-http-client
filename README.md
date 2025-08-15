@@ -43,6 +43,8 @@ For a detailed introduction, please read [Getting Started](docs/getting_started.
 pip install aas-http-client
 ````
 
+### Client
+
 ```python
 from aas_http_client import create_client_by_url
 
@@ -51,4 +53,16 @@ client = create_client_by_url(
 )
 
 print(client.get_shells())
+```
+
+### SDK Wrapper
+
+```python
+from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config
+
+wrapper = create_wrapper_by_config(
+    base_url="http://myaasserver:5043/"
+)
+
+print(wrapper.get_shells())
 ```

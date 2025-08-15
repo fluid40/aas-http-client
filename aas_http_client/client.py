@@ -55,6 +55,9 @@ def log_response_errors(response: Response):
                     result_error_messages.append(str(message))
         elif "error" in response_content_dict:
             result_error_messages.append(response_content_dict.get("error", ""))
+        
+        if len(result_error_messages) == 0 and response.text:
+            result_error_messages.append(response.text)
 
     except json.JSONDecodeError:
         result_error_messages.append(response.content)

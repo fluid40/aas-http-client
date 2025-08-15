@@ -16,15 +16,23 @@ def start():
     aas_2 = _create_shell()
     
     client = _create_client()
-    sdk_wrapper = _create_sdk_wrapper()
+    java_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/java_server_config.json"))
+    dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
 
-    exist_shells = sdk_wrapper.get_shells()
+    java_sdk_wrapper.get_shells_by_id(aas_1.id)
+    dotnet_sdk_wrapper.get_shells_by_id(aas_1.id)
+    
+    java_sdk_wrapper.get_submodels_by_id(aas_1.id)
+    dotnet_sdk_wrapper.get_submodels_by_id(aas_1.id)
+    
+    exist_shells = java_sdk_wrapper.get_shells()
+    exist_shells = dotnet_sdk_wrapper.get_shells()
     
     for shell in exist_shells:
         logger.warning(f"Delete shell '{shell.id}'")
-        sdk_wrapper.delete_shells_by_id(shell.id)
+        java_sdk_wrapper.delete_shells_by_id(shell.id)
 
-    sdk_wrapper.post_shells(aas_1)
+    java_sdk_wrapper.post_shells(aas_1)
 
 
     aas_dict_string = json.dumps(aas_2, cls=basyx.aas.adapter.json.AASToJsonEncoder)
@@ -53,7 +61,7 @@ def _create_client() -> AasHttpClient:
     """Create client for java servers."""
 
     try:
-        file = Path("./aas_http_client/demo/server_config.json")
+        file = Path("./aas_http_client/demo/java_server_config.json")
         client = create_client_by_config(file, password="")
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")
@@ -61,11 +69,11 @@ def _create_client() -> AasHttpClient:
 
     return client
         
-def _create_sdk_wrapper() -> SdkWrapper:
+def _create_sdk_wrapper(config: Path) -> SdkWrapper:
     """Create client for java servers."""
 
     try:
-        file = Path("./aas_http_client/demo/server_config.json")
+        file = config
         client = create_wrapper_by_config(file, password="")
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")
