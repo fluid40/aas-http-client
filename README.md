@@ -35,7 +35,7 @@ Wrappers are currently available for the following frameworks:
 
 🚀 [Getting Started](docs/getting_started.md)
 
-💻 [Developer Quickstart](docs/dev_guide.md)
+💻 [Tutorials](docs/tutorials.md)
 
 👨‍⚕️ [Troubleshooting](docs/troubleshooting.md)
 

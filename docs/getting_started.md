@@ -100,7 +100,7 @@ client = create_wrapper_by_config(config_file, password="")                 # cr
 
 ```python
 from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url       # import function to create a wrapper by parameters (in this case a BaSyx Python SDK wrapper)
-import basyx.aas.model 
+import basyx.aas.model                                                      # import BaSyx Python SDK to use the data model
 
 wrapper = create_wrapper_by_url(
     base_url="http://myaasserver:5043/",                                    # required
