@@ -15,8 +15,10 @@
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
-This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. It uses Python dictionaries (dicts) for function input and output parameters. It supports the most common endpoints of [specified endpoint](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html) for AAS servers.
-The client should be compatible with various types of AAS repository server. Tested servers include:
+This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. It uses Python dictionaries for input and output parameters of functions. It supports the most common endpoints for the [specified AAS server endpoint](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html). The client is compatible with various types of AAS repository server.
+The client should be compatible with various types of AAS repository server. 
+
+Tested servers include:
 - [Eclipse BaSyx .Net SDK server](https://github.com/eclipse-basyx/basyx-dotnet)
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
 - [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
