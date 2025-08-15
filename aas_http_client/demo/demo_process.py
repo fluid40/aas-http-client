@@ -5,7 +5,7 @@ from aas_http_client.wrapper.sdk_wrapper import SdkWrapper, create_wrapper_by_co
 from pathlib import Path
 import json
 import basyx.aas.adapter.json
-from basyx.aas.model import AssetAdministrationShell
+import basyx.aas.model
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ def start():
 
     logger.info(f"Client created successfully. {shells}")
 
-def _create_shell() -> AssetAdministrationShell:
+def _create_shell() -> basyx.aas.model.AssetAdministrationShell:
     # create an AAS
     aas_short_id: str = model_builder.create_unique_short_id("poc_aas")
     aas = model_builder.create_base_ass(aas_short_id)
