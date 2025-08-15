@@ -12,7 +12,7 @@ from aas_http_client.client import AasHttpClient, _create_client
 logger = logging.getLogger(__name__)
 
 class SdkWrapper():
-    """Represents a SdkWrapper to communicate with a REST API."""
+    """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
     _client: AasHttpClient = None
 
     def post_shells(self, aas: AssetAdministrationShell) -> dict | None:
@@ -215,7 +215,7 @@ def create_wrapper_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
 ) -> SdkWrapper | None:
-    """Create a BaSyx server interface client from the given parameters.
+    """Create a wrapper for the BaSyx Python SDK from the given parameters.
 
     :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
     :param username: username for the BaSyx server interface client, defaults to ""_
@@ -225,9 +225,9 @@ def create_wrapper_by_url(
     :param time_out: timeout for the API calls, defaults to 200
     :param connection_time_out: timeout for the connection to the API, defaults to 60
     :param ssl_verify: whether to verify SSL certificates, defaults to True
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
+    logger.info(f"Create BaSyx Python SDK wrapper from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -249,12 +249,12 @@ def create_wrapper_by_url(
     
 
 
-def create_wrapper_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
-    """Create a BaSyx server interface client from the given parameters.
+def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
+    """Create a wrapper for the BaSyx Python SDK from the given parameters.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of SdkWrapper initialized with the provided parameters.
     """
     logger.info(f"Create BaSyx Python SDK wrapper from configuration file '{config_file}'")
     if not config_file.exists():

@@ -15,17 +15,27 @@
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
-This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. The client uses Python dictionaries for input and output parameters.
-Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware.  
+This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. It uses Python dictionaries for input and output parameters of functions. It supports the most common endpoints for the [specified AAS server endpoint](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html). The client is compatible with various types of AAS repository server.
+The client should be compatible with various types of AAS repository server. 
 
-Currently, wrappers are available for the following frameworks:
-- BaSyx Python SDK
+Tested servers include:
+- [Eclipse BaSyx .Net SDK server](https://github.com/eclipse-basyx/basyx-dotnet)
+- [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
+- [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
+- [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
+- [Eclipse AASX server](https://github.com/eclipse-aaspe)  
+
+The behavior may vary depending on the details of the implementation and compliance with the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications). It also depends on which endpoints are provided by the server.
+
+Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. These wrappers use the SDK-specific data model classes for function input and output parameters.
+Wrappers are currently available for the following frameworks:
+- [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
 ## Links
 
 🚀 [Getting Started](docs/getting_started.md)
 
-💻 [Developer Quickstart](docs/dev_guide.md)
+💻 [Tutorials](docs/tutorials.md)
 
 👨‍⚕️ [Troubleshooting](docs/troubleshooting.md)
 
@@ -55,10 +65,10 @@ client = create_client_by_url(
 print(client.get_shells())
 ```
 
-### SDK Wrapper
+### BaSyx Python SDK Wrapper
 
 ```python
-from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config
+from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url
 
 wrapper = create_wrapper_by_config(
     base_url="http://myaasserver:5043/"
