@@ -84,7 +84,7 @@ The client communicates directly with the server and uses generic dictionaries (
 
 #### 📌 Create Client from Configuration File
 
-See [Configuration File](#configuration-file)
+See [Configuration File]
 
 ```python
 from pathlib import Path
