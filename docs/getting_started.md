@@ -49,6 +49,8 @@ The client communicates directly with the server and uses generic dictionaries (
 
 #### 📌 Create Client from Configuration File
 
+See [Configuration File](#configuration-file)
+
 ```python
 from pathlib import Path
 from aas_http_client import create_client_by_config         # import function to create a client by configuration file
@@ -81,6 +83,8 @@ client = create_client_by_url(
 The client communicates directly with the server and uses generic dictionaries (dict) for input and output. The serialization and deserialization of the request and response body must be performed on the runtime side.
 
 #### 📌 Create Client from Configuration File
+
+See [Configuration File](#configuration-file)
 
 ```python
 from pathlib import Path
