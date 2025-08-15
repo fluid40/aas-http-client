@@ -70,7 +70,7 @@ print(client.get_shells())
 ```python
 from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url
 
-wrapper = create_wrapper_by_config(
+wrapper = create_wrapper_by_url(
     base_url="http://myaasserver:5043/"
 )
 
