@@ -25,7 +25,7 @@ Tested servers include:
 - [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
 - [Eclipse AASX server](https://github.com/eclipse-aaspe)  
 
-Depending on the details of the implementation and how close it is to the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications), the behavior may vary. Similarly, which endpoints are provided by the server.
+The behavior may vary depending on the details of the implementation and compliance with the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications). It also depends on which endpoints are provided by the server.
 
 Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. These wrappers use the SDK-specific data model classes for function input and output parameters.
 Wrappers are currently available for the following frameworks:
