@@ -65,10 +65,10 @@ client = create_client_by_url(
 print(client.get_shells())
 ```
 
-### SDK Wrapper
+### BaSyx Python SDK Wrapper
 
 ```python
-from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config
+from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url
 
 wrapper = create_wrapper_by_config(
     base_url="http://myaasserver:5043/"
