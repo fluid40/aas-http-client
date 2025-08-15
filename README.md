@@ -15,16 +15,18 @@
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
-This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. The client uses Python dictionaries (dicts) for input and output parameters.
-The client should be compatible with various types of AAS repository servers. Tested servers are:
+This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. It uses Python dictionaries (dicts) for function input and output parameters.
+It should be compatible with various types of AAS repository server. Tested servers include:
 - [Eclipse BaSyx .Net SDK server](https://github.com/eclipse-basyx/basyx-dotnet)
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
 - [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
 - [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
+- [Eclipse AASX server](https://github.com/eclipse-aaspe)
+Depending on the details of the implementation and how close it is to the specification, the behavior may vary. Similarly, which endpoints are provided by the server
 
-Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. The wrappers uses the 
-Currently, wrappers are available for the following frameworks:
-- BaSyx Python SDK
+Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. These wrappers use the SDK-specific data model classes for function input and output parameters.
+Wrappers are currently available for the following frameworks:
+- [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
 ## Links
 
