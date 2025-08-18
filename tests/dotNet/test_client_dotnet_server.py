@@ -56,7 +56,7 @@ def test_002_get_shells(client: AasHttpClient):
 def test_003_post_shells(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     aas_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
-    result = client.post_shells(aas_data)
+    result = client.post_asset_administration_shell(aas_data)
     
     assert result is not None
     result_id_short = result.get("idShort", "")
@@ -90,7 +90,7 @@ def test_005a_put_shells(client: AasHttpClient, shared_aas: model.AssetAdministr
     aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
     
-    result = client.put_shells(shared_aas.id, aas_data)
+    result = client.put_asset_administration_shell_by_id(shared_aas.id, aas_data)
     
     assert result
     
@@ -122,12 +122,12 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: model.AssetA
     aas_data_string = json.dumps(aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
     
-    result = client.put_shells(shared_aas.id, aas_data)
+    result = client.put_asset_administration_shell_by_id(shared_aas.id, aas_data)
     
     assert not result
 
 def test_006_get_shells_reference_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
-    result = client.get_asset_administration_shell_by_id_reference(shared_aas.id)
+    result = client.get_asset_administration_shell_by_id_reference_aas_repository(shared_aas.id)
     
     assert result is not None
     keys = result.get("keys", [])
@@ -135,7 +135,7 @@ def test_006_get_shells_reference_by_id(client: AasHttpClient, shared_aas: model
     assert keys[0].get("value", "") == shared_aas.id
         
 def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     assert result is None
     
@@ -149,7 +149,7 @@ def test_009_post_submodels(client: AasHttpClient, shared_sm: model.Submodel):
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
     
-    result = client.post_submodels(sm_data)
+    result = client.post_submodel(sm_data)
 
     assert result is not None
     result_id_short = result.get("idShort", "")
@@ -162,7 +162,7 @@ def test_009_post_submodels(client: AasHttpClient, shared_sm: model.Submodel):
     assert submodels[0].get("idShort", "") == shared_sm.id_short
 
 def test_010_get_shells_submodels_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     assert result is not None
     result_id_short = result.get("idShort", "")
@@ -214,11 +214,11 @@ def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: model
     sm_data_string = json.dumps(sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
 
-    result = client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)
+    result = client.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm_data)
     
     assert result
     
-    get_result = client.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    get_result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
     assert get_result is not None
     assert get_result.get("idShort", "") == shared_sm.id_short
     assert get_result.get("id", "") == shared_sm.id
@@ -230,7 +230,7 @@ def test_013_put_shells_submodels_by_id(client: AasHttpClient, shared_aas: model
     # restore to its original state
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
-    client.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm_data)  # Restore original submodel
+    client.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm_data)  # Restore original submodel
             
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -261,7 +261,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     client.put_submodels_by_id(shared_sm.id, sm_data)  # Restore original submodel            
 
 def test_015_get_submodels_submodel_elements(client: AasHttpClient, shared_sm: model.Submodel):
-    submodel_elements = client.get_submodels_submodel_elements(shared_sm.id)
+    submodel_elements = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert submodel_elements is not None
     assert len(submodel_elements.get("result", [])) == 0
@@ -270,14 +270,14 @@ def test_016_post_submodels_submodel_elements(client: AasHttpClient, shared_sm: 
     sme_data_string = json.dumps(shared_sme, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
     
-    result = client.post_submodels_submodel_elements(shared_sm.id, sme_data)
+    result = client.post_submodel_element_submodel_repo(shared_sm.id, sme_data)
     
     assert result is not None
     assert result.get("idShort", "") == shared_sme.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme.display_name.get("en", "")
     
-    get_result = client.get_submodels_submodel_elements(shared_sm.id)
+    get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert get_result is not None
     assert len(get_result.get("result", [])) == 1

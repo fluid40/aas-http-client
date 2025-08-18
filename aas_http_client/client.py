@@ -123,8 +123,8 @@ class AasHttpClient(BaseModel):
 
 # region shells
 
-    def post_shells(self, aas_data: dict) -> dict | None:
-        """Post an Asset Administration Shell (AAS) to the REST API.
+    def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
+        """Creates a new Asset Administration Shell.
 
         :param aas_data: Json data of the Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
@@ -147,8 +147,8 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def put_shells(self, identifier: str, aas_data: dict) -> bool:
-        """Update an Asset Administration Shell (AAS) by its ID in the REST API.
+    def put_asset_administration_shell_by_id(self, identifier: str, aas_data: dict) -> bool:
+        """Creates or replaces an existing Asset Administration Shell.
 
         :param identifier: Identifier of the AAS to update
         :param aas_data: Json data of the Asset Administration Shell data to update
@@ -171,8 +171,8 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
-        """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
+    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
+        """Updates the Submodel.
 
         :param aas_id: ID of the AAS to update the submodel for
         :param submodel_data: Json data to the Submodel to update
@@ -243,8 +243,12 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
 
-    def get_asset_administration_shell_by_id_reference(self, aas_id: str) -> Reference | None:
-        """"""
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> Reference | None:
+        """Returns a specific Asset Administration Shell as a Reference.
+
+        :param aas_id: ID of the AAS reference to retrieve
+        :return: Asset Administration Shells reference data or None if an error occurred
+        """
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
@@ -263,8 +267,8 @@ class AasHttpClient(BaseModel):
         ref_dict_string = response.content.decode("utf-8")
         return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
-    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> Submodel | None:
-        """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
+    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> Submodel | None:
+        """Returns the Submodel.
 
         :param aas_id: ID of the AAS to retrieve the submodel from
         :param submodel_id: ID of the submodel to retrieve
@@ -318,8 +322,8 @@ class AasHttpClient(BaseModel):
 
 # region submodels
 
-    def post_submodels(self, submodel_data: dict) -> dict | None:
-        """Create a new Submodel.
+    def post_submodel(self, submodel_data: dict) -> dict | None:
+        """Creates a new Submodel.
 
         :param Submodel_data: Json data of the Submodel to post
         :return: Submodel data or None if an error occurred
@@ -412,7 +416,7 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel_data: dict) -> bool:
-        """Updates an existing Submodel
+        """Updates an existing Submodel.
 
         :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
@@ -457,8 +461,8 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_submodels_submodel_elements(self, submodel_id: str) -> list[dict] | None:
-        """Returns all Submodel elements including their hierarchy.
+    def get_all_submodel_elements_submodel_repository(self, submodel_id: str) -> list[dict] | None:
+        """Returns all submodel elements including their hierarchy.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel element data or None if an error occurred
@@ -481,8 +485,8 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
-        """Create a new Submodel element.
+    def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
+        """Creates a new submodel element.
 
         :param submodel_id: Encoded ID of the Submodel to create elements for
         :return: Submodel element data or None if an error occurred

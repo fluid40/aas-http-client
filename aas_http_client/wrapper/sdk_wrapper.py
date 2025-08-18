@@ -18,40 +18,40 @@ class SdkWrapper():
 
 # region shells
 
-    def post_shells(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
-        """Post an Asset Administration Shell (AAS) to the REST API.
+    def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
+        """Creates a new Asset Administration Shell.
 
         :param aas: Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
         aas_data = _to_dict(aas)
-        content: dict = self._client.post_shells(aas_data)
+        content: dict = self._client.post_asset_administration_shell(aas_data)
         return _to_object(content)
 
-    def put_shells(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
-        """Update an Asset Administration Shell (AAS) by its ID in the REST API.
+    def put_asset_administration_shell_by_id(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
+        """Creates or replaces an existing Asset Administration Shell.
 
         :param identifier: Identifier of the AAS to update
         :param aas: Asset Administration Shell data to update
         :return: True if the update was successful, False otherwise
         """
         aas_data = _to_dict(aas)
-        return self._client.put_shells(identifier, aas_data)
+        return self._client.put_asset_administration_shell_by_id(identifier, aas_data)
 
-    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel: model.Submodel) -> bool:
-        """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
+    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel: model.Submodel) -> bool:
+        """Updates the Submodel.
 
         :param aas_id: ID of the AAS to update the submodel for
         :param submodel: Submodel data to update
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.put_shells_submodels_by_id(aas_id, submodel_id, sm_data)
+        return self._client.put_submodel_by_id_aas_repository(aas_id, submodel_id, sm_data)
 
     def get_all_asset_administration_shells(self) -> list[model.AssetAdministrationShell] | None:
         """Returns all Asset Administration Shells.
 
-        :return: AAS objects or None if an error occurred
+        :return: Asset Administration Shells objects or None if an error occurred
         """
         content: dict = self._client.get_all_asset_administration_shells()
         
@@ -81,7 +81,7 @@ class SdkWrapper():
         """Returns a specific Asset Administration Shell.
         
         :param aas_id: ID of the AAS to retrieve
-        :return: AAS object or None if an error occurred
+        :return: Asset Administration Shells object or None if an error occurred
         """
         content: dict = self._client.get_asset_administration_shell_by_id(aas_id)
         
@@ -91,7 +91,12 @@ class SdkWrapper():
         
         return _to_object(content)
 
-    def get_asset_administration_shell_by_id_reference(self, aas_id: str) -> model.Reference | None:
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> model.Reference | None:
+        """Returns a specific Asset Administration Shell as a Reference.
+
+        :param aas_id: ID of the AAS reference to retrieve
+        :return: Asset Administration Shells reference object or None if an error occurred
+        """
         #workaround because serialization not working
         aas = self.get_asset_administration_shell_by_id(aas_id)
         return model.ModelReference.from_referable(aas)
@@ -99,14 +104,14 @@ class SdkWrapper():
         # content: dict = self._client.get_shells_reference_by_id(aas_id)
         # return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
-    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
-        """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
+    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
+        """Returns the Submodel.
 
         :param aas_id: ID of the AAS to retrieve the submodel from
         :param submodel_id: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        content: dict = self._client.get_shells_submodels_by_id(aas_id, submodel_id)
+        content: dict = self._client.get_submodel_by_id_aas_repository(aas_id, submodel_id)
         return _to_object(content)
 
     def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
@@ -121,18 +126,18 @@ class SdkWrapper():
 
 # region submodels
 
-    def post_submodels(self, submodel: model.Submodel) -> model.Submodel | None:
-        """Post a submodel to the REST API.
+    def post_submodel(self, submodel: model.Submodel) -> model.Submodel | None:
+        """Creates a new Submodel.
 
         :param submodel: submodel data as a dictionary
         :return: Response data as a dictionary or None if an error occurred
         """
         sm_data = _to_dict(submodel)
-        content: dict = self._client.post_submodels(sm_data)
+        content: dict = self._client.post_submodel(sm_data)
         return _to_object(content)
 
     def put_submodels_by_id(self, identifier: str, submodel: model.Submodel) -> bool:
-        """Update a submodel by its ID in the REST API.
+        """Updates a existing Submodel.
 
         :param identifier: Identifier of the submodel to update
         :param submodel: Submodel data to update
@@ -185,6 +190,11 @@ class SdkWrapper():
         return _to_object(content)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
+        """Updates an existing Submodel
+
+        :param submodel_id: Encoded ID of the Submodel to delete
+        :return: True if the patch was successful, False otherwise
+        """        
         sm_data = _to_dict(submodel)
         return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
@@ -196,14 +206,14 @@ class SdkWrapper():
         """
         return self._client.delete_submodel_by_id(submodel_id)
 
-    def get_submodels_submodel_elements(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
-        """Returns all Submodel elements including their hierarchy.
+    def get_all_submodel_elements_submodel_repository(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
+        """Returns all submodel elements including their hierarchy.
         !!! Serialization to model.SubmodelElement currently not possible
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel elements or None if an error occurred
         """
-        content = self._client.get_submodels_submodel_elements(submodel_id)
+        content = self._client.get_all_submodel_elements_submodel_repository(submodel_id)
         
         if not content:
             return []
@@ -227,8 +237,8 @@ class SdkWrapper():
 
         return submodel_elements
 
-    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
-        """Create a new submodel element.
+    def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
+        """Creates a new submodel element.
         !!! Serialization to model.SubmodelElements currently not possible
         
         :param submodel_id: Encoded ID of the submodel to create elements for
@@ -236,7 +246,7 @@ class SdkWrapper():
         :return: List of submodel element objects or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.post_submodels_submodel_elements(submodel_id, sme_data)
+        content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
         return _to_object(content)
 
 

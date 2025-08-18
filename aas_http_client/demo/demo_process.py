@@ -41,15 +41,15 @@ def start():
         logger.warning(f"Delete submodel '{existing_submodel.id}'")
         java_sdk_wrapper.delete_submodel_by_id(existing_submodel.id)
 
-    java_sdk_wrapper.post_shells(aas)
-    java_sdk_wrapper.post_submodels(submodel)
+    java_sdk_wrapper.post_asset_administration_shell(aas)
+    java_sdk_wrapper.post_submodel(submodel)
 
-    tmp = java_sdk_wrapper.get_asset_administration_shell_by_id_reference(aas.id)
+    tmp = java_sdk_wrapper.get_asset_administration_shell_by_id_reference_aas_repository(aas.id)
 
     shell = java_sdk_wrapper.get_asset_administration_shell_by_id(aas.id)    
     submodel = java_sdk_wrapper.get_submodel_by_id(submodel.id)
 
-    java_sdk_wrapper.post_submodels_submodel_elements(submodel.id, sme)
+    java_sdk_wrapper.post_submodel_element_submodel_repo(submodel.id, sme)
 
     submodel = java_sdk_wrapper.get_submodel_by_id(submodel.id)
     

@@ -53,7 +53,7 @@ def test_002_get_shells(wrapper: SdkWrapper):
     assert len(shells) == 0
 
 def test_003_post_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    shell = wrapper.post_shells(shared_aas)
+    shell = wrapper.post_asset_administration_shell(shared_aas)
     
     assert shell is not None
     assert shell.id == shared_aas.id
@@ -85,7 +85,7 @@ def test_005a_put_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrat
     aas.description = model.MultiLanguageTextType({"en": description_text})
     aas.submodel = shared_aas.submodel  # Keep existing submodels
     
-    result = wrapper.put_shells(shared_aas.id, aas)
+    result = wrapper.put_asset_administration_shell_by_id(shared_aas.id, aas)
     
     assert result
     
@@ -113,12 +113,12 @@ def test_005b_put_shells_with_id(wrapper: SdkWrapper, shared_aas: model.AssetAdm
     description_text = {"en": "Updated description for unit tests"}
     aas.description = model.MultiLanguageTextType(description_text)
 
-    result = wrapper.put_shells(shared_aas.id, aas)
+    result = wrapper.put_asset_administration_shell_by_id(shared_aas.id, aas)
     
     assert not result
 
 def test_006_get_shells_reference_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    reference = wrapper.get_asset_administration_shell_by_id_reference(shared_aas.id)
+    reference = wrapper.get_asset_administration_shell_by_id_reference_aas_repository(shared_aas.id)
 
     # Basyx java server do not provide this endpoint. But works because of workaround in wrapper
     assert reference is not None
@@ -126,7 +126,7 @@ def test_006_get_shells_reference_by_id(wrapper: SdkWrapper, shared_aas: model.A
     assert reference.key[0].value == shared_aas.id
 
 def test_007_get_shells_submodels_by_id_not_posted(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    submodel = wrapper.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     assert submodel is None
     
@@ -136,7 +136,7 @@ def test_008_get_submodels(wrapper: SdkWrapper):
     assert len(submodels) == 0
     
 def test_009_post_submodels(wrapper: SdkWrapper, shared_sm: model.Submodel):   
-    submodel = wrapper.post_submodels(shared_sm)
+    submodel = wrapper.post_submodel(shared_sm)
 
     assert submodel is not None
     assert submodel.id == shared_sm.id
@@ -149,7 +149,7 @@ def test_009_post_submodels(wrapper: SdkWrapper, shared_sm: model.Submodel):
     assert submodels[0].id == shared_sm.id
 
 def test_010_get_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    submodel = wrapper.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
     
     # Basyx java server do not provide this endpoint
     assert submodel is None
@@ -185,7 +185,7 @@ def test_013_put_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.A
     description_text = "Put via shell description for unit tests"
     sm.description = model.MultiLanguageTextType({"en": description_text})
 
-    result = wrapper.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm)
+    result = wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm)
     
     # Basyx java server do not provide this endpoint
     assert not result # Restore original submodel
@@ -218,13 +218,13 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
     wrapper.put_submodels_by_id(shared_sm.id, shared_sm)  # Restore original submodel       
       
 def test_015_get_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    submodel_elements = wrapper.get_submodels_submodel_elements(shared_sm.id)
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert submodel_elements is not None
     assert len(submodel_elements) == 0
     
 def test_016_post_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme: model.Property):   
-    submodel_element = wrapper.post_submodels_submodel_elements(shared_sm.id, shared_sme)
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme)
     
     assert submodel_element is not None
     
@@ -235,7 +235,7 @@ def test_016_post_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: mo
     # assert property.display_name.get("em", "")  == shared_sme.display_name.get("en", "")
     # assert property.value == shared_sme.value
     
-    submodel_elements = wrapper.get_submodels_submodel_elements(shared_sm.id)
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert submodel_elements is not None
     assert len(submodel_elements) == 1    
