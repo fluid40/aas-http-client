@@ -7,41 +7,50 @@ import json
 import basyx.aas.adapter.json
 import basyx.aas.model
 
+from basyx.aas import model
+
 logger = logging.getLogger(__name__)
 
 def start():
     """Start the demo process."""
-
-    aas_1 = _create_shell()
-    aas_2 = _create_shell()
+    # create a submodel element
+    sme_short_id: str = model_builder.create_unique_short_id("poc_sme")
+    sme = model_builder.create_base_submodel_element_Property(sme_short_id, model.datatypes.String, "Sample Value")
     
-    client = _create_client()
+    # create a submodel
+    sm_short_id: str = model_builder.create_unique_short_id("poc_sm")
+    submodel = model_builder.create_base_submodel(sm_short_id)
+    # add submodel element to submodel
+    # submodel.submodel_element.add(sme)
+    
+    # create an AAS
+    aas_short_id: str = model_builder.create_unique_short_id("poc_aas")
+    aas = model_builder.create_base_ass(aas_short_id)
+    
+    # add submodel to AAS
+    model_builder.add_submodel_to_aas(aas, submodel)
+    
     java_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/java_server_config.json"))
-    dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
+    # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
 
-    java_sdk_wrapper.get_shells_by_id(aas_1.id)
-    dotnet_sdk_wrapper.get_shells_by_id(aas_1.id)
+    for existing_shell in java_sdk_wrapper.get_shells():
+        logger.warning(f"Delete shell '{existing_shell.id}'")
+        java_sdk_wrapper.delete_shells_by_id(existing_shell.id)
+
+    for existing_submodel in java_sdk_wrapper.get_submodels():
+        logger.warning(f"Delete submodel '{existing_submodel.id}'")
+        java_sdk_wrapper.delete_submodels_by_id(existing_submodel.id)
+
+    java_sdk_wrapper.post_shells(aas)
+    java_sdk_wrapper.post_submodels(submodel)
+
+    shell = java_sdk_wrapper.get_shells_by_id(aas.id)    
+    submodel = java_sdk_wrapper.get_submodels_by_id(submodel.id)
+
+    java_sdk_wrapper.post_submodels_submodel_elements(submodel.id, sme)
+
+    submodel = java_sdk_wrapper.get_submodels_by_id(submodel.id)
     
-    java_sdk_wrapper.get_submodels_by_id(aas_1.id)
-    dotnet_sdk_wrapper.get_submodels_by_id(aas_1.id)
-    
-    exist_shells = java_sdk_wrapper.get_shells()
-    exist_shells = dotnet_sdk_wrapper.get_shells()
-    
-    for shell in exist_shells:
-        logger.warning(f"Delete shell '{shell.id}'")
-        java_sdk_wrapper.delete_shells_by_id(shell.id)
-
-    java_sdk_wrapper.post_shells(aas_1)
-
-
-    aas_dict_string = json.dumps(aas_2, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-    aas_dict = json.loads(aas_dict_string)
-    client.post_shells(aas_dict)
-    
-    shells = client.get_shells()
-
-    logger.info(f"Client created successfully. {shells}")
 
 def _create_shell() -> basyx.aas.model.AssetAdministrationShell:
     # create an AAS
@@ -57,11 +66,11 @@ def _create_shell() -> basyx.aas.model.AssetAdministrationShell:
     
     return aas
 
-def _create_client() -> AasHttpClient:
+def _create_client(config: Path) -> AasHttpClient:
     """Create client for java servers."""
 
     try:
-        file = Path("./aas_http_client/demo/java_server_config.json")
+        file = config
         client = create_client_by_config(file, password="")
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")
