@@ -121,6 +121,8 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
+# region shells
+
     def post_shells(self, aas_data: dict) -> dict | None:
         """Post an Asset Administration Shell (AAS) to the REST API.
 
@@ -311,11 +313,15 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def post_submodels(self, submodel_data: dict) -> dict:
-        """Post a submodel to the REST API.
+# endregion
 
-        :param submodel_data: Json data of the Submodel to post
-        :return: Response data as a dictionary or None if an error occurred
+# region submodels
+
+    def post_submodels(self, submodel_data: dict) -> dict | None:
+        """Create a new Submodel.
+
+        :param Submodel_data: Json data of the Submodel to post
+        :return: Submodel data or None if an error occurred
         """
         url = f"{self.base_url}/submodels"
 
@@ -325,19 +331,19 @@ class AasHttpClient(BaseModel):
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
                 log_response_errors(response)
-                return False
+                return None
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
-            return False
+            return None
 
         content = response.content.decode("utf-8")
         return json.loads(content)
 
     def put_submodels_by_id(self, identifier: str, submodel_data: dict) -> bool:
-        """Update a submodel by its ID in the REST API.
+        """Updates a existing Submodel.
 
-        :param identifier: Identifier of the submodel to update
+        :param identifier: Encoded ID of the Submodel to update
         :param submodel_data: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
@@ -359,9 +365,9 @@ class AasHttpClient(BaseModel):
         return True
 
     def get_submodels(self) -> list[dict] | None:
-        """Get all submodels from the REST API.
+        """Returns all Submodels
 
-        :return: Submodel objects or None if an error occurred
+        :return: List of Submodel data or None if an error occurred
         """
         url = f"{self.base_url}/submodels"
 
@@ -381,10 +387,10 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     def get_submodels_by_id(self, submodel_id: str) -> dict | None:
-        """Get a submodel by its ID from the REST API.
+        """Returns a specific Submodel.
 
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
+        :param submodel_id: Encoded ID of the Submodel to retrieve
+        :return: Submodel data or None if an error occurred
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
@@ -404,7 +410,12 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def patch_submodel_by_id(self, submodel_id: str, submodel_data: dict):
+    def patch_submodel_by_id(self, submodel_id: str, submodel_data: dict) -> bool:
+        """Updates an existing Submodel
+
+        :param submodel_id: Encoded ID of the Submodel to delete
+        :return: True if the patch was successful, False otherwise
+        """
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
@@ -423,9 +434,9 @@ class AasHttpClient(BaseModel):
         return True
 
     def delete_submodels_by_id(self, submodel_id: str) -> bool:
-        """Delete a submodel by its ID from the REST API.
+        """Deletes a existing Submodel.
 
-        :param submodel_id: ID of the submodel to delete
+        :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
@@ -445,6 +456,57 @@ class AasHttpClient(BaseModel):
 
         return True
 
+    def get_submodels_submodel_elements(self, submodel_id: str) -> list[dict] | None:
+        """Returns all Submodel elements including their hierarchy.
+
+        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
+        :return: List of Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_id)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+
+        try:
+            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
+        """Create a new Submodel element.
+
+        :param submodel_id: Encoded ID of the Submodel to create elements for
+        :return: Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_id)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+
+        try:
+            response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_201:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+# endregion
+
+# region client
 
 def create_client_by_url(
     base_url: str,
@@ -480,7 +542,6 @@ def create_client_by_url(
     config_string = json.dumps(config_dict, indent=4)
     return _create_client(config_string, password)
 
-
 def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
     """Create a AAS HTTP client from the given parameters.
 
@@ -498,7 +559,6 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
         logger.debug(f"Configuration  file '{config_file}' found.")
 
     return _create_client(config_string, password)
-
 
 def _create_client(config_string: str, password) -> AasHttpClient | None:
     try:
@@ -525,7 +585,6 @@ def _create_client(config_string: str, password) -> AasHttpClient | None:
 
     return client
 
-
 def _connect_to_api(client: AasHttpClient) -> bool:
     start_time = time.time()
     logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds")
@@ -544,3 +603,5 @@ def _connect_to_api(client: AasHttpClient) -> bool:
         counter += 1
         logger.warning(f"Retrying connection (attempt: {counter})")
         time.sleep(1)
+
+# endregion

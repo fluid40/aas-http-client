@@ -7,24 +7,27 @@ from typing import Any
 
 import basyx.aas.adapter.json
 
-from basyx.aas.model import AssetAdministrationShell, Reference, Submodel, ModelReference
+from basyx.aas import model
 from aas_http_client.client import AasHttpClient, _create_client
 logger = logging.getLogger(__name__)
 
 class SdkWrapper():
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
-    _client: AasHttpClient = None
+    _client: AasHttpClient = None  
 
-    def post_shells(self, aas: AssetAdministrationShell) -> dict | None:
+# region shells
+
+    def post_shells(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
         """Post an Asset Administration Shell (AAS) to the REST API.
 
         :param aas: Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
         aas_data = _to_dict(aas)
-        return self._client.post_shells(aas_data)
+        content: dict = self._client.post_shells(aas_data)
+        return _to_object(content)
 
-    def put_shells(self, identifier: str, aas: AssetAdministrationShell) -> bool:
+    def put_shells(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
         """Update an Asset Administration Shell (AAS) by its ID in the REST API.
 
         :param identifier: Identifier of the AAS to update
@@ -34,7 +37,7 @@ class SdkWrapper():
         aas_data = _to_dict(aas)
         return self._client.put_shells(identifier, aas_data)
 
-    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel: Submodel) -> bool:
+    def put_shells_submodels_by_id(self, aas_id: str, submodel_id: str, submodel: model.Submodel) -> bool:
         """Update a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to update the submodel for
@@ -44,7 +47,7 @@ class SdkWrapper():
         sm_data = _to_dict(submodel)
         return self._client.put_shells_submodels_by_id(aas_id, submodel_id, sm_data)
 
-    def get_shells(self) -> list[AssetAdministrationShell] | None:
+    def get_shells(self) -> list[model.AssetAdministrationShell] | None:
         """Get all Asset Administration Shells (AAS) from the REST API.
 
         :return: AAS objects or None if an error occurred
@@ -59,7 +62,7 @@ class SdkWrapper():
             logger.warning("No shells found on server.")
             return []
 
-        aas_list: list[AssetAdministrationShell] = []
+        aas_list: list[model.AssetAdministrationShell] = []
 
         for result in results:
             if not isinstance(result, dict):
@@ -73,7 +76,7 @@ class SdkWrapper():
 
         return aas_list
 
-    def get_shells_by_id(self, aas_id: str) -> AssetAdministrationShell | None:
+    def get_shells_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
         """Get an Asset Administration Shell (AAS) by its ID from the REST API.
 
         :param aas_id: ID of the AAS to retrieve
@@ -87,15 +90,15 @@ class SdkWrapper():
         
         return _to_object(content)
 
-    def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
+    def get_shells_reference_by_id(self, aas_id: str) -> model.Reference | None:
         #workaround because serialization not working
         aas = self.get_shells_by_id(aas_id)
-        return ModelReference.from_referable(aas)
+        return model.ModelReference.from_referable(aas)
         
         # content: dict = self._client.get_shells_reference_by_id(aas_id)
         # return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
-    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    def get_shells_submodels_by_id(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
         """Get a submodel by its ID for a specific Asset Administration Shell (AAS).
 
         :param aas_id: ID of the AAS to retrieve the submodel from
@@ -113,16 +116,21 @@ class SdkWrapper():
         """
         return self._client.delete_shells_by_id(aas_id)
 
-    def post_submodels(self, submodel: Submodel) -> bool:
+# endregion
+
+# region submodels
+
+    def post_submodels(self, submodel: model.Submodel) -> model.Submodel | None:
         """Post a submodel to the REST API.
 
         :param submodel: submodel data as a dictionary
         :return: Response data as a dictionary or None if an error occurred
         """
         sm_data = _to_dict(submodel)
-        return self._client.post_submodels(sm_data)
+        content: dict = self._client.post_submodels(sm_data)
+        return _to_object(content)
 
-    def put_submodels_by_id(self, identifier: str, submodel: Submodel) -> bool:
+    def put_submodels_by_id(self, identifier: str, submodel: model.Submodel) -> bool:
         """Update a submodel by its ID in the REST API.
 
         :param identifier: Identifier of the submodel to update
@@ -132,7 +140,7 @@ class SdkWrapper():
         sm_data = _to_dict(submodel)
         return self._client.put_submodels_by_id(identifier, sm_data)
 
-    def get_submodels(self) -> list[Submodel] | None:
+    def get_submodels(self) -> list[model.Submodel] | None:
         """Get all submodels from the REST API.
 
         :return: Submodel objects or None if an error occurred
@@ -147,7 +155,7 @@ class SdkWrapper():
             logger.warning("No submodels found on server.")
             return []
 
-        submodels: list[Submodel] = []
+        submodels: list[model.Submodel] = []
 
         for result in results:
             if not isinstance(result, dict):
@@ -161,7 +169,7 @@ class SdkWrapper():
 
         return submodels
 
-    def get_submodels_by_id(self, submodel_id: str) -> Submodel | None:
+    def get_submodels_by_id(self, submodel_id: str) -> model.Submodel | None:
         """Get a submodel by its ID from the REST API.
 
         :param submodel_id: ID of the submodel to retrieve
@@ -175,7 +183,7 @@ class SdkWrapper():
         
         return _to_object(content)
 
-    def patch_submodel_by_id(self, submodel_id: str, submodel: Submodel):
+    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
         sm_data = _to_dict(submodel)
         return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
@@ -186,6 +194,52 @@ class SdkWrapper():
         :return: True if the deletion was successful, False otherwise
         """
         return self._client.delete_submodels_by_id(submodel_id)
+
+    def get_submodels_submodel_elements(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
+        """Returns all Submodel elements including their hierarchy.
+        !!! Serialization to model.SubmodelElement currently not possible
+
+        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
+        :return: List of Submodel elements or None if an error occurred
+        """
+        content = self._client.get_submodels_submodel_elements(submodel_id)
+        
+        if not content:
+            return []
+
+        results: list = content.get("result", [])
+        if not results:
+            logger.warning("No submodels found on server.")
+            return []
+
+        submodel_elements: list[model.SubmodelElement] = []
+
+        for result in results:
+            if not isinstance(result, dict):
+                logger.error(f"Invalid submodel data: {result}")
+                return None
+
+            submodel_element = _to_object(result)
+
+            if submodel_element:
+                submodel_elements.append(submodel_element)
+
+        return submodel_elements
+
+    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
+        """Create a new submodel element.
+        !!! Serialization to model.SubmodelElements currently not possible
+        
+        :param submodel_id: Encoded ID of the submodel to create elements for
+        :param submodel_element: Submodel element to create
+        :return: List of submodel element objects or None if an error occurred
+        """
+        sme_data = _to_dict(submodel_element)
+        content: dict = self._client.post_submodels_submodel_elements(submodel_id, sme_data)
+        return _to_object(content)
+
+
+# endregion
 
 def _to_object(content: dict) -> Any | None:
     try:
@@ -204,6 +258,8 @@ def _to_dict(object: Any) -> dict | None:
         logger.error(f"Encoding error: {e}")
         logger.error(f"In object: {object}")
         return None    
+
+# region wrapper
 
 def create_wrapper_by_url(
     base_url: str,
@@ -247,8 +303,6 @@ def create_wrapper_by_url(
     wrapper._client = client          
     return wrapper
     
-
-
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
     """Create a wrapper for the BaSyx Python SDK from the given parameters.
 
@@ -272,3 +326,5 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
     
     wrapper._client = client       
     return wrapper
+
+# endregion
