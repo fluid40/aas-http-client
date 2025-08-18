@@ -16,7 +16,7 @@ def wrapper() -> SdkWrapper:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")    
 
@@ -48,32 +48,32 @@ def test_001_connect(wrapper: SdkWrapper):
     assert wrapper is not None
     
 def test_002_get_shells(wrapper: SdkWrapper):
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 0
 
 def test_003_post_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    shell = wrapper.post_shells(shared_aas)
+    shell = wrapper.post_asset_administration_shell(shared_aas)
     
     assert shell is not None
     assert shell.id == shared_aas.id
     assert shell.id_short == shared_aas.id_short
     
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 1
     assert shells[0].id_short == shared_aas.id_short
     assert shells[0].id == shared_aas.id
     
 def test_004a_get_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    shell = wrapper.get_shells_by_id(shared_aas.id)
+    shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert shell is not None
     assert shell.id_short == shared_aas.id_short
     assert shell.id == shared_aas.id
 
 def test_004b_get_shell_by_id_not_found(wrapper: SdkWrapper):
-    shell = wrapper.get_shells_by_id("non_existent_id")
+    shell = wrapper.get_asset_administration_shell_by_id("non_existent_id")
     
     assert shell is None
     
@@ -85,11 +85,11 @@ def test_005a_put_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrat
     aas.description = model.MultiLanguageTextType({"en": description_text})
     aas.submodel = shared_aas.submodel  # Keep existing submodels
     
-    result = wrapper.put_shells(shared_aas.id, aas)
+    result = wrapper.put_asset_administration_shell_by_id(shared_aas.id, aas)
     
     assert result
     
-    shell = wrapper.get_shells_by_id(shared_aas.id)
+    shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert shell is not None
     assert shell.id_short == shared_aas.id_short
@@ -114,56 +114,56 @@ def test_005b_put_shells_with_id(wrapper: SdkWrapper, shared_aas: model.AssetAdm
     description_text = {"en": "Updated description for unit tests"}
     aas.description = model.MultiLanguageTextType(description_text)
 
-    result = wrapper.put_shells(shared_aas.id, aas)
+    result = wrapper.put_asset_administration_shell_by_id(shared_aas.id, aas)
     
     assert not result
 
 def test_006_get_shells_reference_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    reference = wrapper.get_shells_reference_by_id(shared_aas.id)
+    reference = wrapper.get_asset_administration_shell_by_id_reference_aas_repository(shared_aas.id)
 
     assert reference is not None
     assert len(reference.key) == 1
     assert reference.key[0].value == shared_aas.id
 
 def test_007_get_shells_submodels_by_id_not_posted(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    submodel = wrapper.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     assert submodel is None
     
 def test_008_get_submodels(wrapper: SdkWrapper):
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 0
     
 def test_009_post_submodels(wrapper: SdkWrapper, shared_sm: model.Submodel):   
-    submodel = wrapper.post_submodels(shared_sm)
+    submodel = wrapper.post_submodel(shared_sm)
 
     assert submodel is not None
     assert submodel.id == shared_sm.id
     assert submodel.id_short == shared_sm.id_short
     
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 1
     assert submodels[0].id_short == shared_sm.id_short
     assert submodels[0].id == shared_sm.id
 
 def test_010_get_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    submodel = wrapper.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
     
 def test_011a_get_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    submodel = wrapper.get_submodels_by_id(shared_sm.id)
+    submodel = wrapper.get_submodel_by_id(shared_sm.id)
 
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
     
 def test_011b_get_submodels_by_id_not_found(wrapper: SdkWrapper):
-    result = wrapper.get_submodels_by_id("non_existent_id")
+    result = wrapper.get_submodel_by_id("non_existent_id")
 
     assert result is None
  
@@ -178,7 +178,7 @@ def test_012_patch_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel
 
     assert result
     
-    submodel = wrapper.get_submodels_by_id(shared_sm.id)
+    submodel = wrapper.get_submodel_by_id(shared_sm.id)
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
@@ -197,11 +197,11 @@ def test_013_put_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.A
     sm.description = model.MultiLanguageTextType({"en": description_text})
     sm.display_name = shared_sm.display_name  # Keep existing display name because of problems with empty lists
 
-    result = wrapper.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, sm)
+    result = wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm)
     
     assert result
     
-    submodel = wrapper.get_shells_submodels_by_id(shared_aas.id, shared_sm.id)
+    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
@@ -215,7 +215,7 @@ def test_013_put_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.A
     assert len(submodel.submodel_element) == 0
     
     # restore to its original state
-    wrapper.put_shells_submodels_by_id(shared_aas.id, shared_sm.id, shared_sm)  # Restore original submodel
+    wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, shared_sm)  # Restore original submodel
             
 def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -229,7 +229,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
 
     assert result
     
-    submodel = wrapper.get_submodels_by_id(shared_sm.id)
+    submodel = wrapper.get_submodel_by_id(shared_sm.id)
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
@@ -246,13 +246,13 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
     wrapper.put_submodels_by_id(shared_sm.id, shared_sm)  # Restore original submodel     
 
 def test_015_get_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    submodel_elements = wrapper.get_submodels_submodel_elements(shared_sm.id)
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert submodel_elements is not None
     assert len(submodel_elements) == 0
     
 def test_016_post_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme: model.Property):   
-    submodel_element = wrapper.post_submodels_submodel_elements(shared_sm.id, shared_sme)
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme)
     
     assert submodel_element is not None
     
@@ -263,25 +263,25 @@ def test_016_post_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: mo
     # assert property.display_name.get("em", "")  == shared_sme.display_name.get("en", "")
     # assert property.value == shared_sme.value
     
-    submodel_elements = wrapper.get_submodels_submodel_elements(shared_sm.id)
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
     
     assert submodel_elements is not None
     assert len(submodel_elements) == 1    
             
 def test_098_delete_shells_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    result = wrapper.delete_shells_by_id(shared_aas.id)
+    result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)
     
     assert result
     
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 0
         
 def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    result = wrapper.delete_submodels_by_id(shared_sm.id)
+    result = wrapper.delete_submodel_by_id(shared_sm.id)
     
     assert result
     
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 0
