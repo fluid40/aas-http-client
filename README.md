@@ -41,6 +41,8 @@ Wrappers are currently available for the following frameworks:
 
 🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
 
+📝 [Changelog](CHANGELOG.md)
+
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
 📜 [em AG Software License](LICENSE)
