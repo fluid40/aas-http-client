@@ -33,23 +33,25 @@ def start():
     java_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/java_server_config.json"))
     # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
 
-    for existing_shell in java_sdk_wrapper.get_shells():
+    for existing_shell in java_sdk_wrapper.get_all_asset_administration_shells():
         logger.warning(f"Delete shell '{existing_shell.id}'")
-        java_sdk_wrapper.delete_shells_by_id(existing_shell.id)
+        java_sdk_wrapper.delete_asset_administration_shell_by_id(existing_shell.id)
 
-    for existing_submodel in java_sdk_wrapper.get_submodels():
+    for existing_submodel in java_sdk_wrapper.get_all_submodels():
         logger.warning(f"Delete submodel '{existing_submodel.id}'")
-        java_sdk_wrapper.delete_submodels_by_id(existing_submodel.id)
+        java_sdk_wrapper.delete_submodel_by_id(existing_submodel.id)
 
     java_sdk_wrapper.post_shells(aas)
     java_sdk_wrapper.post_submodels(submodel)
 
-    shell = java_sdk_wrapper.get_shells_by_id(aas.id)    
-    submodel = java_sdk_wrapper.get_submodels_by_id(submodel.id)
+    tmp = java_sdk_wrapper.get_asset_administration_shell_by_id_reference(aas.id)
+
+    shell = java_sdk_wrapper.get_asset_administration_shell_by_id(aas.id)    
+    submodel = java_sdk_wrapper.get_submodel_by_id(submodel.id)
 
     java_sdk_wrapper.post_submodels_submodel_elements(submodel.id, sme)
 
-    submodel = java_sdk_wrapper.get_submodels_by_id(submodel.id)
+    submodel = java_sdk_wrapper.get_submodel_by_id(submodel.id)
     
 
 def _create_shell() -> basyx.aas.model.AssetAdministrationShell:

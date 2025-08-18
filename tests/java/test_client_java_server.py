@@ -18,7 +18,7 @@ def client() -> AasHttpClient:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
-    shells = client.get_shells()
+    shells = client.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
 
@@ -48,7 +48,7 @@ def test_001_connect(client: AasHttpClient):
     assert client is not None
 
 def test_002_get_shells(client: AasHttpClient):
-    result = client.get_shells()
+    result = client.get_all_asset_administration_shells()
     assert result is not None
     shells = result.get("result", [])
     assert len(shells) == 0
@@ -62,20 +62,20 @@ def test_003_post_shells(client: AasHttpClient, shared_aas: model.AssetAdministr
     result_id_short = result.get("idShort", "")
     assert result_id_short == shared_aas.id_short
     
-    get_result = client.get_shells()
+    get_result = client.get_all_asset_administration_shells()
     assert get_result is not None
     shells = get_result.get("result", [])
     assert len(shells) == 1
     assert shells[0].get("idShort", "") == shared_aas.id_short
 
 def test_004a_get_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
-    result = client.get_shells_by_id(shared_aas.id)
+    result = client.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert result is not None
     assert result.get("idShort", "") == shared_aas.id_short
 
 def test_004b_get_shell_by_id_not_found(client: AasHttpClient):
-    result = client.get_shells_by_id("non_existent_id")
+    result = client.get_asset_administration_shell_by_id("non_existent_id")
     
     assert result is None
     
@@ -94,7 +94,7 @@ def test_005a_put_shells(client: AasHttpClient, shared_aas: model.AssetAdministr
     
     assert result
     
-    get_result = client.get_shells_by_id(shared_aas.id)
+    get_result = client.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert get_result is not None
     assert get_result.get("idShort", "") == shared_aas.id_short
@@ -125,7 +125,7 @@ def test_005b_put_shells_with_id(client: AasHttpClient, shared_aas: model.AssetA
     assert not result
 
 def test_006_get_shells_reference_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
-    result = client.get_shells_reference_by_id(shared_aas.id)
+    result = client.get_asset_administration_shell_by_id_reference(shared_aas.id)
     
     # Basyx java server do not provide this endpoint
     assert not result
@@ -136,7 +136,7 @@ def test_007_get_shells_submodels_by_id_not_posted(client: AasHttpClient, shared
     assert result is None
     
 def test_008_get_submodels(client: AasHttpClient):
-    result = client.get_submodels()
+    result = client.get_all_submodels()
     
     assert result is not None
     submodels = result.get("result", [])
@@ -152,7 +152,7 @@ def test_009_post_submodels(client: AasHttpClient, shared_sm: model.Submodel):
     result_id_short = result.get("idShort", "")
     assert result_id_short == shared_sm.id_short
     
-    get_result = client.get_submodels()
+    get_result = client.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 1
@@ -257,21 +257,21 @@ def test_016_post_submodels_submodel_elements(client: AasHttpClient, shared_sm: 
     assert len(get_result.get("result", [])) == 1    
             
 def test_098_delete_shells_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
-    result = client.delete_shells_by_id(shared_aas.id)
+    result = client.delete_asset_administration_shell_by_id(shared_aas.id)
     
     assert result
     
-    get_result = client.get_shells()
+    get_result = client.get_all_asset_administration_shells()
     assert get_result is not None
     shells = get_result.get("result", [])
     assert len(shells) == 0
         
 def test_099_delete_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
-    result = client.delete_submodels_by_id(shared_sm.id)
+    result = client.delete_submodel_by_id(shared_sm.id)
     
     assert result
     
-    get_result = client.get_submodels()
+    get_result = client.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 0

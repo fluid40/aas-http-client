@@ -196,8 +196,8 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_shells(self) -> list[dict] | None:
-        """Get all Asset Administration Shells (AAS) from the REST API.
+    def get_all_asset_administration_shells(self) -> list[dict] | None:
+        """Returns all Asset Administration Shells.
 
         :return: List of paginated Asset Administration Shells data or None if an error occurred
         """
@@ -218,8 +218,8 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def get_shells_by_id(self, aas_id: str) -> dict | None:
-        """Get an Asset Administration Shell (AAS) by its ID from the REST API.
+    def get_asset_administration_shell_by_id(self, aas_id: str) -> dict | None:
+        """Returns a specific Asset Administration Shell.
 
         :param aas_id: ID of the AAS to retrieve
         :return: Asset Administration Shells data or None if an error occurred
@@ -243,7 +243,8 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
 
-    def get_shells_reference_by_id(self, aas_id: str) -> Reference | None:
+    def get_asset_administration_shell_by_id_reference(self, aas_id: str) -> Reference | None:
+        """"""
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
@@ -290,8 +291,8 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def delete_shells_by_id(self, aas_id: str) -> bool:
-        """Get an Asset Administration Shell (AAS) by its ID from the REST API.
+    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
+        """Deletes an Asset Administration Shell.
 
         :param aas_id: ID of the AAS to retrieve
         :return: True if the deletion was successful, False otherwise
@@ -364,8 +365,8 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_submodels(self) -> list[dict] | None:
-        """Returns all Submodels
+    def get_all_submodels(self) -> list[dict] | None:
+        """Returns all Submodels.
 
         :return: List of Submodel data or None if an error occurred
         """
@@ -386,7 +387,7 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def get_submodels_by_id(self, submodel_id: str) -> dict | None:
+    def get_submodel_by_id(self, submodel_id: str) -> dict | None:
         """Returns a specific Submodel.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve
@@ -433,8 +434,8 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def delete_submodels_by_id(self, submodel_id: str) -> bool:
-        """Deletes a existing Submodel.
+    def delete_submodel_by_id(self, submodel_id: str) -> bool:
+        """Deletes a Submodel.
 
         :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the deletion was successful, False otherwise

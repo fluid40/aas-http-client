@@ -20,9 +20,9 @@
                 "aaron-bond.better-comments",
                 "vivaxy.vscode-conventional-commits",
                 "tamasfe.even-better-toml",
-                "mechatroner.rainbow-csv",
                 "GitHub.vscode-github-actions",
-                "bierner.github-markdown-preview"
+                "bierner.github-markdown-preview",
+                "dbaeumer.vscode-eslint"
             ]
         }
     },

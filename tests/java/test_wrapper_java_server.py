@@ -16,7 +16,7 @@ def wrapper() -> SdkWrapper:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
-    shells = client.get_shells()
+    shells = client.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")    
 
@@ -48,7 +48,7 @@ def test_001_connect(wrapper: SdkWrapper):
     assert wrapper is not None
     
 def test_002_get_shells(wrapper: SdkWrapper):
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 0
 
@@ -59,21 +59,21 @@ def test_003_post_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrat
     assert shell.id == shared_aas.id
     assert shell.id_short == shared_aas.id_short
     
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 1
     assert shells[0].id_short == shared_aas.id_short
     assert shells[0].id == shared_aas.id
     
 def test_004a_get_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    shell = wrapper.get_shells_by_id(shared_aas.id)
+    shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert shell is not None
     assert shell.id_short == shared_aas.id_short
     assert shell.id == shared_aas.id
 
 def test_004b_get_shell_by_id_not_found(wrapper: SdkWrapper):
-    shell = wrapper.get_shells_by_id("non_existent_id")
+    shell = wrapper.get_asset_administration_shell_by_id("non_existent_id")
     
     assert shell is None
     
@@ -89,7 +89,7 @@ def test_005a_put_shells(wrapper: SdkWrapper, shared_aas: model.AssetAdministrat
     
     assert result
     
-    shell = wrapper.get_shells_by_id(shared_aas.id)
+    shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
     
     assert shell is not None
     assert shell.id_short == shared_aas.id_short
@@ -118,7 +118,7 @@ def test_005b_put_shells_with_id(wrapper: SdkWrapper, shared_aas: model.AssetAdm
     assert not result
 
 def test_006_get_shells_reference_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    reference = wrapper.get_shells_reference_by_id(shared_aas.id)
+    reference = wrapper.get_asset_administration_shell_by_id_reference(shared_aas.id)
 
     # Basyx java server do not provide this endpoint. But works because of workaround in wrapper
     assert reference is not None
@@ -155,14 +155,14 @@ def test_010_get_shells_submodels_by_id(wrapper: SdkWrapper, shared_aas: model.A
     assert submodel is None
     
 def test_011a_get_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    submodel = wrapper.get_submodels_by_id(shared_sm.id)
+    submodel = wrapper.get_submodel_by_id(shared_sm.id)
 
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
     
 def test_011b_get_submodels_by_id_not_found(wrapper: SdkWrapper):
-    result = wrapper.get_submodels_by_id("non_existent_id")
+    result = wrapper.get_submodel_by_id("non_existent_id")
 
     assert result is None
  
@@ -201,7 +201,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
 
     assert result
     
-    submodel = wrapper.get_submodels_by_id(shared_sm.id)
+    submodel = wrapper.get_submodel_by_id(shared_sm.id)
     assert submodel is not None
     assert submodel.id_short == shared_sm.id_short
     assert submodel.id == shared_sm.id
@@ -241,16 +241,16 @@ def test_016_post_submodels_submodel_elements(wrapper: SdkWrapper, shared_sm: mo
     assert len(submodel_elements) == 1    
     
 def test_098_delete_shells_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
-    result = wrapper.delete_shells_by_id(shared_aas.id)
+    result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)
     
     assert result
     
-    shells = wrapper.get_shells()
+    shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
     assert len(shells) == 0
         
 def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    result = wrapper.delete_submodels_by_id(shared_sm.id)
+    result = wrapper.delete_submodel_by_id(shared_sm.id)
     
     assert result
     

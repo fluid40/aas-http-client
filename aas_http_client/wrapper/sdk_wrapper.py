@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 class SdkWrapper():
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
     _client: AasHttpClient = None  
+    base_url: str = ""   
 
 # region shells
 
@@ -47,12 +48,12 @@ class SdkWrapper():
         sm_data = _to_dict(submodel)
         return self._client.put_shells_submodels_by_id(aas_id, submodel_id, sm_data)
 
-    def get_shells(self) -> list[model.AssetAdministrationShell] | None:
-        """Get all Asset Administration Shells (AAS) from the REST API.
+    def get_all_asset_administration_shells(self) -> list[model.AssetAdministrationShell] | None:
+        """Returns all Asset Administration Shells.
 
         :return: AAS objects or None if an error occurred
         """
-        content: dict = self._client.get_shells()
+        content: dict = self._client.get_all_asset_administration_shells()
         
         if not content:
             return None
@@ -76,13 +77,13 @@ class SdkWrapper():
 
         return aas_list
 
-    def get_shells_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
-        """Get an Asset Administration Shell (AAS) by its ID from the REST API.
-
+    def get_asset_administration_shell_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
+        """Returns a specific Asset Administration Shell.
+        
         :param aas_id: ID of the AAS to retrieve
         :return: AAS object or None if an error occurred
         """
-        content: dict = self._client.get_shells_by_id(aas_id)
+        content: dict = self._client.get_asset_administration_shell_by_id(aas_id)
         
         if not content:
             logger.warning(f"No shell found with ID '{aas_id}' on server.")
@@ -90,9 +91,9 @@ class SdkWrapper():
         
         return _to_object(content)
 
-    def get_shells_reference_by_id(self, aas_id: str) -> model.Reference | None:
+    def get_asset_administration_shell_by_id_reference(self, aas_id: str) -> model.Reference | None:
         #workaround because serialization not working
-        aas = self.get_shells_by_id(aas_id)
+        aas = self.get_asset_administration_shell_by_id(aas_id)
         return model.ModelReference.from_referable(aas)
         
         # content: dict = self._client.get_shells_reference_by_id(aas_id)
@@ -108,13 +109,13 @@ class SdkWrapper():
         content: dict = self._client.get_shells_submodels_by_id(aas_id, submodel_id)
         return _to_object(content)
 
-    def delete_shells_by_id(self, aas_id: str) -> bool:
-        """Get an Asset Administration Shell (AAS) by its ID from the REST API.
+    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
+        """Deletes an Asset Administration Shell.
 
         :param aas_id: ID of the AAS to retrieve
         :return: True if the deletion was successful, False otherwise
         """
-        return self._client.delete_shells_by_id(aas_id)
+        return self._client.delete_asset_administration_shell_by_id(aas_id)
 
 # endregion
 
@@ -140,12 +141,12 @@ class SdkWrapper():
         sm_data = _to_dict(submodel)
         return self._client.put_submodels_by_id(identifier, sm_data)
 
-    def get_submodels(self) -> list[model.Submodel] | None:
-        """Get all submodels from the REST API.
+    def get_all_submodels(self) -> list[model.Submodel] | None:
+        """Returns all Submodels.
 
         :return: Submodel objects or None if an error occurred
         """
-        content: list = self._client.get_submodels()
+        content: list = self._client.get_all_submodels()
 
         if not content:
             return []
@@ -169,8 +170,8 @@ class SdkWrapper():
 
         return submodels
 
-    def get_submodels_by_id(self, submodel_id: str) -> model.Submodel | None:
-        """Get a submodel by its ID from the REST API.
+    def get_submodel_by_id(self, submodel_id: str) -> model.Submodel | None:
+        """Returns a specific Submodel.
 
         :param submodel_id: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
@@ -187,13 +188,13 @@ class SdkWrapper():
         sm_data = _to_dict(submodel)
         return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
-    def delete_submodels_by_id(self, submodel_id: str) -> bool:
-        """Delete a submodel by its ID from the REST API.
+    def delete_submodel_by_id(self, submodel_id: str) -> bool:
+        """Deletes a Submodel.
 
         :param submodel_id: ID of the submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
-        return self._client.delete_submodels_by_id(submodel_id)
+        return self._client.delete_submodel_by_id(submodel_id)
 
     def get_submodels_submodel_elements(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
         """Returns all Submodel elements including their hierarchy.
@@ -300,7 +301,8 @@ def create_wrapper_by_url(
     if not client:
         return None
     
-    wrapper._client = client          
+    wrapper._client = client
+    wrapper.base_url = client.base_url      
     return wrapper
     
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
@@ -324,7 +326,8 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
     if not client:
         return None
     
-    wrapper._client = client       
+    wrapper._client = client  
+    wrapper.base_url = client.base_url             
     return wrapper
 
 # endregion
