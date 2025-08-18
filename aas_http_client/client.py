@@ -317,7 +317,7 @@ class AasHttpClient(BaseModel):
 
 # region submodels
 
-    def post_submodels(self, submodel_data: dict) -> dict:
+    def post_submodels(self, submodel_data: dict) -> dict | None:
         """Create a new Submodel.
 
         :param Submodel_data: Json data of the Submodel to post
@@ -331,11 +331,11 @@ class AasHttpClient(BaseModel):
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
                 log_response_errors(response)
-                return False
+                return None
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
-            return False
+            return None
 
         content = response.content.decode("utf-8")
         return json.loads(content)
@@ -343,7 +343,7 @@ class AasHttpClient(BaseModel):
     def put_submodels_by_id(self, identifier: str, submodel_data: dict) -> bool:
         """Updates a existing Submodel.
 
-        :param identifier: Encoded ID of the submodel to update
+        :param identifier: Encoded ID of the Submodel to update
         :param submodel_data: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
@@ -365,7 +365,7 @@ class AasHttpClient(BaseModel):
         return True
 
     def get_submodels(self) -> list[dict] | None:
-        """Get all submodels from the REST API.
+        """Returns all Submodels
 
         :return: List of Submodel data or None if an error occurred
         """
@@ -387,9 +387,9 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     def get_submodels_by_id(self, submodel_id: str) -> dict | None:
-        """Get a submodel by its ID from the REST API.
+        """Returns a specific Submodel.
 
-        :param submodel_id: Encoded ID of the submodel to retrieve
+        :param submodel_id: Encoded ID of the Submodel to retrieve
         :return: Submodel data or None if an error occurred
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
@@ -411,9 +411,9 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel_data: dict) -> bool:
-        """Update a submodel by its ID in the REST API.
+        """Updates an existing Submodel
 
-        :param submodel_id: Encoded ID of the submodel to delete
+        :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
@@ -434,9 +434,9 @@ class AasHttpClient(BaseModel):
         return True
 
     def delete_submodels_by_id(self, submodel_id: str) -> bool:
-        """Delete a submodel by its ID from the REST API.
+        """Deletes a existing Submodel.
 
-        :param submodel_id: Encoded ID of the submodel to delete
+        :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
@@ -457,9 +457,9 @@ class AasHttpClient(BaseModel):
         return True
 
     def get_submodels_submodel_elements(self, submodel_id: str) -> list[dict] | None:
-        """Get all elements of a submodel by its ID from the REST API.
+        """Returns all Submodel elements including their hierarchy.
 
-        :param submodel_id: Encoded ID of the submodel to retrieve elements from
+        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel element data or None if an error occurred
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
@@ -481,9 +481,9 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     def post_submodels_submodel_elements(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
-        """Create a new submodel element.
+        """Create a new Submodel element.
 
-        :param submodel_id: Encoded ID of the submodel to create elements for
+        :param submodel_id: Encoded ID of the Submodel to create elements for
         :return: Submodel element data or None if an error occurred
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)

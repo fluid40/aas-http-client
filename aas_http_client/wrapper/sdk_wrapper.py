@@ -17,14 +17,15 @@ class SdkWrapper():
 
 # region shells
 
-    def post_shells(self, aas: model.AssetAdministrationShell) -> dict | None:
+    def post_shells(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
         """Post an Asset Administration Shell (AAS) to the REST API.
 
         :param aas: Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
         aas_data = _to_dict(aas)
-        return self._client.post_shells(aas_data)
+        content: dict = self._client.post_shells(aas_data)
+        return _to_object(content)
 
     def put_shells(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
         """Update an Asset Administration Shell (AAS) by its ID in the REST API.
@@ -119,14 +120,15 @@ class SdkWrapper():
 
 # region submodels
 
-    def post_submodels(self, submodel: model.Submodel) -> bool:
+    def post_submodels(self, submodel: model.Submodel) -> model.Submodel | None:
         """Post a submodel to the REST API.
 
         :param submodel: submodel data as a dictionary
         :return: Response data as a dictionary or None if an error occurred
         """
         sm_data = _to_dict(submodel)
-        return self._client.post_submodels(sm_data)
+        content: dict = self._client.post_submodels(sm_data)
+        return _to_object(content)
 
     def put_submodels_by_id(self, identifier: str, submodel: model.Submodel) -> bool:
         """Update a submodel by its ID in the REST API.
@@ -193,15 +195,49 @@ class SdkWrapper():
         """
         return self._client.delete_submodels_by_id(submodel_id)
 
-    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element: model.SubmodelElement) -> list[dict] | None:
-        """Create a new submodel element.
+    def get_submodels_submodel_elements(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
+        """Returns all Submodel elements including their hierarchy.
+        !!! Serialization to model.SubmodelElement currently not possible
 
+        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
+        :return: List of Submodel elements or None if an error occurred
+        """
+        content = self._client.get_submodels_submodel_elements(submodel_id)
+        
+        if not content:
+            return []
+
+        results: list = content.get("result", [])
+        if not results:
+            logger.warning("No submodels found on server.")
+            return []
+
+        submodel_elements: list[model.SubmodelElement] = []
+
+        for result in results:
+            if not isinstance(result, dict):
+                logger.error(f"Invalid submodel data: {result}")
+                return None
+
+            submodel_element = _to_object(result)
+
+            if submodel_element:
+                submodel_elements.append(submodel_element)
+
+        return submodel_elements
+
+    def post_submodels_submodel_elements(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
+        """Create a new submodel element.
+        !!! Serialization to model.SubmodelElements currently not possible
+        
         :param submodel_id: Encoded ID of the submodel to create elements for
         :param submodel_element: Submodel element to create
         :return: List of submodel element objects or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        return self._client.post_submodels_submodel_elements(submodel_id, sme_data)
+        content: dict = self._client.post_submodels_submodel_elements(submodel_id, sme_data)
+        return _to_object(content)
+
 
 # endregion
 
