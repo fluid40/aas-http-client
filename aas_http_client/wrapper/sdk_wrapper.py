@@ -176,7 +176,7 @@ class SdkWrapper():
         :param submodel_id: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        content = self._client.get_submodels_by_id(submodel_id)
+        content = self._client.get_submodel_by_id(submodel_id)
 
         if not content:
             logger.warning(f"No submodel found with ID '{submodel_id}' on server.")

@@ -131,7 +131,7 @@ def test_007_get_shells_submodels_by_id_not_posted(wrapper: SdkWrapper, shared_a
     assert submodel is None
     
 def test_008_get_submodels(wrapper: SdkWrapper):
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 0
     
@@ -142,7 +142,7 @@ def test_009_post_submodels(wrapper: SdkWrapper, shared_sm: model.Submodel):
     assert submodel.id == shared_sm.id
     assert submodel.id_short == shared_sm.id_short
     
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 1
     assert submodels[0].id_short == shared_sm.id_short
@@ -254,6 +254,6 @@ def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submode
     
     assert result
     
-    submodels = wrapper.get_submodels()
+    submodels = wrapper.get_all_submodels()
     assert submodels is not None
     assert len(submodels) == 0

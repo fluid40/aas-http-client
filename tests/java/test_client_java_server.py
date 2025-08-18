@@ -60,7 +60,7 @@ def test_003_post_shells(client: AasHttpClient, shared_aas: model.AssetAdministr
     
     assert result is not None
     result_id_short = result.get("idShort", "")
-    assert result_id_short == shared_aas.id_short
+    assert result_id_short == shared_aas.id_short 
     
     get_result = client.get_all_asset_administration_shells()
     assert get_result is not None
@@ -165,14 +165,14 @@ def test_010_get_shells_submodels_by_id(client: AasHttpClient, shared_aas: model
     assert result is None
     
 def test_011a_get_submodels_by_id(client: AasHttpClient, shared_sm: model.Submodel):
-    result = client.get_submodels_by_id(shared_sm.id)
+    result = client.get_submodel_by_id(shared_sm.id)
 
     assert result is not None
     result_id_short = result.get("idShort", "")
     assert result_id_short == shared_sm.id_short
     
 def test_011b_get_submodels_by_id_not_found(client: AasHttpClient):
-    result = client.get_submodels_by_id("non_existent_id")
+    result = client.get_submodel_by_id("non_existent_id")
 
     assert result is None
  
@@ -220,7 +220,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     
     assert result
     
-    get_result = client.get_submodels_by_id(shared_sm.id)
+    get_result = client.get_submodel_by_id(shared_sm.id)
     assert get_result is not None
     assert get_result.get("idShort", "") == shared_sm.id_short
     assert get_result.get("id", "") == shared_sm.id
