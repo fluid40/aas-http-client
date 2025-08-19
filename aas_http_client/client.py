@@ -1,4 +1,5 @@
 """Client for HTTP API communication with AAS server."""
+
 import json
 import logging
 import time
@@ -8,11 +9,12 @@ import basyx.aas.adapter.json
 import basyx.aas.adapter.json.json_serialization as js
 import requests
 from basyx.aas.model import Reference, Submodel
-from aas_http_client.core.encoder import decode_base_64
 from pydantic import BaseModel, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 from requests.models import Response
+
+from aas_http_client.core.encoder import decode_base_64
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +57,7 @@ def log_response_errors(response: Response):
                     result_error_messages.append(str(message))
         elif "error" in response_content_dict:
             result_error_messages.append(response_content_dict.get("error", ""))
-        
+
         if len(result_error_messages) == 0 and response.text:
             result_error_messages.append(response.text)
 
@@ -121,7 +123,7 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-# region shells
+    # region shells
 
     def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
         """Creates a new Asset Administration Shell.
@@ -133,7 +135,9 @@ class AasHttpClient(BaseModel):
         logger.debug(f"Call REST API url '{url}'")
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.post(
+                url, headers=HEADERS, json=aas_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -147,7 +151,9 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def put_asset_administration_shell_by_id(self, identifier: str, aas_data: dict) -> bool:
+    def put_asset_administration_shell_by_id(
+        self, identifier: str, aas_data: dict
+    ) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
         :param identifier: Identifier of the AAS to update
@@ -158,7 +164,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.put(
+                url, headers=HEADERS, json=aas_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code is not STATUS_CODE_204:
@@ -171,7 +179,9 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
+    def put_submodel_by_id_aas_repository(
+        self, aas_id: str, submodel_id: str, submodel_data: dict
+    ) -> bool:
         """Updates the Submodel.
 
         :param aas_id: ID of the AAS to update the submodel for
@@ -183,7 +193,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(
+                url, headers=HEADERS, json=submodel_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -242,8 +254,9 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-
-    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> Reference | None:
+    def get_asset_administration_shell_by_id_reference_aas_repository(
+        self, aas_id: str
+    ) -> Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
         :param aas_id: ID of the AAS reference to retrieve
@@ -265,9 +278,13 @@ class AasHttpClient(BaseModel):
             return None
 
         ref_dict_string = response.content.decode("utf-8")
-        return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return json.loads(
+            ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder
+        )
 
-    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    def get_submodel_by_id_aas_repository(
+        self, aas_id: str, submodel_id: str
+    ) -> Submodel | None:
         """Returns the Submodel.
 
         :param aas_id: ID of the AAS to retrieve the submodel from
@@ -278,7 +295,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
-        #/shells/{aasIdentifier}/submodels/{submodelIdentifier}
+        # /shells/{aasIdentifier}/submodels/{submodelIdentifier}
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -318,9 +335,9 @@ class AasHttpClient(BaseModel):
 
         return True
 
-# endregion
+    # endregion
 
-# region submodels
+    # region submodels
 
     def post_submodel(self, submodel_data: dict) -> dict | None:
         """Creates a new Submodel.
@@ -331,7 +348,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/submodels"
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.post(
+                url, headers=HEADERS, json=submodel_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -356,7 +375,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/submodels/{decoded_identifier}"
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(
+                url, headers=HEADERS, json=submodel_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -425,7 +446,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
         try:
-            response = self._session.patch(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.patch(
+                url, headers=HEADERS, json=submodel_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -461,7 +484,9 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_all_submodel_elements_submodel_repository(self, submodel_id: str) -> list[dict] | None:
+    def get_all_submodel_elements_submodel_repository(
+        self, submodel_id: str
+    ) -> list[dict] | None:
         """Returns all submodel elements including their hierarchy.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
@@ -485,7 +510,9 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
+    def post_submodel_element_submodel_repo(
+        self, submodel_id: str, submodel_element_data: dict
+    ) -> dict | None:
         """Creates a new submodel element.
 
         :param submodel_id: Encoded ID of the Submodel to create elements for
@@ -495,7 +522,9 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
+            response = self._session.post(
+                url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out
+            )
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -509,9 +538,11 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
+
 # endregion
 
 # region client
+
 
 def create_client_by_url(
     base_url: str,
@@ -547,7 +578,10 @@ def create_client_by_url(
     config_string = json.dumps(config_dict, indent=4)
     return _create_client(config_string, password)
 
-def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
+
+def create_client_by_config(
+    config_file: Path, password: str = ""
+) -> AasHttpClient | None:
     """Create a AAS HTTP client from the given parameters.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
@@ -558,12 +592,15 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
     logger.info(f"Create AAS HTTP client from Configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
-        logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
+        logger.warning(
+            f"Configuration file '{config_file}' not found. Using default configuration."
+        )
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration  file '{config_file}' found.")
 
     return _create_client(config_string, password)
+
 
 def _create_client(config_string: str, password) -> AasHttpClient | None:
     try:
@@ -590,23 +627,31 @@ def _create_client(config_string: str, password) -> AasHttpClient | None:
 
     return client
 
+
 def _connect_to_api(client: AasHttpClient) -> bool:
     start_time = time.time()
-    logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds")
+    logger.debug(
+        f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds"
+    )
     counter: int = 0
     while True:
         try:
             root = client.get_root()
             if root:
-                logger.info(f"Connected to server API at '{client.base_url}' successfully.")
+                logger.info(
+                    f"Connected to server API at '{client.base_url}' successfully."
+                )
                 return True
         except requests.exceptions.ConnectionError:
             pass
         if time.time() - start_time > client.connection_time_out:
-            raise TimeoutError(f"Connection to server API timed out after {client.connection_time_out} seconds.")
+            raise TimeoutError(
+                f"Connection to server API timed out after {client.connection_time_out} seconds."
+            )
 
         counter += 1
         logger.warning(f"Retrying connection (attempt: {counter})")
         time.sleep(1)
+
 
 # endregion
