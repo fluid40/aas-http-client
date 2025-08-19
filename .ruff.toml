@@ -102,6 +102,7 @@ ignore = [
     "PLC1901", # {existing} can be simplified to {replacement} as an empty string is falsey
     "PLR2004", # Checks for the use of unnamed numerical constants ("magic") values in comparisons
     "BLE001",  # Check for generic exceptions
+    "D401",    # Imperative docstring
 ]
 
 # allow autofix for all enabled rules (when `--fix`) is provided.
