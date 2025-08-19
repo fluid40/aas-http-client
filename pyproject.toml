@@ -8,10 +8,12 @@ version = "0.2.6"
 description = "Generic python HTTP client for communication with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
-authors = [
-  { name = "Daniel Klein", email = "daniel.klein@em.ag" }
-]
+authors = [{ name = "Daniel Klein", email = "daniel.klein@em.ag" }]
 dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/fluid40/aas-http-client"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"

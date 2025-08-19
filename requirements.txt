@@ -5,4 +5,6 @@ requests>=2.32.3
 pytest>=8.3.5
 pytest-cov>=6.1.1
 build>=1.2.2
-python-json-logger
+python-json-logger>=3.3.0
+pre_commit>=4.3.0
+commitizen>=4.8.3
