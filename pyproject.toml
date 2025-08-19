@@ -19,5 +19,4 @@ name = "cz_conventional_commits"
 version = "0.1.0"
 
 [tool.commitizen.branch]
-# Regex für erlaubte Branch-Namen
-allowed = "^(main|master|develop|feature/.*|fix/.*)$"
+allowed = "^(main|master|develop|feature/.*|fix/.*|hotfix/.*)$"

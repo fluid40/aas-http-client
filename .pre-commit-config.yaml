@@ -4,9 +4,7 @@ default_stages: [pre-commit, manual, pre-push]
 exclude: "(^.*tests/.*$)"
 
 repos:
-
-# conventional commits
-
+  # conventional commits
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v4.8.3
     hooks:
