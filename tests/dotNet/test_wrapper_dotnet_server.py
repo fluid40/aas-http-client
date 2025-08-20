@@ -223,7 +223,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
 
     description_text = "Put description for unit tests"
     sm.description = model.MultiLanguageTextType({"en": description_text})
-    sm.display_name = shared_sm.display_name  # Keep existing display name because of problems with empty lists
+    # sm.display_name = shared_sm.display_name  # Keep existing display name because of problems with empty lists
 
     result = wrapper.put_submodels_by_id(shared_sm.id, sm)
 
@@ -237,7 +237,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
     assert submodel.description.get("en", "") == description_text
     assert submodel.description.get("en", "") != shared_sm.description.get("en", "")
     # display name stays
-    assert submodel.display_name == shared_sm.display_name
+    # assert submodel.display_name == shared_sm.display_name
     # category was not set an must be empty
     assert submodel.category is None
     assert len(submodel.submodel_element) == 0

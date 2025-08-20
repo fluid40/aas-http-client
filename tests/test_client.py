@@ -6,6 +6,8 @@ import aas_http_client.utilities.model_builder as model_builder
 import json
 import basyx.aas.adapter.json
 
+JAVA_SERVER_PORT = "8075"
+
 CONFIG_FILES = [
     "./tests/server_configs/test_dotnet_server_config.json",
     "./tests/server_configs/test_java_server_config.json"
@@ -134,10 +136,14 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
 def test_006_get_asset_administration_shell_by_id_reference_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.get_asset_administration_shell_by_id_reference_aas_repository(shared_aas.id)
 
-    assert result is not None
-    keys = result.get("keys", [])
-    assert len(keys) == 1
-    assert keys[0].get("value", "") == shared_aas.id
+    if JAVA_SERVER_PORT in client.base_url:
+        # Basyx java server do not provide this endpoint
+        assert result is None
+    else:
+        assert result is not None
+        keys = result.get("keys", [])
+        assert len(keys) == 1
+        assert keys[0].get("value", "") == shared_aas.id
 
 def test_007_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
@@ -169,9 +175,13 @@ def test_009_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
 def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
-    assert result is not None
-    result_id_short = result.get("idShort", "")
-    assert result_id_short == shared_sm.id_short
+    if JAVA_SERVER_PORT in client.base_url:
+        # Basyx java server do not provide this endpoint
+        assert result is None
+    else:
+        assert result is not None
+        result_id_short = result.get("idShort", "")
+        assert result_id_short == shared_sm.id_short
 
 def test_011a_get_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     result = client.get_submodel_by_id(shared_sm.id)
@@ -197,17 +207,21 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
 
     result = client.patch_submodel_by_id(shared_sm.id, sm_data)
 
-    assert result
+    if JAVA_SERVER_PORT in client.base_url:
+        # Basyx java server do not provide this endpoint
+        assert not result
+    else:
+        assert result
 
-    get_result = client.get_submodel_by_id(shared_sm.id)
-    assert get_result is not None
-    assert get_result.get("idShort", "") == shared_sm.id_short
-    assert get_result.get("id", "") == shared_sm.id
-    # Only the description may change in patch.
-    assert get_result.get("description", {})[0].get("text", "") == description_text
-    assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
-    # The display name must remain the same.
-    assert get_result.get("displayName", {})[0].get("text", "") == shared_sm.display_name.get("en", "")
+        get_result = client.get_submodel_by_id(shared_sm.id)
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sm.id_short
+        assert get_result.get("id", "") == shared_sm.id
+        # Only the description may change in patch.
+        assert get_result.get("description", {})[0].get("text", "") == description_text
+        assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
+        # The display name must remain the same.
+        assert get_result.get("displayName", {})[0].get("text", "") == shared_sm.display_name.get("en", "")
 
 def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -221,16 +235,20 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas
 
     result = client.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm_data)
 
-    assert result
+    if JAVA_SERVER_PORT in client.base_url:
+        # Basyx java server do not provide this endpoint
+        assert not result
+    else:
+        assert result
 
-    get_result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
-    assert get_result is not None
-    assert get_result.get("idShort", "") == shared_sm.id_short
-    assert get_result.get("id", "") == shared_sm.id
-    # description must have changed
-    assert get_result.get("description", {})[0].get("text", "") == description_text
-    assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
-    assert len(get_result.get("displayName", {})) == 0
+        get_result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sm.id_short
+        assert get_result.get("id", "") == shared_sm.id
+        # description must have changed
+        assert get_result.get("description", {})[0].get("text", "") == description_text
+        assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
+        assert len(get_result.get("displayName", {})) == 0
 
     # restore to its original state
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)

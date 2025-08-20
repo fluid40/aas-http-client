@@ -6,17 +6,20 @@ from pathlib import Path
 from typing import Any
 
 import basyx.aas.adapter.json
-
 from basyx.aas import model
+
 from aas_http_client.client import AasHttpClient, _create_client
+
 logger = logging.getLogger(__name__)
 
-class SdkWrapper():
-    """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
-    _client: AasHttpClient = None  
-    base_url: str = ""   
 
-# region shells
+class SdkWrapper:
+    """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
+
+    _client: AasHttpClient = None
+    base_url: str = ""
+
+    # region shells
 
     def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
         """Creates a new Asset Administration Shell.
@@ -54,7 +57,7 @@ class SdkWrapper():
         :return: Asset Administration Shells objects or None if an error occurred
         """
         content: dict = self._client.get_all_asset_administration_shells()
-        
+
         if not content:
             return None
 
@@ -79,16 +82,16 @@ class SdkWrapper():
 
     def get_asset_administration_shell_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
         """Returns a specific Asset Administration Shell.
-        
+
         :param aas_id: ID of the AAS to retrieve
         :return: Asset Administration Shells object or None if an error occurred
         """
         content: dict = self._client.get_asset_administration_shell_by_id(aas_id)
-        
+
         if not content:
             logger.warning(f"No shell found with ID '{aas_id}' on server.")
             return None
-        
+
         return _to_object(content)
 
     def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> model.Reference | None:
@@ -97,12 +100,12 @@ class SdkWrapper():
         :param aas_id: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference object or None if an error occurred
         """
-        #workaround because serialization not working
-        aas = self.get_asset_administration_shell_by_id(aas_id)
-        return model.ModelReference.from_referable(aas)
-        
-        # content: dict = self._client.get_shells_reference_by_id(aas_id)
-        # return json.loads(content, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        # workaround because serialization not working
+        # aas = self.get_asset_administration_shell_by_id(aas_id)
+        # return model.ModelReference.from_referable(aas)
+
+        content: dict = self._client.get_asset_administration_shell_by_id_reference_aas_repository(aas_id)
+        return _to_object(content)
 
     def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
         """Returns the Submodel.
@@ -122,9 +125,9 @@ class SdkWrapper():
         """
         return self._client.delete_asset_administration_shell_by_id(aas_id)
 
-# endregion
+    # endregion
 
-# region submodels
+    # region submodels
 
     def post_submodel(self, submodel: model.Submodel) -> model.Submodel | None:
         """Creates a new Submodel.
@@ -186,15 +189,15 @@ class SdkWrapper():
         if not content:
             logger.warning(f"No submodel found with ID '{submodel_id}' on server.")
             return None
-        
+
         return _to_object(content)
 
     def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
-        """Updates an existing Submodel
+        """Updates an existing Submodel.
 
         :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
-        """        
+        """
         sm_data = _to_dict(submodel)
         return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
@@ -206,15 +209,17 @@ class SdkWrapper():
         """
         return self._client.delete_submodel_by_id(submodel_id)
 
-    def get_all_submodel_elements_submodel_repository(self, submodel_id: str, ) -> list[model.SubmodelElement] | None:
-        """Returns all submodel elements including their hierarchy.
-        !!! Serialization to model.SubmodelElement currently not possible
+    def get_all_submodel_elements_submodel_repository(
+        self,
+        submodel_id: str,
+    ) -> list[model.SubmodelElement] | None:
+        """Returns all submodel elements including their hierarchy. !!!Serialization to model.SubmodelElement currently not possible.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel elements or None if an error occurred
         """
         content = self._client.get_all_submodel_elements_submodel_repository(submodel_id)
-        
+
         if not content:
             return []
 
@@ -238,9 +243,8 @@ class SdkWrapper():
         return submodel_elements
 
     def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
-        """Creates a new submodel element.
-        !!! Serialization to model.SubmodelElements currently not possible
-        
+        """Creates a new submodel element. !!!Serialization to model.SubmodelElements currently not possible.
+
         :param submodel_id: Encoded ID of the submodel to create elements for
         :param submodel_element: Submodel element to create
         :return: List of submodel element objects or None if an error occurred
@@ -252,6 +256,7 @@ class SdkWrapper():
 
 # endregion
 
+
 def _to_object(content: dict) -> Any | None:
     try:
         dict_string = json.dumps(content)
@@ -260,7 +265,8 @@ def _to_object(content: dict) -> Any | None:
         logger.error(f"Decoding error: {e}")
         logger.error(f"In JSON: {content}")
         return None
-    
+
+
 def _to_dict(object: Any) -> dict | None:
     try:
         data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
@@ -268,9 +274,11 @@ def _to_dict(object: Any) -> dict | None:
     except Exception as e:
         logger.error(f"Encoding error: {e}")
         logger.error(f"In object: {object}")
-        return None    
+        return None
+
 
 # region wrapper
+
 
 def create_wrapper_by_url(
     base_url: str,
@@ -304,17 +312,18 @@ def create_wrapper_by_url(
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
     config_string = json.dumps(config_dict, indent=4)
-    
+
     wrapper = SdkWrapper()
-    client = _create_client(config_string, password)      
-    
+    client = _create_client(config_string, password)
+
     if not client:
         return None
-    
+
     wrapper._client = client
-    wrapper.base_url = client.base_url      
+    wrapper.base_url = client.base_url
     return wrapper
-    
+
+
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
     """Create a wrapper for the BaSyx Python SDK from the given parameters.
 
@@ -332,12 +341,13 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
 
     wrapper = SdkWrapper()
     client = _create_client(config_string, password)
-    
+
     if not client:
         return None
-    
-    wrapper._client = client  
-    wrapper.base_url = client.base_url             
+
+    wrapper._client = client
+    wrapper.base_url = client.base_url
     return wrapper
+
 
 # endregion

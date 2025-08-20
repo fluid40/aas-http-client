@@ -27,8 +27,8 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-  Tests_Java_Server:
-    name: Tests for Java Server
+  Tests_client:
+    name: Tests for HTTP client
     runs-on: ubuntu-latest
 
     services:
@@ -39,6 +39,11 @@ jobs:
         env:
           SERVER_PORT: 8075
           SERVER_HOST: javaaasserver
+
+      dotnet_aas_server:
+        image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
+        ports:
+          - 5043:5043
 
     steps:
       - name: Checkout code
@@ -69,7 +74,7 @@ jobs:
       - name: Run tests
         env:
           SERVER_URL: http://localhost:8075
-        run: pytest -v tests/java/*.py
+        run: pytest -v tests/test_client.py
 
   Tests_dotNet_Server:
     name: Tests for dotNet Server
@@ -116,7 +121,7 @@ jobs:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
-    needs: [Tests_Java_Server, Tests_dotNet_Server, Detect_Project_Changes]
+    needs: [Tests_client, Tests_dotNet_Server, Detect_Project_Changes]
 
     steps:
       - uses: actions/checkout@v4

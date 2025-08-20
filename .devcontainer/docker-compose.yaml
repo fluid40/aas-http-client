@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   dev_container:
     build: .
@@ -7,10 +8,11 @@ services:
     command: sleep infinity
     networks:
       - bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   java_aas_server:
     image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
-    # Java server do not accept '_' in container names
     container_name: javaaasserver
     networks:
       - bridge
