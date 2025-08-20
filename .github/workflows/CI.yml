@@ -27,8 +27,8 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-  Tests_client:
-    name: Tests for HTTP client
+  Start_Servers:
+    name: Start ass server container
     runs-on: ubuntu-latest
 
     services:
@@ -44,6 +44,10 @@ jobs:
         image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
         ports:
           - 5043:5043
+
+  Tests_client:
+    name: Tests for HTTP client
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
