@@ -4,9 +4,10 @@ Provides some helper methods for easier work with basyx sdk data model
 """
 
 import uuid
+from typing import Any
 
 from basyx.aas import model
-from typing import Any
+
 
 def create_unique_short_id(id_short: str) -> str:
     """Generate a unique identifier string by appending a UUID to the provided ID short.
@@ -16,41 +17,39 @@ def create_unique_short_id(id_short: str) -> str:
     """
     return f"{id_short}_{str(uuid.uuid4()).replace('-', '_')}"
 
-def create_base_submodel_element_Property(id_short: str, type: model.datatypes, value: Any, display_name: str = "", description: str = "") -> model.Property:
-    """Create a basic Property Submodel Element.
-    """
-    sme = model.Property(
-        id_short=id_short, 
-        value_type=type,
-        value=value)     
-    
+
+def create_base_submodel_element_Property(
+    id_short: str, type: model.datatypes, value: Any, display_name: str = "", description: str = ""
+) -> model.Property:
+    """Create a basic Property Submodel Element."""
+    sme = model.Property(id_short=id_short, value_type=type, value=value)
+
     if not description:
         description = f"This is the submodel element with ID short '{id_short}'"
 
     description_text = {"en": f"{description}"}
     sme.description = model.MultiLanguageTextType(description_text)
-    
+
     if not display_name:
         display_name = "POC Submodel Element"
 
     display_name_text = {"en": f"{display_name}"}
     sme.display_name = model.MultiLanguageTextType(display_name_text)
-    
+
     return sme
 
-def create_base_submodel(id_short: str, namespace: str = "basyx_python_aas_server", display_name: str = "", description: str = "") -> model.Submodel:
+
+def create_base_submodel(id_short: str, namespace: str = "fluid40", display_name: str = "", description: str = "") -> model.Submodel:
     """Create a basic Submodel.
 
     :param id_short: ID short of the Submodel
-    :param namespace: namespace of the Submodel , defaults to "basyx_python_aas_server"
+    :param namespace: namespace of the Submodel , defaults to "fluid40"
     :param display_name: display name of the Submodel, defaults to ""
     :param description: description of the Submodel, defaults to ""
     :return: Submodel instance
     """
-    if namespace:
-        identifier = f"{namespace}/{id_short}"
-    else:   
-        identifier = id_short
+    identifier = f"{namespace}/{id_short}" if namespace else id_short
+
     sm = model.Submodel(identifier)
     sm.id_short = id_short
 
@@ -69,9 +68,7 @@ def create_base_submodel(id_short: str, namespace: str = "basyx_python_aas_serve
     return sm
 
 
-def create_base_ass(
-    id_short: str, namespace: str = "basyx_python_aas_server", display_name: str = "", description: str = ""
-) -> model.AssetAdministrationShell:
+def create_base_ass(id_short: str, namespace: str = "fluid40", display_name: str = "", description: str = "") -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
     :param id_short: ID short of the AAS
@@ -117,10 +114,7 @@ def create_base_asset_information(id_short: str, namespace: str = "basyx_python_
     :param namespace: namespace of the AssetInformation, defaults to "basyx_python_aas_server"
     :return: AssetInformation instance
     """
-    if namespace:
-        identifier = f"{namespace}/{id_short}"
-    else:   
-        identifier = id_short
+    identifier = f"{namespace}/{id_short}" if namespace else id_short
     return model.AssetInformation(model.AssetKind.INSTANCE, identifier)
 
 
