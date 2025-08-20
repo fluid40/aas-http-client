@@ -10,7 +10,8 @@ JAVA_SERVER_PORT = "8075"
 
 CONFIG_FILES = [
     "./tests/server_configs/test_dotnet_server_config.json",
-    "./tests/server_configs/test_java_server_config.json"
+    "./tests/server_configs/test_java_server_config.json",
+    "./tests/server_configs/test_python_server_config.json",
 ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
