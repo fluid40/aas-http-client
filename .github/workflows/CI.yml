@@ -45,6 +45,29 @@ jobs:
         ports:
           - 5043:5043
 
+    steps:
+      - name: Wait for Java server to be healthy
+        run: |
+          echo "Waiting for server..."
+          for i in {1..10}; do
+            if curl -sSf http://localhost:8075/shells > /dev/null; then
+              echo "Server is ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Wait for dotNet server to be healthy
+        run: |
+          echo "Waiting for server..."
+          for i in {1..10}; do
+            if curl -sSf http://localhost:5043/ > /dev/null; then
+              echo "Server is ready!"
+              break
+            fi
+            sleep 2
+          done
+
   Tests_client:
     name: Tests for HTTP client
     runs-on: ubuntu-latest
