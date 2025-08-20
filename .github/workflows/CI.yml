@@ -71,6 +71,7 @@ jobs:
   Tests_client:
     name: Tests for HTTP client
     runs-on: ubuntu-latest
+    needs: [Start_Servers]
 
     steps:
       - name: Checkout code
@@ -106,6 +107,7 @@ jobs:
   Tests_dotNet_Server:
     name: Tests for dotNet Server
     runs-on: ubuntu-latest
+    needs: [Start_Servers]
 
     steps:
       - name: Checkout code
