@@ -4,10 +4,17 @@ from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWra
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 
-@pytest.fixture(scope="module")
-def wrapper() -> SdkWrapper:
+JAVA_SERVER_PORT = "8075"
+
+CONFIG_FILES = [
+    "./tests/server_configs/test_dotnet_server_config.json",
+    "./tests/server_configs/test_java_server_config.json"
+]
+
+@pytest.fixture(params=CONFIG_FILES, scope="module")
+def wrapper(request) -> SdkWrapper:
     try:
-        file = Path("./tests/server_configs/test_dotnet_server_config.json").resolve()
+        file = Path(request.param).resolve()
 
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
@@ -151,9 +158,13 @@ def test_009_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
 def test_010_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
-    assert submodel is not None
-    assert submodel.id_short == shared_sm.id_short
-    assert submodel.id == shared_sm.id
+    if JAVA_SERVER_PORT in wrapper.base_url:
+        # Basyx java server do not provide this endpoint
+        assert submodel is None
+    else:
+        assert submodel is not None
+        assert submodel.id_short == shared_sm.id_short
+        assert submodel.id == shared_sm.id
 
 def test_011a_get_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     submodel = wrapper.get_submodel_by_id(shared_sm.id)
@@ -176,18 +187,22 @@ def test_012_patch_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel
 
     result = wrapper.patch_submodel_by_id(shared_sm.id, sm)
 
-    assert result
+    if JAVA_SERVER_PORT in wrapper.base_url:
+        # Basyx java server do not provide this endpoint
+        assert not result
+    else:
+        assert result
 
-    submodel = wrapper.get_submodel_by_id(shared_sm.id)
-    assert submodel is not None
-    assert submodel.id_short == shared_sm.id_short
-    assert submodel.id == shared_sm.id
-    # Only the description may change in patch.
-    assert submodel.description.get("en", "") == description_text
-    assert submodel.description.get("en", "") != shared_sm.description.get("en", "")
-    # The display name must remain the same.
-    assert submodel.display_name == shared_sm.display_name
-    assert len(submodel.submodel_element) == len(shared_sm.submodel_element)
+        submodel = wrapper.get_submodel_by_id(shared_sm.id)
+        assert submodel is not None
+        assert submodel.id_short == shared_sm.id_short
+        assert submodel.id == shared_sm.id
+        # Only the description may change in patch.
+        assert submodel.description.get("en", "") == description_text
+        assert submodel.description.get("en", "") != shared_sm.description.get("en", "")
+        # The display name must remain the same.
+        assert submodel.display_name == shared_sm.display_name
+        assert len(submodel.submodel_element) == len(shared_sm.submodel_element)
 
 def test_013_put_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -199,23 +214,27 @@ def test_013_put_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: 
 
     result = wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm)
 
-    assert result
+    if JAVA_SERVER_PORT in wrapper.base_url:
+        # Basyx java server do not provide this endpoint
+        assert not result
+    else:
+        assert result
 
-    submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
-    assert submodel is not None
-    assert submodel.id_short == shared_sm.id_short
-    assert submodel.id == shared_sm.id
-    # description must have changed
-    assert submodel.description.get("en", "") == description_text
-    assert submodel.description.get("en", "") != shared_sm.description.get("en", "")
-    # display name stays
-    assert submodel.display_name == shared_sm.display_name
-    # category was not set an must be empty
-    assert submodel.category is None
-    assert len(submodel.submodel_element) == 0
+        submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
+        assert submodel is not None
+        assert submodel.id_short == shared_sm.id_short
+        assert submodel.id == shared_sm.id
+        # description must have changed
+        assert submodel.description.get("en", "") == description_text
+        assert submodel.description.get("en", "") != shared_sm.description.get("en", "")
+        # display name stays
+        assert submodel.display_name == shared_sm.display_name
+        # category was not set an must be empty
+        assert submodel.category is None
+        assert len(submodel.submodel_element) == 0
 
-    # restore to its original state
-    wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, shared_sm)  # Restore original submodel
+        # restore to its original state
+        wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, shared_sm)  # Restore original submodel
 
 def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -223,7 +242,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
 
     description_text = "Put description for unit tests"
     sm.description = model.MultiLanguageTextType({"en": description_text})
-    # sm.display_name = shared_sm.display_name  # Keep existing display name because of problems with empty lists
+    sm.display_name = shared_sm.display_name  # Keep existing display name because of problems with empty lists
 
     result = wrapper.put_submodels_by_id(shared_sm.id, sm)
 

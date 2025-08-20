@@ -101,11 +101,11 @@ class SdkWrapper:
         :return: Asset Administration Shells reference object or None if an error occurred
         """
         # workaround because serialization not working
-        # aas = self.get_asset_administration_shell_by_id(aas_id)
-        # return model.ModelReference.from_referable(aas)
+        aas = self.get_asset_administration_shell_by_id(aas_id)
+        return model.ModelReference.from_referable(aas)
 
-        content: dict = self._client.get_asset_administration_shell_by_id_reference_aas_repository(aas_id)
-        return _to_object(content)
+        # content: dict = self._client.get_asset_administration_shell_by_id_reference_aas_repository(aas_id)
+        # return _to_object(content)
 
     def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
         """Returns the Submodel.
