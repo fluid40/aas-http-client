@@ -31,7 +31,7 @@ def start() -> None:
     # add submodel to AAS
     model_builder.add_submodel_to_aas(aas, submodel)
 
-    java_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/java_server_config.json"))
+    java_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/python_server_config.json"))
     # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
 
     for existing_shell in java_sdk_wrapper.get_all_asset_administration_shells():
