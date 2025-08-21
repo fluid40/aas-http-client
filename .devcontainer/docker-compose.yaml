@@ -39,7 +39,6 @@ services:
       - "5080:80"
     environment:
       - API_BASE_PATH=/
-      - STORAGE_TYPE=LOCAL_FILE_BACKEND
       - STORAGE_PATH=/storage
     volumes:
       - ./storage/pythonaasserver:/storage
