@@ -45,6 +45,17 @@ jobs:
         ports:
           - 5043:5043
 
+      python_aas_server:
+        image:  engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+        ports:
+          - "5080:80"
+        env:
+          API_BASE_PATH: /
+          STORAGE_TYPE: LOCAL_FILE_BACKEND
+          STORAGE_PATH: /storage
+        volumes:
+          - ./storage/pythonaasserver:/storage
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -82,9 +93,18 @@ jobs:
             sleep 2
           done
 
+      - name: Wait for dotNet server to be healthy
+        run: |
+          echo "Waiting for server..."
+          for i in {1..10}; do
+            if curl -sSf http://localhost:80/shells > /dev/null; then
+              echo "Server is ready!"
+              break
+            fi
+            sleep 2
+          done
+
       - name: Run tests
-        env:
-          SERVER_URL: http://localhost:8075
         run: pytest -v tests/test_client.py
 
   Test_SDK_Wrapper:
