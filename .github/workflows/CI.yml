@@ -74,7 +74,7 @@ jobs:
           echo "Waiting for server..."
           for i in {1..10}; do
             if curl -sSf http://localhost:8075/shells > /dev/null; then
-              echo "Server is ready!"
+              echo "Java server is ready!"
               break
             fi
             sleep 2
@@ -85,7 +85,7 @@ jobs:
           echo "Waiting for server..."
           for i in {1..10}; do
             if curl -sSf http://localhost:5043/shells > /dev/null; then
-              echo "Server is ready!"
+              echo "dotNet server is ready!"
               break
             fi
             sleep 2
@@ -95,8 +95,8 @@ jobs:
         run: |
           echo "Waiting for server..."
           for i in {1..10}; do
-            if curl -sSf http://localhost:80/shells > /dev/null; then
-              echo "Server is ready!"
+            if curl -sSf http://localhost:5080/shells > /dev/null; then
+              echo "Python server is ready!"
               break
             fi
             sleep 2
