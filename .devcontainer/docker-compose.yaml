@@ -40,8 +40,6 @@ services:
     environment:
       - API_BASE_PATH=/
       - STORAGE_PATH=/storage
-    volumes:
-      - ./storage/pythonaasserver:/storage
 
 networks:
   bridge:
