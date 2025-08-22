@@ -46,9 +46,7 @@ jobs:
           - 5043:5043
 
       python_aas_server:
-        image:  engineeringmethodsag/fluid-basyx-python-aasx-server:latest
-        ports:
-          - "5080:80"
+        image: engineeringmethodsag/fluid-basyx-python-aasx-server:latest
         env:
           API_BASE_PATH: /
           STORAGE_TYPE: LOCAL_FILE_BACKEND
@@ -69,9 +67,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Wait for Java server to be healthy
+      - name: Wait for Java server
         run: |
-          echo "Waiting for server..."
+          echo "Waiting for Java server..."
           for i in {1..50}; do
             if curl -sSf http://localhost:8075/shells > /dev/null; then
               echo "Java server is ready!"
@@ -80,9 +78,9 @@ jobs:
             sleep 2
           done
 
-      - name: Wait for dotNet server to be healthy
+      - name: Wait for dotNet server
         run: |
-          echo "Waiting for server..."
+          echo "Waiting for dotNet server..."
           for i in {1..50}; do
             if curl -sSf http://localhost:5043/shells > /dev/null; then
               echo "dotNet server is ready!"
@@ -91,19 +89,21 @@ jobs:
             sleep 2
           done
 
-      - name: Wait for python server to be healthy
+      - name: Wait for Python server
         run: |
-          echo "Waiting for server..."
+          echo "Waiting for Python server..."
           for i in {1..50}; do
             if curl -sSf http://python_aas_server:80/shells > /dev/null; then
               echo "Python server is ready!"
               break
             fi
+            echo "Waiting 2 seconds..."
             sleep 2
           done
 
       - name: Run tests
         run: pytest -v tests/test_client.py
+
 
   Test_SDK_Wrapper:
     name: Test SDK Wrapper
