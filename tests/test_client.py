@@ -7,9 +7,8 @@ import json
 import basyx.aas.adapter.json
 from urllib.parse import urlparse
 
-JAVA_SERVER_PORT = 8075
-PYTHON_SERVER_PORT_LOCAL = 8080
-PYTHON_SERVER_PORT = 80
+JAVA_SERVER_PORTS = [8075]
+PYTHON_SERVER_PORTS = [8080, 80]
 
 CONFIG_FILES = [
     "./tests/server_configs/test_dotnet_server_config.json",
@@ -150,6 +149,11 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     # NOTE: currently not working in dotnet
     # assert len(get_result.get("displayName", {})) == 0
 
+    # restore to its original state
+    sm_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sm_data = json.loads(sm_data_string)
+    client.put_asset_administration_shell_by_id(shared_aas.id, sm_data)  # Restore original submodel
+
 def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     # put with other ID
     id_short = "put_short_id"
@@ -164,7 +168,7 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     aas_data = json.loads(aas_data_string)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [PYTHON_SERVER_PORT, PYTHON_SERVER_PORT_LOCAL]:
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
         # NOTE: Python server crashes by this test
         result = False
     else:
@@ -172,11 +176,16 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
 
     assert not result
 
+    get_result = client.get_asset_administration_shell_by_id(shared_aas.id)
+
+    assert get_result.get("description", {})[0].get("text", "") != description_text
+    assert get_result.get("description", {})[0].get("text", "") == shared_aas.description.get("en", "")
+
 def test_006_get_asset_administration_shell_by_id_reference_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.get_asset_administration_shell_by_id_reference_aas_repository(shared_aas.id)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [JAVA_SERVER_PORT]:
+    if int(parsed.port) in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert result is None
     else:
@@ -216,7 +225,7 @@ def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas
     result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [JAVA_SERVER_PORT]:
+    if int(parsed.port) in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert result is None
     else:
@@ -249,7 +258,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     result = client.patch_submodel_by_id(shared_sm.id, sm_data)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [JAVA_SERVER_PORT, PYTHON_SERVER_PORT_LOCAL, PYTHON_SERVER_PORT]:
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
         # NOTE: Basyx java and python server do not provide this endpoint
         assert not result
     else:
@@ -278,7 +287,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas
     result = client.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, sm_data)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [JAVA_SERVER_PORT]:
+    if int(parsed.port) in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert not result
     else:
