@@ -106,10 +106,10 @@ jobs:
         run: pytest -v tests/test_client.py
 
   Test_SDK_Wrapper:
-    name: Test SDK Wrapper
+    name: Test HTTP wrapper
     runs-on: ubuntu-latest
 
-services:
+    services:
       java_aas_server:
         image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
         ports:
