@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
+DOTNET_SERVER_PORTS = [5043]
 
 CONFIG_FILES = [
     "./tests/server_configs/test_dotnet_server_config.json",
@@ -296,19 +297,37 @@ def test_016_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm:
 
     assert submodel_element is not None
 
-    # currently only dict is returned
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in DOTNET_SERVER_PORTS:
+        # NOTE: dotNet server provides a wrong representation of submodel elements
+        return
 
-    # property: model.Property = submodel_element
+    assert isinstance(submodel_element, model.Property)
 
-    # assert property.id_short == shared_sme.id_short
-    # assert property.description.get("em", "") == shared_sme.description.get("en", "")
-    # assert property.display_name.get("em", "")  == shared_sme.display_name.get("en", "")
-    # assert property.value == shared_sme.value
+    assert submodel_element.id_short == shared_sme.id_short
+    assert submodel_element.description.get("en", "") == shared_sme.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme.display_name.get("en", "")
 
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
     assert len(submodel_elements) == 1
+
+def test_017_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme: model.Property):
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme.id_short)
+
+    assert submodel_element is not None
+
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in DOTNET_SERVER_PORTS:
+        # NOTE: dotNet server provides a wrong representation of submodel elements
+        return
+
+    assert isinstance(submodel_element, model.Property)
+
+    assert submodel_element.id_short == shared_sme.id_short
+    assert submodel_element.description.get("en", "") == shared_sme.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme.display_name.get("en", "")
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)

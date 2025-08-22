@@ -510,6 +510,32 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
+    def get_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str) -> dict | None:
+        """Returns a specific submodel element from the Submodel at a specified path.
+
+        :param submodel_id: Encoded ID of the Submodel to retrieve element from
+        :param submodel_element_path: Path of the Submodel element to retrieve
+        :return: Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_id)
+
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
+
+        try:
+            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
 
 # endregion
 

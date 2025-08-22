@@ -237,8 +237,9 @@ jobs:
       - name: Extract version from pyproject.toml
         id: get_version
         run: |
-          VERSION=$(grep -Po '(?<=^version = ")[^"]*' pyproject.toml)
+          VERSION=$(grep -Po '(?<=^version = ")[^"]*' pyproject.toml | tr -d '\r')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted VERSION=$VERSION"
 
       - name: Create Git tag if it doesn't exist
         run: |

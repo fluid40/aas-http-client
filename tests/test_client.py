@@ -354,8 +354,15 @@ def test_016_post_submodel_element_submodel_repo(client: AasHttpClient, shared_s
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
-    parsed = urlparse(client.base_url)
     assert len(get_result.get("result", [])) == 1
+
+def test_017_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme: model.Property):
+    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme.id_short)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme.display_name.get("en", "")
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)

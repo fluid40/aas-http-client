@@ -253,6 +253,16 @@ class SdkWrapper:
         content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
         return _to_object(content)
 
+    def get_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str) -> model.SubmodelElement | None:
+        """Returns a specific submodel element from the Submodel at a specified path.
+
+        :param submodel_id: Encoded ID of the Submodel to retrieve element from
+        :param submodel_element_path: Path of the Submodel element to retrieve
+        :return: Submodel element object or None if an error occurred
+        """
+        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_id, submodel_element_path)
+        return _to_object(content)
+
 
 # endregion
 
@@ -260,6 +270,7 @@ class SdkWrapper:
 def _to_object(content: dict) -> Any | None:
     try:
         dict_string = json.dumps(content)
+        print(dict_string)
         return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
     except Exception as e:
         logger.error(f"Decoding error: {e}")
