@@ -8,7 +8,7 @@ import basyx.aas.adapter.json
 from urllib.parse import urlparse
 
 JAVA_SERVER_PORT = 8075
-PYTHON_SERVER_PORT_LOCAL = 5080
+PYTHON_SERVER_PORT_LOCAL = 8080
 PYTHON_SERVER_PORT = 80
 
 CONFIG_FILES = [
