@@ -346,11 +346,7 @@ def test_016_post_submodel_element_submodel_repo(client: AasHttpClient, shared_s
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in [PYTHON_SERVER_PORT, PYTHON_SERVER_PORT_LOCAL]:
-        # NOTE: Posting of submodel elements not working on Python SDK Server
-        assert len(get_result.get("result", [])) == 0
-    else:
-        assert len(get_result.get("result", [])) == 1
+    assert len(get_result.get("result", [])) == 1
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)

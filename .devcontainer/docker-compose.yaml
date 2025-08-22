@@ -39,7 +39,10 @@ services:
       - "5080:80"
     environment:
       - API_BASE_PATH=/
+      - STORAGE_TYPE=LOCAL_FILE_READ_ONLY
       - STORAGE_PATH=/storage
+    volumes:
+      - ./storage/python_server:/storage
 
 networks:
   bridge:
