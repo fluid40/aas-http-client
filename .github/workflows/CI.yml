@@ -64,9 +64,10 @@ jobs:
 
       - name: Start Python AAS server
         run: |
-          docker run -d --name python_aas_server -p 5080:80 \
+          docker run -d --name python_aas_server -p 8080:80 \
+            -v ./storage:/storage
             -e API_BASE_PATH=/ \
-            -e STORAGE_TYPE=LOCAL_FILE_BACKEND \
+            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY  \
             -e STORAGE_PATH=/storage \
             engineeringmethodsag/fluid-basyx-python-aasx-server:latest
 
