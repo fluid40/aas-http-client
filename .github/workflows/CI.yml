@@ -45,12 +45,7 @@ jobs:
         ports:
           - 5043:5043
 
-      python_aas_server:
-        image: engineeringmethodsag/fluid-basyx-python-aasx-server:latest
-        env:
-          API_BASE_PATH: /
-          STORAGE_TYPE: LOCAL_FILE_BACKEND
-          STORAGE_PATH: /storage
+
 
     steps:
       - name: Checkout code
@@ -67,9 +62,17 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Wait for Java server
+      - name: Start Python AAS server
         run: |
-          echo "Waiting for Java server..."
+          docker run -d --name python_aas_server -p 5080:80 \
+            -e API_BASE_PATH=/ \
+            -e STORAGE_TYPE=LOCAL_FILE_BACKEND \
+            -e STORAGE_PATH=/storage \
+            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+
+      - name: Wait for Java server to be healthy
+        run: |
+          echo "Waiting for server..."
           for i in {1..50}; do
             if curl -sSf http://localhost:8075/shells > /dev/null; then
               echo "Java server is ready!"
@@ -78,9 +81,9 @@ jobs:
             sleep 2
           done
 
-      - name: Wait for dotNet server
+      - name: Wait for dotNet server to be healthy
         run: |
-          echo "Waiting for dotNet server..."
+          echo "Waiting for server..."
           for i in {1..50}; do
             if curl -sSf http://localhost:5043/shells > /dev/null; then
               echo "dotNet server is ready!"
@@ -89,21 +92,19 @@ jobs:
             sleep 2
           done
 
-      - name: Wait for Python server
+      - name: Wait for python server to be healthy
         run: |
-          echo "Waiting for Python server..."
+          echo "Waiting for server..."
           for i in {1..50}; do
-            if curl -sSf http://python_aas_server:80/shells > /dev/null; then
+            if curl -sSf http://localhost:5080/shells > /dev/null; then
               echo "Python server is ready!"
               break
             fi
-            echo "Waiting 2 seconds..."
             sleep 2
           done
 
       - name: Run tests
         run: pytest -v tests/test_client.py
-
 
   Test_SDK_Wrapper:
     name: Test SDK Wrapper
