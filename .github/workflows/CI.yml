@@ -95,7 +95,7 @@ jobs:
         run: |
           echo "Waiting for server..."
           for i in {1..50}; do
-            if curl -sSf http://localhost:5080/shells > /dev/null; then
+            if curl -sSf http://python_aas_server:80/shells > /dev/null; then
               echo "Python server is ready!"
               break
             fi
