@@ -45,8 +45,6 @@ jobs:
         ports:
           - 5043:5043
 
-
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,15 +59,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-
-      - name: Start Python AAS server
-        run: |
-          docker run -d --name python_aas_server -p 8080:80 \
-            -v ./storage:/storage
-            -e API_BASE_PATH=/ \
-            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY  \
-            -e STORAGE_PATH=/storage \
-            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
 
       - name: Wait for Java server to be healthy
         run: |
@@ -92,6 +81,14 @@ jobs:
             fi
             sleep 2
           done
+
+      - name: Start Python AAS server
+        run: |
+          docker run -d --name python_aas_server -p 8080:80 \
+            -e API_BASE_PATH=/ \
+            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY  \
+            -e STORAGE_PATH=/storage \
+            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
 
       - name: Wait for python server to be healthy
         run: |
