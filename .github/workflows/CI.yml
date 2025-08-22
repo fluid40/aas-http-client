@@ -109,7 +109,7 @@ jobs:
     name: Test SDK Wrapper
     runs-on: ubuntu-latest
 
-    services:
+services:
       java_aas_server:
         image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
         ports:
@@ -141,9 +141,9 @@ jobs:
       - name: Wait for Java server to be healthy
         run: |
           echo "Waiting for server..."
-          for i in {1..10}; do
+          for i in {1..50}; do
             if curl -sSf http://localhost:8075/shells > /dev/null; then
-              echo "Server is ready!"
+              echo "Java server is ready!"
               break
             fi
             sleep 2
@@ -152,17 +152,35 @@ jobs:
       - name: Wait for dotNet server to be healthy
         run: |
           echo "Waiting for server..."
-          for i in {1..10}; do
+          for i in {1..50}; do
             if curl -sSf http://localhost:5043/shells > /dev/null; then
-              echo "Server is ready!"
+              echo "dotNet server is ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Start Python AAS server
+        run: |
+          docker run -d --name python_aas_server -p 8080:80 \
+            -e API_BASE_PATH=/ \
+            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY \
+            -e STORAGE_PATH=/storage \
+            -v ./storage:/storage \
+            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+
+      - name: Wait for python server to be healthy
+        run: |
+          echo "Waiting for server..."
+          for i in {1..50}; do
+            if curl -sSf http://localhost:8080/shells > /dev/null; then
+              echo "Python server is ready!"
               break
             fi
             sleep 2
           done
 
       - name: Run tests
-        env:
-          SERVER_URL: http://localhost:8075
         run: pytest -v tests/test_wrapper.py
 
   Publish_PyPI_Package:
