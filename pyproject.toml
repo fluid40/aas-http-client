@@ -4,13 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aas-http-client"
-version = "0.2.9"
+version = "0.3.0"
 description = "Generic python HTTP client for communication with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Daniel Klein", email = "daniel.klein@em.ag" }]
-dependencies = []
-
+dependencies = [
+    "typing>=3.7.4.3",
+    "pydantic>=2.11.5",
+    "requests>=2.32.3",
+    "basyx-python-sdk>=1.2.1",
+]
 [project.urls]
 Homepage = "https://github.com/fluid40/aas-http-client"
 
