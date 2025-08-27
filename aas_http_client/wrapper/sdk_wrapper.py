@@ -270,7 +270,6 @@ class SdkWrapper:
 def _to_object(content: dict) -> Any | None:
     try:
         dict_string = json.dumps(content)
-        print(dict_string)
         return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
     except Exception as e:
         logger.error(f"Decoding error: {e}")

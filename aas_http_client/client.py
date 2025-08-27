@@ -109,7 +109,7 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/shells"
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=2)
+            response = self._session.get(url, headers=HEADERS, timeout=10)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -535,6 +535,31 @@ class AasHttpClient(BaseModel):
 
         content = response.content.decode("utf-8")
         return json.loads(content)
+
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str):
+        """Deletes a submodel element at a specified path within the submodel elements hierarchy.
+
+        :param submodel_id: Encoded ID of the Submodel to delete submodel element from
+        :param submodel_element_path: Path of the Submodel element to delete
+        :return: True if the deletion was successful, False otherwise
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_id)
+
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
+
+        try:
+            response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
 
 
 # endregion
