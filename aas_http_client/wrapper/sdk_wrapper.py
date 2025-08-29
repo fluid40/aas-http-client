@@ -19,6 +19,20 @@ class SdkWrapper:
     _client: AasHttpClient = None
     base_url: str = ""
 
+    def __init__(self, config_string: str, password: str = ""):
+        """Initializes the wrapper with the given configuration.
+
+        :param config_string: Configuration string for the BaSyx server connection.
+        :param password: Password for the BaSyx server interface client, defaults to "".
+        """
+        client = _create_client(config_string, password)
+
+        if not client:
+            raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
+
+        self._client = client
+        self.base_url = client.base_url
+
     # region shells
 
     def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
@@ -266,6 +280,8 @@ class SdkWrapper:
 
 # endregion
 
+# region utils
+
 
 def _to_object(content: dict) -> Any | None:
     try:
@@ -287,6 +303,8 @@ def _to_dict(object: Any) -> dict | None:
         return None
 
 
+# endregion
+
 # region wrapper
 
 
@@ -300,7 +318,7 @@ def create_wrapper_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
 ) -> SdkWrapper | None:
-    """Create a wrapper for the BaSyx Python SDK from the given parameters.
+    """Create a wrapper for a AAS server connection from the given parameters.
 
     :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
     :param username: username for the BaSyx server interface client, defaults to ""_
@@ -312,7 +330,7 @@ def create_wrapper_by_url(
     :param ssl_verify: whether to verify SSL certificates, defaults to True
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx Python SDK wrapper from URL '{base_url}'")
+    logger.info(f"Create AAS server wrapper from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -321,43 +339,36 @@ def create_wrapper_by_url(
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
-    config_string = json.dumps(config_dict, indent=4)
+    return create_wrapper_by_dict(config_dict, password)
 
-    wrapper = SdkWrapper()
-    client = _create_client(config_string, password)
 
-    if not client:
-        return None
+def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrapper | None:
+    """Create a wrapper for a AAS server connection from the given configuration.
 
-    wrapper._client = client
-    wrapper.base_url = client.base_url
-    return wrapper
+    :param config: Dictionary containing the BaSyx server connection settings.
+    :param password: Password for the BaSyx server interface client, defaults to "".
+    :return: An instance of SdkWrapper initialized with the provided parameters.
+    """
+    logger.info(f"Create AAS server wrapper from configuration '{configuration}'")
+    config_string = json.dumps(configuration, indent=4)
+    return SdkWrapper(config_string, password)
 
 
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
-    """Create a wrapper for the BaSyx Python SDK from the given parameters.
+    """Create a wrapper for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx Python SDK wrapper from configuration file '{config_file}'")
+    logger.info(f"Create AAS wrapper client from configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration file '{config_file}' found.")
-
-    wrapper = SdkWrapper()
-    client = _create_client(config_string, password)
-
-    if not client:
-        return None
-
-    wrapper._client = client
-    wrapper.base_url = client.base_url
-    return wrapper
+    return SdkWrapper(config_string, password)
 
 
 # endregion

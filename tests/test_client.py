@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.client import create_client_by_config, AasHttpClient
+from aas_http_client.client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import json
@@ -53,6 +53,21 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     model_builder.add_submodel_to_aas(aas, shared_sm)
 
     return aas
+
+def test_000a_create_client_by_url(client: AasHttpClient):
+    base_url: str = client.base_url
+    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    assert new_client is not None
+
+def test_000b_create_client_by_dict(client: AasHttpClient):
+    base_url: str = client.base_url
+
+    config_dict: dict = {
+        "base_url": base_url
+    }
+
+    new_client: AasHttpClient = create_client_by_dict(configuration=config_dict)
+    assert new_client is not None
 
 def test_001a_connect(client: AasHttpClient):
     assert client is not None

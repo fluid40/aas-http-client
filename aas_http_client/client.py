@@ -577,19 +577,19 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
 ) -> AasHttpClient | None:
-    """Create a AAS HTTP client from the given parameters.
+    """Create a HTTP client for a AAS server connection from the given parameters.
 
-    :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
-    :param username: username for the BaSyx server interface client, defaults to ""_
-    :param password: password for the BaSyx server interface client, defaults to ""_
+    :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"_
+    :param username: Username for the AAS server, defaults to ""_
+    :param password: Password for the AAS server, defaults to ""_
     :param http_proxy: http proxy URL, defaults to ""_
     :param https_proxy: https proxy URL, defaults to ""_
-    :param time_out: timeout for the API calls, defaults to 200
-    :param connection_time_out: timeout for the connection to the API, defaults to 60
-    :param ssl_verify: whether to verify SSL certificates, defaults to True
-    :return: An instance of AasHttpClient initialized with the provided parameters.
+    :param time_out: Timeout for the API calls, defaults to 200
+    :param connection_time_out: Timeout for the connection to the API, defaults to 60
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
+    :return: An instance of Http client initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
+    logger.info(f"Create AAS server http client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -598,19 +598,31 @@ def create_client_by_url(
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
-    config_string = json.dumps(config_dict, indent=4)
+    return create_client_by_dict(config_dict, password)
+
+
+def create_client_by_dict(configuration: dict, password: str = "") -> AasHttpClient | None:
+    """Create a HTTP client for a AAS server connection from the given configuration.
+
+    :param configuration: Dictionary containing the BaSyx server connection settings.
+    :param password: Password for the AAS server, defaults to ""_
+    :return: An instance of Http client initialized with the provided parameters.
+    """
+    logger.info(f"Create AAS server http client from configuration '{configuration}'")
+    config_string = json.dumps(configuration, indent=4)
+
     return _create_client(config_string, password)
 
 
 def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
-    """Create a AAS HTTP client from the given parameters.
+    """Create a HTTP client for a AAS server connection from a given configuration file.
 
-    :param config_file: Path to the configuration file containing the BaSyx server connection settings.
+    :param config_file: Path to the configuration file containing the AAS server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
-    :return: An instance of HttpClient initialized with the provided parameters.
+    :return: An instance of Http client initialized with the provided parameters.
     """
     config_file = config_file.resolve()
-    logger.info(f"Create AAS HTTP client from Configuration file '{config_file}'")
+    logger.info(f"Create AAS server http client from configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
