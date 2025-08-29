@@ -49,17 +49,19 @@ The client communicates directly with the server and uses generic dictionaries (
 
 #### 📌 Create Client from Configuration File
 
-See [Configuration File](#-configuration-file)
+Create a client from a given [Configuration File](#-configuration-file).
 
 ```python
 from pathlib import Path
 from aas_http_client import create_client_by_config         # import function to create a client by configuration file
 
-config_file = Path("./server_config.yaml")                  # get the config file 
+config_file = Path("./server_config.yaml")                  # get the config file
 client = create_client_by_config(config_file, password="")  # create the client (in this case without password authentication)
 ```
 
 #### 📌 Create Client via Parameters
+
+Create a client from given parameters.
 
 ```python
 from aas_http_client import create_client_by_url            # import function to create a client by parameters
@@ -76,15 +78,38 @@ client = create_client_by_url(
 )
 ```
 
+#### 📌 Create Client via dictionary
+
+Create a client from given JSON dictionary structured like a [Configuration File](#-configuration-file).
+
+```python
+from aas_http_client import create_client_by_dict            # import function to create a client by parameters
+
+configuration_dict = {
+    {
+    base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
+    username: ""                           # Username for authentication (optional, default: "")
+    https_proxy: None                      # HTTPS proxy (optional, default: null)
+    http_proxy: None                       # HTTP proxy (optional, default: null)
+    time_out: 200                          # API call timeout in seconds (optional, default: 200)
+    connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
+    ssl_verify: True                       # Verify TLS/SSL certificates (optional, default: true)
+
+}
+
+client = create_client_by_dict(configuration_dict, password="")                                       # optional, default: True
+)
+```
+
 ---
 
 ### Wrapper
 
 The client communicates directly with the server and uses generic dictionaries (dict) for input and output. The serialization and deserialization of the request and response body must be performed on the runtime side.
 
-#### 📌 Create Client from Configuration File
+#### 📌 Create Wrapper from Configuration File
 
-See [Configuration File](#-configuration-file)
+Create a wrapper from a given [Configuration File](#-configuration-file).
 
 ```python
 from pathlib import Path
@@ -92,11 +117,13 @@ from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config    # im
 import basyx.aas.model                                                      # import BaSyx Python SDK to use the data model
 
 
-config_file = Path("./server_config.yaml")                                  # get the config file  
+config_file = Path("./server_config.yaml")                                  # get the config file
 client = create_wrapper_by_config(config_file, password="")                 # create the wrapper (in this case without password authentication)
 ```
 
-#### 📌 Create Client via Parameters
+#### 📌 Create Wrapper via Parameters
+
+Create a wrapper from given parameters.
 
 ```python
 from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url       # import function to create a wrapper by parameters (in this case a BaSyx Python SDK wrapper)
@@ -111,6 +138,29 @@ wrapper = create_wrapper_by_url(
     time_out=200,                                                           # optional, default: 200
     connection_time_out=100,                                                # optional, default: 100
     ssl_verify=True                                                         # optional, default: True
+)
+```
+
+#### 📌 Create Wrapper via dictionary
+
+Create a wrapper from given JSON dictionary structured like a [Configuration File](#-configuration-file).
+
+```python
+from aas_http_client import create_wrapper_by_dict            # import function to create a client by parameters
+
+configuration_dict = {
+    {
+    base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
+    username: ""                           # Username for authentication (optional, default: "")
+    https_proxy: None                      # HTTPS proxy (optional, default: null)
+    http_proxy: None                       # HTTP proxy (optional, default: null)
+    time_out: 200                          # API call timeout in seconds (optional, default: 200)
+    connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
+    ssl_verify: True                       # Verify TLS/SSL certificates (optional, default: true)
+
+}
+
+wrapper = create_wrapper_by_dict(configuration_dict, password="")                                       # optional, default: True
 )
 ```
 
