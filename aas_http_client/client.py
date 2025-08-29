@@ -577,7 +577,7 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
 ) -> AasHttpClient | None:
-    """Create a HTTP client for a AAS Server connection from the given parameters.
+    """Create a HTTP client for a AAS server connection from the given parameters.
 
     :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"_
     :param username: Username for the AAS server, defaults to ""_
@@ -589,7 +589,7 @@ def create_client_by_url(
     :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :return: An instance of Http client initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx server interface client from URL '{base_url}'")
+    logger.info(f"Create AAS server http client from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -602,25 +602,27 @@ def create_client_by_url(
 
 
 def create_client_by_dict(configuration: dict, password: str = "") -> AasHttpClient | None:
-    """Create a AAS HTTP client from the given settings.
+    """Create a HTTP client for a AAS server connection from the given configuration.
 
     :param configuration: Dictionary containing the BaSyx server connection settings.
     :param password: Password for the AAS server, defaults to ""_
     :return: An instance of Http client initialized with the provided parameters.
     """
+    logger.info(f"Create AAS server http client from configuration '{configuration}'")
     config_string = json.dumps(configuration, indent=4)
+
     return _create_client(config_string, password)
 
 
 def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
-    """Create a HTTP client for a AAS Server connection from a given configuration file.
+    """Create a HTTP client for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the AAS server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of Http client initialized with the provided parameters.
     """
     config_file = config_file.resolve()
-    logger.info(f"Create AAS HTTP client from Configuration file '{config_file}'")
+    logger.info(f"Create AAS server http client from configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")

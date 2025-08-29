@@ -300,7 +300,7 @@ def create_wrapper_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
 ) -> SdkWrapper | None:
-    """Create a wrapper for the BaSyx Python SDK from the given parameters.
+    """Create a wrapper for a AAS server connection from the given parameters.
 
     :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
     :param username: username for the BaSyx server interface client, defaults to ""_
@@ -312,7 +312,7 @@ def create_wrapper_by_url(
     :param ssl_verify: whether to verify SSL certificates, defaults to True
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx Python SDK wrapper from URL '{base_url}'")
+    logger.info(f"Create AAS server wrapper from URL '{base_url}'")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -334,14 +334,35 @@ def create_wrapper_by_url(
     return wrapper
 
 
+def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrapper | None:
+    """Create a wrapper for a AAS server connection from the given configuration.
+
+    :param config: Dictionary containing the BaSyx server connection settings.
+    :param password: Password for the BaSyx server interface client, defaults to "".
+    :return: An instance of SdkWrapper initialized with the provided parameters.
+    """
+    logger.info(f"Create AAS server wrapper from configuration '{configuration}'")
+    config_string = json.dumps(configuration, indent=4)
+
+    wrapper = SdkWrapper()
+    client = _create_client(config_string, password)
+
+    if not client:
+        return None
+
+    wrapper._client = client
+    wrapper.base_url = client.base_url
+    return wrapper
+
+
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
-    """Create a wrapper for the BaSyx Python SDK from the given parameters.
+    """Create a wrapper for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create BaSyx Python SDK wrapper from configuration file '{config_file}'")
+    logger.info(f"Create AAS wrapper client from configuration file '{config_file}'")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default config.")

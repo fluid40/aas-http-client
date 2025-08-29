@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWrapper
+from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 from urllib.parse import urlparse
@@ -54,6 +54,21 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     model_builder.add_submodel_to_aas(aas, shared_sm)
 
     return aas
+
+def test_000a_create_wrapper_by_url(wrapper: SdkWrapper):
+    base_url: str = wrapper.base_url
+    new_client: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    assert new_client is not None
+
+def test_000b_create_wrapper_by_dict(wrapper: SdkWrapper):
+    base_url: str = wrapper.base_url
+
+    config_dict: dict = {
+        "base_url": base_url
+    }
+
+    new_client: SdkWrapper = create_wrapper_by_dict(configuration=config_dict)
+    assert new_client is not None
 
 def test_001_connect(wrapper: SdkWrapper):
     assert wrapper is not None
