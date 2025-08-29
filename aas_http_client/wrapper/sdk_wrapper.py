@@ -19,6 +19,20 @@ class SdkWrapper:
     _client: AasHttpClient = None
     base_url: str = ""
 
+    def __init__(self, config_string: str, password: str = ""):
+        """Initializes the wrapper with the given configuration.
+
+        :param config_string: Configuration string for the BaSyx server connection.
+        :param password: Password for the BaSyx server interface client, defaults to "".
+        """
+        client = _create_client(config_string, password)
+
+        if not client:
+            raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
+
+        self._client = client
+        self.base_url = client.base_url
+
     # region shells
 
     def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
@@ -266,6 +280,8 @@ class SdkWrapper:
 
 # endregion
 
+# region utils
+
 
 def _to_object(content: dict) -> Any | None:
     try:
@@ -286,6 +302,8 @@ def _to_dict(object: Any) -> dict | None:
         logger.error(f"In object: {object}")
         return None
 
+
+# endregion
 
 # region wrapper
 
@@ -321,17 +339,7 @@ def create_wrapper_by_url(
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
-    config_string = json.dumps(config_dict, indent=4)
-
-    wrapper = SdkWrapper()
-    client = _create_client(config_string, password)
-
-    if not client:
-        return None
-
-    wrapper._client = client
-    wrapper.base_url = client.base_url
-    return wrapper
+    return create_wrapper_by_dict(config_dict, password)
 
 
 def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrapper | None:
@@ -343,16 +351,7 @@ def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrappe
     """
     logger.info(f"Create AAS server wrapper from configuration '{configuration}'")
     config_string = json.dumps(configuration, indent=4)
-
-    wrapper = SdkWrapper()
-    client = _create_client(config_string, password)
-
-    if not client:
-        return None
-
-    wrapper._client = client
-    wrapper.base_url = client.base_url
-    return wrapper
+    return SdkWrapper(config_string, password)
 
 
 def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
@@ -369,16 +368,7 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration file '{config_file}' found.")
-
-    wrapper = SdkWrapper()
-    client = _create_client(config_string, password)
-
-    if not client:
-        return None
-
-    wrapper._client = client
-    wrapper.base_url = client.base_url
-    return wrapper
+    return SdkWrapper(config_string, password)
 
 
 # endregion
