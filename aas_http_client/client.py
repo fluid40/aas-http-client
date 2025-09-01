@@ -635,8 +635,7 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
 
 def _create_client(config_string: str, password) -> AasHttpClient | None:
     try:
-        connection_settings = AasHttpClient.model_validate_json(config_string)
-        client = AasHttpClient(**connection_settings.model_dump())
+        client = AasHttpClient.model_validate_json(config_string)
     except ValidationError as ve:
         raise ValidationError(f"Invalid BaSyx server connection file: {ve}") from ve
 
