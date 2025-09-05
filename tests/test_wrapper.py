@@ -4,6 +4,7 @@ from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWra
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 from urllib.parse import urlparse
+import json
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
@@ -14,6 +15,10 @@ CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.json",
     "./tests/server_configs/test_python_server_config.json"
 ]
+
+# CONFIG_FILES = [
+#     "./tests/server_configs/test_dotnet_server_config_local.json",
+# ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def wrapper(request) -> SdkWrapper:
@@ -34,9 +39,24 @@ def wrapper(request) -> SdkWrapper:
     return wrapper
 
 @pytest.fixture(scope="module")
-def shared_sme() -> model.Property:
+def shared_sme_string() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_http_client_unit_tests", model.datatypes.String, "Sample Value")
+    return model_builder.create_base_submodel_element_Property("sme_property_string", model.datatypes.String, "Sample String Value")
+
+@pytest.fixture(scope="module")
+def shared_sme_bool() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_bool", model.datatypes.Boolean, True)
+
+@pytest.fixture(scope="module")
+def shared_sme_int() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_int", model.datatypes.Integer, 262)
+
+@pytest.fixture(scope="module")
+def shared_sme_float() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_float", model.datatypes.Float, 262.3)
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
@@ -307,42 +327,217 @@ def test_015_get_all_submodel_elements_submodel_repository(wrapper: SdkWrapper, 
     assert submodel_elements is not None
     assert len(submodel_elements) == 0
 
-def test_016_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme: model.Property):
-    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme)
+def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_string)
 
     assert submodel_element is not None
 
-    parsed = urlparse(wrapper.base_url)
-    if int(parsed.port) in DOTNET_SERVER_PORTS:
-        # NOTE: dotNet server provides a wrong representation of submodel elements
-        return
-
     assert isinstance(submodel_element, model.Property)
+    property: model.Property = submodel_element
+    assert property.value == shared_sme_string.value
 
-    assert submodel_element.id_short == shared_sme.id_short
-    assert submodel_element.description.get("en", "") == shared_sme.description.get("en", "")
-    assert submodel_element.display_name.get("en", "") == shared_sme.display_name.get("en", "")
+    assert submodel_element.id_short == shared_sme_string.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_string.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_string.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_string.value
 
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
     assert len(submodel_elements) == 1
 
-def test_017_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme: model.Property):
-    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme.id_short)
+def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_bool)
 
     assert submodel_element is not None
 
-    parsed = urlparse(wrapper.base_url)
-    if int(parsed.port) in DOTNET_SERVER_PORTS:
-        # NOTE: dotNet server provides a wrong representation of submodel elements
-        return
+    assert isinstance(submodel_element, model.Property)
+    property: model.Property = submodel_element
+    assert property.value == shared_sme_bool.value
+
+    assert submodel_element.id_short == shared_sme_bool.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_bool.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_bool.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_bool.value
+
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert submodel_elements is not None
+    assert len(submodel_elements) == 2
+
+def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_int)
+
+    assert submodel_element is not None
+
+    assert isinstance(submodel_element, model.Property)
+    property: model.Property = submodel_element
+    assert property.value == shared_sme_int.value
+
+    assert submodel_element.id_short == shared_sme_int.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_int.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_int.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_int.value
+
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert submodel_elements is not None
+    assert len(submodel_elements) == 3
+
+def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_float)
+
+    assert submodel_element is not None
+
+    assert isinstance(submodel_element, model.Property)
+    property: model.Property = submodel_element
+    assert property.value == shared_sme_float.value
+
+    assert submodel_element.id_short == shared_sme_float.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_float.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_float.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_float.value
+
+    submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert submodel_elements is not None
+    assert len(submodel_elements) == 4
+
+def test_017a_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
+
+    assert submodel_element is not None
 
     assert isinstance(submodel_element, model.Property)
 
-    assert submodel_element.id_short == shared_sme.id_short
-    assert submodel_element.description.get("en", "") == shared_sme.description.get("en", "")
-    assert submodel_element.display_name.get("en", "") == shared_sme.display_name.get("en", "")
+    assert submodel_element.id_short == shared_sme_string.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_string.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_string.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_string.value
+
+def test_017b_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_bool.id_short)
+
+    assert submodel_element is not None
+
+    assert isinstance(submodel_element, model.Property)
+
+    assert submodel_element.id_short == shared_sme_bool.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_bool.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_bool.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_bool.value
+
+def test_017c_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_int.id_short)
+
+    assert submodel_element is not None
+
+    assert isinstance(submodel_element, model.Property)
+
+    assert submodel_element.id_short == shared_sme_int.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_int.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_int.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_int.value
+
+def test_017d_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_float.id_short)
+
+    assert submodel_element is not None
+
+    assert isinstance(submodel_element, model.Property)
+
+    assert submodel_element.id_short == shared_sme_float.id_short
+    assert submodel_element.description.get("en", "") == shared_sme_float.description.get("en", "")
+    assert submodel_element.display_name.get("en", "") == shared_sme_float.display_name.get("en", "")
+    assert submodel_element.value == shared_sme_float.value
+
+def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    new_value = "Patched String Value"
+    result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_string.id_short, new_value)
+
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
+
+        assert submodel_element is not None
+        assert submodel_element.id_short == shared_sme_string.id_short
+        assert submodel_element.description.get("en", "") == shared_sme_string.description.get("en", "")
+        assert submodel_element.display_name.get("en", "") == shared_sme_string.display_name.get("en", "")
+
+        assert isinstance(submodel_element, model.Property)
+        property: model.Property = submodel_element
+        assert property.value == new_value
+
+def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    new_value = "false"
+    result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_bool.id_short, new_value)
+
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_bool.id_short)
+
+        assert submodel_element is not None
+        assert submodel_element.id_short == shared_sme_bool.id_short
+        assert submodel_element.description.get("en", "") == shared_sme_bool.description.get("en", "")
+        assert submodel_element.display_name.get("en", "") == shared_sme_bool.display_name.get("en", "")
+
+        assert isinstance(submodel_element, model.Property)
+        property: model.Property = submodel_element
+        assert property.value == json.loads(new_value)
+
+def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    new_value = "263"
+    result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_int.id_short, new_value)
+
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_int.id_short)
+
+        assert submodel_element is not None
+        assert submodel_element.id_short == shared_sme_int.id_short
+        assert submodel_element.description.get("en", "") == shared_sme_int.description.get("en", "")
+        assert submodel_element.display_name.get("en", "") == shared_sme_int.display_name.get("en", "")
+
+        assert isinstance(submodel_element, model.Property)
+        property: model.Property = submodel_element
+        assert property.value == int(new_value)
+
+def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    new_value = "262.1"
+    result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_float.id_short, new_value)
+
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_float.id_short)
+
+        assert submodel_element is not None
+        assert submodel_element.id_short == shared_sme_float.id_short
+        assert submodel_element.description.get("en", "") == shared_sme_float.description.get("en", "")
+        assert submodel_element.display_name.get("en", "") == shared_sme_float.display_name.get("en", "")
+
+        assert isinstance(submodel_element, model.Property)
+        property: model.Property = submodel_element
+        assert property.value == float(new_value)
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)

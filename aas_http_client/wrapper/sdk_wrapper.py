@@ -275,7 +275,18 @@ class SdkWrapper:
         :return: Submodel element object or None if an error occurred
         """
         content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_id, submodel_element_path)
+        print(content)
         return _to_object(content)
+
+    def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
+        """Updates the value of an existing SubmodelElement.
+
+        :param submodel_id: Encoded ID of the Submodel to update submodel element for
+        :param submodel_element_path: Path of the Submodel element to update
+        :param value: Submodel element value to update as string
+        :return: True if the patch was successful, False otherwise
+        """
+        return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
 
 
 # endregion

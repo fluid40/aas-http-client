@@ -4,6 +4,7 @@ import json
 import logging
 import time
 from pathlib import Path
+from typing import Any
 
 import basyx.aas.adapter.json
 import basyx.aas.adapter.json.json_serialization as js
@@ -26,7 +27,7 @@ STATUS_CODE_404 = 404
 HEADERS = {"Content-Type": "application/json"}
 
 
-def log_response_errors(response: Response):
+def log_response_errors(response: Response):  # noqa: C901
     """Create error messages from the response and log them.
 
     :param response: response
@@ -549,6 +550,32 @@ class AasHttpClient(BaseModel):
 
         try:
             response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
+        """Updates the value of an existing SubmodelElement.
+
+        :param submodel_id: Encoded ID of the Submodel to update submodel element for
+        :param submodel_element_path: Path of the Submodel element to update
+        :param value: Submodel element value to update as string
+        :return: True if the patch was successful, False otherwise
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_id)
+
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
+
+        try:
+            response = self._session.patch(url, headers=HEADERS, json=value, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
