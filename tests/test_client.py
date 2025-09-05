@@ -13,8 +13,12 @@ PYTHON_SERVER_PORTS = [8080, 80]
 CONFIG_FILES = [
     "./tests/server_configs/test_dotnet_server_config.json",
     "./tests/server_configs/test_java_server_config.json",
-    "./tests/server_configs/test_python_server_config.json",
+    "./tests/server_configs/test_python_server_config.json"
 ]
+
+# CONFIG_FILES = [
+#     "./tests/server_configs/test_dotnet_server_config_local.json",
+# ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def client(request) -> AasHttpClient:
@@ -292,7 +296,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
         # NOTE: Basyx java and python server do not provide this endpoint
         assert not result
     else:
-        assert result
+        assert result is True
 
         get_result = client.get_submodel_by_id(shared_sm.id)
         assert get_result is not None
@@ -349,7 +353,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
 
     result = client.put_submodels_by_id(shared_sm.id, sm_data)
 
-    assert result
+    assert result is True
 
     get_result = client.get_submodel_by_id(shared_sm.id)
     assert get_result is not None
@@ -381,6 +385,7 @@ def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("idShort", "") == shared_sme_string.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+    assert result.get("value", "") == shared_sme_string.value
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
@@ -396,6 +401,7 @@ def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("idShort", "") == shared_sme_bool.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+    assert json.loads(result.get("value", "").lower()) == shared_sme_bool.value
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
@@ -411,6 +417,7 @@ def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("idShort", "") == shared_sme_int.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+    assert int(result.get("value", "")) == shared_sme_int.value
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
@@ -426,23 +433,128 @@ def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("idShort", "") == shared_sme_float.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
+    assert float(result.get("value", "")) == shared_sme_float.value
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert len(get_result.get("result", [])) == 4
 
-def test_017_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_float: model.Property):
+def test_017a_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_string.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+    assert result.get("value", "") == shared_sme_string.value
+
+def test_017b_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_bool.id_short)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_bool.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+    assert json.loads(result.get("value", "").lower()) == shared_sme_bool.value
+
+def test_017c_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_int.id_short)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_int.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+    assert int(result.get("value", "")) == shared_sme_int.value
+
+def test_017d_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_float: model.Property):
     result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_float.id_short)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_float.id_short
     assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
+    assert float(result.get("value", "")) == shared_sme_float.value
+
+def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    new_value = "Patched String Value"
+    result = client.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_string.id_short, new_value)
+
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        get_result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
+
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sme_string.id_short
+        assert get_result.get("value", "") == new_value
+        assert get_result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
+        assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+
+def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    new_value = "false"
+    result = client.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_bool.id_short, new_value)
+
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        get_result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_bool.id_short)
+
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sme_bool.id_short
+        assert json.loads(get_result.get("value", "").lower()) == json.loads(new_value)
+        assert get_result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
+        assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+
+def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    new_value = "263"
+    result = client.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_int.id_short, new_value)
+
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        get_result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_int.id_short)
+
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sme_int.id_short
+        assert int(get_result.get("value", "")) == int(new_value)
+        assert get_result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
+        assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+
+def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    new_value = "262.1"
+    result = client.patch_submodel_element_by_path_value_only_submodel_repo(shared_sm.id, shared_sme_float.id_short, new_value)
+
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert result is False
+    else:
+        assert result is True
+
+        get_result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_float.id_short)
+
+        assert get_result is not None
+        assert get_result.get("idShort", "") == shared_sme_float.id_short
+        assert float(get_result.get("value", "")) == float(new_value)
+        assert get_result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
+        assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)
 
-    assert result
+    assert result is True
 
     get_result = client.get_all_asset_administration_shells()
     assert get_result is not None
@@ -452,7 +564,7 @@ def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shar
 def test_099_delete_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     result = client.delete_submodel_by_id(shared_sm.id)
 
-    assert result
+    assert result is True
 
     get_result = client.get_all_submodels()
     assert get_result is not None
