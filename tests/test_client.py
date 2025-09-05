@@ -35,9 +35,24 @@ def client(request) -> AasHttpClient:
     return client
 
 @pytest.fixture(scope="module")
-def shared_sme() -> model.Property:
+def shared_sme_string() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_http_client_unit_tests", model.datatypes.String, "Sample Value")
+    return model_builder.create_base_submodel_element_Property("sme_property_string", model.datatypes.String, "Sample String Value")
+
+@pytest.fixture(scope="module")
+def shared_sme_bool() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_bool", model.datatypes.Boolean, True)
+
+@pytest.fixture(scope="module")
+def shared_sme_int() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_int", model.datatypes.Integer, 262)
+
+@pytest.fixture(scope="module")
+def shared_sme_float() -> model.Property:
+    # create a Submodel
+    return model_builder.create_base_submodel_element_Property("sme_property_float", model.datatypes.Float, 262.3)
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
@@ -356,28 +371,73 @@ def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient
     assert submodel_elements is not None
     assert len(submodel_elements.get("result", [])) == 0
 
-def test_016_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme: model.Property):
-    sme_data_string = json.dumps(shared_sme, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_string: model.Property):
+    sme_data_string = json.dumps(shared_sme_string, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
 
     result = client.post_submodel_element_submodel_repo(shared_sm.id, sme_data)
 
     assert result is not None
-    assert result.get("idShort", "") == shared_sme.id_short
-    assert result.get("description", {})[0].get("text", "") == shared_sme.description.get("en", "")
-    assert result.get("displayName", {})[0].get("text", "") == shared_sme.display_name.get("en", "")
+    assert result.get("idShort", "") == shared_sme_string.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
 
     get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert len(get_result.get("result", [])) == 1
 
-def test_017_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme: model.Property):
-    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme.id_short)
+def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_bool: model.Property):
+    sme_data_string = json.dumps(shared_sme_bool, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sme_data = json.loads(sme_data_string)
+
+    result = client.post_submodel_element_submodel_repo(shared_sm.id, sme_data)
 
     assert result is not None
-    assert result.get("idShort", "") == shared_sme.id_short
-    assert result.get("description", {})[0].get("text", "") == shared_sme.description.get("en", "")
-    assert result.get("displayName", {})[0].get("text", "") == shared_sme.display_name.get("en", "")
+    assert result.get("idShort", "") == shared_sme_bool.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+
+    get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert len(get_result.get("result", [])) == 2
+
+def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_int: model.Property):
+    sme_data_string = json.dumps(shared_sme_int, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sme_data = json.loads(sme_data_string)
+
+    result = client.post_submodel_element_submodel_repo(shared_sm.id, sme_data)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_int.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+
+    get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert len(get_result.get("result", [])) == 3
+
+def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    sme_data_string = json.dumps(shared_sme_float, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sme_data = json.loads(sme_data_string)
+
+    result = client.post_submodel_element_submodel_repo(shared_sm.id, sme_data)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_float.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
+
+    get_result = client.get_all_submodel_elements_submodel_repository(shared_sm.id)
+
+    assert len(get_result.get("result", [])) == 4
+
+def test_017_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_float: model.Property):
+    result = client.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_float.id_short)
+
+    assert result is not None
+    assert result.get("idShort", "") == shared_sme_float.id_short
+    assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
+    assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)
