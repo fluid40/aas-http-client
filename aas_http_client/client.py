@@ -75,7 +75,6 @@ class AasHttpClient(BaseModel):
 
     base_url: str = "http://javaaasserver:5060/"
     username: str | None = None
-    _password: str | None = PrivateAttr(default=None)
     https_proxy: str | None = None
     http_proxy: str | None = None
     time_out: int = 200
@@ -88,13 +87,11 @@ class AasHttpClient(BaseModel):
 
         :param password: password
         """
-        self._password = password
-
         if self.base_url.endswith("/"):
             self.base_url = self.base_url[:-1]
 
         self._session = requests.Session()
-        self._session.auth = HTTPBasicAuth(self.username, self._password)
+        self._session.auth = HTTPBasicAuth(self.username, password)
         self._session.verify = self.ssl_verify
 
         if self.https_proxy:
@@ -660,11 +657,11 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
     return _create_client(config_string, password)
 
 
-def _create_client(config_string: str, password) -> AasHttpClient | None:
+def _create_client(config_string: str, password: str) -> AasHttpClient | None:
     try:
         client = AasHttpClient.model_validate_json(config_string)
     except ValidationError as ve:
-        raise ValidationError(f"Invalid BaSyx server connection file: {ve}") from ve
+        raise ValidationError(f"Invalid BaSyx server configuration file: {ve}") from ve
 
     logger.info(
         f"Using server configuration: '{client.base_url}' | "
