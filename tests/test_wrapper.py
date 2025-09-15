@@ -90,6 +90,12 @@ def test_000b_create_wrapper_by_dict(wrapper: SdkWrapper):
     new_client: SdkWrapper = create_wrapper_by_dict(configuration=config_dict)
     assert new_client is not None
 
+def test_000c_get_client(wrapper: SdkWrapper):
+    client = wrapper.get_client()
+    assert client is not None
+    root = client.get_root()
+    assert root is not None
+
 def test_001_connect(wrapper: SdkWrapper):
     assert wrapper is not None
 
