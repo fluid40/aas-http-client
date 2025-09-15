@@ -288,8 +288,15 @@ class SdkWrapper:
         """
         return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
 
+    # endregion
 
-# endregion
+    def get_client(self) -> AasHttpClient:
+        """Returns the underlying AAS HTTP client.
+
+        :return: The AAS HTTP client instance.
+        """
+        return self._client
+
 
 # region utils
 
