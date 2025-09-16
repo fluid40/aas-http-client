@@ -80,6 +80,7 @@ class AasHttpClient(BaseModel):
     time_out: int = 200
     connection_time_out: int = 100
     ssl_verify: bool = True
+    trust_env: bool = False
     _session: Session = PrivateAttr(default=None)
 
     def initialize(self, password: str):
@@ -93,6 +94,7 @@ class AasHttpClient(BaseModel):
         self._session = requests.Session()
         self._session.auth = HTTPBasicAuth(self.username, password)
         self._session.verify = self.ssl_verify
+        self._session.trust_env = self.trust_env
 
         if self.https_proxy:
             self._session.proxies.update({"https": self.https_proxy})
