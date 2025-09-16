@@ -38,6 +38,7 @@ Provide a YAML configuration file with the following format:
     time_out: 200                          # API call timeout in seconds (optional, default: 200)
     connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
     ssl_verify: true                       # Verify TLS/SSL certificates (optional, default: true)
+    "trust_env": false
 }
 ```
 

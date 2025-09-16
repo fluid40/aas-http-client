@@ -31,8 +31,8 @@ def start() -> None:
     # add submodel to AAS
     model_builder.add_submodel_to_aas(aas, submodel)
 
-    wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/python_server_config.json"))
-    # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.json"))
+    wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/python_server_config.yml"))
+    # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.yml"))
 
     for existing_shell in wrapper.get_all_asset_administration_shells():
         logger.warning(f"Delete shell '{existing_shell.id}'")

@@ -11,9 +11,9 @@ JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 
 CONFIG_FILES = [
-    "./tests/server_configs/test_dotnet_server_config.json",
-    "./tests/server_configs/test_java_server_config.json",
-    "./tests/server_configs/test_python_server_config.json"
+    "./tests/server_configs/test_dotnet_server_config.yml",
+    "./tests/server_configs/test_java_server_config.yml",
+    "./tests/server_configs/test_python_server_config.yml"
 ]
 
 # CONFIG_FILES = [
