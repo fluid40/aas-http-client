@@ -1,0 +1,8 @@
+{
+  "base_url": "http://localhost:8080/",
+  "time_out": 10,
+  "https_proxy": null,
+  "http_proxy": null,
+  "connection_time_out": 10,
+  "trust_env": false
+}

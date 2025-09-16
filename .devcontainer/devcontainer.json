@@ -22,7 +22,8 @@
                 "tamasfe.even-better-toml",
                 "GitHub.vscode-github-actions",
                 "bierner.github-markdown-preview",
-                "dbaeumer.vscode-eslint"
+                "dbaeumer.vscode-eslint",
+                "ms-python.debugpy"
             ]
         }
     },

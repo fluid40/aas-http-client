@@ -1,7 +1,0 @@
-{
-    "base_url": "http://dotnetaasserver:5043/",
-    "time_out": 10,
-    "https_proxy": null,
-    "http_proxy": null,
-    "connection_time_out": 10
-}
