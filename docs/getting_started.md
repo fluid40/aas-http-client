@@ -27,18 +27,18 @@ You can configure the HTTP server connection in two ways:
 
 #### 📄 Configuration File
 
-Provide a YAML configuration file with the following format:
+Provide a JSON configuration file with the following format:
 
-```yaml
+```yml
 {
-    base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
-    username: ""                           # Username for authentication (optional, default: "")
-    https_proxy: null                      # HTTPS proxy (optional, default: null)
-    http_proxy: null                       # HTTP proxy (optional, default: null)
-    time_out: 200                          # API call timeout in seconds (optional, default: 200)
-    connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
-    ssl_verify: true                       # Verify TLS/SSL certificates (optional, default: true)
-    trust_env: false
+    "base_url": "http://myaasserver:5043/",   # Base URL of the AAS server (required)
+    "username": "",                           # Username for authentication (optional, default: "")
+    "https_proxy": null,                      # HTTPS proxy (optional, default: null)
+    "http_proxy": null,                       # HTTP proxy (optional, default: null)
+    "time_out": 200,                          # API call timeout in seconds (optional, default: 200)
+    "connection_time_out": 100,               # Connection establishment timeout in seconds (optional, default: 100)
+    "ssl_verify": true,                       # Verify TLS/SSL certificates (optional, default: true)
+    "trust_env": false,                       # Disable proxy usage from environment (optional, default: false)
 }
 ```
 
