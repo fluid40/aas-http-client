@@ -80,7 +80,7 @@ class AasHttpClient(BaseModel):
     time_out: int = 200
     connection_time_out: int = 100
     ssl_verify: bool = True
-    trust_env: bool = False
+    trust_env: bool = True
     _session: Session = PrivateAttr(default=None)
 
     def initialize(self, password: str):
@@ -602,6 +602,7 @@ def create_client_by_url(
     time_out: int = 200,
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
+    trust_env: bool = True,  # noqa: FBT001, FBT002
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given parameters.
 
@@ -613,6 +614,7 @@ def create_client_by_url(
     :param time_out: Timeout for the API calls, defaults to 200
     :param connection_time_out: Timeout for the connection to the API, defaults to 60
     :param ssl_verify: Whether to verify SSL certificates, defaults to True
+    :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
     :return: An instance of Http client initialized with the provided parameters.
     """
     logger.info(f"Create AAS server http client from URL '{base_url}'")
@@ -624,6 +626,7 @@ def create_client_by_url(
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
+    config_dict["trust_env"] = trust_env
     return create_client_by_dict(config_dict, password)
 
 

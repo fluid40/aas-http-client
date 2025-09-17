@@ -335,6 +335,7 @@ def create_wrapper_by_url(
     time_out: int = 200,
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
+    trust_env: bool = True,  # noqa: FBT001, FBT002
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given parameters.
 
@@ -346,6 +347,7 @@ def create_wrapper_by_url(
     :param time_out: timeout for the API calls, defaults to 200
     :param connection_time_out: timeout for the connection to the API, defaults to 60
     :param ssl_verify: whether to verify SSL certificates, defaults to True
+    :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
     logger.info(f"Create AAS server wrapper from URL '{base_url}'")
@@ -357,6 +359,7 @@ def create_wrapper_by_url(
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
+    config_dict["trust_env"] = trust_env
     return create_wrapper_by_dict(config_dict, password)
 
 

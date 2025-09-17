@@ -38,7 +38,7 @@ Provide a JSON configuration file with the following format:
     "time_out": 200,                          # API call timeout in seconds (optional, default: 200)
     "connection_time_out": 100,               # Connection establishment timeout in seconds (optional, default: 100)
     "ssl_verify": true,                       # Verify TLS/SSL certificates (optional, default: true)
-    "trust_env": false,                       # Disable proxy usage from environment (optional, default: false)
+    "trust_env": true,                        # Disable proxy usage from environment (optional, default: true)
 }
 ```
 
@@ -68,14 +68,15 @@ Create a client from given parameters.
 from aas_http_client import create_client_by_url            # import function to create a client by parameters
 
 client = create_client_by_url(
-    base_url="http://myaasserver:5043/",                    # required
-    username="",                                            # optional
-    password="",                                            # optional
-    http_proxy="",                                          # optional
-    https_proxy="",                                         # optional
-    time_out=200,                                           # optional, default: 200
-    connection_time_out=100,                                # optional, default: 100
-    ssl_verify=True                                         # optional, default: True
+    base_url="http://myaasserver:5043/",                    # Base URL of the AAS server (required)
+    username="",                                            # Username for authentication (optional, default: "")
+    password="",                                            # Password for authentication (optional, default: "")
+    http_proxy="",                                          # HTTPS proxy (optional, default: null)
+    https_proxy="",                                         # HTTP proxy (optional, default: null)
+    time_out=200,                                           # API call timeout in seconds (optional, default: 200)
+    connection_time_out=100,                                # Connection establishment timeout in seconds (optional, default: 100)
+    ssl_verify=True,                                        # Verify TLS/SSL certificates (optional, default: true)
+    trust_env=True                                          # Disable proxy usage from environment (optional, default: true)
 )
 ```
 
@@ -87,7 +88,6 @@ Create a client from given JSON dictionary structured like a [Configuration File
 from aas_http_client import create_client_by_dict            # import function to create a client by parameters
 
 configuration_dict = {
-    {
     base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
     username: ""                           # Username for authentication (optional, default: "")
     https_proxy: None                      # HTTPS proxy (optional, default: null)
@@ -95,11 +95,11 @@ configuration_dict = {
     time_out: 200                          # API call timeout in seconds (optional, default: 200)
     connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
     ssl_verify: True                       # Verify TLS/SSL certificates (optional, default: true)
-
+    trust_env: True                        # Disable proxy usage from environment (optional, default: true)
 }
 
-client = create_client_by_dict(configuration_dict, password="")                                       # optional, default: True
-)
+client = create_client_by_dict(configuration_dict, password="")
+
 ```
 
 ---
@@ -131,14 +131,15 @@ from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_url       # im
 import basyx.aas.model                                                      # import BaSyx Python SDK to use the data model
 
 wrapper = create_wrapper_by_url(
-    base_url="http://myaasserver:5043/",                                    # required
-    username="",                                                            # optional
-    password="",                                                            # optional
-    http_proxy="",                                                          # optional
-    https_proxy="",                                                         # optional
-    time_out=200,                                                           # optional, default: 200
-    connection_time_out=100,                                                # optional, default: 100
-    ssl_verify=True                                                         # optional, default: True
+    base_url="http://myaasserver:5043/",                                    # Base URL of the AAS server (required)
+    username="",                                                            # Username for authentication (optional, default: "")
+    password="",                                                            # Password for authentication (optional, default: "")
+    http_proxy="",                                                          # HTTPS proxy (optional, default: null)
+    https_proxy="",                                                         # HTTP proxy (optional, default: null)
+    time_out=200,                                                           # API call timeout in seconds (optional, default: 200)
+    connection_time_out=100,                                                # Connection establishment timeout in seconds (optional, default: 100)
+    ssl_verify=True                                                         # Verify TLS/SSL certificates (optional, default: true)
+    trust_env=True                                                          # Disable proxy usage from environment (optional, default: true)
 )
 ```
 
@@ -150,7 +151,6 @@ Create a wrapper from given JSON dictionary structured like a [Configuration Fil
 from aas_http_client import create_wrapper_by_dict            # import function to create a client by parameters
 
 configuration_dict = {
-    {
     base_url: "http://myaasserver:5043/"   # Base URL of the AAS server (required)
     username: ""                           # Username for authentication (optional, default: "")
     https_proxy: None                      # HTTPS proxy (optional, default: null)
@@ -158,11 +158,11 @@ configuration_dict = {
     time_out: 200                          # API call timeout in seconds (optional, default: 200)
     connection_time_out: 100               # Connection establishment timeout in seconds (optional, default: 100)
     ssl_verify: True                       # Verify TLS/SSL certificates (optional, default: true)
-
+    trust_env: True                        # Disable proxy usage from environment (optional, default: true)
 }
 
-wrapper = create_wrapper_by_dict(configuration_dict, password="")                                       # optional, default: True
-)
+wrapper = create_wrapper_by_dict(configuration_dict, password="")
+
 ```
 
 ---
