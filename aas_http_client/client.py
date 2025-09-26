@@ -617,7 +617,7 @@ def create_client_by_url(
     :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
     :return: An instance of Http client initialized with the provided parameters.
     """
-    logger.info(f"Create AAS server http client from URL '{base_url}'")
+    logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -637,7 +637,7 @@ def create_client_by_dict(configuration: dict, password: str = "") -> AasHttpCli
     :param password: Password for the AAS server, defaults to ""_
     :return: An instance of Http client initialized with the provided parameters.
     """
-    logger.info("Create AAS server http client from dictionary")
+    logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
 
     return _create_client(config_string, password)
@@ -651,7 +651,7 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
     :return: An instance of Http client initialized with the provided parameters.
     """
     config_file = config_file.resolve()
-    logger.info(f"Create AAS server http client from configuration file '{config_file}'")
+    logger.info(f"Create AAS server http client from configuration file '{config_file}'.")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
@@ -689,7 +689,7 @@ def _create_client(config_string: str, password: str) -> AasHttpClient | None:
 
 def _connect_to_api(client: AasHttpClient) -> bool:
     start_time = time.time()
-    logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds")
+    logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
     counter: int = 0
     while True:
         try:
@@ -703,7 +703,7 @@ def _connect_to_api(client: AasHttpClient) -> bool:
             raise TimeoutError(f"Connection to server API timed out after {client.connection_time_out} seconds.")
 
         counter += 1
-        logger.warning(f"Retrying connection (attempt: {counter})")
+        logger.warning(f"Retrying connection (attempt: {counter}).")
         time.sleep(1)
 
 

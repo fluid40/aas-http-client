@@ -350,7 +350,7 @@ def create_wrapper_by_url(
     :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create AAS server wrapper from URL '{base_url}'")
+    logger.info(f"Create AAS server wrapper from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
     config_dict["username"] = username
@@ -370,7 +370,7 @@ def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrappe
     :param password: Password for the BaSyx server interface client, defaults to "".
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info("Create AAS server wrapper from dictionary")
+    logger.info("Create AAS server wrapper from dictionary.")
     config_string = json.dumps(configuration, indent=4)
     return SdkWrapper(config_string, password)
 
@@ -382,7 +382,7 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
     :param password: password for the BaSyx server interface client, defaults to ""_
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create AAS wrapper client from configuration file '{config_file}'")
+    logger.info(f"Create AAS wrapper client from configuration file '{config_file}'.")
     if not config_file.exists():
         config_string = "{}"
         logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
