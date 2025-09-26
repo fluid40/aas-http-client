@@ -637,7 +637,7 @@ def create_client_by_dict(configuration: dict, password: str = "") -> AasHttpCli
     :param password: Password for the AAS server, defaults to ""_
     :return: An instance of Http client initialized with the provided parameters.
     """
-    logger.info(f"Create AAS server http client from configuration '{configuration}'")
+    logger.info("Create AAS server http client from dictionary")
     config_string = json.dumps(configuration, indent=4)
 
     return _create_client(config_string, password)

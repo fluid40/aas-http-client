@@ -370,7 +370,7 @@ def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrappe
     :param password: Password for the BaSyx server interface client, defaults to "".
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
-    logger.info(f"Create AAS server wrapper from configuration '{configuration}'")
+    logger.info("Create AAS server wrapper from dictionary")
     config_string = json.dumps(configuration, indent=4)
     return SdkWrapper(config_string, password)
 
