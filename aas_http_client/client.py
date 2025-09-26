@@ -674,7 +674,7 @@ def _create_client(config_string: str, password: str) -> AasHttpClient | None:
         f"username: '{client.username}' | "
         f"https_proxy: '{client.https_proxy}' | "
         f"http_proxy: '{client.http_proxy}' | "
-        f"connection_timeout: '{client.connection_time_out}'"
+        f"connection_timeout: '{client.connection_time_out}'."
     )
     client.initialize(password)
 
