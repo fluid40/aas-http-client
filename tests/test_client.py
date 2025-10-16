@@ -3,6 +3,7 @@ from pathlib import Path
 from aas_http_client.client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
+import aas_http_client.utilities.sdk_tools as sdk_tools
 import json
 import basyx.aas.adapter.json
 from urllib.parse import urlparse
@@ -69,7 +70,7 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     aas = model_builder.create_base_ass(id_short="aas_http_client_unit_tests", namespace="")
 
     # add Submodel to AAS
-    model_builder.add_submodel_to_aas(aas, shared_sm)
+    sdk_tools.add_submodel_to_aas(aas, shared_sm)
 
     return aas
 
