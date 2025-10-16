@@ -62,14 +62,14 @@ def shared_sme_float() -> model.Property:
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
     # create a Submodel
-    submodel = model_builder.create_base_submodel("sm_http_client_unit_tests", "")
+    submodel = model_builder.create_base_submodel(identifier="fluid40/sm_http_client_unit_tests", id_short="sm_http_client_unit_tests")
     submodel.category = "Unit Test"
     return submodel
 
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(id_short="aas_http_client_unit_tests", namespace="")
+    aas = model_builder.create_base_ass(identifier="fluid40/aas_http_client_unit_tests", id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -163,7 +163,8 @@ def test_005a_put_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_a
 def test_005b_put_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     # put with other ID
     id_short = "put_short_id"
-    asset_info = model_builder.create_base_asset_information(id_short)
+    identifier = f"fluid40/{id_short}"
+    asset_info = model_builder.create_base_asset_information(identifier)
     aas = model.AssetAdministrationShell(id_=asset_info.global_asset_id, asset_information=asset_info)
     aas.id_short = id_short
 
@@ -268,7 +269,7 @@ def test_012_patch_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel
         assert len(submodel.submodel_element) == len(shared_sm.submodel_element)
 
 def test_013_put_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
-    sm = model.Submodel(shared_sm.id_short)
+    sm = model.Submodel(shared_sm.id)
     sm.id_short = shared_sm.id_short
 
     description_text = "Put via shell description for unit tests"
@@ -301,7 +302,7 @@ def test_013_put_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: 
         wrapper.put_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id, shared_sm)  # Restore original submodel
 
 def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
-    sm = model.Submodel(shared_sm.id_short)
+    sm = model.Submodel(shared_sm.id)
     sm.id_short = shared_sm.id_short
 
     description_text = "Put description for unit tests"

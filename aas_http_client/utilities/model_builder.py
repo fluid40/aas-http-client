@@ -39,17 +39,15 @@ def create_base_submodel_element_property(
     return sme
 
 
-def create_base_submodel(id_short: str, namespace: str = "fluid40", display_name: str = "", description: str = "") -> model.Submodel:
+def create_base_submodel(identifier: str, id_short: str, display_name: str = "", description: str = "") -> model.Submodel:
     """Create a basic Submodel.
 
+    :param identifier: identifier of the Submodel
     :param id_short: ID short of the Submodel
-    :param namespace: namespace of the Submodel , defaults to "fluid40"
     :param display_name: display name of the Submodel, defaults to ""
     :param description: description of the Submodel, defaults to ""
     :return: Submodel instance
     """
-    identifier = f"{namespace}/{id_short}" if namespace else id_short
-
     sm = model.Submodel(identifier)
     sm.id_short = id_short
 
@@ -68,16 +66,16 @@ def create_base_submodel(id_short: str, namespace: str = "fluid40", display_name
     return sm
 
 
-def create_base_ass(id_short: str, namespace: str = "fluid40", display_name: str = "", description: str = "") -> model.AssetAdministrationShell:
+def create_base_ass(identifier: str, id_short: str, display_name: str = "", description: str = "") -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
+    :param identifier: identifier of the AAS
     :param id_short: ID short of the AAS
-    :param namespace: namespace of the AAS, defaults to "basyx_python_aas_server"
     :param display_name: display name of the AAS, defaults to ""
     :param description: description of the AAS, defaults to ""
     :return: AssetAdministrationShell instance
     """
-    asset_info = create_base_asset_information(id_short, namespace)
+    asset_info = create_base_asset_information(identifier)
 
     aas = model.AssetAdministrationShell(id_=asset_info.global_asset_id, asset_information=asset_info)
     aas.id_short = id_short
@@ -97,14 +95,13 @@ def create_base_ass(id_short: str, namespace: str = "fluid40", display_name: str
     return aas
 
 
-def create_base_asset_information(id_short: str, namespace: str = "basyx_python_aas_server") -> model.AssetInformation:
+def create_base_asset_information(identifier: str) -> model.AssetInformation:
     """Return a basic AssetInformation instance.
 
     :param id_short: short ID of the AssetInformation
     :param namespace: namespace of the AssetInformation, defaults to "basyx_python_aas_server"
     :return: AssetInformation instance
     """
-    identifier = f"{namespace}/{id_short}" if namespace else id_short
     return model.AssetInformation(model.AssetKind.INSTANCE, identifier)
 
 
