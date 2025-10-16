@@ -16,7 +16,7 @@ def start() -> None:
     """Start the demo process."""
     # create a submodel element
     sme_short_id: str = model_builder.create_unique_short_id("poc_sme")
-    sme = model_builder.create_base_submodel_element_Property(sme_short_id, model.datatypes.String, "Sample Value")
+    sme = model_builder.create_base_submodel_element_property(sme_short_id, model.datatypes.String, "Sample Value")
 
     # create a submodel
     sm_short_id: str = model_builder.create_unique_short_id("poc_sm")

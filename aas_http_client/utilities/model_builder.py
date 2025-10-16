@@ -18,10 +18,10 @@ def create_unique_short_id(id_short: str) -> str:
     return f"{id_short}_{str(uuid.uuid4()).replace('-', '_')}"
 
 
-def create_base_submodel_element_Property(
+def create_base_submodel_element_property(
     id_short: str, type: model.datatypes, value: Any, display_name: str = "", description: str = ""
 ) -> model.Property:
-    """Create a basic Property Submodel Element."""
+    """Create a basic SubmodelElement of type Property."""
     sme = model.Property(id_short=id_short, value_type=type, value=value)
 
     if not description:
@@ -95,16 +95,6 @@ def create_base_ass(id_short: str, namespace: str = "fluid40", display_name: str
     aas.display_name = model.MultiLanguageTextType(display_name_text)
 
     return aas
-
-
-def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
-    """Add a given Submodel correctly to a provided AssetAdministrationShell.
-
-    :param aas: provided AssetAdministrationShell to which the Submodel should be added
-    :param submodel: given Submodel to add
-    """
-    # aas.submodel.add(submodel)
-    aas.submodel.add(model.ModelReference.from_referable(submodel))
 
 
 def create_base_asset_information(id_short: str, namespace: str = "basyx_python_aas_server") -> model.AssetInformation:

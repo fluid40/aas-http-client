@@ -41,22 +41,22 @@ def client(request) -> AasHttpClient:
 @pytest.fixture(scope="module")
 def shared_sme_string() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_property_string", model.datatypes.String, "Sample String Value")
+    return model_builder.create_base_submodel_element_property("sme_property_string", model.datatypes.String, "Sample String Value")
 
 @pytest.fixture(scope="module")
 def shared_sme_bool() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_property_bool", model.datatypes.Boolean, True)
+    return model_builder.create_base_submodel_element_property("sme_property_bool", model.datatypes.Boolean, True)
 
 @pytest.fixture(scope="module")
 def shared_sme_int() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_property_int", model.datatypes.Integer, 262)
+    return model_builder.create_base_submodel_element_property("sme_property_int", model.datatypes.Integer, 262)
 
 @pytest.fixture(scope="module")
 def shared_sme_float() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_Property("sme_property_float", model.datatypes.Float, 262.3)
+    return model_builder.create_base_submodel_element_property("sme_property_float", model.datatypes.Float, 262.3)
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:

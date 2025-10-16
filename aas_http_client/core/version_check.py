@@ -1,5 +1,7 @@
-import requests
 import importlib.metadata
+
+import requests
+
 
 def check_for_update(package_name="aas-http-client"):
     try:

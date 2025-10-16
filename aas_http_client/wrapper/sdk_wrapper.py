@@ -3,12 +3,12 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any
 
-import basyx.aas.adapter.json
 from basyx.aas import model
 
 from aas_http_client.client import AasHttpClient, _create_client
+from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
+from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
 logger = logging.getLogger(__name__)
 
@@ -297,31 +297,6 @@ class SdkWrapper:
         """
         return self._client
 
-
-# region utils
-
-
-def _to_object(content: dict) -> Any | None:
-    try:
-        dict_string = json.dumps(content)
-        return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
-    except Exception as e:
-        logger.error(f"Decoding error: {e}")
-        logger.error(f"In JSON: {content}")
-        return None
-
-
-def _to_dict(object: Any) -> dict | None:
-    try:
-        data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        return json.loads(data_string)
-    except Exception as e:
-        logger.error(f"Encoding error: {e}")
-        logger.error(f"In object: {object}")
-        return None
-
-
-# endregion
 
 # region wrapper
 
