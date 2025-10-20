@@ -16,8 +16,16 @@ def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Sub
     :param aas: provided AssetAdministrationShell to which the Submodel should be added
     :param submodel: given Submodel to add
     """
-    # aas.submodel.add(submodel)
     aas.submodel.add(model.ModelReference.from_referable(submodel))
+
+
+def remove_submodel_from_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
+    """Remove a given Submodel correctly from a provided AssetAdministrationShell.
+
+    :param aas: provided AssetAdministrationShell from which the Submodel should be removed
+    :param submodel: given Submodel to remove
+    """
+    aas.submodel.remove(model.ModelReference.from_referable(submodel))
 
 
 def convert_to_object(content: dict) -> Any | None:
