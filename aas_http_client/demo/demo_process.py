@@ -6,7 +6,7 @@ from pathlib import Path
 from basyx.aas import model
 
 from aas_http_client.client import AasHttpClient, create_client_by_config
-from aas_http_client.utilities import model_builder
+from aas_http_client.utilities import model_builder, sdk_tools
 from aas_http_client.wrapper.sdk_wrapper import SdkWrapper, create_wrapper_by_config
 
 logger = logging.getLogger(__name__)
@@ -17,6 +17,7 @@ def start() -> None:
     # create a submodel element
     sme_short_id: str = model_builder.create_unique_short_id("poc_sme")
     sme = model_builder.create_base_submodel_element_property(sme_short_id, model.datatypes.String, "Sample Value")
+    clone = model_builder.clone_submodel_element_property(sme)
 
     # create a submodel
     sm_short_id: str = model_builder.create_unique_short_id("poc_sm")
@@ -29,7 +30,7 @@ def start() -> None:
     aas = model_builder.create_base_ass(aas_short_id)
 
     # add submodel to AAS
-    model_builder.add_submodel_to_aas(aas, submodel)
+    sdk_tools.add_submodel_to_aas(aas, submodel)
 
     wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/python_server_config.yml"))
     # dotnet_sdk_wrapper = _create_sdk_wrapper(Path("./aas_http_client/demo/dotnet_server_config.yml"))

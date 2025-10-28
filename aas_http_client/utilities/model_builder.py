@@ -39,6 +39,27 @@ def create_base_submodel_element_property(
     return sme
 
 
+def clone_submodel_element_property(property: model.Property) -> model.Property:
+    """Clone a SubmodelElement of type Property."""
+    sme = model.Property(id_short=property.id_short, value_type=property.value_type, value=property.value)
+    sme.description = property.description
+    sme.display_name = property.display_name
+    sme.value = property.value
+    sme.value_type = property.value_type
+    sme.semantic_id = property.semantic_id
+    sme.qualifier = property.qualifier
+    sme.category = property.category
+    sme.extension = property.extension
+    sme.embedded_data_specifications = property.embedded_data_specifications
+    sme.namespace_element_sets = property.namespace_element_sets
+    sme.supplemental_semantic_id = property.supplemental_semantic_id
+    sme.value_id = property.value_id
+    sme.value_type = property.value_type
+    sme.parent = property.parent
+
+    return sme
+
+
 def create_base_submodel(identifier: str, id_short: str, display_name: str = "", description: str = "") -> model.Submodel:
     """Create a basic Submodel.
 
