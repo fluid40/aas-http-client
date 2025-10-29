@@ -257,7 +257,7 @@ class SdkWrapper:
         return submodel_elements
 
     def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
-        """Creates a new submodel element. !!!Serialization to model.SubmodelElements currently not possible.
+        """Creates a new submodel element.
 
         :param submodel_id: Encoded ID of the submodel to create elements for
         :param submodel_element: Submodel element to create
@@ -265,6 +265,20 @@ class SdkWrapper:
         """
         sme_data = _to_dict(submodel_element)
         content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
+        return _to_object(content)
+
+    def post_submodel_element_by_path_submodel_repo(
+        self, submodel_id: str, submodel_element_path: str, submodel_element: model.SubmodelElement
+    ) -> model.SubmodelElement | None:
+        """Creates a new submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_id: Encoded ID of the submodel to create elements for
+        :param submodel_element_path: Path within the Submodel elements hierarchy
+        :param submodel_element: The new Submodel element
+        :return: Submodel element object or None if an error occurred
+        """
+        sme_data = _to_dict(submodel_element)
+        content: dict = self._client.post_submodel_element_by_path_submodel_repo(submodel_id, submodel_element_path, sme_data)
         return _to_object(content)
 
     def get_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str) -> model.SubmodelElement | None:
