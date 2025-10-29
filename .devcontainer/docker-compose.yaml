@@ -12,7 +12,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   java_aas_server:
-    image: eclipsebasyx/aas-environment:2.0.0-milestone-07
+    image: eclipsebasyx/aas-environment:2.0.0-milestone-08
     container_name: javaaasserver
     networks:
       - bridge
