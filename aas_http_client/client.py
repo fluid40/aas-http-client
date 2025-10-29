@@ -4,10 +4,8 @@ import json
 import logging
 import time
 from pathlib import Path
-from typing import Any
 
 import basyx.aas.adapter.json
-import basyx.aas.adapter.json.json_serialization as js
 import requests
 from basyx.aas.model import Reference, Submodel
 from pydantic import BaseModel, PrivateAttr, ValidationError
@@ -15,6 +13,7 @@ from requests import Session
 from requests.auth import HTTPBasicAuth
 from requests.models import Response
 
+from aas_http_client.classes.auth_classes import BasicAuthConfig, ServiceProviderAuthConfig
 from aas_http_client.core.encoder import decode_base_64
 
 logger = logging.getLogger(__name__)
@@ -74,16 +73,22 @@ class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
 
     base_url: str = "http://javaaasserver:5060/"
-    username: str | None = None
+    basic_auth: BasicAuthConfig | None = None
+    service_provider_auth: ServiceProviderAuthConfig | None = None
     https_proxy: str | None = None
     http_proxy: str | None = None
     time_out: int = 200
     connection_time_out: int = 100
     ssl_verify: bool = True
     trust_env: bool = True
+    auth_service_provider: str | None = None
     _session: Session = PrivateAttr(default=None)
 
-    def initialize(self, password: str):
+    def initialize(
+        self,
+        basic_auth_password: str,
+        service_provider_auth_client_secret: str,
+    ):
         """Initialize the AasHttpClient with the given URL, username and password.
 
         :param password: password
@@ -92,9 +97,16 @@ class AasHttpClient(BaseModel):
             self.base_url = self.base_url[:-1]
 
         self._session = requests.Session()
-        self._session.auth = HTTPBasicAuth(self.username, password)
+
+        self._session.auth = HTTPBasicAuth("", "")
+        if self.basic_auth:
+            self._session.auth = HTTPBasicAuth(self.basic_auth.username, basic_auth_password)
+
         self._session.verify = self.ssl_verify
         self._session.trust_env = self.trust_env
+
+        if self.service_provider_auth:
+            self.service_provider_auth.set_client_secret(service_provider_auth_client_secret)
 
         if self.https_proxy:
             self._session.proxies.update({"https": self.https_proxy})
@@ -107,6 +119,9 @@ class AasHttpClient(BaseModel):
         :return: root data as a dictionary or None if an error occurred
         """
         url = f"{self.base_url}/shells"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=10)
@@ -123,6 +138,29 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
+    def _set_token_by_client_credentials(self) -> dict | None:
+        if self.service_provider_auth is None:
+            logger.error("Service provider authentication is not configured.")
+            return None
+
+        if self.service_provider_auth.grant_type == "password":
+            token = get_token_by_password(
+                self.service_provider_auth.token_url,
+                self.service_provider_auth.client_id,
+                self.service_provider_auth.get_client_secret(),
+                self.time_out,
+            )
+        else:
+            token = get_token_by_basic_auth(
+                self.service_provider_auth.token_url,
+                self.service_provider_auth.client_id,
+                self.service_provider_auth.get_client_secret(),
+                self.time_out,
+            )
+
+        if token:
+            self._session.headers.update({self.service_provider_auth.auth_header_name: f"Bearer {token}"})
+
     # region shells
 
     def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
@@ -133,6 +171,9 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/shells"
         logger.debug(f"Call REST API url '{url}'")
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.post(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
@@ -159,6 +200,9 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.put(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -184,6 +228,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -204,6 +251,9 @@ class AasHttpClient(BaseModel):
         :return: List of paginated Asset Administration Shells data or None if an error occurred
         """
         url = f"{self.base_url}/shells"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -229,6 +279,9 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -252,6 +305,9 @@ class AasHttpClient(BaseModel):
         """
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -279,7 +335,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
-        # /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -304,6 +362,9 @@ class AasHttpClient(BaseModel):
         """
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
@@ -331,6 +392,9 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/submodels"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.post(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -356,6 +420,9 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/submodels/{decoded_identifier}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -376,6 +443,9 @@ class AasHttpClient(BaseModel):
         :return: List of Submodel data or None if an error occurred
         """
         url = f"{self.base_url}/submodels"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -401,6 +471,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -425,6 +498,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.patch(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -447,6 +523,9 @@ class AasHttpClient(BaseModel):
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
@@ -471,6 +550,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -494,6 +576,9 @@ class AasHttpClient(BaseModel):
         """
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
@@ -521,6 +606,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -546,6 +634,9 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
@@ -573,6 +664,9 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
+
         try:
             response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -595,9 +689,14 @@ class AasHttpClient(BaseModel):
         :param value: Submodel element value to update as string
         :return: True if the patch was successful, False otherwise
         """
+        get_token_by_basic_auth()
+
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
+
+        if self.service_provider_auth:
+            self._set_token_by_client_credentials()
 
         try:
             response = self._session.patch(url, headers=HEADERS, json=value, timeout=self.time_out)
@@ -619,10 +718,68 @@ class AasHttpClient(BaseModel):
 # region client
 
 
+def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
+    """Get token from a specific authentication service provider by basic authentication.
+
+    :param endpoint: Get token endpoint for the authentication service provider
+    :param username: Username for the authentication service provider
+    :param password: Password for the authentication service provider
+    :param timeout: Timeout for the API calls, defaults to 200
+    :return: Access token or None if an error occurred
+    """
+    data = {"grant_type": "client_credentials"}
+
+    auth = HTTPBasicAuth(username, password)
+
+    try:
+        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
+        logger.info(f"Request URL: {response.url}")
+        response.raise_for_status()
+        return response.json().get("access_token")
+    except requests.RequestException as e:
+        logger.error(f"Error getting token: {e}")
+        return None
+
+
+def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
+    """Get token from a specific authentication service provider by username and password.
+
+    :param endpoint: Get token endpoint for the authentication service provider
+    :param username: Username for the authentication service provider
+    :param password: Password for the authentication service provider
+    :param timeout: Timeout for the API calls, defaults to 200
+    :return: Access token or None if an error occurred
+    """
+    data = {"grant_type": "password", "username": username, "password": password}
+
+    return _get_token(endpoint, data, timeout)
+
+
+def _get_token(endpoint: str, data: dict[str, str], timeout: int = 200) -> dict | None:
+    """Get token from a specific authentication service provider.
+
+    :param endpoint: Get token endpoint for the authentication service provider
+    :param data: Data for the authentication service provider
+    :param timeout: Timeout for the API calls, defaults to 200
+    :return: Access token or None if an error occurred
+    """
+    try:
+        response = requests.post(endpoint, json=data, timeout=timeout)
+        logger.info(f"Request URL: {response.url}")
+        response.raise_for_status()
+        return response.json().get("access_token")
+    except requests.RequestException as e:
+        logger.error(f"Error getting token: {e}")
+        return None
+
+
 def create_client_by_url(
     base_url: str,
-    username: str = "",
-    password: str = "",
+    basic_auth_username: str = "",
+    basic_auth_password: str = "",
+    service_provider_auth_client_id: str = "",
+    service_provider_auth_client_secret: str = "",
+    service_provider_auth_token_url: str = "",
     http_proxy: str = "",
     https_proxy: str = "",
     time_out: int = 200,
@@ -646,34 +803,49 @@ def create_client_by_url(
     logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
-    config_dict["username"] = username
     config_dict["http_proxy"] = http_proxy
     config_dict["https_proxy"] = https_proxy
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
     config_dict["trust_env"] = trust_env
-    return create_client_by_dict(config_dict, password)
+    config_dict["basic_auth"] = None
+    config_dict["service_provider_auth"] = None
+
+    if (basic_auth_password is not None) and (basic_auth_username != ""):
+        config_dict["basic_auth"] = {"username": basic_auth_username}
+
+    if (
+        (service_provider_auth_client_id is not None)
+        and (service_provider_auth_client_secret is not None)
+        and (service_provider_auth_token_url is not None)
+    ):
+        config_dict["service_provider_auth"] = {
+            "client_id": service_provider_auth_client_id,
+            "token_url": service_provider_auth_token_url,
+        }
+
+    return create_client_by_dict(config_dict, basic_auth_password, service_provider_auth_client_secret)
 
 
-def create_client_by_dict(configuration: dict, password: str = "") -> AasHttpClient | None:
+def create_client_by_dict(configuration: dict, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given configuration.
 
     :param configuration: Dictionary containing the BaSyx server connection settings.
-    :param password: Password for the AAS server, defaults to ""_
+    :param basic_auth_password: Password for the AAS server basic auth, defaults to ""
     :return: An instance of Http client initialized with the provided parameters.
     """
     logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
 
-    return _create_client(config_string, password)
+    return _create_client(config_string, basic_auth_password, service_provider_auth_client_secret)
 
 
-def create_client_by_config(config_file: Path, password: str = "") -> AasHttpClient | None:
+def create_client_by_config(config_file: Path, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the AAS server connection settings.
-    :param password: password for the BaSyx server interface client, defaults to ""_
+    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
     :return: An instance of Http client initialized with the provided parameters.
     """
     config_file = config_file.resolve()
@@ -685,24 +857,28 @@ def create_client_by_config(config_file: Path, password: str = "") -> AasHttpCli
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration  file '{config_file}' found.")
 
-    return _create_client(config_string, password)
+    return _create_client(config_string, basic_auth_password, service_provider_auth_client_secret)
 
 
-def _create_client(config_string: str, password: str) -> AasHttpClient | None:
+def _create_client(config_string: str, basic_auth_password: str, service_provider_auth_client_secret: str) -> AasHttpClient | None:
     try:
         client = AasHttpClient.model_validate_json(config_string)
     except ValidationError as ve:
         raise ValidationError(f"Invalid BaSyx server configuration file: {ve}") from ve
 
-    logger.info(
-        f"Using server configuration: '{client.base_url}' | "
-        f"timeout: '{client.time_out}' | "
-        f"username: '{client.username}' | "
-        f"https_proxy: '{client.https_proxy}' | "
-        f"http_proxy: '{client.http_proxy}' | "
-        f"connection_timeout: '{client.connection_time_out}'."
-    )
-    client.initialize(password)
+    logger.info("Using server configuration:")
+    logger.info(f"base_url: '{client.base_url}'")
+    logger.info(f"timeout: '{client.time_out}'")
+
+    if client.basic_auth:
+        logger.info(f"basic_auth: '{client.basic_auth.username}'")
+    if client.service_provider_auth:
+        logger.info(f"service_provider_auth: '{client.service_provider_auth.token_url}': {client.service_provider_auth.client_id}'")
+
+    logger.info(f"https_proxy: '{client.https_proxy}'")
+    logger.info(f"http_proxy: '{client.http_proxy}'")
+    logger.info(f"connection_timeout: '{client.connection_time_out}'.")
+    client.initialize(basic_auth_password, service_provider_auth_client_secret)
 
     # test the connection to the REST API
     connected = _connect_to_api(client)
