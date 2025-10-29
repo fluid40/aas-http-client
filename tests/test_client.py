@@ -555,6 +555,60 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
 
+def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel):
+    submodel_element_list = model.SubmodelElementList(id_short="sme_list_1", type_value_list_element=model.Property, value_type_list_element=model.datatypes.String)
+    submodel_element_list_dict = sdk_tools.convert_to_dict(submodel_element_list)
+    first_result = client.post_submodel_element_submodel_repo(shared_sm.id, submodel_element_list_dict)
+
+    assert first_result is not None
+
+    property = model_builder.create_base_submodel_element_property("sme_property_in_list", model.datatypes.String, "Value in List")
+    property_dict = sdk_tools.convert_to_dict(property)
+    del property_dict["idShort"]
+
+    result = client.post_submodel_element_by_path_submodel_repo(shared_sm.id, submodel_element_list.id_short, property_dict)
+
+    assert result is not None
+    assert "idShort" not in result  # idShort was deleted
+
+    submodel = client.get_submodel_by_id(shared_sm.id)
+
+    assert submodel is not None
+    elements = submodel.get("submodelElements", [])
+    assert len(elements) == 5  # 4 previous properties + 1 list
+    assert elements[4].get("idShort", "") == submodel_element_list.id_short
+    list_elements = elements[4].get("value", [])
+    assert len(list_elements) == 1
+    assert list_elements[0].get("idShort", "") == ""
+    assert list_elements[0].get("value", "") == property.value
+
+
+def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sm: model.Submodel):
+    submodel_element_collection = model.SubmodelElementCollection(id_short="sme_collection_1")
+    submodel_element_collection_dict = sdk_tools.convert_to_dict(submodel_element_collection)
+    first_result = client.post_submodel_element_submodel_repo(shared_sm.id, submodel_element_collection_dict)
+
+    assert first_result is not None
+
+    property = model_builder.create_base_submodel_element_property("sme_property_in_collection", model.datatypes.String, "Value in List")
+    property_dict = sdk_tools.convert_to_dict(property)
+
+    result = client.post_submodel_element_by_path_submodel_repo(shared_sm.id, submodel_element_collection.id_short, property_dict)
+
+    assert result is not None
+    assert result["idShort"] == property.id_short
+
+    submodel = client.get_submodel_by_id(shared_sm.id)
+
+    assert submodel is not None
+    elements = submodel.get("submodelElements", [])
+    assert len(elements) == 6
+    assert elements[5].get("idShort", "") == submodel_element_collection.id_short
+    list_elements = elements[5].get("value", [])
+    assert len(list_elements) == 1
+    assert list_elements[0].get("idShort", "") == property.id_short
+    assert list_elements[0].get("value", "") == property.value
+
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)
 
