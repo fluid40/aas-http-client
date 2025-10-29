@@ -25,7 +25,7 @@ class SdkWrapper:
         :param config_string: Configuration string for the BaSyx server connection.
         :param password: Password for the BaSyx server interface client, defaults to "".
         """
-        client = _create_client(config_string, password)
+        client = _create_client(config_string, password, "")
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")

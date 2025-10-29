@@ -29,7 +29,7 @@ def client(request) -> AasHttpClient:
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
 
-        client = create_client_by_config(file, password="")
+        client = create_client_by_config(file)
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 

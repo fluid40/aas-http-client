@@ -689,8 +689,6 @@ class AasHttpClient(BaseModel):
         :param value: Submodel element value to update as string
         :return: True if the patch was successful, False otherwise
         """
-        get_token_by_basic_auth()
-
         decoded_submodel_id: str = decode_base_64(submodel_id)
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
@@ -812,14 +810,10 @@ def create_client_by_url(
     config_dict["basic_auth"] = None
     config_dict["service_provider_auth"] = None
 
-    if (basic_auth_password is not None) and (basic_auth_username != ""):
+    if basic_auth_password and basic_auth_username:
         config_dict["basic_auth"] = {"username": basic_auth_username}
 
-    if (
-        (service_provider_auth_client_id is not None)
-        and (service_provider_auth_client_secret is not None)
-        and (service_provider_auth_token_url is not None)
-    ):
+    if service_provider_auth_client_id and service_provider_auth_client_secret and service_provider_auth_token_url:
         config_dict["service_provider_auth"] = {
             "client_id": service_provider_auth_client_id,
             "token_url": service_provider_auth_token_url,
