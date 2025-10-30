@@ -730,14 +730,7 @@ def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout
 
     auth = HTTPBasicAuth(username, password)
 
-    try:
-        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
-        logger.info(f"Request URL: {response.url}")
-        response.raise_for_status()
-        return response.json().get("access_token")
-    except requests.RequestException as e:
-        logger.error(f"Error getting token: {e}")
-        return None
+    return _get_token(endpoint, data, auth, timeout)
 
 
 def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
@@ -751,10 +744,10 @@ def get_token_by_password(endpoint: str, username: str, password: str, timeout=2
     """
     data = {"grant_type": "password", "username": username, "password": password}
 
-    return _get_token(endpoint, data, timeout)
+    return _get_token(endpoint, data, None, timeout)
 
 
-def _get_token(endpoint: str, data: dict[str, str], timeout: int = 200) -> dict | None:
+def _get_token(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> dict | None:
     """Get token from a specific authentication service provider.
 
     :param endpoint: Get token endpoint for the authentication service provider
@@ -763,13 +756,20 @@ def _get_token(endpoint: str, data: dict[str, str], timeout: int = 200) -> dict 
     :return: Access token or None if an error occurred
     """
     try:
-        response = requests.post(endpoint, json=data, timeout=timeout)
-        logger.info(f"Request URL: {response.url}")
-        response.raise_for_status()
-        return response.json().get("access_token")
-    except requests.RequestException as e:
-        logger.error(f"Error getting token: {e}")
-        return None
+        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
+        logger.debug(f"Call REST API url '{response.url}'")
+
+        if response.status_code != STATUS_CODE_200:
+            log_response_errors(response)
+            return None
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error call REST API: {e}")
+        return False
+
+    content = response.content.decode("utf-8")
+    data = json.loads(content)
+    return data.get("access_token", None)
 
 
 def create_client_by_url(
