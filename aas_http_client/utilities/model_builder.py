@@ -39,9 +39,15 @@ def create_base_submodel_element_property(
     return sme
 
 
-def clone_submodel_element_property(property: model.Property) -> model.Property:
-    """Clone a SubmodelElement of type Property."""
-    sme = model.Property(id_short=property.id_short, value_type=property.value_type, value=property.value)
+def clone_submodel_element_property(property: model.Property, new_id_short: str) -> model.Property:
+    """Clones a given property.
+
+    :param property: Given property to clone
+    :param new_id_short: New ID short for the cloned property.
+    :return: Cloned property
+    """
+    sme = model.Property(id_short=new_id_short, value_type=property.value_type, value=property.value)
+
     sme.description = property.description
     sme.display_name = property.display_name
     sme.value = property.value
