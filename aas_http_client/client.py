@@ -159,7 +159,7 @@ class AasHttpClient(BaseModel):
             )
 
         if token:
-            self._session.headers.update({self.service_provider_auth.auth_header_name: f"Bearer {token}"})
+            self._session.headers.update({self.service_provider_auth.header_name: f"Bearer {token}"})
 
     # region shells
 
