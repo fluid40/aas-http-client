@@ -62,7 +62,8 @@ def log_response_errors(response: Response):  # noqa: C901
             result_error_messages.append(response.text)
 
     except json.JSONDecodeError:
-        result_error_messages.append(response.content)
+        if response.content and response.content != "b''":
+            result_error_messages.append(response.content)
 
     logger.error(f"Status code: {response.status_code}")
     for result_error_message in result_error_messages:

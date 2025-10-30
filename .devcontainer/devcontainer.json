@@ -23,7 +23,8 @@
                 "GitHub.vscode-github-actions",
                 "bierner.github-markdown-preview",
                 "dbaeumer.vscode-eslint",
-                "ms-python.debugpy"
+                "ms-python.debugpy",
+                "vscjava.migrate-java-to-azure"
             ]
         }
     },
