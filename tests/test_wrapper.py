@@ -29,7 +29,7 @@ def wrapper(request) -> SdkWrapper:
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
 
-        wrapper = create_wrapper_by_config(file, password="")
+        wrapper = create_wrapper_by_config(file, basic_auth_password="")
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 

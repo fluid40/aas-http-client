@@ -101,7 +101,7 @@ def _create_sdk_wrapper(config: Path) -> sdk_wrapper.SdkWrapper:
     """
     try:
         file = config
-        client = sdk_wrapper.create_wrapper_by_config(file, password="")
+        client = sdk_wrapper.create_wrapper_by_config(file, basic_auth_password="")
 
     except Exception as e:
         logger.error(f"Failed to create client for {file}: {e}")

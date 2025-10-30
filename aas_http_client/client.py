@@ -788,10 +788,10 @@ def create_client_by_url(
     """Create a HTTP client for a AAS server connection from the given parameters.
 
     :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"_
-    :param username: Username for the AAS server, defaults to ""_
-    :param password: Password for the AAS server, defaults to ""_
-    :param http_proxy: http proxy URL, defaults to ""_
-    :param https_proxy: https proxy URL, defaults to ""_
+    :param username: Username for the AAS server, defaults to ""
+    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
+    :param http_proxy: http proxy URL, defaults to ""
+    :param https_proxy: https proxy URL, defaults to ""
     :param time_out: Timeout for the API calls, defaults to 200
     :param connection_time_out: Timeout for the connection to the API, defaults to 60
     :param ssl_verify: Whether to verify SSL certificates, defaults to True

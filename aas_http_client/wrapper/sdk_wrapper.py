@@ -19,13 +19,13 @@ class SdkWrapper:
     _client: AasHttpClient = None
     base_url: str = ""
 
-    def __init__(self, config_string: str, password: str = ""):
+    def __init__(self, config_string: str, basic_auth_password: str = "", service_provider_auth_client_secret: str = ""):
         """Initializes the wrapper with the given configuration.
 
         :param config_string: Configuration string for the BaSyx server connection.
-        :param password: Password for the BaSyx server interface client, defaults to "".
+        :param basic_auth_password: Password for the BaSyx server interface client, defaults to "".
         """
-        client = _create_client(config_string, password, "")
+        client = _create_client(config_string, basic_auth_password, service_provider_auth_client_secret)
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
@@ -317,8 +317,11 @@ class SdkWrapper:
 
 def create_wrapper_by_url(
     base_url: str,
-    username: str = "",
-    password: str = "",
+    basic_auth_username: str = "",
+    basic_auth_password: str = "",
+    service_provider_auth_client_id: str = "",
+    service_provider_auth_client_secret: str = "",
+    service_provider_auth_token_url: str = "",
     http_proxy: str = "",
     https_proxy: str = "",
     time_out: int = 200,
@@ -328,11 +331,11 @@ def create_wrapper_by_url(
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given parameters.
 
-    :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"_
-    :param username: username for the BaSyx server interface client, defaults to ""_
-    :param password: password for the BaSyx server interface client, defaults to ""_
-    :param http_proxy: http proxy URL, defaults to ""_
-    :param https_proxy: https proxy URL, defaults to ""_
+    :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"
+    :param basic_auth_username: username for the BaSyx server interface client, defaults to ""
+    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
+    :param http_proxy: http proxy URL, defaults to ""
+    :param https_proxy: https proxy URL, defaults to ""
     :param time_out: timeout for the API calls, defaults to 200
     :param connection_time_out: timeout for the connection to the API, defaults to 60
     :param ssl_verify: whether to verify SSL certificates, defaults to True
@@ -342,33 +345,42 @@ def create_wrapper_by_url(
     logger.info(f"Create AAS server wrapper from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
     config_dict["base_url"] = base_url
-    config_dict["username"] = username
     config_dict["http_proxy"] = http_proxy
     config_dict["https_proxy"] = https_proxy
     config_dict["time_out"] = time_out
     config_dict["connection_time_out"] = connection_time_out
     config_dict["ssl_verify"] = ssl_verify
     config_dict["trust_env"] = trust_env
-    return create_wrapper_by_dict(config_dict, password)
+
+    if basic_auth_password and basic_auth_username:
+        config_dict["basic_auth"] = {"username": basic_auth_username}
+
+    if service_provider_auth_client_id and service_provider_auth_client_secret and service_provider_auth_token_url:
+        config_dict["service_provider_auth"] = {
+            "client_id": service_provider_auth_client_id,
+            "token_url": service_provider_auth_token_url,
+        }
+
+    return create_wrapper_by_dict(config_dict, basic_auth_password)
 
 
-def create_wrapper_by_dict(configuration: dict, password: str = "") -> SdkWrapper | None:
+def create_wrapper_by_dict(configuration: dict, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given configuration.
 
     :param config: Dictionary containing the BaSyx server connection settings.
-    :param password: Password for the BaSyx server interface client, defaults to "".
+    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
     logger.info("Create AAS server wrapper from dictionary.")
     config_string = json.dumps(configuration, indent=4)
-    return SdkWrapper(config_string, password)
+    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret)
 
 
-def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrapper | None:
+def create_wrapper_by_config(config_file: Path, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the BaSyx server connection settings.
-    :param password: password for the BaSyx server interface client, defaults to ""_
+    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters.
     """
     logger.info(f"Create AAS wrapper client from configuration file '{config_file}'.")
@@ -378,7 +390,7 @@ def create_wrapper_by_config(config_file: Path, password: str = "") -> SdkWrappe
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration file '{config_file}' found.")
-    return SdkWrapper(config_string, password)
+    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret)
 
 
 # endregion
