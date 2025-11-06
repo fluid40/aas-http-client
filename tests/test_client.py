@@ -7,13 +7,17 @@ import aas_http_client.utilities.sdk_tools as sdk_tools
 import json
 import basyx.aas.adapter.json
 from urllib.parse import urlparse
+import logging
+from aas_http_client.demo.logging_handler import initialize_logging
+
+logger = logging.getLogger(__name__)
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 
 CONFIG_FILES = [
-    "./tests/server_configs/test_dotnet_server_config.yml",
     "./tests/server_configs/test_java_server_config.yml",
+    "./tests/server_configs/test_dotnet_server_config.yml",
     "./tests/server_configs/test_python_server_config.yml"
 ]
 
@@ -24,6 +28,7 @@ CONFIG_FILES = [
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def client(request) -> AasHttpClient:
     try:
+        initialize_logging()
         file = Path(request.param).resolve()
 
         if not file.exists():
@@ -83,7 +88,7 @@ def test_000b_create_client_by_dict(client: AasHttpClient):
     base_url: str = client.base_url
 
     config_dict: dict = {
-        "base_url": base_url
+        "BaseUrl": base_url
     }
 
     new_client: AasHttpClient = create_client_by_dict(configuration=config_dict)

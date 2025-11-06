@@ -12,8 +12,8 @@ PYTHON_SERVER_PORTS = [8080, 80]
 DOTNET_SERVER_PORTS = [5043]
 
 CONFIG_FILES = [
-    "./tests/server_configs/test_dotnet_server_config.yml",
     "./tests/server_configs/test_java_server_config.yml",
+    "./tests/server_configs/test_dotnet_server_config.yml",
     "./tests/server_configs/test_python_server_config.yml"
 ]
 
@@ -85,7 +85,7 @@ def test_000b_create_wrapper_by_dict(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
 
     config_dict: dict = {
-        "base_url": base_url
+        "BaseUrl": base_url
     }
 
     new_client: SdkWrapper = create_wrapper_by_dict(configuration=config_dict)

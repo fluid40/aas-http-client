@@ -31,14 +31,22 @@ Provide a JSON configuration file with the following format:
 
 ```yml
 {
-    "base_url": "http://myaasserver:5043/",   # Base URL of the AAS server (required)
-    "username": "",                           # Username for authentication (optional, default: "")
-    "https_proxy": null,                      # HTTPS proxy (optional, default: null)
-    "http_proxy": null,                       # HTTP proxy (optional, default: null)
-    "time_out": 200,                          # API call timeout in seconds (optional, default: 200)
-    "connection_time_out": 100,               # Connection establishment timeout in seconds (optional, default: 100)
-    "ssl_verify": true,                       # Verify TLS/SSL certificates (optional, default: true)
-    "trust_env": true,                        # Disable proxy usage from environment (optional, default: true)
+	"BaseUrl": "http://myaasserver:5043/",      # Base URL of the AAS server (required)
+	"HttpsProxy": null,                         # HTTP proxy (optional, default: null)
+    "HttpProxy": null,                          # HTTPS proxy (optional, default: null)
+	"TimeOut": 200,                             # API call timeout in seconds (optional, default: 200)
+	"ConnectionTimeOut": 100,                   # Connection establishment timeout in seconds (optional, default: 100)
+	"SslVerify": true,                          # Verify TLS/SSL certificates (optional, default: true)
+	"TrustEnv": true,                           # Disable proxy usage from environment (optional, default: true)
+	"AuthenticationSettings": {                     # Authentication settings for the AAS server
+		"BasicAuthentication": {                        # Basic authentication configuration
+			"Username": ""                                  # Username for the basic authentication
+		},
+		"ServiceProviderAuthentication": {          # Service provider authentication configuration
+			"ClientId": "",                             # Client identifier for authentication
+			"TokenUrl": ""                              # Endpoint URL for the token request
+		}
+	}
 }
 ```
 
