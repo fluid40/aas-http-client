@@ -32,15 +32,15 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
     "HttpProxy": "http://proxy.company.com:8080",
     "HttpsProxy": "http://proxy.company.com:8080",
     "AuthenticationSettings": {
-        "BasicAuthentication": {
+        "BasicAuth": {
             "Username": "admin"
         },
-        "ServiceProviderAuthentication": {
+        "OAuth": {
             "ClientId": "my-client-id",
             "TokenUrl": "https://auth-server.example.com/oauth/token",
             "GrantType": "client_credentials"
         },
-        "BearerAuthentication": {
+        "BearerAuth": {
             "Token": ""
         }
     }
@@ -51,9 +51,9 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 - **Root Level**: Contains server connection settings and timeouts
 - **AuthenticationSettings**: Groups all authentication-related configurations
-  - **BasicAuthentication**: HTTP Basic Auth settings (username only, password provided separately)
-  - **ServiceProviderAuthentication**: OAuth2 settings for token-based authentication
-  - **BearerAuthentication**: Pre-obtained bearer token settings
+  - **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
+  - **OAuth**: OAuth2 settings for token-based authentication
+  - **BearerAuth**: Pre-obtained bearer token settings
 
 ### Configuration File Parameters
 
@@ -68,11 +68,11 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 | `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
 | `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
 | **Authentication Settings** |
-| `AuthenticationSettings.BasicAuthentication.Username` | `string` | No | - | Username for HTTP Basic Authentication |
-| `AuthenticationSettings.ServiceProviderAuthentication.ClientId` | `string` | No | - | OAuth2 client identifier |
-| `AuthenticationSettings.ServiceProviderAuthentication.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
-| `AuthenticationSettings.ServiceProviderAuthentication.GrantType` | `string` | No | - | OAuth2 grant type (`client_credentials` or `password`) |
-| `AuthenticationSettings.BearerAuthentication.Token` | `string` | No | `""` | Pre-obtained bearer token for authentication |
+| `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
+| `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
+| `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
+| `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type (`client_credentials` or `password`) |
+| `AuthenticationSettings.BearerAuth.Token` | `string` | No | `""` | Pre-obtained bearer token for authentication |
 
 ### Key Points
 
@@ -95,7 +95,7 @@ config_file = Path("config.json")
 client = create_client_by_config(
     config_file=config_file,
     basic_auth_password="your-password",           # For Basic Auth
-    service_provider_auth_client_secret="secret",  # For OAuth2
+    o_auth_client_secret="secret",                 # For OAuth2
     bearer_auth_token="your-bearer-token"          # For Bearer Auth
 )
 ```
@@ -131,7 +131,7 @@ config = {
     "BaseUrl": "http://localhost:8080",
     "TimeOut": 300,
     "AuthenticationSettings": {
-        "BasicAuthentication": {
+        "BasicAuth": {
             "Username": "admin"
         }
     }
@@ -157,6 +157,36 @@ client = create_client_by_config(
     basic_auth_password="password123"
 )
 ```
+
+## Configuration Parameters
+
+### Basic Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `base_url` | `str` | Required | Base URL of the AAS server |
+| `time_out` | `int` | `200` | Timeout for HTTP requests (seconds) |
+| `connection_time_out` | `int` | `60` | Connection timeout (seconds) |
+| `ssl_verify` | `bool` | `True` | Enable SSL certificate verification |
+| `trust_env` | `bool` | `True` | Trust environment variables for proxy settings |
+
+### Proxy Configuration
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `http_proxy` | `str` | `""` | HTTP proxy URL |
+| `https_proxy` | `str` | `""` | HTTPS proxy URL |
+
+### Authentication Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `basic_auth_username` | `str` | `""` | Username for basic authentication |
+| `basic_auth_password` | `str` | `""` | Password for basic authentication |
+| `service_provider_auth_client_id` | `str` | `""` | Client ID for OAuth2 |
+| `o_auth_client_secret` | `str` | `""` | Client secret for OAuth2 |
+| `service_provider_auth_token_url` | `str` | `""` | Token endpoint URL for OAuth2 |
+| `bearer_auth_token` | `str` | `""` | Bearer token for authentication |
 
 ## Authentication Methods
 
@@ -191,7 +221,7 @@ Use OAuth2 client credentials flow:
 client = create_client_by_url(
     base_url="http://localhost:8080",
     service_provider_auth_client_id="my-client-id",
-    service_provider_auth_client_secret="my-client-secret",
+    o_auth_client_secret="my-client-secret",
     service_provider_auth_token_url="http://auth-server/oauth/token"
 )
 ```
@@ -204,7 +234,7 @@ Use OAuth2 password grant flow:
 client = create_client_by_url(
     base_url="http://localhost:8080",
     service_provider_auth_client_id="username",
-    service_provider_auth_client_secret="password",
+    o_auth_client_secret="password",
     service_provider_auth_token_url="http://auth-server/oauth/token"
 )
 ```
@@ -227,7 +257,7 @@ client = create_client_by_url(
     "TimeOut": 300,
     "SslVerify": true,
     "AuthenticationSettings": {
-        "BasicAuthentication": {
+        "BasicAuth": {
             "Username": "admin"
         }
     }
@@ -243,7 +273,7 @@ client = create_client_by_url(
     "ConnectionTimeOut": 120,
     "SslVerify": true,
     "AuthenticationSettings": {
-        "ServiceProviderAuthentication": {
+        "OAuth": {
             "ClientId": "my-client-id",
             "TokenUrl": "https://auth-server.example.com/oauth/token",
             "GrantType": "client_credentials"
@@ -261,7 +291,7 @@ client = create_client_by_url(
     "HttpsProxy": "http://proxy.company.com:8080",
     "TrustEnv": false,
     "AuthenticationSettings": {
-        "BasicAuthentication": {
+        "BasicAuth": {
             "Username": "admin"
         }
     }
@@ -279,7 +309,7 @@ client = create_client_by_url(
     "TrustEnv": true,
     "HttpsProxy": "http://corporate-proxy:8080",
     "AuthenticationSettings": {
-        "ServiceProviderAuthentication": {
+        "OAuth": {
             "ClientId": "production-client",
             "TokenUrl": "https://auth.company.com/oauth2/token",
             "GrantType": "client_credentials"

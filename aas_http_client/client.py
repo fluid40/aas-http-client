@@ -155,24 +155,24 @@ class AasHttpClient(BaseModel):
         if self.auth_settings.bearer_auth.is_active():
             token = self.auth_settings.bearer_auth.get_token()
 
-        elif self.auth_settings.service_provider_auth.is_active() and self.auth_settings.service_provider_auth.grant_type == "password":
+        elif self.auth_settings.o_auth.is_active() and self.auth_settings.o_auth.grant_type == "password":
             token = get_token_by_password(
-                self.auth_settings.service_provider_auth.token_url,
-                self.auth_settings.service_provider_auth.client_id,
-                self.auth_settings.service_provider_auth.get_client_secret(),
+                self.auth_settings.o_auth.token_url,
+                self.auth_settings.o_auth.client_id,
+                self.auth_settings.o_auth.get_client_secret(),
                 self.time_out,
             )
 
-        elif self.auth_settings.service_provider_auth.is_active() and self.auth_settings.service_provider_auth.grant_type == "client_credentials":
+        elif self.auth_settings.o_auth.is_active() and self.auth_settings.o_auth.grant_type == "client_credentials":
             token = get_token_by_basic_auth(
-                self.auth_settings.service_provider_auth.token_url,
-                self.auth_settings.service_provider_auth.client_id,
-                self.auth_settings.service_provider_auth.get_client_secret(),
+                self.auth_settings.o_auth.token_url,
+                self.auth_settings.o_auth.client_id,
+                self.auth_settings.o_auth.get_client_secret(),
                 self.time_out,
             )
 
         if token:
-            self._session.headers.update({self.auth_settings.service_provider_auth.is_active().header_name: f"Bearer {token}"})
+            self._session.headers.update({self.auth_settings.o_auth.is_active().header_name: f"Bearer {token}"})
 
     # endregion
 
@@ -187,7 +187,7 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/shells"
         logger.debug(f"Call REST API url '{url}'")
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -215,7 +215,7 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -243,7 +243,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -267,7 +267,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/shells"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -294,7 +294,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -321,7 +321,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -351,7 +351,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -378,7 +378,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -407,7 +407,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/submodels"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -435,7 +435,7 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/submodels/{decoded_identifier}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -459,7 +459,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/submodels"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -486,7 +486,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -513,7 +513,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -539,7 +539,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -565,7 +565,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -592,7 +592,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -621,7 +621,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -650,7 +650,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -679,7 +679,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -708,7 +708,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
 
-        if self.auth_settings.service_provider_auth.is_active():
+        if self.auth_settings.o_auth.is_active():
             self._set_token_by_client_credentials()
 
         try:
@@ -791,7 +791,7 @@ def create_client_by_url(
     basic_auth_username: str = "",
     basic_auth_password: str = "",
     service_provider_auth_client_id: str = "",
-    service_provider_auth_client_secret: str = "",
+    o_auth_client_secret: str = "",
     service_provider_auth_token_url: str = "",
     bearer_auth_token: str = "",
     http_proxy: str = "",
@@ -807,7 +807,7 @@ def create_client_by_url(
     :param basic_auth_username: Username for the AAS server basic authentication, defaults to ""
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
     :param service_provider_auth_client_id: Client ID for service provider authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param service_provider_auth_token_url: Token URL for service provider authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :param http_proxy: HTTP proxy URL, defaults to ""
@@ -839,34 +839,34 @@ def create_client_by_url(
         },
     }
 
-    return create_client_by_dict(config_dict, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return create_client_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_client_by_dict(
-    configuration: dict, basic_auth_password: str = "", service_provider_auth_client_secret: str = "", bearer_auth_token: str = ""
+    configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given configuration.
 
     :param configuration: Dictionary containing the AAS server connection settings
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
     logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
 
-    return _create_client(config_string, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_client_by_config(
-    config_file: Path, basic_auth_password: str = "", service_provider_auth_client_secret: str = "", bearer_auth_token: str = ""
+    config_file: Path, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the AAS server connection settings
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
@@ -879,12 +879,10 @@ def create_client_by_config(
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration  file '{config_file}' found.")
 
-    return _create_client(config_string, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def _create_client(
-    config_string: str, basic_auth_password: str, service_provider_auth_client_secret: str, bearer_auth_token: str
-) -> AasHttpClient | None:
+def _create_client(config_string: str, basic_auth_password: str, o_auth_client_secret: str, bearer_auth_token: str) -> AasHttpClient | None:
     """Create and initialize an AAS HTTP client from configuration string.
 
     This internal method validates the configuration, sets authentication credentials,
@@ -892,7 +890,7 @@ def _create_client(
 
     :param config_string: JSON configuration string containing AAS server settings
     :param basic_auth_password: Password for basic authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An initialized and connected AasHttpClient instance or None if connection fails
     :raises ValidationError: If the configuration string is invalid
@@ -904,7 +902,7 @@ def _create_client(
         raise ValidationError(f"Invalid BaSyx server configuration file: {ve}") from ve
 
     client.auth_settings.basic_auth.set_password(basic_auth_password)
-    client.auth_settings.service_provider_auth.set_client_secret(service_provider_auth_client_secret)
+    client.auth_settings.o_auth.set_client_secret(o_auth_client_secret)
     client.auth_settings.bearer_auth.set_token(bearer_auth_token)
 
     logger.info("Using server configuration:")
@@ -915,10 +913,8 @@ def _create_client(
     else:
         logger.info("BasicAuthentication: not active")
 
-    if client.auth_settings.service_provider_auth.is_active():
-        logger.info(
-            f"ServiceProviderAuthentication:  '{client.auth_settings.service_provider_auth.token_url}': {client.auth_settings.service_provider_auth.client_id}'"
-        )
+    if client.auth_settings.o_auth.is_active():
+        logger.info(f"ServiceProviderAuthentication:  '{client.auth_settings.o_auth.token_url}': {client.auth_settings.o_auth.client_id}'")
     else:
         logger.info("ServiceProviderAuthentication: not active")
 

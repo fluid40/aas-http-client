@@ -7,10 +7,10 @@
 	"SslVerify": true,
 	"TrustEnv": true,
 	"AuthenticationSettings": {
-		"BasicAuthentication": {
+		"BasicAuth": {
 			"Username": ""
 		},
-		"ServiceProviderAuthentication": {
+		"OAuth": {
 			"ClientId": "",
 			"TokenUrl": "",
 			"GrantType": "client_credentials"

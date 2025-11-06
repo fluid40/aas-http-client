@@ -3,7 +3,7 @@
 from pydantic import BaseModel, Field, PrivateAttr
 
 
-class BearerAuthentication(BaseModel):
+class BearerAuth(BaseModel):
     """Bearer Authentication Configuration.
 
     :param BaseModel: Pydantic BaseModel for data validation.
@@ -33,7 +33,7 @@ class BearerAuthentication(BaseModel):
         return bool(self._token)
 
 
-class BasicAuthentication(BaseModel):
+class BasicAuth(BaseModel):
     """Basic Authentication Configuration.
 
     :param BaseModel: Pydantic BaseModel for data validation.
@@ -64,8 +64,8 @@ class BasicAuthentication(BaseModel):
         return self._password
 
 
-class ServiceProviderAuthentication(BaseModel):
-    """Service Provider Authentication Configuration.
+class OAuth(BaseModel):
+    """Open Authentication Configuration.
 
     :param BaseModel: Pydantic BaseModel for data validation.
     """
@@ -107,14 +107,10 @@ class AuthenticationConfig(BaseModel):
     param BaseModel: Pydantic BaseModel for data validation.
     """
 
-    basic_auth: BasicAuthentication = Field(
-        default_factory=BasicAuthentication, alias="BasicAuthentication", description="Basic authentication configuration."
-    )
-    service_provider_auth: ServiceProviderAuthentication = Field(
-        default_factory=ServiceProviderAuthentication,
-        alias="ServiceProviderAuthentication",
+    basic_auth: BasicAuth = Field(default_factory=BasicAuth, alias="BasicAuth", description="Basic authentication configuration.")
+    o_auth: OAuth = Field(
+        default_factory=OAuth,
+        alias="OAuth",
         description="Service provider authentication configuration.",
     )
-    bearer_auth: BearerAuthentication = Field(
-        default_factory=BearerAuthentication, alias="BearerAuthentication", description="Bearer authentication configuration."
-    )
+    bearer_auth: BearerAuth = Field(default_factory=BearerAuth, alias="BearerAuth", description="Bearer authentication configuration.")
