@@ -5,6 +5,7 @@ This guide explains how to configure and create an AAS (Asset Administration She
 ## Table of Contents
 
 - [Overview](#overview)
+- [Example Configuration File](#example-configuration-file)
 - [Client Creation Methods](#client-creation-methods)
 - [Configuration Parameters](#configuration-parameters)
 - [Authentication Methods](#authentication-methods)
@@ -15,6 +16,66 @@ This guide explains how to configure and create an AAS (Asset Administration She
 ## Overview
 
 The AAS HTTP Client provides a convenient way to interact with AAS servers through HTTP/REST APIs. The client supports multiple authentication methods, proxy configurations, and SSL verification options.
+
+## Example Configuration File
+
+Here's a complete example configuration file (`config.json`) that demonstrates all available options:
+
+```json
+{
+    "BaseUrl": "https://aas-server.example.com",
+    "TimeOut": 300,
+    "ConnectionTimeOut": 120,
+    "SslVerify": true,
+    "TrustEnv": true,
+    "HttpProxy": "http://proxy.company.com:8080",
+    "HttpsProxy": "http://proxy.company.com:8080",
+    "AuthenticationSettings": {
+        "BasicAuthentication": {
+            "Username": "admin"
+        },
+        "ServiceProviderAuthentication": {
+            "ClientId": "my-client-id",
+            "TokenUrl": "https://auth-server.example.com/oauth/token",
+            "GrantType": "client_credentials"
+        },
+        "BearerAuthentication": {
+            "Token": ""
+        }
+    }
+}
+```
+
+### Configuration Structure Overview
+
+- **Root Level**: Contains server connection settings and timeouts
+- **AuthenticationSettings**: Groups all authentication-related configurations
+  - **BasicAuthentication**: HTTP Basic Auth settings (username only, password provided separately)
+  - **ServiceProviderAuthentication**: OAuth2 settings for token-based authentication
+  - **BearerAuthentication**: Pre-obtained bearer token settings
+
+### Key Points
+
+1. **Only one authentication method** should be active at a time
+2. **Passwords and secrets** are provided separately via function parameters for security
+3. **All settings are optional** except `BaseUrl`
+4. **Environment variables** can override proxy settings when `TrustEnv` is `true`
+
+### Usage with Configuration File
+
+```python
+from pathlib import Path
+from aas_http_client.client import create_client_by_config
+
+# Load configuration and provide sensitive data separately
+config_file = Path("config.json")
+client = create_client_by_config(
+    config_file=config_file,
+    basic_auth_password="your-password",           # For Basic Auth
+    service_provider_auth_client_secret="secret",  # For OAuth2
+    bearer_auth_token="your-bearer-token"          # For Bearer Auth
+)
+```
 
 ## Client Creation Methods
 
