@@ -55,8 +55,6 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
   - **ServiceProviderAuthentication**: OAuth2 settings for token-based authentication
   - **BearerAuthentication**: Pre-obtained bearer token settings
 
-
-
 ### Configuration File Parameters
 
 | Parameter | Type | Required | Default | Description |
@@ -78,7 +76,10 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 ### Key Points
 
-1. **Only one authentication method** should be active at a time
+1. **Authentication compatibility**:
+   - ✅ Basic Authentication + OAuth2: Supported
+   - ✅ Basic Authentication + Bearer Token: Supported
+   - ❌ Bearer Token + OAuth2: Not supported
 2. **Passwords and secrets** are provided separately via function parameters for security
 3. **All settings are optional** except `BaseUrl`
 4. **Environment variables** can override proxy settings when `TrustEnv` is `true`
@@ -156,36 +157,6 @@ client = create_client_by_config(
     basic_auth_password="password123"
 )
 ```
-
-## Configuration Parameters
-
-### Basic Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `base_url` | `str` | Required | Base URL of the AAS server |
-| `time_out` | `int` | `200` | Timeout for HTTP requests (seconds) |
-| `connection_time_out` | `int` | `60` | Connection timeout (seconds) |
-| `ssl_verify` | `bool` | `True` | Enable SSL certificate verification |
-| `trust_env` | `bool` | `True` | Trust environment variables for proxy settings |
-
-### Proxy Configuration
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `http_proxy` | `str` | `""` | HTTP proxy URL |
-| `https_proxy` | `str` | `""` | HTTPS proxy URL |
-
-### Authentication Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `basic_auth_username` | `str` | `""` | Username for basic authentication |
-| `basic_auth_password` | `str` | `""` | Password for basic authentication |
-| `service_provider_auth_client_id` | `str` | `""` | Client ID for OAuth2 |
-| `service_provider_auth_client_secret` | `str` | `""` | Client secret for OAuth2 |
-| `service_provider_auth_token_url` | `str` | `""` | Token endpoint URL for OAuth2 |
-| `bearer_auth_token` | `str` | `""` | Bearer token for authentication |
 
 ## Authentication Methods
 
