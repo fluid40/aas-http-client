@@ -1,5 +1,5 @@
 {
-	"BaseUrl": "http://dotnetaasserver:5043/",
+	"BaseUrl": "http://localhost:5043/",
 	"HttpsProxy": null,
 	"HttpProxy": null,
 	"TimeOut": 200,
