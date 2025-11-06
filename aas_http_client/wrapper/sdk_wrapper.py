@@ -20,13 +20,15 @@ class SdkWrapper:
     _client: AasHttpClient = None
     base_url: str = ""
 
-    def __init__(self, config_string: str, basic_auth_password: str = "", service_provider_auth_client_secret: str = "", bearer_auth_token: str = ""):
+    def __init__(self, config_string: str, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""):
         """Initializes the wrapper with the given configuration.
 
         :param config_string: Configuration string for the BaSyx server connection.
         :param basic_auth_password: Password for the BaSyx server interface client, defaults to "".
+        :param o_auth_client_secret: Client secret for OAuth authentication, defaults to "".
+        :param bearer_auth_token: Bearer token for authentication, defaults to "".
         """
-        client = _create_client(config_string, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+        client = _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
@@ -322,9 +324,9 @@ def create_wrapper_by_url(
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
-    service_provider_auth_client_id: str = "",
-    service_provider_auth_client_secret: str = "",
-    service_provider_auth_token_url: str = "",
+    o_auth_client_id: str = "",
+    o_auth_client_secret: str = "",
+    o_auth_token_url: str = "",
     bearer_auth_token: str = "",
     http_proxy: str = "",
     https_proxy: str = "",
@@ -338,9 +340,9 @@ def create_wrapper_by_url(
     :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"
     :param basic_auth_username: Username for the AAS server basic authentication, defaults to ""
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_id: Client ID for service provider authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
-    :param service_provider_auth_token_url: Token URL for service provider authentication, defaults to ""
+    :param o_auth_client_id: Client ID for OAuth authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
+    :param o_auth_token_url: Token URL for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :param http_proxy: HTTP proxy URL, defaults to ""
     :param https_proxy: HTTPS proxy URL, defaults to ""
@@ -361,43 +363,43 @@ def create_wrapper_by_url(
     config_dict["TrustEnv"] = trust_env
 
     config_dict["AuthenticationSettings"] = {
-        "BasicAuthentication": {"Username": basic_auth_username},
-        "ServiceProviderAuthentication": {
-            "ClientId": service_provider_auth_client_id,
-            "TokenUrl": service_provider_auth_token_url,
+        "BasicAuth": {"Username": basic_auth_username},
+        "OAuth": {
+            "ClientId": o_auth_client_id,
+            "TokenUrl": o_auth_token_url,
         },
-        "BearerAuthentication": {
+        "BearerAuth": {
             "Token": bearer_auth_token,
         },
     }
 
-    return create_wrapper_by_dict(config_dict, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return create_wrapper_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_wrapper_by_dict(
-    configuration: dict, basic_auth_password: str = "", service_provider_auth_client_secret: str = "", bearer_auth_token: str = ""
+    configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given configuration.
 
     :param configuration: Dictionary containing the AAS server connection settings
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
     logger.info("Create AAS server wrapper from dictionary.")
     config_string = json.dumps(configuration, indent=4)
-    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_wrapper_by_config(
-    config_file: Path, basic_auth_password: str = "", service_provider_auth_client_secret: str = "", bearer_auth_token: str = ""
+    config_file: Path, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from a given configuration file.
 
     :param config_file: Path to the configuration file containing the AAS server connection settings
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
@@ -408,7 +410,7 @@ def create_wrapper_by_config(
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration file '{config_file}' found.")
-    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret, bearer_auth_token)
+    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 # endregion

@@ -39,9 +39,6 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
             "ClientId": "my-client-id",
             "TokenUrl": "https://auth-server.example.com/oauth/token",
             "GrantType": "client_credentials"
-        },
-        "BearerAuth": {
-            "Token": ""
         }
     }
 }
@@ -53,7 +50,6 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 - **AuthenticationSettings**: Groups all authentication-related configurations
   - **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
   - **OAuth**: OAuth2 settings for token-based authentication
-  - **BearerAuth**: Pre-obtained bearer token settings
 
 ### Configuration File Parameters
 
@@ -72,7 +68,6 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 | `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
 | `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
 | `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type (`client_credentials` or `password`) |
-| `AuthenticationSettings.BearerAuth.Token` | `string` | No | `""` | Pre-obtained bearer token for authentication |
 
 ### Key Points
 
@@ -81,8 +76,9 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
    - ✅ Basic Authentication + Bearer Token: Supported
    - ❌ Bearer Token + OAuth2: Not supported
 2. **Passwords and secrets** are provided separately via function parameters for security
-3. **All settings are optional** except `BaseUrl`
-4. **Environment variables** can override proxy settings when `TrustEnv` is `true`
+3. **Bearer tokens** are provided via function parameters, not configuration files
+4. **All settings are optional** except `BaseUrl`
+5. **Environment variables** can override proxy settings when `TrustEnv` is `true`
 
 ### Usage with Configuration File
 
@@ -96,7 +92,7 @@ client = create_client_by_config(
     config_file=config_file,
     basic_auth_password="your-password",           # For Basic Auth
     o_auth_client_secret="secret",                 # For OAuth2
-    bearer_auth_token="your-bearer-token"          # For Bearer Auth
+    bearer_auth_token="your-bearer-token"          # For Bearer Auth (not in config file)
 )
 ```
 
@@ -183,10 +179,10 @@ client = create_client_by_config(
 |-----------|------|---------|-------------|
 | `basic_auth_username` | `str` | `""` | Username for basic authentication |
 | `basic_auth_password` | `str` | `""` | Password for basic authentication |
-| `service_provider_auth_client_id` | `str` | `""` | Client ID for OAuth2 |
+| `o_auth_client_id` | `str` | `""` | Client ID for OAuth2 |
 | `o_auth_client_secret` | `str` | `""` | Client secret for OAuth2 |
-| `service_provider_auth_token_url` | `str` | `""` | Token endpoint URL for OAuth2 |
-| `bearer_auth_token` | `str` | `""` | Bearer token for authentication |
+| `o_auth_token_url` | `str` | `""` | Token endpoint URL for OAuth2 |
+| `bearer_auth_token` | `str` | `""` | Bearer token for authentication (function parameter only) |
 
 ## Authentication Methods
 
@@ -204,7 +200,7 @@ client = create_client_by_url(
 
 ### 2. Bearer Token Authentication
 
-Use a pre-obtained bearer token:
+Use a pre-obtained bearer token (provided as function parameter, not in config file):
 
 ```python
 client = create_client_by_url(
@@ -220,9 +216,9 @@ Use OAuth2 client credentials flow:
 ```python
 client = create_client_by_url(
     base_url="http://localhost:8080",
-    service_provider_auth_client_id="my-client-id",
+    o_auth_client_id="my-client-id",
     o_auth_client_secret="my-client-secret",
-    service_provider_auth_token_url="http://auth-server/oauth/token"
+    o_auth_token_url="http://auth-server/oauth/token"
 )
 ```
 
@@ -233,9 +229,9 @@ Use OAuth2 password grant flow:
 ```python
 client = create_client_by_url(
     base_url="http://localhost:8080",
-    service_provider_auth_client_id="username",
+    o_auth_client_id="username",
     o_auth_client_secret="password",
-    service_provider_auth_token_url="http://auth-server/oauth/token"
+    o_auth_token_url="http://auth-server/oauth/token"
 )
 ```
 
@@ -318,6 +314,27 @@ client = create_client_by_url(
 }
 ```
 
+### Bearer Token Authentication Example
+
+Bearer tokens are provided as function parameters, not in configuration files:
+
+```python
+from pathlib import Path
+from aas_http_client.client import create_client_by_config
+
+# Minimal config file for bearer token auth
+config = {
+    "BaseUrl": "https://aas-server.example.com",
+    "TimeOut": 300,
+    "SslVerify": true
+}
+
+client = create_client_by_dict(
+    configuration=config,
+    bearer_auth_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+)
+```
+
 ## Error Handling
 
 The client creation methods return `None` if the configuration is invalid or the connection fails:
@@ -347,6 +364,7 @@ Common error scenarios:
 2. **Use environment variables** for sensitive information
 3. **Enable SSL verification** in production environments
 4. **Use OAuth2** instead of basic authentication when possible
+5. **Keep bearer tokens out of configuration files** - pass them as function parameters
 
 ```python
 import os

@@ -790,9 +790,9 @@ def create_client_by_url(
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
-    service_provider_auth_client_id: str = "",
+    o_auth_client_id: str = "",
     o_auth_client_secret: str = "",
-    service_provider_auth_token_url: str = "",
+    o_auth_token_url: str = "",
     bearer_auth_token: str = "",
     http_proxy: str = "",
     https_proxy: str = "",
@@ -806,9 +806,9 @@ def create_client_by_url(
     :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"
     :param basic_auth_username: Username for the AAS server basic authentication, defaults to ""
     :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
-    :param service_provider_auth_client_id: Client ID for service provider authentication, defaults to ""
+    :param o_auth_client_id: Client ID for OAuth authentication, defaults to ""
     :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
-    :param service_provider_auth_token_url: Token URL for service provider authentication, defaults to ""
+    :param o_auth_token_url: Token URL for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :param http_proxy: HTTP proxy URL, defaults to ""
     :param https_proxy: HTTPS proxy URL, defaults to ""
@@ -829,12 +829,12 @@ def create_client_by_url(
     config_dict["TrustEnv"] = trust_env
 
     config_dict["AuthenticationSettings"] = {
-        "BasicAuthentication": {"Username": basic_auth_username},
-        "ServiceProviderAuthentication": {
-            "ClientId": service_provider_auth_client_id,
-            "TokenUrl": service_provider_auth_token_url,
+        "BasicAuth": {"Username": basic_auth_username},
+        "OAuth": {
+            "ClientId": o_auth_client_id,
+            "TokenUrl": o_auth_token_url,
         },
-        "BearerAuthentication": {
+        "BearerAuth": {
             "Token": bearer_auth_token,
         },
     }
@@ -909,19 +909,19 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
     logger.info(f"BaseUrl: '{client.base_url}'")
 
     if client.auth_settings.basic_auth.is_active():
-        logger.info(f"BasicAuthentication: '{client.auth_settings.basic_auth.username}'")
+        logger.info(f"BasicAuth: '{client.auth_settings.basic_auth.username}'")
     else:
-        logger.info("BasicAuthentication: not active")
+        logger.info("BasicAuth: not active")
 
     if client.auth_settings.o_auth.is_active():
-        logger.info(f"ServiceProviderAuthentication:  '{client.auth_settings.o_auth.token_url}': {client.auth_settings.o_auth.client_id}'")
+        logger.info(f"OAuth: '{client.auth_settings.o_auth.token_url}': {client.auth_settings.o_auth.client_id}'")
     else:
-        logger.info("ServiceProviderAuthentication: not active")
+        logger.info("OAuth: not active")
 
     if client.auth_settings.bearer_auth.is_active():
-        logger.info("BearerAuthentication: active")
+        logger.info("BearerAuth: active")
     else:
-        logger.info("BearerAuthentication: not active")
+        logger.info("BearerAuth: not active")
 
     logger.info(f"TimeOut: '{client.time_out}'")
     logger.info(f"HttpsProxy: '{client.https_proxy}'")
