@@ -6,6 +6,7 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 - [Overview](#overview)
 - [Example Configuration File](#example-configuration-file)
+- [Configuration File Parameters](#configuration-file-parameters)
 - [Client Creation Methods](#client-creation-methods)
 - [Configuration Parameters](#configuration-parameters)
 - [Authentication Methods](#authentication-methods)
@@ -53,6 +54,27 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
   - **BasicAuthentication**: HTTP Basic Auth settings (username only, password provided separately)
   - **ServiceProviderAuthentication**: OAuth2 settings for token-based authentication
   - **BearerAuthentication**: Pre-obtained bearer token settings
+
+
+
+### Configuration File Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| **Root Level Parameters** |
+| `BaseUrl` | `string` | Yes | - | Base URL of the AAS server including protocol and port |
+| `TimeOut` | `integer` | No | `200` | Maximum time in seconds to wait for API responses |
+| `ConnectionTimeOut` | `integer` | No | `60` | Maximum time in seconds to wait when establishing connection |
+| `SslVerify` | `boolean` | No | `true` | Whether to verify SSL/TLS certificates for HTTPS requests |
+| `TrustEnv` | `boolean` | No | `true` | Whether to trust environment variables for proxy configuration |
+| `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
+| `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
+| **Authentication Settings** |
+| `AuthenticationSettings.BasicAuthentication.Username` | `string` | No | - | Username for HTTP Basic Authentication |
+| `AuthenticationSettings.ServiceProviderAuthentication.ClientId` | `string` | No | - | OAuth2 client identifier |
+| `AuthenticationSettings.ServiceProviderAuthentication.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
+| `AuthenticationSettings.ServiceProviderAuthentication.GrantType` | `string` | No | - | OAuth2 grant type (`client_credentials` or `password`) |
+| `AuthenticationSettings.BearerAuthentication.Token` | `string` | No | `""` | Pre-obtained bearer token for authentication |
 
 ### Key Points
 
