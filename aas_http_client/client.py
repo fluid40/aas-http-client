@@ -25,11 +25,17 @@ STATUS_CODE_204 = 204
 STATUS_CODE_404 = 404
 HEADERS = {"Content-Type": "application/json"}
 
+# region error logging
 
-def log_response_errors(response: Response):  # noqa: C901
-    """Create error messages from the response and log them.
 
-    :param response: response
+def log_response_errors(response: Response):  # noqa: C901, PLR0912
+    """Extracts and logs error messages from an HTTP response.
+
+    This method parses the response content for error details, messages, or error fields,
+    and logs each error message found. If the response cannot be decoded as JSON,
+    it logs the raw response content. Always logs the HTTP status code.
+
+    :param response: The HTTP response object to extract and log errors from
     """
     result_error_messages: list[str] = []
 
@@ -70,6 +76,11 @@ def log_response_errors(response: Response):  # noqa: C901
         logger.error(result_error_message)
 
 
+# endregion
+
+# region AasHttpClient
+
+
 class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
 
@@ -103,9 +114,13 @@ class AasHttpClient(BaseModel):
             self._session.proxies.update({"http": self.http_proxy})
 
     def get_root(self) -> dict | None:
-        """Get the root of the REST API.
+        """Get the root endpoint of the AAS server API to test connectivity.
 
-        :return: root data as a dictionary or None if an error occurred
+        This method calls the '/shells' endpoint to verify that the AAS server is accessible
+        and responding. It automatically handles authentication token setup if service
+        provider authentication is configured.
+
+        :return: Response data as a dictionary containing shell information, or None if an error occurred
         """
         url = f"{self.base_url}/shells"
 
@@ -126,7 +141,15 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def _set_token_by_client_credentials(self) -> dict | None:
+    def _set_token_by_client_credentials(self):
+        """Set authentication token in session headers based on configured authentication method.
+
+        This internal method determines the appropriate authentication method (bearer token,
+        password-based, or client credentials) and obtains an access token. The token is then
+        added to the session headers for subsequent API requests.
+
+        :raises requests.exceptions.RequestException: If token retrieval fails
+        """
         token = None
 
         if self.auth_settings.bearer_auth.is_active():
@@ -150,6 +173,8 @@ class AasHttpClient(BaseModel):
 
         if token:
             self._session.headers.update({self.auth_settings.service_provider_auth.is_active().header_name: f"Bearer {token}"})
+
+    # endregion
 
     # region shells
 
@@ -778,16 +803,20 @@ def create_client_by_url(
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given parameters.
 
-    :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"_
-    :param username: Username for the AAS server, defaults to ""
-    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
-    :param http_proxy: http proxy URL, defaults to ""
-    :param https_proxy: https proxy URL, defaults to ""
+    :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"
+    :param basic_auth_username: Username for the AAS server basic authentication, defaults to ""
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param service_provider_auth_client_id: Client ID for service provider authentication, defaults to ""
+    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param service_provider_auth_token_url: Token URL for service provider authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :param http_proxy: HTTP proxy URL, defaults to ""
+    :param https_proxy: HTTPS proxy URL, defaults to ""
     :param time_out: Timeout for the API calls, defaults to 200
     :param connection_time_out: Timeout for the connection to the API, defaults to 60
     :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
-    :return: An instance of Http client initialized with the provided parameters.
+    :return: An instance of AasHttpClient initialized with the provided parameters or None if connection fails
     """
     logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
@@ -818,9 +847,11 @@ def create_client_by_dict(
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given configuration.
 
-    :param configuration: Dictionary containing the BaSyx server connection settings.
-    :param basic_auth_password: Password for the AAS server basic auth, defaults to ""
-    :return: An instance of Http client initialized with the provided parameters.
+    :param configuration: Dictionary containing the AAS server connection settings
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
     logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
@@ -833,9 +864,11 @@ def create_client_by_config(
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from a given configuration file.
 
-    :param config_file: Path to the configuration file containing the AAS server connection settings.
-    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
-    :return: An instance of Http client initialized with the provided parameters.
+    :param config_file: Path to the configuration file containing the AAS server connection settings
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
     config_file = config_file.resolve()
     logger.info(f"Create AAS server http client from configuration file '{config_file}'.")
@@ -852,6 +885,19 @@ def create_client_by_config(
 def _create_client(
     config_string: str, basic_auth_password: str, service_provider_auth_client_secret: str, bearer_auth_token: str
 ) -> AasHttpClient | None:
+    """Create and initialize an AAS HTTP client from configuration string.
+
+    This internal method validates the configuration, sets authentication credentials,
+    initializes the client, and tests the connection to the AAS server.
+
+    :param config_string: JSON configuration string containing AAS server settings
+    :param basic_auth_password: Password for basic authentication, defaults to ""
+    :param service_provider_auth_client_secret: Client secret for service provider authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :return: An initialized and connected AasHttpClient instance or None if connection fails
+    :raises ValidationError: If the configuration string is invalid
+    :raises TimeoutError: If connection to the server times out
+    """
     try:
         client = AasHttpClient.model_validate_json(config_string)
     except ValidationError as ve:
@@ -899,6 +945,16 @@ def _create_client(
 
 
 def _connect_to_api(client: AasHttpClient) -> bool:
+    """Test the connection to the AAS server API with retry logic.
+
+    This internal method attempts to establish a connection to the AAS server by calling
+    the get_root() method. It retries the connection for the duration specified in the
+    client's connection_time_out setting, sleeping 1 second between attempts.
+
+    :param client: The AasHttpClient instance to test the connection for
+    :return: True if connection is successful, False otherwise
+    :raises TimeoutError: If connection attempts fail for the entire timeout duration
+    """
     start_time = time.time()
     logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
     counter: int = 0
