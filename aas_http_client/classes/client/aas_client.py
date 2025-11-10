@@ -11,10 +11,10 @@ from basyx.aas.model import Reference, Submodel
 from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
-from requests.models import Response
 
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.core.encoder import decode_base_64
+from aas_http_client.utilities.http_helper import log_response_errors
 
 logger = logging.getLogger(__name__)
 
@@ -23,59 +23,6 @@ STATUS_CODE_201 = 201
 STATUS_CODE_202 = 202
 STATUS_CODE_204 = 204
 STATUS_CODE_404 = 404
-
-# region error logging
-
-
-def log_response_errors(response: Response):  # noqa: C901, PLR0912
-    """Extracts and logs error messages from an HTTP response.
-
-    This method parses the response content for error details, messages, or error fields,
-    and logs each error message found. If the response cannot be decoded as JSON,
-    it logs the raw response content. Always logs the HTTP status code.
-
-    :param response: The HTTP response object to extract and log errors from
-    """
-    result_error_messages: list[str] = []
-
-    try:
-        response_content_dict: dict = json.loads(response.content)
-
-        if "detail" in response_content_dict:
-            detail: dict = response_content_dict.get("detail", {})
-            if "error" in detail:
-                error: str = detail.get("error", "")
-                result_error_messages.append(f"{error}")
-            else:
-                result_error_messages.append(f"{detail}")
-
-        elif "messages" in response_content_dict or "Messages" in response_content_dict:
-            messages: list = response_content_dict.get("messages", [])
-
-            if not messages:
-                messages = response_content_dict.get("Messages", [])
-
-            for message in messages:
-                if isinstance(message, dict) and "message" in message:
-                    result_error_messages.append(message["message"])
-                else:
-                    result_error_messages.append(str(message))
-        elif "error" in response_content_dict:
-            result_error_messages.append(response_content_dict.get("error", ""))
-
-        if len(result_error_messages) == 0 and response.text:
-            result_error_messages.append(response.text)
-
-    except json.JSONDecodeError:
-        if response.content and response.content != "b''":
-            result_error_messages.append(response.content)
-
-    logger.error(f"Status code: {response.status_code}")
-    for result_error_message in result_error_messages:
-        logger.error(result_error_message)
-
-
-# endregion
 
 # region AasHttpClient
 
