@@ -72,9 +72,8 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 ### Key Points
 
 1. **Authentication compatibility**:
-   - ✅ Basic Authentication + OAuth2: Supported
-   - ✅ Basic Authentication + Bearer Token: Supported
-   - ❌ Bearer Token + OAuth2: Not supported
+   - ✅ Only one authentication method should be configured at a time
+   - If multiple methods are accidentally configured, priority order is: Bearer Token → OAuth2 → Basic Authentication
 2. **Passwords and secrets** are provided separately via function parameters for security
 3. **Bearer tokens** are provided via function parameters, not configuration files
 4. **All settings are optional** except `BaseUrl`
