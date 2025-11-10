@@ -31,13 +31,6 @@ def start() -> None:
     # add submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, submodel)
 
-    # client = aas_client.create_client_by_url(
-    #     "http://javaaasserver:8075/",
-    #     service_provider_auth_client_id="fluid40",
-    #     service_provider_auth_client_secret="LdFB4jRrMMkgcVWgFkOVdDVDXtQ5os8w",
-    #     service_provider_auth_token_url="https://aurora-fluid40.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
-    # )
-
     wrapper = sdk_wrapper.create_wrapper_by_config(Path("./aas_http_client/demo/java_server_config.yml"))
 
     for existing_shell in wrapper.get_all_asset_administration_shells():
