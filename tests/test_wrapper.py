@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
+from aas_http_client.classes.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from basyx.aas import model
 
-from aas_http_client import client as aas_client
+from aas_http_client.classes.client import aas_client as aas_client
 from aas_http_client.utilities import model_builder, sdk_tools
 from aas_http_client.wrapper import sdk_wrapper
 

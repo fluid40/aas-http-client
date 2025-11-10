@@ -6,7 +6,7 @@ from pathlib import Path
 
 from basyx.aas import model
 
-from aas_http_client.client import AasHttpClient, _create_client
+from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
