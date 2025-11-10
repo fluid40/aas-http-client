@@ -1,5 +1,5 @@
 {
-	"BaseUrl": "http://localhost:8075/",
+	"BaseUrl": "",
 	"HttpsProxy": null,
 	"HttpProxy": null,
 	"TimeOut": 200,
@@ -7,11 +7,13 @@
 	"SslVerify": true,
 	"TrustEnv": true,
 	"AuthenticationSettings": {
-		"BasicAuthentication": {
-
+		"BasicAuth": {
+			"Username": ""
 		},
-		"ServiceProviderAuthentication": {
-
+		"OAuth": {
+			"ClientId": "",
+			"TokenUrl": "",
+			"GrantType": "client_credentials"
 		}
 	}
 }

@@ -6,32 +6,44 @@ from pathlib import Path
 
 from basyx.aas import model
 
-from aas_http_client.client import AasHttpClient, _create_client
+from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
 logger = logging.getLogger(__name__)
 
 
+# region SdkWrapper
 class SdkWrapper:
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
 
     _client: AasHttpClient = None
     base_url: str = ""
 
-    def __init__(self, config_string: str, basic_auth_password: str = "", service_provider_auth_client_secret: str = ""):
+    def __init__(self, config_string: str, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""):
         """Initializes the wrapper with the given configuration.
 
         :param config_string: Configuration string for the BaSyx server connection.
         :param basic_auth_password: Password for the BaSyx server interface client, defaults to "".
+        :param o_auth_client_secret: Client secret for OAuth authentication, defaults to "".
+        :param bearer_auth_token: Bearer token for authentication, defaults to "".
         """
-        client = _create_client(config_string, basic_auth_password, service_provider_auth_client_secret)
+        client = _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
 
         self._client = client
         self.base_url = client.base_url
+
+    def get_client(self) -> AasHttpClient:
+        """Returns the underlying AAS HTTP client.
+
+        :return: The AAS HTTP client instance.
+        """
+        return self._client
+
+    # endregion
 
     # region shells
 
@@ -302,15 +314,8 @@ class SdkWrapper:
         """
         return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
 
-    # endregion
 
-    def get_client(self) -> AasHttpClient:
-        """Returns the underlying AAS HTTP client.
-
-        :return: The AAS HTTP client instance.
-        """
-        return self._client
-
+# endregion
 
 # region wrapper
 
@@ -319,9 +324,10 @@ def create_wrapper_by_url(
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
-    service_provider_auth_client_id: str = "",
-    service_provider_auth_client_secret: str = "",
-    service_provider_auth_token_url: str = "",
+    o_auth_client_id: str = "",
+    o_auth_client_secret: str = "",
+    o_auth_token_url: str = "",
+    bearer_auth_token: str = "",
     http_proxy: str = "",
     https_proxy: str = "",
     time_out: int = 200,
@@ -331,57 +337,68 @@ def create_wrapper_by_url(
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given parameters.
 
-    :param base_url: base URL of the BaSyx server, e.g. "http://basyx_python_server:80/"
-    :param basic_auth_username: username for the BaSyx server interface client, defaults to ""
-    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
-    :param http_proxy: http proxy URL, defaults to ""
-    :param https_proxy: https proxy URL, defaults to ""
-    :param time_out: timeout for the API calls, defaults to 200
-    :param connection_time_out: timeout for the connection to the API, defaults to 60
-    :param ssl_verify: whether to verify SSL certificates, defaults to True
+    :param base_url: Base URL of the AAS server, e.g. "http://basyx_python_server:80/"
+    :param basic_auth_username: Username for the AAS server basic authentication, defaults to ""
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param o_auth_client_id: Client ID for OAuth authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
+    :param o_auth_token_url: Token URL for OAuth authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :param http_proxy: HTTP proxy URL, defaults to ""
+    :param https_proxy: HTTPS proxy URL, defaults to ""
+    :param time_out: Timeout for the API calls, defaults to 200
+    :param connection_time_out: Timeout for the connection to the API, defaults to 60
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
-    :return: An instance of SdkWrapper initialized with the provided parameters.
+    :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
-    logger.info(f"Create AAS server wrapper from URL '{base_url}'.")
+    logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, str] = {}
-    config_dict["base_url"] = base_url
-    config_dict["http_proxy"] = http_proxy
-    config_dict["https_proxy"] = https_proxy
-    config_dict["time_out"] = time_out
-    config_dict["connection_time_out"] = connection_time_out
-    config_dict["ssl_verify"] = ssl_verify
-    config_dict["trust_env"] = trust_env
+    config_dict["BaseUrl"] = base_url
+    config_dict["HttpProxy"] = http_proxy
+    config_dict["HttpsProxy"] = https_proxy
+    config_dict["TimeOut"] = time_out
+    config_dict["ConnectionTimeOut"] = connection_time_out
+    config_dict["SslVerify"] = ssl_verify
+    config_dict["TrustEnv"] = trust_env
 
-    if basic_auth_password and basic_auth_username:
-        config_dict["basic_auth"] = {"username": basic_auth_username}
+    config_dict["AuthenticationSettings"] = {
+        "BasicAuth": {"Username": basic_auth_username},
+        "OAuth": {
+            "ClientId": o_auth_client_id,
+            "TokenUrl": o_auth_token_url,
+        },
+    }
 
-    if service_provider_auth_client_id and service_provider_auth_client_secret and service_provider_auth_token_url:
-        config_dict["service_provider_auth"] = {
-            "client_id": service_provider_auth_client_id,
-            "token_url": service_provider_auth_token_url,
-        }
-
-    return create_wrapper_by_dict(config_dict, basic_auth_password)
+    return create_wrapper_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_wrapper_by_dict(configuration: dict, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> SdkWrapper | None:
+def create_wrapper_by_dict(
+    configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
+) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given configuration.
 
-    :param config: Dictionary containing the BaSyx server connection settings.
-    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
-    :return: An instance of SdkWrapper initialized with the provided parameters.
+    :param configuration: Dictionary containing the AAS server connection settings
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
     logger.info("Create AAS server wrapper from dictionary.")
     config_string = json.dumps(configuration, indent=4)
-    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret)
+    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_wrapper_by_config(config_file: Path, basic_auth_password: str = "", service_provider_auth_client_secret: str = "") -> SdkWrapper | None:
+def create_wrapper_by_config(
+    config_file: Path, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
+) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from a given configuration file.
 
-    :param config_file: Path to the configuration file containing the BaSyx server connection settings.
-    :param basic_auth_password: password for the BaSyx server basic auth, defaults to ""
-    :return: An instance of SdkWrapper initialized with the provided parameters.
+    :param config_file: Path to the configuration file containing the AAS server connection settings
+    :param basic_auth_password: Password for the AAS server basic authentication, defaults to ""
+    :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
+    :param bearer_auth_token: Bearer token for authentication, defaults to ""
+    :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
     logger.info(f"Create AAS wrapper client from configuration file '{config_file}'.")
     if not config_file.exists():
@@ -390,7 +407,7 @@ def create_wrapper_by_config(config_file: Path, basic_auth_password: str = "", s
     else:
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration file '{config_file}' found.")
-    return SdkWrapper(config_string, basic_auth_password, service_provider_auth_client_secret)
+    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 # endregion

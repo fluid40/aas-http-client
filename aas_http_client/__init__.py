@@ -12,10 +12,10 @@ except importlib.metadata.PackageNotFoundError:
 __project__ = "aas-http-client"
 __package__ = "aas-http-client"
 
-from aas_http_client.client import AasHttpClient, create_client_by_config, create_client_by_url
+from aas_http_client.classes.client.aas_client import AasHttpClient, create_client_by_config, create_client_by_url
+from aas_http_client.classes.wrapper.sdk_wrapper import SdkWrapper, create_wrapper_by_config, create_wrapper_by_url
 from aas_http_client.core.version_check import check_for_update
 from aas_http_client.utilities import model_builder, sdk_tools
-from aas_http_client.wrapper.sdk_wrapper import SdkWrapper, create_wrapper_by_config, create_wrapper_by_url
 
 check_for_update()
 
