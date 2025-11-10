@@ -368,9 +368,6 @@ def create_wrapper_by_url(
             "ClientId": o_auth_client_id,
             "TokenUrl": o_auth_token_url,
         },
-        "BearerAuth": {
-            "Token": bearer_auth_token,
-        },
     }
 
     return create_wrapper_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)

@@ -23,7 +23,6 @@ STATUS_CODE_201 = 201
 STATUS_CODE_202 = 202
 STATUS_CODE_204 = 204
 STATUS_CODE_404 = 404
-HEADERS = {"Content-Type": "application/json"}
 
 # region error logging
 
@@ -103,7 +102,8 @@ class AasHttpClient(BaseModel):
 
         self._session = requests.Session()
 
-        self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
+        if self.auth_settings.basic_auth.is_active():
+            self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
 
         self._session.verify = self.ssl_verify
         self._session.trust_env = self.trust_env
@@ -112,6 +112,15 @@ class AasHttpClient(BaseModel):
             self._session.proxies.update({"https": self.https_proxy})
         if self.http_proxy:
             self._session.proxies.update({"http": self.http_proxy})
+
+        self._session.headers.update(
+            {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "User-Agent": "python-requests/2.32.5",
+                "Connection": "close",
+            }
+        )
 
     def get_root(self) -> dict | None:
         """Get the root endpoint of the AAS server API to test connectivity.
@@ -127,7 +136,7 @@ class AasHttpClient(BaseModel):
         self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=10)
+            response = self._session.get(url, timeout=10)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -141,7 +150,7 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def _set_token_by_client_credentials(self):
+    def _set_token_by_client_credentials(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
 
         This internal method determines the appropriate authentication method (bearer token,
@@ -172,7 +181,10 @@ class AasHttpClient(BaseModel):
             )
 
         if token:
-            self._session.headers.update({self.auth_settings.o_auth.is_active().header_name: f"Bearer {token}"})
+            self._session.headers.update({"Authorization": f"Bearer {token.strip()}"})
+            return token.strip()
+
+        return None
 
     # endregion
 
@@ -191,7 +203,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.post(url, json=aas_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -219,7 +231,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=aas_data, timeout=self.time_out)
+            response = self._session.put(url, json=aas_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code is not STATUS_CODE_204:
@@ -247,7 +259,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(url, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -271,7 +283,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -298,7 +310,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -325,7 +337,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -355,7 +367,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -382,7 +394,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.delete(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -411,7 +423,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.post(url, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -439,7 +451,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.put(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(url, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -463,7 +475,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -490,7 +502,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -517,7 +529,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.patch(url, headers=HEADERS, json=submodel_data, timeout=self.time_out)
+            response = self._session.patch(url, json=submodel_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -543,7 +555,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.delete(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -569,7 +581,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -596,7 +608,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
+            response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -625,7 +637,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.post(url, headers=HEADERS, json=submodel_element_data, timeout=self.time_out)
+            response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -654,7 +666,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.get(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -683,7 +695,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.delete(url, headers=HEADERS, timeout=self.time_out)
+            response = self._session.delete(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -712,7 +724,7 @@ class AasHttpClient(BaseModel):
             self._set_token_by_client_credentials()
 
         try:
-            response = self._session.patch(url, headers=HEADERS, json=value, timeout=self.time_out)
+            response = self._session.patch(url, json=value, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -833,9 +845,6 @@ def create_client_by_url(
         "OAuth": {
             "ClientId": o_auth_client_id,
             "TokenUrl": o_auth_token_url,
-        },
-        "BearerAuth": {
-            "Token": bearer_auth_token,
         },
     }
 
