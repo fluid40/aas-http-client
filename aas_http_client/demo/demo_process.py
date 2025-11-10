@@ -38,17 +38,13 @@ def start() -> None:
     #     service_provider_auth_token_url="https://aurora-fluid40.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
     # )
 
-    # client = aas_client.create_client_by_config(Path("./aas_http_client/demo/java_server_config.yml"))
-
-    # tmp = get_token_by_basic_auth(
-    #     "https://aurora-fluid40.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
-    #     "fluid40",
-    #     "LdFB4jRrMMkgcVWgFkOVdDVDXtQ5os8w",
-    # )
-
     wrapper = sdk_wrapper.create_wrapper_by_config(Path("./aas_http_client/demo/java_server_config.yml"))
 
-    oauth = sdk_wrapper.create_wrapper_by_url(
+    basic_auth = aas_client.create_client_by_url(
+        base_url="https://dt-gui-alm.em.ag/aas-env/", basic_auth_username="admin", basic_auth_password="OXpYhAzMS5vF905e5khg"
+    )
+
+    oauth = aas_client.create_client_by_url(
         base_url="https://aurora-fluid40.iqstruct-engineering.de/aas-env",
         o_auth_token_url="https://aurora-fluid40.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
         o_auth_client_id="workstation-1",
@@ -56,7 +52,7 @@ def start() -> None:
         ssl_verify=False,
     )
 
-    bearer_client = sdk_wrapper.create_wrapper_by_url(
+    bearer_client = aas_client.create_client_by_url(
         base_url="https://fluid40.imd.mw.tu-dresden.de/hack5/",
         bearer_auth_token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbHVpZDQwc3RhdHVzIjoicGFydG5lciIsInN1YiI6ImRhbmllbCIsInVzZXJOYW1lIjoiZGFuaWVsQGZsdWlkNDAuZGUiLCJzZXJ2ZXJOYW1lIjoiRkw0MC1UZXN0LUlEUCIsImRvbWFpbiI6ImZsdWlkNDAuZGUiLCJpc3MiOiJmbHVpZDQwLWlkcC50dS1kcmVzZGVuLmRlIiwiYXVkIjoiaHR0cHM6Ly9mbHVpZDQwLmltZC5tdy50dS1kcmVzZGVuLmRlL2hhY2s1IiwiZXhwIjoxNzkzNjkzODAxLCJpYXQiOjE3NjIyNDQyMDEsImp0aSI6ImRkNTU0NGM1LWUyNzktNGI2ZC04NjE2LWY4YjU3ZDA5MTc2ZSIsImNsaWVudF9pZCI6ImRhbmllbF9fZGQ1NTQ0YzUtZTI3OS00YjZkLTg2MTYtZjhiNTdkMDkxNzZlIn0.fo1e9LLlfpQ6Q_2Soymvlo4iBXvOwFI_4pu4AjFb8wX7iwsGOq6h7axYvB_Co21GZIcAbkaxD-IwvOQv22P49XffzeIAPiisNjxs5rRYZIBK1bL27pC8fC3F3EcyNayrnay-95-a3QkuPSSVL4pjXppjJlrjPSkLabvZHbWuEKWsr2pJ-lemc0dKHCI6DrYx6xgL4_Rj4QV2MK0u6uFHKOPm_GyY9RjHPU53Aca38xoIOl7egRn104YXTmaFLutXMD6PwwfbwPjX2xnzsqa_IotZ_9Z5J2hazTA3DuUtdD3nwr6vxNcJxNoHGzFWSDE44lhw9izv_FdXwYOMC-RSPw",
     )

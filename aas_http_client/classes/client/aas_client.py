@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
+from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.core.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import log_response_errors
@@ -41,6 +42,7 @@ class AasHttpClient(BaseModel):
     ssl_verify: bool = Field(default=True, alias="SslVerify", description="Enable SSL verification.")
     trust_env: bool = Field(default=True, alias="TrustEnv", description="Trust environment variables.")
     _session: Session = PrivateAttr(default=None)
+    _auth_method: AuthMethod = PrivateAttr(default=AuthMethod.basic_auth)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -49,8 +51,7 @@ class AasHttpClient(BaseModel):
 
         self._session = requests.Session()
 
-        if self.auth_settings.basic_auth.is_active():
-            self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
+        self._handle_auth_method()
 
         self._session.verify = self.ssl_verify
         self._session.trust_env = self.trust_env
@@ -69,6 +70,25 @@ class AasHttpClient(BaseModel):
             }
         )
 
+    def _handle_auth_method(self):
+        """Handles the authentication method based on the provided settings."""
+        if self.auth_settings.bearer_auth.is_active():
+            self._auth_method = AuthMethod.bearer
+            logger.info("Authentication method: Bearer Token")
+            self._session.headers.update({"Authorization": f"Bearer {self.auth_settings.bearer_auth.get_token()}"})
+        elif self.auth_settings.o_auth.is_active():
+            self._auth_method = AuthMethod.o_auth
+            logger.info(
+                f"Authentication method: OAuth | '{self.auth_settings.o_auth.client_id}' | '{self.auth_settings.o_auth.token_url}' | '{self.auth_settings.o_auth.grant_type}'"
+            )
+        elif self.auth_settings.basic_auth.is_active():
+            self._auth_method = AuthMethod.basic_auth
+            logger.info(f"Authentication method: Basic Auth | '{self.auth_settings.basic_auth.username}'")
+            self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
+        else:
+            self._auth_method = AuthMethod.No
+            logger.info("Authentication method: No Authentication")
+
     def get_root(self) -> dict | None:
         """Get the root endpoint of the AAS server API to test connectivity.
 
@@ -80,7 +100,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/shells"
 
-        self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=10)
@@ -97,39 +117,19 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def _set_token_by_client_credentials(self) -> str | None:
+    def _set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
-
-        This internal method determines the appropriate authentication method (bearer token,
-        password-based, or client credentials) and obtains an access token. The token is then
-        added to the session headers for subsequent API requests.
 
         :raises requests.exceptions.RequestException: If token retrieval fails
         """
-        token = None
+        if self._auth_method != AuthMethod.o_auth:
+            return None
 
-        if self.auth_settings.bearer_auth.is_active():
-            token = self.auth_settings.bearer_auth.get_token()
-
-        elif self.auth_settings.o_auth.is_active() and self.auth_settings.o_auth.grant_type == "password":
-            token = get_token_by_password(
-                self.auth_settings.o_auth.token_url,
-                self.auth_settings.o_auth.client_id,
-                self.auth_settings.o_auth.get_client_secret(),
-                self.time_out,
-            )
-
-        elif self.auth_settings.o_auth.is_active() and self.auth_settings.o_auth.grant_type == "client_credentials":
-            token = get_token_by_basic_auth(
-                self.auth_settings.o_auth.token_url,
-                self.auth_settings.o_auth.client_id,
-                self.auth_settings.o_auth.get_client_secret(),
-                self.time_out,
-            )
+        token = get_token(self.auth_settings.o_auth).strip()
 
         if token:
-            self._session.headers.update({"Authorization": f"Bearer {token.strip()}"})
-            return token.strip()
+            self._session.headers.update({"Authorization": f"Bearer {token}"})
+            return token
 
         return None
 
@@ -146,8 +146,7 @@ class AasHttpClient(BaseModel):
         url = f"{self.base_url}/shells"
         logger.debug(f"Call REST API url '{url}'")
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.post(url, json=aas_data, timeout=self.time_out)
@@ -174,8 +173,7 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.put(url, json=aas_data, timeout=self.time_out)
@@ -202,8 +200,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.put(url, json=submodel_data, timeout=self.time_out)
@@ -226,8 +223,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/shells"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -253,8 +249,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -280,8 +275,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -310,8 +304,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -337,8 +330,7 @@ class AasHttpClient(BaseModel):
         decoded_aas_id: str = decode_base_64(aas_id)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.delete(url, timeout=self.time_out)
@@ -366,8 +358,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/submodels"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.post(url, json=submodel_data, timeout=self.time_out)
@@ -394,8 +385,7 @@ class AasHttpClient(BaseModel):
         decoded_identifier: str = decode_base_64(identifier)
         url = f"{self.base_url}/submodels/{decoded_identifier}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.put(url, json=submodel_data, timeout=self.time_out)
@@ -418,8 +408,7 @@ class AasHttpClient(BaseModel):
         """
         url = f"{self.base_url}/submodels"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -445,8 +434,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -472,8 +460,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.patch(url, json=submodel_data, timeout=self.time_out)
@@ -498,8 +485,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.delete(url, timeout=self.time_out)
@@ -524,8 +510,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -551,8 +536,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
@@ -580,8 +564,7 @@ class AasHttpClient(BaseModel):
         decoded_submodel_id: str = decode_base_64(submodel_id)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
@@ -609,8 +592,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.get(url, timeout=self.time_out)
@@ -638,8 +620,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.delete(url, timeout=self.time_out)
@@ -667,8 +648,7 @@ class AasHttpClient(BaseModel):
 
         url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
 
-        if self.auth_settings.o_auth.is_active():
-            self._set_token_by_client_credentials()
+        self._set_token()
 
         try:
             response = self._session.patch(url, json=value, timeout=self.time_out)
@@ -688,61 +668,6 @@ class AasHttpClient(BaseModel):
 # endregion
 
 # region client
-
-
-def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
-    """Get token from a specific authentication service provider by basic authentication.
-
-    :param endpoint: Get token endpoint for the authentication service provider
-    :param username: Username for the authentication service provider
-    :param password: Password for the authentication service provider
-    :param timeout: Timeout for the API calls, defaults to 200
-    :return: Access token or None if an error occurred
-    """
-    data = {"grant_type": "client_credentials"}
-
-    auth = HTTPBasicAuth(username, password)
-
-    return _get_token(endpoint, data, auth, timeout)
-
-
-def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
-    """Get token from a specific authentication service provider by username and password.
-
-    :param endpoint: Get token endpoint for the authentication service provider
-    :param username: Username for the authentication service provider
-    :param password: Password for the authentication service provider
-    :param timeout: Timeout for the API calls, defaults to 200
-    :return: Access token or None if an error occurred
-    """
-    data = {"grant_type": "password", "username": username, "password": password}
-
-    return _get_token(endpoint, data, None, timeout)
-
-
-def _get_token(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> dict | None:
-    """Get token from a specific authentication service provider.
-
-    :param endpoint: Get token endpoint for the authentication service provider
-    :param data: Data for the authentication service provider
-    :param timeout: Timeout for the API calls, defaults to 200
-    :return: Access token or None if an error occurred
-    """
-    try:
-        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
-        logger.debug(f"Call REST API url '{response.url}'")
-
-        if response.status_code != STATUS_CODE_200:
-            log_response_errors(response)
-            return None
-
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Error call REST API: {e}")
-        return False
-
-    content = response.content.decode("utf-8")
-    data = json.loads(content)
-    return data.get("access_token", None)
 
 
 def create_client_by_url(
@@ -863,28 +788,13 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
 
     logger.info("Using server configuration:")
     logger.info(f"BaseUrl: '{client.base_url}'")
-
-    if client.auth_settings.basic_auth.is_active():
-        logger.info(f"BasicAuth: '{client.auth_settings.basic_auth.username}'")
-    else:
-        logger.info("BasicAuth: not active")
-
-    if client.auth_settings.o_auth.is_active():
-        logger.info(f"OAuth: '{client.auth_settings.o_auth.token_url}': {client.auth_settings.o_auth.client_id}'")
-    else:
-        logger.info("OAuth: not active")
-
-    if client.auth_settings.bearer_auth.is_active():
-        logger.info("BearerAuth: active")
-    else:
-        logger.info("BearerAuth: not active")
-
     logger.info(f"TimeOut: '{client.time_out}'")
     logger.info(f"HttpsProxy: '{client.https_proxy}'")
     logger.info(f"HttpProxy: '{client.http_proxy}'")
     logger.info(f"ConnectionTimeOut: '{client.connection_time_out}'.")
     logger.info(f"SSLVerify: '{client.ssl_verify}'.")
     logger.info(f"TrustEnv: '{client.trust_env}'.")
+
     client.initialize()
 
     # test the connection to the REST API
