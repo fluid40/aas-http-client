@@ -13,7 +13,7 @@ from requests import Session
 from requests.auth import HTTPBasicAuth
 from requests.models import Response
 
-from aas_http_client.classes.config_classes import AuthenticationConfig
+from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.core.encoder import decode_base_64
 
 logger = logging.getLogger(__name__)
