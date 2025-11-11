@@ -274,8 +274,8 @@ jobs:
             **Commit:** `${{ steps.get_version.outputs.hash }}`
 
             ### 🧩 Build Information
-            - Docker image: `engineeringmethodsag/fluid-runtime:${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.hash }}`
-            - Latest tag: `engineeringmethodsag/fluid-runtime:latest`
+            - Pypi package: `aas-http-client ${{ steps.get_version.outputs.version }}`
+            - `pip install aas-http-client`
 
             ### 🔗 Links
             - [Compare changes](https://github.com/${{ github.repository }}/compare/last...v${{ steps.get_version.outputs.version }})
