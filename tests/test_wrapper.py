@@ -352,7 +352,7 @@ def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 1
+    assert len(submodel_elements.results) == 1
 
 def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_bool: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_bool)
@@ -371,7 +371,7 @@ def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 2
+    assert len(submodel_elements.results) == 2
 
 def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_int: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_int)
@@ -390,7 +390,7 @@ def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 3
+    assert len(submodel_elements.results) == 3
 
 def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_float: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_float)
@@ -409,7 +409,7 @@ def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 4
+    assert len(submodel_elements.results) == 4
 
 def test_017a_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
