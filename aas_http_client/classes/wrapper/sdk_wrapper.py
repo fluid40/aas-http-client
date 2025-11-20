@@ -222,7 +222,6 @@ class SdkWrapper:
         :return: Submodel element data or None if an error occurred
         """
         content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, level, extent)
-        print(content)
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
