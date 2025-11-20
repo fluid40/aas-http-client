@@ -34,9 +34,14 @@ def convert_to_object(content: dict) -> Any | None:
     :param content: dictionary to convert
     :return: BaSyx SDK framework object or None
     """
+    if not content or len(content) == 0:
+        logger.debug("Empty content provided for conversion to object.")
+        return None
+
     try:
         dict_string = json.dumps(content)
-        return json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        model_object = json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return model_object
     except Exception as e:
         logger.error(f"Decoding error: {e}")
         logger.error(f"In JSON: {content}")
@@ -49,9 +54,14 @@ def convert_to_dict(object: Any) -> dict | None:
     :param object: BaSyx SDK framework object to convert
     :return: dictionary representation of the object or None
     """
+    if not object:
+        logger.debug("Empty object provided for conversion to dictionary.")
+        return None
+
     try:
         data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        return json.loads(data_string)
+        model_dict = json.loads(data_string)
+        return model_dict
     except Exception as e:
         logger.error(f"Encoding error: {e}")
         logger.error(f"In object: {object}")

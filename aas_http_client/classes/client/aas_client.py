@@ -141,7 +141,7 @@ class AasHttpClient(BaseModel):
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_id: ID of the AAS to retrieve
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
         :return: Asset Administration Shells data or None if an error occurred
         """
         decoded_aas_id: str = decode_base_64(aas_identifier)
@@ -168,8 +168,8 @@ class AasHttpClient(BaseModel):
     def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param aas_identifier: Identifier of the AAS to update
-        :param request_body: Json data of the Asset Administration Shell data to update
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param request_body: Json data of the Asset Administration Shell data to put
         :return: True if the update was successful, False otherwise
         """
         decoded_identifier: str = decode_base_64(aas_identifier)
@@ -195,7 +195,7 @@ class AasHttpClient(BaseModel):
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_identifier: ID of the AAS to retrieve
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
         :return: True if the deletion was successful, False otherwise
         """
         decoded_aas_id: str = decode_base_64(aas_identifier)
@@ -230,7 +230,7 @@ class AasHttpClient(BaseModel):
         """Returns all Asset Administration Shells.
 
         :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
-        :param idShort: The Asset Administration Shell’s IdShort
+        :param idShort: The Asset Administration Shell's IdShort
         :param limit: The maximum number of elements in the response array
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells data or None if an error occurred
@@ -307,7 +307,7 @@ class AasHttpClient(BaseModel):
 
         :param aas_identifier: ID of the AAS to update the submodel for
         :param submodel_identifier: ID of the submodel to update
-        :param request_body: Json data to the Submodel to update
+        :param request_body: Json data to the Submodel to put
         :return: True if the update was successful, False otherwise
         """
         decoded_aas_id: str = decode_base_64(aas_identifier)
@@ -334,7 +334,7 @@ class AasHttpClient(BaseModel):
     def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
-        :param aas_id: ID of the AAS reference to retrieve
+        :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference data or None if an error occurred
         """
         decoded_aas_id: str = decode_base_64(aas_identifier)
@@ -355,7 +355,7 @@ class AasHttpClient(BaseModel):
             return None
 
         ref_dict_string = response.content.decode("utf-8")
-        return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return json.loads(ref_dict_string)
 
     # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
     def get_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> Submodel | None:

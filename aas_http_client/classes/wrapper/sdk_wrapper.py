@@ -7,6 +7,7 @@ from pathlib import Path
 from basyx.aas import model
 
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
+from aas_http_client.classes.wrapper.pagination import ShellPaginatedData, create_shell_paging_data
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
@@ -14,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 # region SdkWrapper
+
+
 class SdkWrapper:
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
 
@@ -47,109 +50,116 @@ class SdkWrapper:
 
     # region shells
 
+    # GET /shells/{aasIdentifier}
+    def get_asset_administration_shell_by_id(self, aas_identifier: str) -> model.AssetAdministrationShell | None:
+        """Returns a specific Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :return: Asset Administration Shells or None if an error occurred
+        """
+        content: dict = self._client.get_asset_administration_shell_by_id(aas_identifier)
+
+        if not content:
+            logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
+            return None
+
+        return _to_object(content)
+
+    # PUT /shells/{aasIdentifier}
+    def put_asset_administration_shell_by_id(self, aas_identifier: str, aas: model.AssetAdministrationShell) -> bool:
+        """Creates or replaces an existing Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas: Asset Administration Shell to put
+        :return: True if the update was successful, False otherwise
+        """
+        aas_data = _to_dict(aas)
+        return self._client.put_asset_administration_shell_by_id(aas_identifier, aas_data)
+
+    # DELETE /shells/{aasIdentifier}
+    def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
+        """Deletes an Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :return: True if the deletion was successful, False otherwise
+        """
+        return self._client.delete_asset_administration_shell_by_id(aas_identifier)
+
+    # GET /shells/{aasIdentifier}
+    # PUT /shells/{aasIdentifier}
+    # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+
+    # GET /shells
+    def get_all_asset_administration_shells(
+        self, asset_ids: list[dict] | None = None, id_short: str = "", limit: int = 100, cursor: str = ""
+    ) -> ShellPaginatedData | None:
+        """Returns all Asset Administration Shells.
+
+        :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
+        :param idShort: The Asset Administration Shell's IdShort
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :return: List of paginated Asset Administration Shells or None if an error occurred
+        """
+        content: dict = self._client.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
+
+        if not content:
+            return None
+
+        return create_shell_paging_data(content)
+
+    # POST /shells
     def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
         """Creates a new Asset Administration Shell.
 
         :param aas: Asset Administration Shell to post
-        :return: Response data as a dictionary or None if an error occurred
+        :return: Asset Administration Shell or None if an error occurred
         """
         aas_data = _to_dict(aas)
         content: dict = self._client.post_asset_administration_shell(aas_data)
         return _to_object(content)
 
-    def put_asset_administration_shell_by_id(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
-        """Creates or replaces an existing Asset Administration Shell.
+    # GET /shells/{aasIdentifier}/submodel-refs
+    # POST /shells/{aasIdentifier}/submodel-refs
+    # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
 
-        :param identifier: Identifier of the AAS to update
-        :param aas: Asset Administration Shell data to update
-        :return: True if the update was successful, False otherwise
-        """
-        aas_data = _to_dict(aas)
-        return self._client.put_asset_administration_shell_by_id(identifier, aas_data)
+    # not supported by Java Server
 
-    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel: model.Submodel) -> bool:
+    # PUT /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, submodel: model.Submodel) -> bool:
         """Updates the Submodel.
 
-        :param aas_id: ID of the AAS to update the submodel for
-        :param submodel: Submodel data to update
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param submodel_identifier: ID of the submodel to put
+        :param submodel: Submodel to put
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.put_submodel_by_id_aas_repository(aas_id, submodel_id, sm_data)
+        return self._client.put_submodel_by_id_aas_repository(aas_identifier, submodel_identifier, sm_data)
 
-    def get_all_asset_administration_shells(self) -> list[model.AssetAdministrationShell] | None:
-        """Returns all Asset Administration Shells.
-
-        :return: Asset Administration Shells objects or None if an error occurred
-        """
-        content: dict = self._client.get_all_asset_administration_shells()
-
-        if not content:
-            return None
-
-        results: list = content.get("result", [])
-        if not results:
-            logger.warning("No shells found on server.")
-            return []
-
-        aas_list: list[model.AssetAdministrationShell] = []
-
-        for result in results:
-            if not isinstance(result, dict):
-                logger.error(f"Invalid shell data: {result}")
-                return None
-
-            aas = _to_object(result)
-
-            if aas:
-                aas_list.append(aas)
-
-        return aas_list
-
-    def get_asset_administration_shell_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
-        """Returns a specific Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: Asset Administration Shells object or None if an error occurred
-        """
-        content: dict = self._client.get_asset_administration_shell_by_id(aas_id)
-
-        if not content:
-            logger.warning(f"No shell found with ID '{aas_id}' on server.")
-            return None
-
-        return _to_object(content)
-
-    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> model.Reference | None:
+    # GET /shells/{aasIdentifier}/$reference
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> model.Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
-        :param aas_id: ID of the AAS reference to retrieve
+        :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference object or None if an error occurred
         """
         # workaround because serialization not working
-        aas = self.get_asset_administration_shell_by_id(aas_id)
+        aas = self.get_asset_administration_shell_by_id(aas_identifier)
         return model.ModelReference.from_referable(aas)
 
-        # content: dict = self._client.get_asset_administration_shell_by_id_reference_aas_repository(aas_id)
-        # return _to_object(content)
-
-    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
+    # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def get_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> model.Submodel | None:
         """Returns the Submodel.
 
-        :param aas_id: ID of the AAS to retrieve the submodel from
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
+        :param aas_identifier: ID of the AAS to retrieve the submodel from
+        :param submodel_identifier: ID of the submodel to retrieve
+        :return: Submodel or None if an error occurred
         """
-        content: dict = self._client.get_submodel_by_id_aas_repository(aas_id, submodel_id)
+        content: dict = self._client.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
         return _to_object(content)
-
-    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
-        """Deletes an Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: True if the deletion was successful, False otherwise
-        """
-        return self._client.delete_asset_administration_shell_by_id(aas_id)
 
     # endregion
 

@@ -103,7 +103,7 @@ def test_001_connect(wrapper: SdkWrapper):
 def test_002_get_all_asset_administration_shells(wrapper: SdkWrapper):
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 0
+    assert len(shells.results) == 0
 
 def test_003_post_asset_administration_shell(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     shell = wrapper.post_asset_administration_shell(shared_aas)
@@ -114,9 +114,9 @@ def test_003_post_asset_administration_shell(wrapper: SdkWrapper, shared_aas: mo
 
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 1
-    assert shells[0].id_short == shared_aas.id_short
-    assert shells[0].id == shared_aas.id
+    assert len(shells.results) == 1
+    assert shells.results[0].id_short == shared_aas.id_short
+    assert shells.results[0].id == shared_aas.id
 
 def test_004a_get_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
@@ -554,7 +554,7 @@ def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared
 
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 0
+    assert len(shells.results) == 0
 
 def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     result = wrapper.delete_submodel_by_id(shared_sm.id)
