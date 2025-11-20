@@ -75,6 +75,8 @@ def start() -> None:
 
     sms = client.get_all_submodels(limit=2)
 
+    print(sms)
+
     cursor = sms.get("paging_metadata").get("cursor")
 
     sms = client.get_all_submodels(limit=2, cursor=cursor)

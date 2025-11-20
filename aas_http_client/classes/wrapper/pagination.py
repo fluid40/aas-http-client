@@ -36,6 +36,22 @@ class ShellPaginatedData:
         self.results = results
 
 
+class SubmodelPaginatedData:
+    """Class representing paginated data for Submodels."""
+
+    paging_metadata: PagingMetadata
+    results: list[model.Submodel]
+
+    def __init__(self, cursor: str, results: list[model.Submodel]) -> None:
+        """Initialize a paginated data object.
+
+        :param paging_metadata: Paging metadata
+        :param results: list of results
+        """
+        self.paging_metadata = PagingMetadata(cursor)
+        self.results = results
+
+
 def create_shell_paging_data(content: dict) -> ShellPaginatedData:
     """Create a ShellPaginatedData object from a dictionary.
 
@@ -68,4 +84,39 @@ def create_shell_paging_data(content: dict) -> ShellPaginatedData:
     return ShellPaginatedData(
         cursor=cursor,
         results=aas_list,
+    )
+
+
+def create_submodel_paging_data(content: dict) -> SubmodelPaginatedData:
+    """Create a SubmodelPaginatedData object from a dictionary.
+
+    :param content: Dictionary containing paginated submodel data
+    :return: SubmodelPaginatedData object
+    """
+    sm_list: list[model.Submodel] = []
+
+    results: list = content.get("result", [])
+    if not results or len(results) == 0:
+        logger.warning("No shells found on server.")
+        return ShellPaginatedData(cursor="", results=[])
+
+    for result in results:
+        if not isinstance(result, dict):
+            logger.error(f"Invalid shell data: {result}")
+            return None
+
+        aas = convert_to_object(result)
+
+        if aas:
+            sm_list.append(aas)
+
+    cursor = ""
+    paging_metadata_dict = content.get("paging_metadata", {})
+
+    if "cursor" in paging_metadata_dict:
+        cursor = paging_metadata_dict["cursor"]
+
+    return SubmodelPaginatedData(
+        cursor=cursor,
+        results=sm_list,
     )

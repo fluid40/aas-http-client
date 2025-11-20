@@ -427,14 +427,14 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     # PUT /submodels/{submodelIdentifier}
-    def put_submodels_by_id(self, submodel_id_base64: str, request_body: dict) -> bool:
+    def put_submodels_by_id(self, submodel_identifier: str, request_body: dict) -> bool:
         """Updates a existing Submodel.
 
         :param submodel_identifier: Encoded ID of the Submodel to update
         :param request_body: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
-        decoded_identifier: str = decode_base_64(submodel_id_base64)
+        decoded_identifier: str = decode_base_64(submodel_identifier)
         url = f"{self.base_url}/submodels/{decoded_identifier}"
 
         self._set_token()
