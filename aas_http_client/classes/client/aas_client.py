@@ -14,7 +14,7 @@ from requests.auth import HTTPBasicAuth
 
 from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
-from aas_http_client.core.encoder import decode_base_64
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import log_response_errors
 
 logger = logging.getLogger(__name__)
@@ -138,13 +138,13 @@ class AasHttpClient(BaseModel):
     # region shells
 
     # GET /shells/{aasIdentifier}
-    def get_asset_administration_shell_by_id(self, aas_id: str) -> dict | None:
+    def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
         :param aas_id: ID of the AAS to retrieve
         :return: Asset Administration Shells data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
         self._set_token()
@@ -165,20 +165,20 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     # PUT /shells/{aasIdentifier}
-    def put_asset_administration_shell_by_id(self, identifier: str, aas_data: dict) -> bool:
+    def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param identifier: Identifier of the AAS to update
-        :param aas_data: Json data of the Asset Administration Shell data to update
+        :param aas_identifier: Identifier of the AAS to update
+        :param request_body: Json data of the Asset Administration Shell data to update
         :return: True if the update was successful, False otherwise
         """
-        decoded_identifier: str = decode_base_64(identifier)
+        decoded_identifier: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_identifier}"
 
         self._set_token()
 
         try:
-            response = self._session.put(url, json=aas_data, timeout=self.time_out)
+            response = self._session.put(url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code is not STATUS_CODE_204:
@@ -192,13 +192,13 @@ class AasHttpClient(BaseModel):
         return True
 
     # DELETE /shells/{aasIdentifier}
-    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
+    def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_id: ID of the AAS to retrieve
+        :param aas_identifier: ID of the AAS to retrieve
         :return: True if the deletion was successful, False otherwise
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
         self._set_token()
@@ -224,17 +224,37 @@ class AasHttpClient(BaseModel):
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
 
     # GET /shells
-    def get_all_asset_administration_shells(self) -> list[dict] | None:
+    def get_all_asset_administration_shells(
+        self, asset_ids: list[dict] | None = None, id_short: str = "", limit: int = 100, cursor: str = ""
+    ) -> list[dict] | None:
         """Returns all Asset Administration Shells.
 
+        :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
+        :param idShort: The Asset Administration Shell’s IdShort
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells data or None if an error occurred
         """
         url = f"{self.base_url}/shells"
 
+        # Build query parameters
+        if asset_ids is None:
+            asset_ids = []
+
+        params = {}
+        if asset_ids is not None and len(asset_ids) > 0:
+            params["assetIds"] = asset_ids
+        if id_short:
+            params["idShort"] = id_short
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
+
         self._set_token()
 
         try:
-            response = self._session.get(url, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out, params=params)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -249,10 +269,10 @@ class AasHttpClient(BaseModel):
         return json.loads(content)
 
     # POST /shells
-    def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
+    def post_asset_administration_shell(self, request_body: dict) -> dict | None:
         """Creates a new Asset Administration Shell.
 
-        :param aas_data: Json data of the Asset Administration Shell to post
+        :param request_body: Json data of the Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
         url = f"{self.base_url}/shells"
@@ -261,7 +281,7 @@ class AasHttpClient(BaseModel):
         self._set_token()
 
         try:
-            response = self._session.post(url, json=aas_data, timeout=self.time_out)
+            response = self._session.post(url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -279,22 +299,25 @@ class AasHttpClient(BaseModel):
     # POST /shells/{aasIdentifier}/submodel-refs
     # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
 
+    # not supported by Java Server
+
     # PUT /shells/{aasIdentifier}/submodels/{submodelIdentifier}
-    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
+    def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, request_body: dict) -> bool:
         """Updates the Submodel.
 
-        :param aas_id: ID of the AAS to update the submodel for
-        :param submodel_data: Json data to the Submodel to update
+        :param aas_identifier: ID of the AAS to update the submodel for
+        :param submodel_identifier: ID of the submodel to update
+        :param request_body: Json data to the Submodel to update
         :return: True if the update was successful, False otherwise
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        decoded_submodel_id: str = decode_base_64(submodel_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
         self._set_token()
 
         try:
-            response = self._session.put(url, json=submodel_data, timeout=self.time_out)
+            response = self._session.put(url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -308,13 +331,13 @@ class AasHttpClient(BaseModel):
         return True
 
     # GET /shells/{aasIdentifier}/$reference
-    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> Reference | None:
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
         :param aas_id: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
         self._set_token()
@@ -335,15 +358,15 @@ class AasHttpClient(BaseModel):
         return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
     # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
-    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    def get_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> Submodel | None:
         """Returns the Submodel.
 
-        :param aas_id: ID of the AAS to retrieve the submodel from
-        :param submodel_id: ID of the submodel to retrieve
+        :param aas_identifier: ID of the AAS to retrieve the submodel from
+        :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        decoded_submodel_id: str = decode_base_64(submodel_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
