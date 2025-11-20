@@ -137,22 +137,23 @@ class AasHttpClient(BaseModel):
 
     # region shells
 
-    def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
-        """Creates a new Asset Administration Shell.
+    # GET /shells/{aasIdentifier}
+    def get_asset_administration_shell_by_id(self, aas_id: str) -> dict | None:
+        """Returns a specific Asset Administration Shell.
 
-        :param aas_data: Json data of the Asset Administration Shell to post
-        :return: Response data as a dictionary or None if an error occurred
+        :param aas_id: ID of the AAS to retrieve
+        :return: Asset Administration Shells data or None if an error occurred
         """
-        url = f"{self.base_url}/shells"
-        logger.debug(f"Call REST API url '{url}'")
+        decoded_aas_id: str = decode_base_64(aas_id)
+        url = f"{self.base_url}/shells/{decoded_aas_id}"
 
         self._set_token()
 
         try:
-            response = self._session.post(url, json=aas_data, timeout=self.time_out)
+            response = self._session.get(url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
+            if response.status_code != STATUS_CODE_200:
                 log_response_errors(response)
                 return None
 
@@ -163,6 +164,7 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
+    # PUT /shells/{aasIdentifier}
     def put_asset_administration_shell_by_id(self, identifier: str, aas_data: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
@@ -189,6 +191,95 @@ class AasHttpClient(BaseModel):
 
         return True
 
+    # DELETE /shells/{aasIdentifier}
+    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
+        """Deletes an Asset Administration Shell.
+
+        :param aas_id: ID of the AAS to retrieve
+        :return: True if the deletion was successful, False otherwise
+        """
+        decoded_aas_id: str = decode_base_64(aas_id)
+        url = f"{self.base_url}/shells/{decoded_aas_id}"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # GET /shells/{aasIdentifier}
+    # PUT /shells/{aasIdentifier}
+    # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+
+    # GET /shells
+    def get_all_asset_administration_shells(self) -> list[dict] | None:
+        """Returns all Asset Administration Shells.
+
+        :return: List of paginated Asset Administration Shells data or None if an error occurred
+        """
+        url = f"{self.base_url}/shells"
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /shells
+    def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
+        """Creates a new Asset Administration Shell.
+
+        :param aas_data: Json data of the Asset Administration Shell to post
+        :return: Response data as a dictionary or None if an error occurred
+        """
+        url = f"{self.base_url}/shells"
+        logger.debug(f"Call REST API url '{url}'")
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=aas_data, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # GET /shells/{aasIdentifier}/submodel-refs
+    # POST /shells/{aasIdentifier}/submodel-refs
+    # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
+
+    # PUT /shells/{aasIdentifier}/submodels/{submodelIdentifier}
     def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
         """Updates the Submodel.
 
@@ -216,56 +307,7 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_all_asset_administration_shells(self) -> list[dict] | None:
-        """Returns all Asset Administration Shells.
-
-        :return: List of paginated Asset Administration Shells data or None if an error occurred
-        """
-        url = f"{self.base_url}/shells"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def get_asset_administration_shell_by_id(self, aas_id: str) -> dict | None:
-        """Returns a specific Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: Asset Administration Shells data or None if an error occurred
-        """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        url = f"{self.base_url}/shells/{decoded_aas_id}"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
+    # GET /shells/{aasIdentifier}/$reference
     def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
@@ -292,6 +334,7 @@ class AasHttpClient(BaseModel):
         ref_dict_string = response.content.decode("utf-8")
         return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
 
+    # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
     def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> Submodel | None:
         """Returns the Submodel.
 
@@ -320,31 +363,6 @@ class AasHttpClient(BaseModel):
 
         content = response.content.decode("utf-8")
         return json.loads(content)
-
-    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
-        """Deletes an Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: True if the deletion was successful, False otherwise
-        """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        url = f"{self.base_url}/shells/{decoded_aas_id}"
-
-        self._set_token()
-
-        try:
-            response = self._session.delete(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
 
     # endregion
 
