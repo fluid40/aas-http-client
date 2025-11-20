@@ -9,8 +9,10 @@ from basyx.aas import model
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
 from aas_http_client.classes.wrapper.pagination import (
     ShellPaginatedData,
+    SubmodelElementPaginatedData,
     SubmodelPaginatedData,
     create_shell_paging_data,
+    create_submodel_element_paging_data,
     create_submodel_paging_data,
 )
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
@@ -274,29 +276,22 @@ class SdkWrapper:
 
         return create_submodel_paging_data(content)
 
+    # POST /submodels
     def post_submodel(self, submodel: model.Submodel) -> model.Submodel | None:
         """Creates a new Submodel.
 
-        :param submodel: submodel data as a dictionary
-        :return: Response data as a dictionary or None if an error occurred
+        :param submodel: Submodel to post
+        :return: Submodel or None if an error occurred
         """
         sm_data = _to_dict(submodel)
         content: dict = self._client.post_submodel(sm_data)
         return _to_object(content)
 
-    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
-        """Updates an existing Submodel.
-
-        :param submodel_id: Encoded ID of the Submodel to delete
-        :return: True if the patch was successful, False otherwise
-        """
-        sm_data = _to_dict(submodel)
-        return self._client.patch_submodel_by_id(submodel_id, sm_data)
-
+    # GET /submodels/{submodelIdentifier}/submodel-elements
     def get_all_submodel_elements_submodel_repository(
         self,
         submodel_id: str,
-    ) -> list[model.SubmodelElement] | None:
+    ) -> SubmodelElementPaginatedData | None:
         """Returns all submodel elements including their hierarchy. !!!Serialization to model.SubmodelElement currently not possible.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
@@ -307,36 +302,24 @@ class SdkWrapper:
         if not content:
             return []
 
-        results: list = content.get("result", [])
-        if not results:
-            logger.warning("No submodels found on server.")
-            return []
+        return create_submodel_element_paging_data(content)
 
-        submodel_elements: list[model.SubmodelElement] = []
-
-        for result in results:
-            if not isinstance(result, dict):
-                logger.error(f"Invalid submodel data: {result}")
-                return None
-
-            submodel_element = _to_object(result)
-
-            if submodel_element:
-                submodel_elements.append(submodel_element)
-
-        return submodel_elements
-
+    # POST /submodels/{submodelIdentifier}/submodel-elements
     def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
         """Creates a new submodel element.
 
-        :param submodel_id: Encoded ID of the submodel to create elements for
-        :param submodel_element: Submodel element to create
-        :return: List of submodel element objects or None if an error occurred
+        :param submodel_identifier: Encoded ID of the Submodel to create elements for
+        :param request_body: Submodel element
+        :return: Submodel or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
         content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
         return _to_object(content)
 
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+
+    # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
     def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
         """Updates the value of an existing SubmodelElement.
 
@@ -346,6 +329,22 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
+
+    # GET /submodels/{submodelIdentifier}/$value
+    # PATCH /submodels/{submodelIdentifier}/$value
+    # GET /submodels/{submodelIdentifier}/$metadata
+
+    # not supported by Java Server
+
+    # PATCH /submodels/{submodelIdentifier}
+    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
+        """Updates an existing Submodel.
+
+        :param submodel_id: Encoded ID of the Submodel to delete
+        :return: True if the patch was successful, False otherwise
+        """
+        sm_data = _to_dict(submodel)
+        return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
 
 # endregion

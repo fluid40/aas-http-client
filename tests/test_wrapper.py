@@ -333,7 +333,7 @@ def test_015_get_all_submodel_elements_submodel_repository(wrapper: SdkWrapper, 
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 0
+    assert len(submodel_elements.results) == 0
 
 def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_string)
