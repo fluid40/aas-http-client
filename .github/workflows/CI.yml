@@ -21,10 +21,17 @@ jobs:
       - name: Check if pyproject.toml changed
         id: check
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^pyproject\.toml$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+          CHANGED_FILES="$(git diff --name-only "${{ github.event.before || 'HEAD~1' }}" "${{ github.sha }}")"
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -q '^pyproject\.toml$'; then
+            echo "pyproject.toml has changed"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "pyproject.toml has NOT changed"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
   Test_client:
@@ -33,7 +40,7 @@ jobs:
 
     services:
       java_aas_server:
-        image: eclipsebasyx/aas-environment:2.0.0-milestone-08
+        image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
         ports:
           - 8075:8075
         env:

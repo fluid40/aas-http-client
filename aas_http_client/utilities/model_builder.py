@@ -83,7 +83,7 @@ def create_base_ass(
 
     asset_info = create_base_asset_information(global_asset_identifier)
 
-    aas = model.AssetAdministrationShell(id_=asset_info.global_asset_id, asset_information=asset_info)
+    aas = model.AssetAdministrationShell(id_=identifier, asset_information=asset_info)
     aas.id_short = id_short
 
     if not description:
