@@ -67,7 +67,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
 
 
 def create_base_ass(
-    identifier: str, id_short: str, global_asset_identifier: str, display_name: str = "", description: str = ""
+    identifier: str, id_short: str, global_asset_identifier: str = "", display_name: str = "", description: str = ""
 ) -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
