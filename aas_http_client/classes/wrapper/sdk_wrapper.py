@@ -7,6 +7,14 @@ from pathlib import Path
 from basyx.aas import model
 
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
+from aas_http_client.classes.wrapper.pagination import (
+    ShellPaginatedData,
+    SubmodelElementPaginatedData,
+    SubmodelPaginatedData,
+    create_shell_paging_data,
+    create_submodel_element_paging_data,
+    create_submodel_paging_data,
+)
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
@@ -14,6 +22,8 @@ logger = logging.getLogger(__name__)
 
 
 # region SdkWrapper
+
+
 class SdkWrapper:
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
 
@@ -47,186 +57,150 @@ class SdkWrapper:
 
     # region shells
 
+    # GET /shells/{aasIdentifier}
+    def get_asset_administration_shell_by_id(self, aas_identifier: str) -> model.AssetAdministrationShell | None:
+        """Returns a specific Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :return: Asset Administration Shells or None if an error occurred
+        """
+        content: dict = self._client.get_asset_administration_shell_by_id(aas_identifier)
+
+        if not content:
+            logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
+            return None
+
+        return _to_object(content)
+
+    # PUT /shells/{aasIdentifier}
+    def put_asset_administration_shell_by_id(self, aas_identifier: str, aas: model.AssetAdministrationShell) -> bool:
+        """Creates or replaces an existing Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas: Asset Administration Shell to put
+        :return: True if the update was successful, False otherwise
+        """
+        aas_data = _to_dict(aas)
+        return self._client.put_asset_administration_shell_by_id(aas_identifier, aas_data)
+
+    # DELETE /shells/{aasIdentifier}
+    def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
+        """Deletes an Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :return: True if the deletion was successful, False otherwise
+        """
+        return self._client.delete_asset_administration_shell_by_id(aas_identifier)
+
+    # GET /shells/{aasIdentifier}
+    # PUT /shells/{aasIdentifier}
+    # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+
+    # GET /shells
+    def get_all_asset_administration_shells(
+        self, asset_ids: list[dict] | None = None, id_short: str = "", limit: int = 100, cursor: str = ""
+    ) -> ShellPaginatedData | None:
+        """Returns all Asset Administration Shells.
+
+        :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
+        :param idShort: The Asset Administration Shell's IdShort
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :return: List of paginated Asset Administration Shells or None if an error occurred
+        """
+        content: dict = self._client.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
+
+        if not content:
+            return None
+
+        return create_shell_paging_data(content)
+
+    # POST /shells
     def post_asset_administration_shell(self, aas: model.AssetAdministrationShell) -> model.AssetAdministrationShell | None:
         """Creates a new Asset Administration Shell.
 
         :param aas: Asset Administration Shell to post
-        :return: Response data as a dictionary or None if an error occurred
+        :return: Asset Administration Shell or None if an error occurred
         """
         aas_data = _to_dict(aas)
         content: dict = self._client.post_asset_administration_shell(aas_data)
         return _to_object(content)
 
-    def put_asset_administration_shell_by_id(self, identifier: str, aas: model.AssetAdministrationShell) -> bool:
-        """Creates or replaces an existing Asset Administration Shell.
+    # GET /shells/{aasIdentifier}/submodel-refs
+    # POST /shells/{aasIdentifier}/submodel-refs
+    # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
 
-        :param identifier: Identifier of the AAS to update
-        :param aas: Asset Administration Shell data to update
-        :return: True if the update was successful, False otherwise
-        """
-        aas_data = _to_dict(aas)
-        return self._client.put_asset_administration_shell_by_id(identifier, aas_data)
+    # not supported by Java Server
 
-    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel: model.Submodel) -> bool:
+    # PUT /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, submodel: model.Submodel) -> bool:
         """Updates the Submodel.
 
-        :param aas_id: ID of the AAS to update the submodel for
-        :param submodel: Submodel data to update
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param submodel_identifier: ID of the submodel to put
+        :param submodel: Submodel to put
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.put_submodel_by_id_aas_repository(aas_id, submodel_id, sm_data)
+        return self._client.put_submodel_by_id_aas_repository(aas_identifier, submodel_identifier, sm_data)
 
-    def get_all_asset_administration_shells(self) -> list[model.AssetAdministrationShell] | None:
-        """Returns all Asset Administration Shells.
-
-        :return: Asset Administration Shells objects or None if an error occurred
-        """
-        content: dict = self._client.get_all_asset_administration_shells()
-
-        if not content:
-            return None
-
-        results: list = content.get("result", [])
-        if not results:
-            logger.warning("No shells found on server.")
-            return []
-
-        aas_list: list[model.AssetAdministrationShell] = []
-
-        for result in results:
-            if not isinstance(result, dict):
-                logger.error(f"Invalid shell data: {result}")
-                return None
-
-            aas = _to_object(result)
-
-            if aas:
-                aas_list.append(aas)
-
-        return aas_list
-
-    def get_asset_administration_shell_by_id(self, aas_id: str) -> model.AssetAdministrationShell | None:
-        """Returns a specific Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: Asset Administration Shells object or None if an error occurred
-        """
-        content: dict = self._client.get_asset_administration_shell_by_id(aas_id)
-
-        if not content:
-            logger.warning(f"No shell found with ID '{aas_id}' on server.")
-            return None
-
-        return _to_object(content)
-
-    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> model.Reference | None:
+    # GET /shells/{aasIdentifier}/$reference
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> model.Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
-        :param aas_id: ID of the AAS reference to retrieve
+        :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference object or None if an error occurred
         """
         # workaround because serialization not working
-        aas = self.get_asset_administration_shell_by_id(aas_id)
+        aas = self.get_asset_administration_shell_by_id(aas_identifier)
         return model.ModelReference.from_referable(aas)
 
-        # content: dict = self._client.get_asset_administration_shell_by_id_reference_aas_repository(aas_id)
-        # return _to_object(content)
-
-    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> model.Submodel | None:
+    # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def get_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> model.Submodel | None:
         """Returns the Submodel.
 
-        :param aas_id: ID of the AAS to retrieve the submodel from
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
+        :param aas_identifier: ID of the AAS to retrieve the submodel from
+        :param submodel_identifier: ID of the submodel to retrieve
+        :return: Submodel or None if an error occurred
         """
-        content: dict = self._client.get_submodel_by_id_aas_repository(aas_id, submodel_id)
+        content: dict = self._client.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
         return _to_object(content)
-
-    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
-        """Deletes an Asset Administration Shell.
-
-        :param aas_id: ID of the AAS to retrieve
-        :return: True if the deletion was successful, False otherwise
-        """
-        return self._client.delete_asset_administration_shell_by_id(aas_id)
 
     # endregion
 
     # region submodels
 
-    def post_submodel(self, submodel: model.Submodel) -> model.Submodel | None:
-        """Creates a new Submodel.
-
-        :param submodel: submodel data as a dictionary
-        :return: Response data as a dictionary or None if an error occurred
-        """
-        sm_data = _to_dict(submodel)
-        content: dict = self._client.post_submodel(sm_data)
-        return _to_object(content)
-
-    def put_submodels_by_id(self, identifier: str, submodel: model.Submodel) -> bool:
-        """Updates a existing Submodel.
-
-        :param identifier: Identifier of the submodel to update
-        :param submodel: Submodel data to update
-        :return: True if the update was successful, False otherwise
-        """
-        sm_data = _to_dict(submodel)
-        return self._client.put_submodels_by_id(identifier, sm_data)
-
-    def get_all_submodels(self) -> list[model.Submodel] | None:
-        """Returns all Submodels.
-
-        :return: Submodel objects or None if an error occurred
-        """
-        content: list = self._client.get_all_submodels()
-
-        if not content:
-            return []
-
-        results: list = content.get("result", [])
-        if not results:
-            logger.warning("No submodels found on server.")
-            return []
-
-        submodels: list[model.Submodel] = []
-
-        for result in results:
-            if not isinstance(result, dict):
-                logger.error(f"Invalid submodel data: {result}")
-                return None
-
-            submodel = _to_object(result)
-
-            if submodel:
-                submodels.append(submodel)
-
-        return submodels
-
-    def get_submodel_by_id(self, submodel_id: str) -> model.Submodel | None:
+    # GET /submodels/{submodelIdentifier}
+    def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> model.Submodel | None:
         """Returns a specific Submodel.
 
-        :param submodel_id: ID of the submodel to retrieve
-        :return: Submodel object or None if an error occurred
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel data or None if an error occurred
         """
-        content = self._client.get_submodel_by_id(submodel_id)
+        content = self._client.get_submodel_by_id(submodel_identifier, level, extent)
 
         if not content:
-            logger.warning(f"No submodel found with ID '{submodel_id}' on server.")
+            logger.warning(f"No submodel found with ID '{submodel_identifier}' on server.")
             return None
 
         return _to_object(content)
 
-    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
-        """Updates an existing Submodel.
+    # PUT /submodels/{submodelIdentifier}
+    def put_submodels_by_id(self, submodel_identifier: str, submodel: model.Submodel) -> bool:
+        """Updates a existing Submodel.
 
-        :param submodel_id: Encoded ID of the Submodel to delete
-        :return: True if the patch was successful, False otherwise
+        :param submodel_identifier: Identifier of the submodel to update
+        :param submodel: Submodel data to update
+        :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.patch_submodel_by_id(submodel_id, sm_data)
+        return self._client.put_submodels_by_id(submodel_identifier, sm_data)
 
+    # DELETE /submodels/{submodelIdentifier}
     def delete_submodel_by_id(self, submodel_id: str) -> bool:
         """Deletes a Submodel.
 
@@ -235,10 +209,88 @@ class SdkWrapper:
         """
         return self._client.delete_submodel_by_id(submodel_id)
 
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def get_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, level: str = "", extent: str = ""
+    ) -> model.SubmodelElement | None:
+        """Returns a specific submodel element from the Submodel at a specified path.
+
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
+        :param id_short_path: Path of the Submodel element to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel element data or None if an error occurred
+        """
+        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, level, extent)
+        return _to_object(content)
+
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def post_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, submodel_element: model.SubmodelElement, level: str = "", extent: str = ""
+    ) -> model.SubmodelElement | None:
+        """Creates a new submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the submodel to create elements for
+        :param id_short_path: Path within the Submodel elements hierarchy
+        :param submodel_element: The new Submodel element
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel element object or None if an error occurred
+        """
+        sme_data = _to_dict(submodel_element)
+        content: dict = self._client.post_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, sme_data, level, extent)
+        return _to_object(content)
+
+    # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    # TODO write test
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
+        """Deletes a submodel element at a specified path within the submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the Submodel to delete submodel element from
+        :param id_short_path: Path of the Submodel element to delete
+        :return: True if the deletion was successful, False otherwise
+        """
+        return self._client.delete_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
+
+    # GET /submodels
+    def get_all_submodels(
+        self, semantic_id: str = "", id_short: str = "", limit: int = 0, cursor: str = "", level: str = "", extent: str = ""
+    ) -> SubmodelPaginatedData | None:
+        """Returns all Submodels.
+
+        :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)
+        :param id_short: The idShort of the Submodel
+        :param limit: Maximum number of Submodels to return
+        :param cursor: Cursor for pagination
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: List of Submodel or None if an error occurred
+        """
+        content: list = self._client.get_all_submodels(semantic_id, id_short, limit, cursor, level, extent)
+
+        if not content:
+            return []
+
+        return create_submodel_paging_data(content)
+
+    # POST /submodels
+    def post_submodel(self, submodel: model.Submodel) -> model.Submodel | None:
+        """Creates a new Submodel.
+
+        :param submodel: Submodel to post
+        :return: Submodel or None if an error occurred
+        """
+        sm_data = _to_dict(submodel)
+        content: dict = self._client.post_submodel(sm_data)
+        return _to_object(content)
+
+    # GET /submodels/{submodelIdentifier}/submodel-elements
     def get_all_submodel_elements_submodel_repository(
         self,
         submodel_id: str,
-    ) -> list[model.SubmodelElement] | None:
+    ) -> SubmodelElementPaginatedData | None:
         """Returns all submodel elements including their hierarchy. !!!Serialization to model.SubmodelElement currently not possible.
 
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
@@ -249,61 +301,24 @@ class SdkWrapper:
         if not content:
             return []
 
-        results: list = content.get("result", [])
-        if not results:
-            logger.warning("No submodels found on server.")
-            return []
+        return create_submodel_element_paging_data(content)
 
-        submodel_elements: list[model.SubmodelElement] = []
-
-        for result in results:
-            if not isinstance(result, dict):
-                logger.error(f"Invalid submodel data: {result}")
-                return None
-
-            submodel_element = _to_object(result)
-
-            if submodel_element:
-                submodel_elements.append(submodel_element)
-
-        return submodel_elements
-
+    # POST /submodels/{submodelIdentifier}/submodel-elements
     def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
         """Creates a new submodel element.
 
-        :param submodel_id: Encoded ID of the submodel to create elements for
-        :param submodel_element: Submodel element to create
-        :return: List of submodel element objects or None if an error occurred
+        :param submodel_identifier: Encoded ID of the Submodel to create elements for
+        :param request_body: Submodel element
+        :return: Submodel or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
         content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
         return _to_object(content)
 
-    def post_submodel_element_by_path_submodel_repo(
-        self, submodel_id: str, submodel_element_path: str, submodel_element: model.SubmodelElement
-    ) -> model.SubmodelElement | None:
-        """Creates a new submodel element at a specified path within submodel elements hierarchy.
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
 
-        :param submodel_id: Encoded ID of the submodel to create elements for
-        :param submodel_element_path: Path within the Submodel elements hierarchy
-        :param submodel_element: The new Submodel element
-        :return: Submodel element object or None if an error occurred
-        """
-        sme_data = _to_dict(submodel_element)
-        content: dict = self._client.post_submodel_element_by_path_submodel_repo(submodel_id, submodel_element_path, sme_data)
-        return _to_object(content)
-
-    def get_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str) -> model.SubmodelElement | None:
-        """Returns a specific submodel element from the Submodel at a specified path.
-
-        :param submodel_id: Encoded ID of the Submodel to retrieve element from
-        :param submodel_element_path: Path of the Submodel element to retrieve
-        :return: Submodel element object or None if an error occurred
-        """
-        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_id, submodel_element_path)
-        print(content)
-        return _to_object(content)
-
+    # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
     def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
         """Updates the value of an existing SubmodelElement.
 
@@ -313,6 +328,22 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
+
+    # GET /submodels/{submodelIdentifier}/$value
+    # PATCH /submodels/{submodelIdentifier}/$value
+    # GET /submodels/{submodelIdentifier}/$metadata
+
+    # not supported by Java Server
+
+    # PATCH /submodels/{submodelIdentifier}
+    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
+        """Updates an existing Submodel.
+
+        :param submodel_id: Encoded ID of the Submodel to delete
+        :return: True if the patch was successful, False otherwise
+        """
+        sm_data = _to_dict(submodel)
+        return self._client.patch_submodel_by_id(submodel_id, sm_data)
 
 
 # endregion

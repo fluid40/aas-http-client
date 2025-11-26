@@ -103,7 +103,7 @@ def test_001_connect(wrapper: SdkWrapper):
 def test_002_get_all_asset_administration_shells(wrapper: SdkWrapper):
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 0
+    assert len(shells.results) == 0
 
 def test_003_post_asset_administration_shell(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     shell = wrapper.post_asset_administration_shell(shared_aas)
@@ -114,9 +114,9 @@ def test_003_post_asset_administration_shell(wrapper: SdkWrapper, shared_aas: mo
 
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 1
-    assert shells[0].id_short == shared_aas.id_short
-    assert shells[0].id == shared_aas.id
+    assert len(shells.results) == 1
+    assert shells.results[0].id_short == shared_aas.id_short
+    assert shells.results[0].id == shared_aas.id
 
 def test_004a_get_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     shell = wrapper.get_asset_administration_shell_by_id(shared_aas.id)
@@ -202,7 +202,7 @@ def test_007_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: 
 def test_008_get_all_submodels(wrapper: SdkWrapper):
     submodels = wrapper.get_all_submodels()
     assert submodels is not None
-    assert len(submodels) == 0
+    assert len(submodels.results) == 0
 
 def test_009_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
     submodel = wrapper.post_submodel(shared_sm)
@@ -213,9 +213,9 @@ def test_009_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
 
     submodels = wrapper.get_all_submodels()
     assert submodels is not None
-    assert len(submodels) == 1
-    assert submodels[0].id_short == shared_sm.id_short
-    assert submodels[0].id == shared_sm.id
+    assert len(submodels.results) == 1
+    assert submodels.results[0].id_short == shared_sm.id_short
+    assert submodels.results[0].id == shared_sm.id
 
 def test_010_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
@@ -333,7 +333,7 @@ def test_015_get_all_submodel_elements_submodel_repository(wrapper: SdkWrapper, 
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 0
+    assert len(submodel_elements.results) == 0
 
 def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_string)
@@ -352,7 +352,7 @@ def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 1
+    assert len(submodel_elements.results) == 1
 
 def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_bool: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_bool)
@@ -371,7 +371,7 @@ def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 2
+    assert len(submodel_elements.results) == 2
 
 def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_int: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_int)
@@ -390,7 +390,7 @@ def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 3
+    assert len(submodel_elements.results) == 3
 
 def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_float: model.Property):
     submodel_element = wrapper.post_submodel_element_submodel_repo(shared_sm.id, shared_sme_float)
@@ -409,7 +409,7 @@ def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(shared_sm.id)
 
     assert submodel_elements is not None
-    assert len(submodel_elements) == 4
+    assert len(submodel_elements.results) == 4
 
 def test_017a_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property):
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(shared_sm.id, shared_sme_string.id_short)
@@ -554,7 +554,7 @@ def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared
 
     shells = wrapper.get_all_asset_administration_shells()
     assert shells is not None
-    assert len(shells) == 0
+    assert len(shells.results) == 0
 
 def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     result = wrapper.delete_submodel_by_id(shared_sm.id)
@@ -563,4 +563,4 @@ def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submode
 
     submodels = wrapper.get_all_submodels()
     assert submodels is not None
-    assert len(submodels) == 0
+    assert len(submodels.results) == 0

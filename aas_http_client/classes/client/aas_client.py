@@ -14,7 +14,7 @@ from requests.auth import HTTPBasicAuth
 
 from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
-from aas_http_client.core.encoder import decode_base_64
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import log_response_errors
 
 logger = logging.getLogger(__name__)
@@ -137,116 +137,14 @@ class AasHttpClient(BaseModel):
 
     # region shells
 
-    def post_asset_administration_shell(self, aas_data: dict) -> dict | None:
-        """Creates a new Asset Administration Shell.
-
-        :param aas_data: Json data of the Asset Administration Shell to post
-        :return: Response data as a dictionary or None if an error occurred
-        """
-        url = f"{self.base_url}/shells"
-        logger.debug(f"Call REST API url '{url}'")
-
-        self._set_token()
-
-        try:
-            response = self._session.post(url, json=aas_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def put_asset_administration_shell_by_id(self, identifier: str, aas_data: dict) -> bool:
-        """Creates or replaces an existing Asset Administration Shell.
-
-        :param identifier: Identifier of the AAS to update
-        :param aas_data: Json data of the Asset Administration Shell data to update
-        :return: True if the update was successful, False otherwise
-        """
-        decoded_identifier: str = decode_base_64(identifier)
-        url = f"{self.base_url}/shells/{decoded_identifier}"
-
-        self._set_token()
-
-        try:
-            response = self._session.put(url, json=aas_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code is not STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    def put_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str, submodel_data: dict) -> bool:
-        """Updates the Submodel.
-
-        :param aas_id: ID of the AAS to update the submodel for
-        :param submodel_data: Json data to the Submodel to update
-        :return: True if the update was successful, False otherwise
-        """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
-
-        self._set_token()
-
-        try:
-            response = self._session.put(url, json=submodel_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    def get_all_asset_administration_shells(self) -> list[dict] | None:
-        """Returns all Asset Administration Shells.
-
-        :return: List of paginated Asset Administration Shells data or None if an error occurred
-        """
-        url = f"{self.base_url}/shells"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def get_asset_administration_shell_by_id(self, aas_id: str) -> dict | None:
+    # GET /shells/{aasIdentifier}
+    def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_id: ID of the AAS to retrieve
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
         :return: Asset Administration Shells data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}"
 
         self._set_token()
@@ -266,13 +164,180 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_id: str) -> Reference | None:
+    # PUT /shells/{aasIdentifier}
+    def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
+        """Creates or replaces an existing Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param request_body: Json data of the Asset Administration Shell data to put
+        :return: True if the update was successful, False otherwise
+        """
+        decoded_identifier: str = decode_base_64(aas_identifier)
+        url = f"{self.base_url}/shells/{decoded_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.put(url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code is not STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # DELETE /shells/{aasIdentifier}
+    def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
+        """Deletes an Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :return: True if the deletion was successful, False otherwise
+        """
+        decoded_aas_id: str = decode_base_64(aas_identifier)
+        url = f"{self.base_url}/shells/{decoded_aas_id}"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # GET /shells/{aasIdentifier}
+    # PUT /shells/{aasIdentifier}
+    # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+
+    # GET /shells
+    def get_all_asset_administration_shells(
+        self, asset_ids: list[dict] | None = None, id_short: str = "", limit: int = 100, cursor: str = ""
+    ) -> list[dict] | None:
+        """Returns all Asset Administration Shells.
+
+        :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
+        :param idShort: The Asset Administration Shell's IdShort
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :return: List of paginated Asset Administration Shells data or None if an error occurred
+        """
+        url = f"{self.base_url}/shells"
+
+        # Build query parameters
+        if asset_ids is None:
+            asset_ids = []
+
+        params = {}
+        if asset_ids is not None and len(asset_ids) > 0:
+            params["assetIds"] = asset_ids
+        if id_short:
+            params["idShort"] = id_short
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self.time_out, params=params)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /shells
+    def post_asset_administration_shell(self, request_body: dict) -> dict | None:
+        """Creates a new Asset Administration Shell.
+
+        :param request_body: Json data of the Asset Administration Shell to post
+        :return: Response data as a dictionary or None if an error occurred
+        """
+        url = f"{self.base_url}/shells"
+        logger.debug(f"Call REST API url '{url}'")
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # GET /shells/{aasIdentifier}/submodel-refs
+    # POST /shells/{aasIdentifier}/submodel-refs
+    # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
+
+    # not supported by Java Server
+
+    # PUT /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, request_body: dict) -> bool:
+        """Updates the Submodel.
+
+        :param aas_identifier: ID of the AAS to update the submodel for
+        :param submodel_identifier: ID of the submodel to update
+        :param request_body: Json data to the Submodel to put
+        :return: True if the update was successful, False otherwise
+        """
+        decoded_aas_id: str = decode_base_64(aas_identifier)
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
+
+        self._set_token()
+
+        try:
+            response = self._session.put(url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # GET /shells/{aasIdentifier}/$reference
+    def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> Reference | None:
         """Returns a specific Asset Administration Shell as a Reference.
 
-        :param aas_id: ID of the AAS reference to retrieve
+        :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
         url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
 
         self._set_token()
@@ -290,17 +355,18 @@ class AasHttpClient(BaseModel):
             return None
 
         ref_dict_string = response.content.decode("utf-8")
-        return json.loads(ref_dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
+        return json.loads(ref_dict_string)
 
-    def get_submodel_by_id_aas_repository(self, aas_id: str, submodel_id: str) -> Submodel | None:
+    # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
+    def get_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> Submodel | None:
         """Returns the Submodel.
 
-        :param aas_id: ID of the AAS to retrieve the submodel from
-        :param submodel_id: ID of the submodel to retrieve
+        :param aas_identifier: ID of the AAS to retrieve the submodel from
+        :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        decoded_submodel_id: str = decode_base_64(submodel_id)
+        decoded_aas_id: str = decode_base_64(aas_identifier)
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
 
         url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
 
@@ -321,14 +387,81 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def delete_asset_administration_shell_by_id(self, aas_id: str) -> bool:
-        """Deletes an Asset Administration Shell.
+    # endregion
 
-        :param aas_id: ID of the AAS to retrieve
+    # region submodels
+
+    # GET /submodels/{submodelIdentifier}
+    def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
+        """Returns a specific Submodel.
+
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
+
+        params = {}
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, params=params, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # PUT /submodels/{submodelIdentifier}
+    def put_submodels_by_id(self, submodel_identifier: str, request_body: dict) -> bool:
+        """Updates a existing Submodel.
+
+        :param submodel_identifier: Encoded ID of the Submodel to update
+        :param request_body: Json data of the Submodel to update
+        :return: True if the update was successful, False otherwise
+        """
+        decoded_identifier: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.put(url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # DELETE /submodels/{submodelIdentifier}
+    def delete_submodel_by_id(self, submodel_identifier: str) -> bool:
+        """Deletes a Submodel.
+
+        :param submodel_identifier: Encoded ID of the Submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
-        decoded_aas_id: str = decode_base_64(aas_id)
-        url = f"{self.base_url}/shells/{decoded_aas_id}"
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
         self._set_token()
 
@@ -346,14 +479,166 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    # endregion
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def get_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, level: str = "", extent: str = ""
+    ) -> dict | None:
+        """Returns a specific submodel element from the Submodel at a specified path.
 
-    # region submodels
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
+        :param id_short_path: Path of the Submodel element to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
 
-    def post_submodel(self, submodel_data: dict) -> dict | None:
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+
+        params = {}
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, params=params, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def post_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, request_body: dict, level: str = "", extent: str = ""
+    ) -> dict | None:
+        """Creates a new submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the Submodel to create elements for
+        :param id_short_path: Path within the Submodel elements hierarchy
+        :param request_body: Data for the new Submodel element
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+
+        params = {}
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, params=params, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_201:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
+        """Deletes a submodel element at a specified path within the submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the Submodel to delete submodel element from
+        :param id_short_path: Path of the Submodel element to delete
+        :return: True if the deletion was successful, False otherwise
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # GET /submodels
+    def get_all_submodels(
+        self, semantic_id: str = "", id_short: str = "", limit: int = 0, cursor: str = "", level: str = "", extent: str = ""
+    ) -> list[dict] | None:
+        """Returns all Submodels.
+
+        :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)
+        :param id_short: The idShort of the Submodel
+        :param limit: Maximum number of Submodels to return
+        :param cursor: Cursor for pagination
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: List of Submodel data or None if an error occurred
+        """
+        url = f"{self.base_url}/submodels"
+
+        params = {}
+        if semantic_id:
+            params["semanticId"] = semantic_id
+        if id_short:
+            params["idShort"] = id_short
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, params=params, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /submodels
+    def post_submodel(self, request_body: dict) -> dict | None:
         """Creates a new Submodel.
 
-        :param Submodel_data: Json data of the Submodel to post
+        :param request_body: Json data of the Submodel to post
         :return: Submodel data or None if an error occurred
         """
         url = f"{self.base_url}/submodels"
@@ -361,7 +646,7 @@ class AasHttpClient(BaseModel):
         self._set_token()
 
         try:
-            response = self._session.post(url, json=submodel_data, timeout=self.time_out)
+            response = self._session.post(url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
@@ -375,20 +660,104 @@ class AasHttpClient(BaseModel):
         content = response.content.decode("utf-8")
         return json.loads(content)
 
-    def put_submodels_by_id(self, identifier: str, submodel_data: dict) -> bool:
-        """Updates a existing Submodel.
+    # GET /submodels/{submodelIdentifier}/submodel-elements
+    def get_all_submodel_elements_submodel_repository(
+        self, submodel_identifier: str, limit: int = 100, cursor: str = "", level: str = "", extent: str = ""
+    ) -> list[dict] | None:
+        """Returns all submodel elements including their hierarchy.
 
-        :param identifier: Encoded ID of the Submodel to update
-        :param submodel_data: Json data of the Submodel to update
-        :return: True if the update was successful, False otherwise
+        :param submodel_identifier: Decoded ID of the Submodel to retrieve elements from
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: List of Submodel element data or None if an error occurred
         """
-        decoded_identifier: str = decode_base_64(identifier)
-        url = f"{self.base_url}/submodels/{decoded_identifier}"
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+
+        params = {}
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
 
         self._set_token()
 
         try:
-            response = self._session.put(url, json=submodel_data, timeout=self.time_out)
+            response = self._session.get(url, params=params, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /submodels/{submodelIdentifier}/submodel-elements
+    def post_submodel_element_submodel_repo(self, submodel_identifier: str, request_body: dict) -> dict | None:
+        """Creates a new submodel element.
+
+        :param submodel_identifier: Encoded ID of the Submodel to create elements for
+        :param request_body: Data for the new Submodel element
+        :return: Submodel element data or None if an error occurred
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_201:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+
+    # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+    def patch_submodel_element_by_path_value_only_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, value: str, level: str = ""
+    ) -> bool:
+        """Updates the value of an existing SubmodelElement.
+
+        :param submodel_identifier: Encoded ID of the Submodel to update submodel element for
+        :param id_short_path: Path of the Submodel element to update
+        :param value: Submodel element value to update as string
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the patch was successful, False otherwise
+        """
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}/$value"
+
+        params = {}
+        if level:
+            params["level"] = level
+
+        self._set_token()
+
+        try:
+            response = self._session.patch(url, json=value, params=params, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -401,257 +770,26 @@ class AasHttpClient(BaseModel):
 
         return True
 
-    def get_all_submodels(self) -> list[dict] | None:
-        """Returns all Submodels.
+    # GET /submodels/{submodelIdentifier}/$value
+    # PATCH /submodels/{submodelIdentifier}/$value
+    # GET /submodels/{submodelIdentifier}/$metadata
 
-        :return: List of Submodel data or None if an error occurred
-        """
-        url = f"{self.base_url}/submodels"
+    # not supported by Java Server
 
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def get_submodel_by_id(self, submodel_id: str) -> dict | None:
-        """Returns a specific Submodel.
-
-        :param submodel_id: Encoded ID of the Submodel to retrieve
-        :return: Submodel data or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def patch_submodel_by_id(self, submodel_id: str, submodel_data: dict) -> bool:
+    # PATCH /submodels/{submodelIdentifier}
+    def patch_submodel_by_id(self, submodel_identifier: str, submodel_data: dict) -> bool:
         """Updates an existing Submodel.
 
-        :param submodel_id: Encoded ID of the Submodel to delete
+        :param submodel_identifier: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
         """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
+        decoded_submodel_id: str = decode_base_64(submodel_identifier)
         url = f"{self.base_url}/submodels/{decoded_submodel_id}"
 
         self._set_token()
 
         try:
             response = self._session.patch(url, json=submodel_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    def delete_submodel_by_id(self, submodel_id: str) -> bool:
-        """Deletes a Submodel.
-
-        :param submodel_id: Encoded ID of the Submodel to delete
-        :return: True if the deletion was successful, False otherwise
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
-
-        self._set_token()
-
-        try:
-            response = self._session.delete(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    def get_all_submodel_elements_submodel_repository(self, submodel_id: str) -> list[dict] | None:
-        """Returns all submodel elements including their hierarchy.
-
-        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
-        :return: List of Submodel element data or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element_data: dict) -> dict | None:
-        """Creates a new submodel element.
-
-        :param submodel_id: Encoded ID of the Submodel to create elements for
-        :return: Submodel element data or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
-
-        self._set_token()
-
-        try:
-            response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_201:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def post_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str, submodel_element_data: dict) -> dict | None:
-        """Creates a new submodel element at a specified path within submodel elements hierarchy.
-
-        :param submodel_id: Encoded ID of the Submodel to create elements for
-        :param submodel_element_path: Path within the Submodel elements hierarchy
-        :param submodel_element_data: Data for the new Submodel element
-        :return: Submodel element data or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
-
-        self._set_token()
-
-        try:
-            response = self._session.post(url, json=submodel_element_data, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_201:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def get_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str) -> dict | None:
-        """Returns a specific submodel element from the Submodel at a specified path.
-
-        :param submodel_id: Encoded ID of the Submodel to retrieve element from
-        :param submodel_element_path: Path of the Submodel element to retrieve
-        :return: Submodel element data or None if an error occurred
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        content = response.content.decode("utf-8")
-        return json.loads(content)
-
-    def delete_submodel_element_by_path_submodel_repo(self, submodel_id: str, submodel_element_path: str):
-        """Deletes a submodel element at a specified path within the submodel elements hierarchy.
-
-        :param submodel_id: Encoded ID of the Submodel to delete submodel element from
-        :param submodel_element_path: Path of the Submodel element to delete
-        :return: True if the deletion was successful, False otherwise
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}"
-
-        self._set_token()
-
-        try:
-            response = self._session.delete(url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
-        """Updates the value of an existing SubmodelElement.
-
-        :param submodel_id: Encoded ID of the Submodel to update submodel element for
-        :param submodel_element_path: Path of the Submodel element to update
-        :param value: Submodel element value to update as string
-        :return: True if the patch was successful, False otherwise
-        """
-        decoded_submodel_id: str = decode_base_64(submodel_id)
-
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{submodel_element_path}/$value"
-
-        self._set_token()
-
-        try:
-            response = self._session.patch(url, json=value, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
