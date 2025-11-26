@@ -20,12 +20,19 @@ jobs:
           fetch-depth: 0
       - name: Check if pyproject.toml changed
         id: check
-        run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^pyproject\.toml$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-          fi
+      run: |
+        CHANGED_FILES="$(git diff --name-only "${{ github.event.before || 'HEAD~1' }}" "${{ github.sha }}")"
+
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+
+        if echo "$CHANGED_FILES" | grep -q '^pyproject\.toml$'; then
+          echo "pyproject.toml has changed"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "pyproject.toml has NOT changed"
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        fi
 
   Test_client:
     name: Test HTTP client
