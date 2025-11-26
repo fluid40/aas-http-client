@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aas-http-client"
-version = "0.5.1"
-ion with various types of AAS servers"
+version = "0.5.2"
+description = "Generic python HTTP client for communication with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Daniel Klein", email = "daniel.klein@em.ag" }]
