@@ -66,16 +66,22 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
     return sm
 
 
-def create_base_ass(identifier: str, id_short: str, display_name: str = "", description: str = "") -> model.AssetAdministrationShell:
+def create_base_ass(
+    identifier: str, id_short: str, global_asset_identifier: str = "", display_name: str = "", description: str = ""
+) -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
     :param identifier: identifier of the AAS
     :param id_short: ID short of the AAS
+    :param global_asset_identifier: identifier of the global Asset
     :param display_name: display name of the AAS, defaults to ""
     :param description: description of the AAS, defaults to ""
     :return: AssetAdministrationShell instance
     """
-    asset_info = create_base_asset_information(identifier)
+    if not global_asset_identifier:
+        global_asset_identifier = identifier
+
+    asset_info = create_base_asset_information(global_asset_identifier)
 
     aas = model.AssetAdministrationShell(id_=asset_info.global_asset_id, asset_information=asset_info)
     aas.id_short = id_short
