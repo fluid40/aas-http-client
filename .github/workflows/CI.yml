@@ -21,7 +21,14 @@ jobs:
       - name: Check if pyproject.toml changed
         id: check
         run: |
-          CHANGED_FILES="$(git diff --name-only "${{ github.event.before || 'HEAD~1' }}" "${{ github.sha }}")"
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            # At least one parent commit exists
+            CHANGED_FILES="$(git diff --name-only HEAD^ HEAD)"
+          else
+            # First commit in branch → consider all files as "changed"
+            echo "No parent commit found, using full file list"
+            CHANGED_FILES="$(git ls-files)"
+          fi
 
           echo "Changed files:"
           echo "$CHANGED_FILES"

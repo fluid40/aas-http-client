@@ -99,7 +99,7 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
         :return: Asset Administration Shells or None if an error occurred
         """
-        content: dict = self._client.get_asset_administration_shell_by_id(aas_identifier)
+        content: dict = self._client.shell.get_asset_administration_shell_by_id(aas_identifier)
 
         if not content:
             logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
@@ -116,7 +116,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         aas_data = _to_dict(aas)
-        return self._client.put_asset_administration_shell_by_id(aas_identifier, aas_data)
+        return self._client.shell.put_asset_administration_shell_by_id(aas_identifier, aas_data)
 
     # DELETE /shells/{aasIdentifier}
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
@@ -125,7 +125,7 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
         :return: True if the deletion was successful, False otherwise
         """
-        return self._client.delete_asset_administration_shell_by_id(aas_identifier)
+        return self._client.shell.delete_asset_administration_shell_by_id(aas_identifier)
 
     # GET /shells/{aasIdentifier}
     # PUT /shells/{aasIdentifier}
@@ -145,7 +145,7 @@ class SdkWrapper:
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells or None if an error occurred
         """
-        content: dict = self._client.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
+        content: dict = self._client.shell.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
 
         if not content:
             return None
@@ -160,7 +160,7 @@ class SdkWrapper:
         :return: Asset Administration Shell or None if an error occurred
         """
         aas_data = _to_dict(aas)
-        content: dict = self._client.post_asset_administration_shell(aas_data)
+        content: dict = self._client.shell.post_asset_administration_shell(aas_data)
         return _to_object(content)
 
     # GET /shells/{aasIdentifier}/submodel-refs
@@ -179,7 +179,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.put_submodel_by_id_aas_repository(aas_identifier, submodel_identifier, sm_data)
+        return self._client.shell.put_submodel_by_id_aas_repository(aas_identifier, submodel_identifier, sm_data)
 
     # GET /shells/{aasIdentifier}/$reference
     def get_asset_administration_shell_by_id_reference_aas_repository(self, aas_identifier: str) -> model.Reference | None:
@@ -200,7 +200,7 @@ class SdkWrapper:
         :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel or None if an error occurred
         """
-        content: dict = self._client.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
+        content: dict = self._client.shell.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
         return _to_object(content)
 
     # endregion
@@ -216,7 +216,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
         """
-        content = self._client.get_submodel_by_id(submodel_identifier, str(level), str(extent))
+        content = self._client.submodel.get_submodel_by_id(submodel_identifier, str(level), str(extent))
 
         if not content:
             logger.warning(f"No submodel found with ID '{submodel_identifier}' on server.")
@@ -233,7 +233,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.put_submodels_by_id(submodel_identifier, sm_data)
+        return self._client.submodel.put_submodels_by_id(submodel_identifier, sm_data)
 
     # DELETE /submodels/{submodelIdentifier}
     def delete_submodel_by_id(self, submodel_id: str) -> bool:
@@ -242,7 +242,7 @@ class SdkWrapper:
         :param submodel_id: ID of the submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
-        return self._client.delete_submodel_by_id(submodel_id)
+        return self._client.submodel.delete_submodel_by_id(submodel_id)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def get_submodel_element_by_path_submodel_repo(
@@ -256,7 +256,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
+        content: dict = self._client.submodel.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
@@ -280,7 +280,7 @@ class SdkWrapper:
         :return: Submodel element object or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.post_submodel_element_by_path_submodel_repo(
+        content: dict = self._client.submodel.post_submodel_element_by_path_submodel_repo(
             submodel_identifier, id_short_path, sme_data, str(level), str(extent)
         )
         return _to_object(content)
@@ -294,7 +294,7 @@ class SdkWrapper:
         :param id_short_path: Path of the Submodel element to delete
         :return: True if the deletion was successful, False otherwise
         """
-        return self._client.delete_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
+        return self._client.submodel.delete_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
 
     # GET /submodels
     def get_all_submodels(
@@ -316,7 +316,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel or None if an error occurred
         """
-        content: list = self._client.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
+        content: list = self._client.submodel.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
 
         if not content:
             return []
@@ -331,7 +331,7 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         sm_data = _to_dict(submodel)
-        content: dict = self._client.post_submodel(sm_data)
+        content: dict = self._client.submodel.post_submodel(sm_data)
         return _to_object(content)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements
@@ -344,7 +344,7 @@ class SdkWrapper:
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel elements or None if an error occurred
         """
-        content = self._client.get_all_submodel_elements_submodel_repository(submodel_id)
+        content = self._client.submodel.get_all_submodel_elements_submodel_repository(submodel_id)
 
         if not content:
             return []
@@ -360,7 +360,7 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.post_submodel_element_submodel_repo(submodel_id, sme_data)
+        content: dict = self._client.submodel.post_submodel_element_submodel_repo(submodel_id, sme_data)
         return _to_object(content)
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
@@ -375,7 +375,7 @@ class SdkWrapper:
         :param value: Submodel element value to update as string
         :return: True if the patch was successful, False otherwise
         """
-        return self._client.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
+        return self._client.submodel.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
 
     # GET /submodels/{submodelIdentifier}/$value
     # PATCH /submodels/{submodelIdentifier}/$value
@@ -391,7 +391,7 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
-        return self._client.patch_submodel_by_id(submodel_id, sm_data)
+        return self._client.submodel.patch_submodel_by_id(submodel_id, sm_data)
 
 
 # endregion
