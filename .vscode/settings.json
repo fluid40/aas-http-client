@@ -1,9 +1,10 @@
 {
     "cSpell.words": [
+        "AIMC",
         "basyx",
         "Pypi",
-        "submodels",
-        "submodel"
+        "submodel",
+        "submodels"
     ],
     "python.testing.pytestArgs": [
         "tests"

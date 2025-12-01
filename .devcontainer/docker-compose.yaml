@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   dev_container:
     build: .
@@ -21,6 +20,8 @@ services:
     environment:
       - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
+    volumes:
+      - ./storage/java_server/aas:/application/aas
 
   basyx_dotnet_repo_server:
     image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest

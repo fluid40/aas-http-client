@@ -1,0 +1,666 @@
+{
+    "modelType": "Submodel",
+    "kind": "Instance",
+    "semanticId": {
+        "keys": [
+            {
+                "type": "Submodel",
+                "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/Submodel"
+            }
+        ],
+        "type": "ModelReference"
+    },
+    "administration": {
+        "revision": "0",
+        "version": "1"
+    },
+    "id": "https://fluid40.de/ids/sm/7644_4034_2556_2369",
+    "description": [
+        {
+            "language": "en",
+            "text": "This Submodel specifies an information model for describing the mapping of interface(s) of an asset service or asset-related service already described in an Asset Interfaces Description (AID) Submodel."
+        }
+    ],
+    "displayName": [
+        {
+            "language": "en",
+            "text": "AIMC"
+        }
+    ],
+    "idShort": "AssetInterfacesMappingConfiguration",
+    "submodelElements": [
+        {
+            "modelType": "SubmodelElementList",
+            "semanticId": {
+                "keys": [
+                    {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/MappingConfigurations"
+                    }
+                ],
+                "type": "ExternalReference"
+            },
+            "qualifiers": [
+                {
+                    "kind": "ConceptQualifier",
+                    "type": "SMT/Cardinality",
+                    "value": "One",
+                    "valueType": "xs:string"
+                }
+            ],
+            "idShort": "MappingConfigurations",
+            "orderRelevant": true,
+            "semanticIdListElement": {
+                "keys": [
+                    {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/MappingConfiguration"
+                    }
+                ],
+                "type": "ExternalReference"
+            },
+            "typeValueListElement": "SubmodelElementCollection",
+            "value": [
+                {
+                    "modelType": "SubmodelElementCollection",
+                    "semanticId": {
+                        "keys": [
+                            {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/MappingConfiguration"
+                            }
+                        ],
+                        "type": "ExternalReference"
+                    },
+                    "qualifiers": [
+                        {
+                            "kind": "ConceptQualifier",
+                            "type": "SMT/Cardinality",
+                            "value": "ZeroToMany",
+                            "valueType": "xs:string"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "modelType": "ReferenceElement",
+                            "semanticId": {
+                                "keys": [
+                                    {
+                                        "type": "GlobalReference",
+                                        "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/InterfaceReference"
+                                    }
+                                ],
+                                "type": "ExternalReference"
+                            },
+                            "qualifiers": [
+                                {
+                                    "kind": "ConceptQualifier",
+                                    "type": "SMT/Cardinality",
+                                    "value": "One",
+                                    "valueType": "xs:string"
+                                }
+                            ],
+                            "idShort": "InterfaceReference",
+                            "value": {
+                                "keys": [
+                                    {
+                                        "type": "GlobalReference",
+                                        "value": "https://fluid40.de/ids/sm/4757_4856_8464_1442/Interface_MQTT"
+                                    }
+                                ],
+                                "type": "ExternalReference"
+                            }
+                        },
+                        {
+                            "modelType": "SubmodelElementList",
+                            "semanticId": {
+                                "keys": [
+                                    {
+                                        "type": "GlobalReference",
+                                        "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/MappingSourceSinkRelations"
+                                    }
+                                ],
+                                "type": "ExternalReference"
+                            },
+                            "qualifiers": [
+                                {
+                                    "kind": "ConceptQualifier",
+                                    "type": "SMT/Cardinality",
+                                    "value": "One",
+                                    "valueType": "xs:string"
+                                }
+                            ],
+                            "idShort": "MappingSourceSinkRelations",
+                            "orderRelevant": true,
+                            "semanticIdListElement": {
+                                "keys": [
+                                    {
+                                        "type": "GlobalReference",
+                                        "value": "https://admin-shell.io/idta/AssetInterfacesMappingConfiguration/1/0/MappingSourceSinkRelation"
+                                    }
+                                ],
+                                "type": "ExternalReference"
+                            },
+                            "typeValueListElement": "RelationshipElement",
+                            "value": [
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingC"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingC"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "timestamp"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Timestamp"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingX"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingX"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingY"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingY"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingZ"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "HandlingZ"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "axes_position"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MineY"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9107_5170"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AxesPosition"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MineY"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "timestamp"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9117_4261"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine_Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Timestamp"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Energy"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9117_4261"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine_Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Energy"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                },
+                                {
+                                    "modelType": "RelationshipElement",
+                                    "first": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/sm/4757_4856_8464_1441"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Interface_MQTT"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "InteractionMetadata"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "properties"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AirConsumption"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    },
+                                    "second": {
+                                        "keys": [
+                                            {
+                                                "type": "GlobalReference",
+                                                "value": "https://fluid40.de/ids/Submodel/9638_2394_9117_4261"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "MQTT_Data_BallpenMachine_Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "Energy"
+                                            },
+                                            {
+                                                "type": "FragmentReference",
+                                                "value": "AirConsumption"
+                                            }
+                                        ],
+                                        "type": "ExternalReference"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
