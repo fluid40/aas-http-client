@@ -9,6 +9,7 @@ import basyx.aas.adapter.json
 from urllib.parse import urlparse
 import logging
 from aas_http_client.demo.logging_handler import initialize_logging
+from aas_http_client.utilities import encoder
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,8 @@ JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
+SM_ID = "fluid40/sm_http_client_unit_tests"
+SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.yml",
@@ -69,12 +72,12 @@ def shared_sme_float() -> model.Property:
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
     # create a Submodel
-    return model_builder.create_base_submodel(identifier="fluid40/sm_http_client_unit_tests", id_short="sm_http_client_unit_tests")
+    return model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests")
 
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(identifier="fluid40/aas_http_client_unit_tests", id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -647,6 +650,32 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient,
     assert len(list_elements) == 1
     assert list_elements[0].get("idShort", "") == property.id_short
     assert list_elements[0].get("value", "") == property.value
+
+def test_020a_encoded_ids(client: AasHttpClient):
+    base_url: str = client.base_url
+    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    assert new_client is not None
+
+    sm = new_client.get_submodel_by_id(AIMC_SM_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    encoded_sm = new_client.get_submodel_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.get("id", "") == AIMC_SM_ID
+
+def test_020b_encoded_ids(client: AasHttpClient):
+    base_url: str = client.base_url
+    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    assert new_client is not None
+
+    sm = new_client.get_asset_administration_shell_by_id(SHELL_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(SHELL_ID)
+    encoded_sm = new_client.get_asset_administration_shell_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.get("id", "") == SHELL_ID
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)

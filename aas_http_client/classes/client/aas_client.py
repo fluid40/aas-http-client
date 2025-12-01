@@ -5,7 +5,6 @@ import logging
 import time
 from pathlib import Path
 
-import basyx.aas.adapter.json
 import requests
 from basyx.aas.model import Reference, Submodel
 from pydantic import BaseModel, Field, PrivateAttr, ValidationError
@@ -43,6 +42,7 @@ class AasHttpClient(BaseModel):
     trust_env: bool = Field(default=True, alias="TrustEnv", description="Trust environment variables.")
     _session: Session = PrivateAttr(default=None)
     _auth_method: AuthMethod = PrivateAttr(default=AuthMethod.basic_auth)
+    encoded_ids: bool = Field(default=True, alias="EncodeIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -141,11 +141,13 @@ class AasHttpClient(BaseModel):
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :return: Asset Administration Shells data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_identifier)
-        url = f"{self.base_url}/shells/{decoded_aas_id}"
+        if not self.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self.base_url}/shells/{aas_identifier}"
 
         self._set_token()
 
@@ -168,12 +170,14 @@ class AasHttpClient(BaseModel):
     def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :param request_body: Json data of the Asset Administration Shell data to put
         :return: True if the update was successful, False otherwise
         """
-        decoded_identifier: str = decode_base_64(aas_identifier)
-        url = f"{self.base_url}/shells/{decoded_identifier}"
+        if not self.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self.base_url}/shells/{aas_identifier}"
 
         self._set_token()
 
@@ -195,11 +199,13 @@ class AasHttpClient(BaseModel):
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :return: True if the deletion was successful, False otherwise
         """
-        decoded_aas_id: str = decode_base_64(aas_identifier)
-        url = f"{self.base_url}/shells/{decoded_aas_id}"
+        if not self.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self.base_url}/shells/{aas_identifier}"
 
         self._set_token()
 
@@ -310,9 +316,11 @@ class AasHttpClient(BaseModel):
         :param request_body: Json data to the Submodel to put
         :return: True if the update was successful, False otherwise
         """
-        decoded_aas_id: str = decode_base_64(aas_identifier)
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
+        if not self.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
         self._set_token()
 
@@ -337,8 +345,10 @@ class AasHttpClient(BaseModel):
         :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference data or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_identifier)
-        url = f"{self.base_url}/shells/{decoded_aas_id}/$reference"
+        if not self.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self.base_url}/shells/{aas_identifier}/$reference"
 
         self._set_token()
 
@@ -365,10 +375,11 @@ class AasHttpClient(BaseModel):
         :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        decoded_aas_id: str = decode_base_64(aas_identifier)
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        if not self.encoded_ids:
+            aas_id: str = decode_base_64(aas_identifier)
+            submodel_id: str = decode_base_64(submodel_identifier)
 
-        url = f"{self.base_url}/shells/{decoded_aas_id}/submodels/{decoded_submodel_id}"
+        url = f"{self.base_url}/shells/{aas_id}/submodels/{submodel_id}"
 
         self._set_token()
 
@@ -400,8 +411,10 @@ class AasHttpClient(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}"
 
         params = {}
         if level:
@@ -434,8 +447,10 @@ class AasHttpClient(BaseModel):
         :param request_body: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
-        decoded_identifier: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_identifier}"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}"
 
         self._set_token()
 
@@ -460,8 +475,10 @@ class AasHttpClient(BaseModel):
         :param submodel_identifier: Encoded ID of the Submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}"
 
         self._set_token()
 
@@ -491,9 +508,10 @@ class AasHttpClient(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         params = {}
         if level:
@@ -533,8 +551,10 @@ class AasHttpClient(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         params = {}
         if level:
@@ -567,9 +587,10 @@ class AasHttpClient(BaseModel):
         :param id_short_path: Path of the Submodel element to delete
         :return: True if the deletion was successful, False otherwise
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}"
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         self._set_token()
 
@@ -673,8 +694,10 @@ class AasHttpClient(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel element data or None if an error occurred
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
         params = {}
         if limit:
@@ -711,8 +734,10 @@ class AasHttpClient(BaseModel):
         :param request_body: Data for the new Submodel element
         :return: Submodel element data or None if an error occurred
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
         self._set_token()
 
@@ -746,9 +771,10 @@ class AasHttpClient(BaseModel):
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :return: True if the patch was successful, False otherwise
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}/submodel-elements/{id_short_path}/$value"
+        url = f"{self.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
 
         params = {}
         if level:
@@ -783,8 +809,10 @@ class AasHttpClient(BaseModel):
         :param submodel_identifier: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
         """
-        decoded_submodel_id: str = decode_base_64(submodel_identifier)
-        url = f"{self.base_url}/submodels/{decoded_submodel_id}"
+        if not self.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self.base_url}/submodels/{submodel_identifier}"
 
         self._set_token()
 
@@ -822,6 +850,7 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
     trust_env: bool = True,  # noqa: FBT001, FBT002
+    encoded_ids: bool = True,
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given parameters.
 
@@ -838,6 +867,7 @@ def create_client_by_url(
     :param connection_time_out: Timeout for the connection to the API, defaults to 60
     :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :param trust_env: Whether to trust environment variables for proxy settings, defaults to True
+    :param encoded_ids: If enabled, all IDs used in API requests have to be base64-encoded
     :return: An instance of AasHttpClient initialized with the provided parameters or None if connection fails
     """
     logger.info(f"Create AAS server http client from URL '{base_url}'.")
@@ -849,6 +879,7 @@ def create_client_by_url(
     config_dict["ConnectionTimeOut"] = connection_time_out
     config_dict["SslVerify"] = ssl_verify
     config_dict["TrustEnv"] = trust_env
+    config_dict["EncodeIds"] = encoded_ids
 
     config_dict["AuthenticationSettings"] = {
         "BasicAuth": {"Username": basic_auth_username},
@@ -932,6 +963,7 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
     logger.info(f"ConnectionTimeOut: '{client.connection_time_out}'.")
     logger.info(f"SSLVerify: '{client.ssl_verify}'.")
     logger.info(f"TrustEnv: '{client.trust_env}'.")
+    logger.info(f"EncodeIds: '{client.encoded_ids}'.")
 
     client.initialize()
 
