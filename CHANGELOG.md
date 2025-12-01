@@ -1,5 +1,8 @@
 # Changelog
 
+# [0.5.6] - 2025-12-01
+- ⚡Bugfix in parameter name 'EncodeIds'
+
 # [0.5.5] - 2025-12-01
 - ⚡Move the specific endpoint implementations to sub-modules ('client.shell' and 'client.submodel')
 

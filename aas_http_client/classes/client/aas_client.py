@@ -6,20 +6,14 @@ import time
 from pathlib import Path
 
 import requests
-from basyx.aas.model import Reference, Submodel
 from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
 from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, SmImplementation, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
-from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    STATUS_CODE_201,
-    STATUS_CODE_202,
-    STATUS_CODE_204,
-    STATUS_CODE_404,
     log_response_errors,
 )
 
@@ -44,7 +38,7 @@ class AasHttpClient(BaseModel):
     trust_env: bool = Field(default=True, alias="TrustEnv", description="Trust environment variables.")
     _session: Session = PrivateAttr(default=None)
     _auth_method: AuthMethod = PrivateAttr(default=AuthMethod.basic_auth)
-    encoded_ids: bool = Field(default=True, alias="EncodeIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
+    encoded_ids: bool = Field(default=True, alias="EncodedIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
     shell: ShellImplementation = Field(default=None)
     submodel: SmImplementation = Field(default=None)
 
@@ -189,7 +183,7 @@ def create_client_by_url(
     config_dict["ConnectionTimeOut"] = connection_time_out
     config_dict["SslVerify"] = ssl_verify
     config_dict["TrustEnv"] = trust_env
-    config_dict["EncodeIds"] = encoded_ids
+    config_dict["EncodedIds"] = encoded_ids
 
     config_dict["AuthenticationSettings"] = {
         "BasicAuth": {"Username": basic_auth_username},
@@ -273,7 +267,7 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
     logger.info(f"ConnectionTimeOut: '{client.connection_time_out}'.")
     logger.info(f"SSLVerify: '{client.ssl_verify}'.")
     logger.info(f"TrustEnv: '{client.trust_env}'.")
-    logger.info(f"EncodeIds: '{client.encoded_ids}'.")
+    logger.info(f"EncodedIds: '{client.encoded_ids}'.")
 
     client.initialize()
 

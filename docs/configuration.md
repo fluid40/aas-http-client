@@ -31,7 +31,7 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
     "TrustEnv": true,
     "HttpProxy": "http://proxy.company.com:8080",
     "HttpsProxy": "http://proxy.company.com:8080",
-    "EncodeIds": true,
+    "EncodedIds": true,
     "AuthenticationSettings": {
         "BasicAuth": {
             "Username": "admin"
@@ -64,7 +64,7 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 | `TrustEnv` | `boolean` | No | `true` | Whether to trust environment variables for proxy configuration |
 | `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
 | `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
-| `EncodeIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
+| `EncodedIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
 | **Authentication Settings** |
 | `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
 | `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |

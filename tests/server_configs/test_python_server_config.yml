@@ -6,7 +6,7 @@
 	"ConnectionTimeOut": 10,
 	"SslVerify": true,
 	"TrustEnv": true,
-	"EncodeIds": false,
+	"EncodedIds": false,
 	"AuthenticationSettings": {
 		"BasicAuthentication": {
 			"Username": ""
