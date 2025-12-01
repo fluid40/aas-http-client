@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 
+AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
+
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.yml",
     "./tests/server_configs/test_dotnet_server_config.yml",
@@ -248,7 +250,7 @@ def test_008_get_all_submodels(client: AasHttpClient):
     submodels = result.get("result", [])
     assert len(submodels) == 0
 
-def test_009_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
+def test_009a_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
 
@@ -263,6 +265,23 @@ def test_009_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
     submodels = get_result.get("result", [])
     assert len(submodels) == 1
     assert submodels[0].get("idShort", "") == shared_sm.id_short
+
+def test_009b_post_submodel(client: AasHttpClient):
+    sm_template_file = Path(f"./tests/test_data/aimc.json").resolve()
+
+    with Path.open(sm_template_file, "r", encoding="utf-8") as f:
+        sm_data = json.load(f)
+
+    result = client.post_submodel(sm_data)
+
+    assert result is not None
+    result_id = result.get("id", "")
+    assert result_id == AIMC_SM_ID
+
+    get_result = client.get_all_submodels()
+    assert get_result is not None
+    submodels = get_result.get("result", [])
+    assert len(submodels) == 2
 
 def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
@@ -287,6 +306,21 @@ def test_011b_get_submodel_by_id(client: AasHttpClient):
     result = client.get_submodel_by_id("non_existent_id")
 
     assert result is None
+
+def test_011c_get_submodel_by_id(client: AasHttpClient):
+    result = client.get_submodel_by_id(AIMC_SM_ID)
+
+    assert result is not None
+    result_id = result.get("id", "")
+    assert result_id == AIMC_SM_ID
+
+def test_011d_get_submodel_by_id(client: AasHttpClient):
+    result = client.get_submodel_by_id(AIMC_SM_ID, level="core")
+
+    assert result is not None
+    result_id = result.get("id", "")
+    assert result_id == AIMC_SM_ID
+    assert "submodelElements" not in result
 
 def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)
@@ -624,8 +658,18 @@ def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shar
     shells = get_result.get("result", [])
     assert len(shells) == 0
 
-def test_099_delete_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
+def test_099a_delete_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     result = client.delete_submodel_by_id(shared_sm.id)
+
+    assert result is True
+
+    get_result = client.get_all_submodels()
+    assert get_result is not None
+    submodels = get_result.get("result", [])
+    assert len(submodels) == 1
+
+def test_099b_delete_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
+    result = client.delete_submodel_by_id(AIMC_SM_ID)
 
     assert result is True
 

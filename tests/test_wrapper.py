@@ -11,6 +11,8 @@ JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 DOTNET_SERVER_PORTS = [5043]
 
+AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
+
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.yml",
     "./tests/server_configs/test_dotnet_server_config.yml",
@@ -204,7 +206,7 @@ def test_008_get_all_submodels(wrapper: SdkWrapper):
     assert submodels is not None
     assert len(submodels.results) == 0
 
-def test_009_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
+def test_009a_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
     submodel = wrapper.post_submodel(shared_sm)
 
     assert submodel is not None
@@ -216,6 +218,24 @@ def test_009_post_submodel(wrapper: SdkWrapper, shared_sm: model.Submodel):
     assert len(submodels.results) == 1
     assert submodels.results[0].id_short == shared_sm.id_short
     assert submodels.results[0].id == shared_sm.id
+
+def test_009b_post_submodel(wrapper: SdkWrapper):
+    sm_template_file = Path(f"./tests/test_data/aimc.json").resolve()
+
+    with Path.open(sm_template_file, "r", encoding="utf-8") as f:
+        sm_data = json.load(f)
+
+    submodel = sdk_tools.convert_to_object(sm_data)
+
+    result = wrapper.post_submodel(submodel)
+
+    assert result is not None
+    assert result.id == AIMC_SM_ID
+
+    get_result = wrapper.get_all_submodels()
+    assert get_result is not None
+    submodels = get_result.results
+    assert len(submodels) == 2
 
 def test_010_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     submodel = wrapper.get_submodel_by_id_aas_repository(shared_aas.id, shared_sm.id)
@@ -556,8 +576,17 @@ def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared
     assert shells is not None
     assert len(shells.results) == 0
 
-def test_099_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
+def test_099a_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     result = wrapper.delete_submodel_by_id(shared_sm.id)
+
+    assert result
+
+    submodels = wrapper.get_all_submodels()
+    assert submodels is not None
+    assert len(submodels.results) == 1
+
+def test_099b_delete_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
+    result = wrapper.delete_submodel_by_id(AIMC_SM_ID)
 
     assert result
 
