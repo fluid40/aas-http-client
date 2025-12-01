@@ -31,6 +31,7 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
     "TrustEnv": true,
     "HttpProxy": "http://proxy.company.com:8080",
     "HttpsProxy": "http://proxy.company.com:8080",
+    "EncodeIds": true,
     "AuthenticationSettings": {
         "BasicAuth": {
             "Username": "admin"
@@ -63,6 +64,7 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 | `TrustEnv` | `boolean` | No | `true` | Whether to trust environment variables for proxy configuration |
 | `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
 | `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
+| `EncodeIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
 | **Authentication Settings** |
 | `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
 | `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
@@ -157,13 +159,14 @@ client = create_client_by_config(
 
 ### Basic Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `base_url` | `str` | Required | Base URL of the AAS server |
-| `time_out` | `int` | `200` | Timeout for HTTP requests (seconds) |
-| `connection_time_out` | `int` | `60` | Connection timeout (seconds) |
-| `ssl_verify` | `bool` | `True` | Enable SSL certificate verification |
-| `trust_env` | `bool` | `True` | Trust environment variables for proxy settings |
+| Parameter      | Type    | Default | Description                                 |
+|----------------|---------|---------|---------------------------------------------|
+| `base_url`     | `str`   | Required| Base URL of the AAS server                  |
+| `time_out`     | `int`   | `200`   | Timeout for HTTP requests (seconds)         |
+| `connection_time_out` | `int` | `60` | Connection timeout (seconds)                |
+| `ssl_verify`   | `bool`  | `True`  | Enable SSL certificate verification         |
+| `trust_env`    | `bool`  | `True`  | Trust environment variables for proxy       |
+| `encoded_ids`  | `bool`  | `True`  | Use base64 encoding for IDs in requests     |
 
 ### Proxy Configuration
 
