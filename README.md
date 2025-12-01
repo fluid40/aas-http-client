@@ -37,10 +37,6 @@ Wrappers are currently available for the following frameworks:
 
 🛠️ [Configuration](docs/configuration.md)
 
-💻 [Tutorials](docs/tutorials.md)
-
-👨‍⚕️ [Troubleshooting](docs/troubleshooting.md)
-
 🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
 
 📝 [Changelog](CHANGELOG.md)
@@ -66,7 +62,7 @@ client = create_client_by_url(
     base_url="http://myaasserver:5043/"
 )
 
-print(client.get_shells())
+print(client.shell.get_shells())
 ```
 
 ### BaSyx Python SDK Wrapper
