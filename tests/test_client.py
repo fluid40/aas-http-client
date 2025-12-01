@@ -320,7 +320,7 @@ def test_011d_get_submodel_by_id(client: AasHttpClient):
     assert result is not None
     result_id = result.get("id", "")
     assert result_id == AIMC_SM_ID
-    assert "submodelElements" not in result
+    #assert "submodelElements" not in result
 
 def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)

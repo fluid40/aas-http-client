@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.classes.wrapper.sdk_wrapper import create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
+from aas_http_client.classes.wrapper.sdk_wrapper import Level, create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
@@ -260,6 +260,19 @@ def test_011b_get_submodel_by_id(wrapper: SdkWrapper):
     result = wrapper.get_submodel_by_id("non_existent_id")
 
     assert result is None
+
+def test_011c_get_submodel_by_id(wrapper: SdkWrapper):
+    result = wrapper.get_submodel_by_id(AIMC_SM_ID)
+
+    assert result is not None
+    assert result.id == AIMC_SM_ID
+
+def test_011d_get_submodel_by_id(wrapper: SdkWrapper):
+    result = wrapper.get_submodel_by_id(AIMC_SM_ID, level=Level.core)
+
+    assert result is not None
+    assert result.id == AIMC_SM_ID
+    # assert "submodelElements" not in result
 
 def test_012_patch_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel):
     sm = model.Submodel(shared_sm.id_short)

@@ -2,6 +2,7 @@
 
 import json
 import logging
+from enum import Enum
 from pathlib import Path
 
 from basyx.aas import model
@@ -19,6 +20,40 @@ from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
 logger = logging.getLogger(__name__)
+
+
+class Level(Enum):
+    """Determines the structural depth of the respective resource content."""
+
+    default = 0
+    core = 1
+    deep = 2
+
+    def __str__(self) -> str:
+        """String representation of the Level enum."""
+        if self == Level.core:
+            return "core"
+        if self == Level.deep:
+            return "deep"
+
+        return ""
+
+
+class Extent(Enum):
+    """Determines to which extent the resource is being serialized."""
+
+    default = 0
+    with_blob_value = 1
+    without_blob_value = 2
+
+    def __str__(self) -> str:
+        """String representation of the Extent enum."""
+        if self == Extent.with_blob_value:
+            return "withBlobValue"
+        if self == Extent.without_blob_value:
+            return "withoutBlobValue"
+
+        return ""
 
 
 # region SdkWrapper
@@ -173,7 +208,7 @@ class SdkWrapper:
     # region submodels
 
     # GET /submodels/{submodelIdentifier}
-    def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> model.Submodel | None:
+    def get_submodel_by_id(self, submodel_identifier: str, level: Level = Level.default, extent: Extent = Extent.default) -> model.Submodel | None:
         """Returns a specific Submodel.
 
         :param submodel_identifier: Encoded ID of the Submodel to retrieve
@@ -181,7 +216,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
         """
-        content = self._client.get_submodel_by_id(submodel_identifier, level, extent)
+        content = self._client.get_submodel_by_id(submodel_identifier, str(level), str(extent))
 
         if not content:
             logger.warning(f"No submodel found with ID '{submodel_identifier}' on server.")
@@ -211,7 +246,7 @@ class SdkWrapper:
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def get_submodel_element_by_path_submodel_repo(
-        self, submodel_identifier: str, id_short_path: str, level: str = "", extent: str = ""
+        self, submodel_identifier: str, id_short_path: str, level: Level = Level.default, extent: Extent = Extent.default
     ) -> model.SubmodelElement | None:
         """Returns a specific submodel element from the Submodel at a specified path.
 
@@ -221,14 +256,19 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, level, extent)
+        content: dict = self._client.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def post_submodel_element_by_path_submodel_repo(
-        self, submodel_identifier: str, id_short_path: str, submodel_element: model.SubmodelElement, level: str = "", extent: str = ""
+        self,
+        submodel_identifier: str,
+        id_short_path: str,
+        submodel_element: model.SubmodelElement,
+        level: Level = Level.default,
+        extent: Extent = Extent.default,
     ) -> model.SubmodelElement | None:
         """Creates a new submodel element at a specified path within submodel elements hierarchy.
 
@@ -240,7 +280,9 @@ class SdkWrapper:
         :return: Submodel element object or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.post_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, sme_data, level, extent)
+        content: dict = self._client.post_submodel_element_by_path_submodel_repo(
+            submodel_identifier, id_short_path, sme_data, str(level), str(extent)
+        )
         return _to_object(content)
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
@@ -256,7 +298,13 @@ class SdkWrapper:
 
     # GET /submodels
     def get_all_submodels(
-        self, semantic_id: str = "", id_short: str = "", limit: int = 0, cursor: str = "", level: str = "", extent: str = ""
+        self,
+        semantic_id: str = "",
+        id_short: str = "",
+        limit: int = 0,
+        cursor: str = "",
+        level: Level = Level.default,
+        extent: Extent = Extent.default,
     ) -> SubmodelPaginatedData | None:
         """Returns all Submodels.
 
@@ -268,7 +316,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel or None if an error occurred
         """
-        content: list = self._client.get_all_submodels(semantic_id, id_short, limit, cursor, level, extent)
+        content: list = self._client.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
 
         if not content:
             return []
