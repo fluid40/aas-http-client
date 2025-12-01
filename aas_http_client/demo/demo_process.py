@@ -32,7 +32,7 @@ def start() -> None:
         logger.warning(f"Delete shell '{existing_shell.id}'")
         wrapper.delete_asset_administration_shell_by_id(existing_shell.id)
 
-    for existing_submodel in wrapper.get_all_submodels():
+    for existing_submodel in wrapper.get_all_submodels().results:
         logger.warning(f"Delete submodel '{existing_submodel.id}'")
         wrapper.delete_submodel_by_id(existing_submodel.id)
 
