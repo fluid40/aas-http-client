@@ -6,12 +6,15 @@ import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
 from urllib.parse import urlparse
 import json
+from aas_http_client.utilities import encoder
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [8080, 80]
 DOTNET_SERVER_PORTS = [5043]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
+SM_ID = "fluid40/sm_http_client_unit_tests"
+SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.yml",
@@ -64,14 +67,14 @@ def shared_sme_float() -> model.Property:
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
     # create a Submodel
-    submodel = model_builder.create_base_submodel(identifier="fluid40/sm_http_client_unit_tests", id_short="sm_http_client_unit_tests")
+    submodel = model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests")
     submodel.category = "Unit Test"
     return submodel
 
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(identifier="fluid40/aas_http_client_unit_tests", id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -579,6 +582,32 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         assert isinstance(submodel_element, model.Property)
         property: model.Property = submodel_element
         assert property.value == float(new_value)
+
+def test_020a_encoded_ids(wrapper: SdkWrapper):
+    base_url: str = wrapper.base_url
+    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    assert new_wrapper is not None
+
+    sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    encoded_sm = new_wrapper.get_submodel_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.id == AIMC_SM_ID
+
+def test_020b_encoded_ids(wrapper: SdkWrapper):
+    base_url: str = wrapper.base_url
+    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    assert new_wrapper is not None
+
+    sm = new_wrapper.get_asset_administration_shell_by_id(SHELL_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(SHELL_ID)
+    encoded_sm = new_wrapper.get_asset_administration_shell_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.id == SHELL_ID
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)

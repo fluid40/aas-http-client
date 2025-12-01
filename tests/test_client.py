@@ -9,6 +9,7 @@ import basyx.aas.adapter.json
 from urllib.parse import urlparse
 import logging
 from aas_http_client.demo.logging_handler import initialize_logging
+from aas_http_client.utilities import encoder
 
 logger = logging.getLogger(__name__)
 
@@ -649,6 +650,32 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient,
     assert len(list_elements) == 1
     assert list_elements[0].get("idShort", "") == property.id_short
     assert list_elements[0].get("value", "") == property.value
+
+def test_020a_encoded_ids(client: AasHttpClient):
+    base_url: str = client.base_url
+    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    assert new_client is not None
+
+    sm = new_client.get_submodel_by_id(AIMC_SM_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    encoded_sm = new_client.get_submodel_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.get("id", "") == AIMC_SM_ID
+
+def test_020b_encoded_ids(client: AasHttpClient):
+    base_url: str = client.base_url
+    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    assert new_client is not None
+
+    sm = new_client.get_asset_administration_shell_by_id(SHELL_ID)
+    assert sm is None
+
+    encoded_id = encoder.decode_base_64(SHELL_ID)
+    encoded_sm = new_client.get_asset_administration_shell_by_id(encoded_id)
+    assert encoded_sm is not None
+    assert encoded_sm.get("id", "") == SHELL_ID
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.delete_asset_administration_shell_by_id(shared_aas.id)

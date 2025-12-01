@@ -141,7 +141,7 @@ class AasHttpClient(BaseModel):
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :return: Asset Administration Shells data or None if an error occurred
         """
         if not self.encoded_ids:
@@ -170,7 +170,7 @@ class AasHttpClient(BaseModel):
     def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :param request_body: Json data of the Asset Administration Shell data to put
         :return: True if the update was successful, False otherwise
         """
@@ -199,7 +199,7 @@ class AasHttpClient(BaseModel):
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shell’s unique id
         :return: True if the deletion was successful, False otherwise
         """
         if not self.encoded_ids:
@@ -412,9 +412,9 @@ class AasHttpClient(BaseModel):
         :return: Submodel data or None if an error occurred
         """
         if not self.encoded_ids:
-            submodel_id: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self.base_url}/submodels/{submodel_id}"
+        url = f"{self.base_url}/submodels/{submodel_identifier}"
 
         params = {}
         if level:
