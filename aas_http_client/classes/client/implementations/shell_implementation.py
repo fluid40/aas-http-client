@@ -83,6 +83,10 @@ class ShellImplementation(BaseModel):
             response = self._session.put(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                return None
+
             if response.status_code is not STATUS_CODE_204:
                 log_response_errors(response)
                 return False
@@ -110,6 +114,10 @@ class ShellImplementation(BaseModel):
         try:
             response = self._session.delete(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
@@ -226,6 +234,10 @@ class ShellImplementation(BaseModel):
             response = self._session.put(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                return None
+
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
                 return False
@@ -253,6 +265,10 @@ class ShellImplementation(BaseModel):
         try:
             response = self._session.get(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_200:
                 log_response_errors(response)
@@ -284,6 +300,10 @@ class ShellImplementation(BaseModel):
         try:
             response = self._session.get(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_200:
                 log_response_errors(response)

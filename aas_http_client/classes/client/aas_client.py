@@ -20,9 +20,6 @@ from aas_http_client.utilities.http_helper import (
 logger = logging.getLogger(__name__)
 
 
-# region AasHttpClient
-
-
 class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
 
@@ -134,13 +131,8 @@ class AasHttpClient(BaseModel):
 
         return None
 
-    # endregion
 
-
-# region client
-
-
-def create_client_by_url(
+def create_client_by_url(  # noqa: PLR0913
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
@@ -154,7 +146,7 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
     trust_env: bool = True,  # noqa: FBT001, FBT002
-    encoded_ids: bool = True,
+    encoded_ids: bool = True,  # noqa: FBT001, FBT002
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given parameters.
 
@@ -308,6 +300,3 @@ def _connect_to_api(client: AasHttpClient) -> bool:
         counter += 1
         logger.warning(f"Retrying connection (attempt: {counter}).")
         time.sleep(1)
-
-
-# endregion
