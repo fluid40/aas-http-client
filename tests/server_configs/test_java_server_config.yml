@@ -2,10 +2,11 @@
 	"BaseUrl": "http://localhost:8075/",
 	"HttpsProxy": null,
 	"HttpProxy": null,
-	"TimeOut": 200,
-	"ConnectionTimeOut": 100,
+	"TimeOut": 20,
+	"ConnectionTimeOut": 10,
 	"SslVerify": true,
 	"TrustEnv": true,
+	"EncodeIds": false,
 	"AuthenticationSettings": {
 		"BasicAuthentication": {
 
