@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  Detect_Project_Changes:
+  Setup_Environment:
     name: Check for new version
     runs-on: ubuntu-latest
     outputs:
@@ -37,12 +37,6 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-  Run_DockerCompose:
-    name: Start server infrastructure
-    runs-on: ubuntu-latest
-    needs: Detect_Project_Changes
-
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -96,7 +90,7 @@ jobs:
   Test_client:
     name: Test HTTP client
     runs-on: ubuntu-latest
-    needs: Run_DockerCompose
+    needs: Setup_Environment
 
     steps:
       - name: Checkout code
@@ -119,7 +113,7 @@ jobs:
   Test_SDK_Wrapper:
     name: Test HTTP wrapper
     runs-on: ubuntu-latest
-    needs: Run_DockerCompose
+    needs: Setup_Environment
 
     steps:
       - name: Checkout code
