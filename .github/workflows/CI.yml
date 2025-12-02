@@ -83,7 +83,7 @@ jobs:
           wait_for "dotNet AAS" "http://localhost:5043/shells"
           wait_for "Python AAS" "http://localhost:5080/shells"
           wait_for "AAS Registry" "http://localhost:8076/shell-descriptors"
-          wait_for "SM Registry"  "http://localhost:8077/submodels-descriptors"
+          wait_for "SM Registry"  "http://localhost:8077/submodel-descriptors"
 
       - name: Run client tests
         run: pytest -v tests/test_client.py
