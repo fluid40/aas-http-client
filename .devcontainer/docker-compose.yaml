@@ -44,6 +44,7 @@ services:
       - SERVER_HOST=javaaasserver
     volumes:
       - ./storage/java_server/aas:/application/aas
+      - ./basyx/aas-env.properties:/application/application.properties
     depends_on:
       aas-registry:
         condition: service_healthy
@@ -65,6 +66,8 @@ services:
         condition: service_healthy
     ports:
       - '8076:8080'
+    networks:
+      - bridge
 
   sm-registry:
     image: eclipsebasyx/submodel-registry-log-mongodb:2.0.0-SNAPSHOT
@@ -79,6 +82,8 @@ services:
         condition: service_healthy
     ports:
       - '8077:8080'
+    networks:
+      - bridge
 
   mongo:
     image: mongo:4.4
@@ -94,6 +99,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - bridge
 
 networks:
   bridge:

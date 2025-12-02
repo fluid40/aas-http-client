@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
-from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, SmImplementation, get_token
+from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, ShellRegistryImplementation, SmImplementation, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
@@ -38,6 +38,7 @@ class AasHttpClient(BaseModel):
     encoded_ids: bool = Field(default=True, alias="EncodedIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
     shell: ShellImplementation = Field(default=None)
     submodel: SmImplementation = Field(default=None)
+    shell_registry: ShellRegistryImplementation = Field(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -67,6 +68,9 @@ class AasHttpClient(BaseModel):
 
         self.shell = ShellImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
         self.submodel = SmImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
+        self.shell_registry = ShellRegistryImplementation(
+            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
+        )
 
     def _handle_auth_method(self):
         """Handles the authentication method based on the provided settings."""
@@ -96,24 +100,28 @@ class AasHttpClient(BaseModel):
 
         :return: Response data as a dictionary containing shell information, or None if an error occurred
         """
-        url = f"{self.base_url}/shells"
+        urls: list[str] = []
+        urls.append(f"{self.base_url}/shells")
+        urls.append(f"{self.base_url}/submodels")
+        urls.append(f"{self.base_url}/shell-descriptors")
+        urls.append(f"{self.base_url}/submodel-descriptors")
 
         self.set_token()
 
-        try:
-            response = self._session.get(url, timeout=10)
-            logger.debug(f"Call REST API url '{response.url}'")
+        for url in urls:
+            logger.debug(f"Testing connectivity with URL: {url}")
+            try:
+                response = self._session.get(url, timeout=10)
+                logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
+                if response.status_code == STATUS_CODE_200:
+                    content = response.content.decode("utf-8")
+                    return json.loads(content)
 
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
+            except requests.exceptions.RequestException as e:
+                logger.debug(f"Error call REST API: {e}")
 
-        content = response.content.decode("utf-8")
-        return json.loads(content)
+        return None
 
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
