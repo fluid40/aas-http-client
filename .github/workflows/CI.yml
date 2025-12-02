@@ -56,8 +56,8 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Start full BasysX infrastructure
-        run: docker compose -f .github/docker-compose-ci.yaml up -d --build
+      - name: Start server infrastructure
+        run: docker compose -f .devcontainer/docker-compose.yaml up -d --build
 
       - name: Wait for infrastructure to be healthy
         run: |
