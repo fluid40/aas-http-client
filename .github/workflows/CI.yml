@@ -35,6 +35,7 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
 
   Test_with_DockerCompose:
     name: Test HTTP client & wrapper
