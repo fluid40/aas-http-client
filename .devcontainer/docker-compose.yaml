@@ -63,6 +63,8 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+    ports:
+      - '8076:8080'
 
   sm-registry:
     image: eclipsebasyx/submodel-registry-log-mongodb:2.0.0-SNAPSHOT
@@ -75,6 +77,8 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+    ports:
+      - '8077:8080'
 
   mongo:
     image: mongo:4.4
