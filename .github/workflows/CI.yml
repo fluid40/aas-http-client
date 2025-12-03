@@ -208,7 +208,7 @@ jobs:
           wait_for "SM Registry"  "http://localhost:8077/submodel-descriptors"
 
       - name: Run client tests
-        run: pytest -v tests/test_client.py
+        run: pytest -v tests/test_client_reg.py
 
       - name: Dump logs on failure
         if: failure()
