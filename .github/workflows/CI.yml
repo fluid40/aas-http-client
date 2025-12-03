@@ -57,7 +57,7 @@ jobs:
           pip install pytest
 
       - name: Start server infrastructure
-        run: docker compose -f .devcontainer/docker-compose-env.yaml up -d --build
+        run: docker compose -f .github/docker-compose-env.yaml up -d --build
 
       - name: Wait for infrastructure to be healthy
         run: |
