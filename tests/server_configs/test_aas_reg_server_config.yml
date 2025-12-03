@@ -1,0 +1,18 @@
+{
+	"BaseUrl": "http://localhost:8076/",
+	"HttpsProxy": null,
+	"HttpProxy": null,
+	"TimeOut": 20,
+	"ConnectionTimeOut": 10,
+	"SslVerify": true,
+	"TrustEnv": true,
+	"EncodedIds": false,
+	"AuthenticationSettings": {
+		"BasicAuthentication": {
+
+		},
+		"ServiceProviderAuthentication": {
+
+		}
+	}
+}
