@@ -14,7 +14,7 @@ from aas_http_client.utilities import encoder
 logger = logging.getLogger(__name__)
 
 JAVA_SERVER_PORTS = [8075]
-PYTHON_SERVER_PORTS = [8080, 80]
+PYTHON_SERVER_PORTS = [5080, 80]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
