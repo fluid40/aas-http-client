@@ -38,7 +38,7 @@ jobs:
           fi
 
   client_env_tests:
-    name: Client AAS Environment Tests
+    name: Client AAS Env Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -82,11 +82,67 @@ jobs:
           wait_for "Java AAS"   "http://localhost:8075/shells"
           wait_for "dotNet AAS" "http://localhost:5043/shells"
           wait_for "Python AAS" "http://localhost:5080/shells"
-          wait_for "AAS Registry" "http://localhost:8076/shell-descriptors"
-          wait_for "SM Registry"  "http://localhost:8077/submodel-descriptors"
 
       - name: Run client tests
         run: pytest -v tests/test_client.py
+
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          echo "======== Dumping container logs =========="
+          for c in $(docker ps -a --format '{{.Names}}'); do
+            echo "------------- $c -------------"
+            docker logs $c || true
+          done
+
+      - name: Tear down
+        run: docker compose -f .github/docker-compose-env.yaml down
+
+  wrapper_env_tests:
+    name: Client AAS Env Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Start server infrastructure
+        run: docker compose -f .github/docker-compose-env.yaml up -d --build
+
+      - name: Wait for infrastructure to be healthy
+        run: |
+          echo "Waiting for services..."
+
+          wait_for() {
+            NAME=$1
+            URL=$2
+            echo "Waiting for $NAME at $URL"
+            for i in {1..60}; do
+              if curl -sSf "$URL" >/dev/null; then
+                echo "$NAME is ready."
+                return 0
+              fi
+              sleep 2
+            done
+            echo "❌ Timeout waiting for $NAME"
+            docker ps -a
+            exit 1
+          }
+
+          wait_for "Java AAS"   "http://localhost:8075/shells"
+          wait_for "dotNet AAS" "http://localhost:5043/shells"
+          wait_for "Python AAS" "http://localhost:5080/shells"
 
       - name: Run wrapper tests
         run: pytest -v tests/test_wrapper.py
@@ -101,8 +157,7 @@ jobs:
           done
 
       - name: Tear down
-        run: docker compose -f .github/docker-compose-ci.yaml down
-
+        run: docker compose -f .github/docker-compose-env.yaml down
 
   Publish_PyPI_Package:
     name: Publish PyPI Package
