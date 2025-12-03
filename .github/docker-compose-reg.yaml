@@ -6,6 +6,8 @@ services:
       - bridge
     ports:
       - "5043:5043"
+    networks:
+      - bridge
 
   python_aas_server:
     image:  engineeringmethodsag/fluid-basyx-python-aasx-server:latest
@@ -20,6 +22,8 @@ services:
       - STORAGE_PATH=/storage
     volumes:
       - ./storage/python_server:/storage
+    networks:
+      - bridge
 
   java_aas_server:
     image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
@@ -40,6 +44,8 @@ services:
         condition: service_healthy
       mongo:
         condition: service_healthy
+    networks:
+      - bridge
 
   aas-registry:
     image: eclipsebasyx/aas-registry-log-mongodb:2.0.0-SNAPSHOT
