@@ -274,10 +274,10 @@ class ShellImplementation(BaseModel):
         :return: Submodel object or None if an error occurred
         """
         if not self._encoded_ids:
-            aas_id: str = decode_base_64(aas_identifier)
-            submodel_id: str = decode_base_64(submodel_identifier)
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/shells/{aas_id}/submodels/{submodel_id}"
+        url = f"{self._base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
         self._set_token()
 
