@@ -32,17 +32,33 @@ class ShellRegistryImplementation(BaseModel):
         self._o_auth_settings = o_auth_settings
 
     # GET /shell-descriptors/{aasIdentifier}
-    def get_all_asset_administration_shell_descriptors(self) -> dict | None:
+    def get_all_asset_administration_shell_descriptors(
+        self, limit: int = 100, cursor: str = "", asset_kind: str = "", asset_type: str = ""
+    ) -> dict | None:
         """Returns all Asset Administration Shell Descriptors.
 
-        :return: Asset Administration Shells data or None if an error occurred
+        :param limit: Maximum number of Submodels to return
+        :param cursor: Cursor for pagination
+        :param asset_kind: The Asset's kind (Instance or Type). Available values : Instance, NotApplicable, Type
+        :param asset_type: The Asset's type (UTF8-BASE64-URL-encoded)
+        :return: Asset Administration Shell Descriptors data or None if an error occurred
         """
         url = f"{self._base_url}/shell-descriptors"
+
+        params = {}
+        if asset_kind:
+            params["asset_kind"] = asset_kind
+        if asset_type:
+            params["asset_type"] = asset_type
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
 
         self._set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._session.get(url, params=params, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:

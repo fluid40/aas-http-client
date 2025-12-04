@@ -56,6 +56,26 @@ class Extent(Enum):
         return ""
 
 
+class AssetKind(Enum):
+    """Determines to which asset kind the resource is being serialized."""
+
+    default = 0
+    instance = 1
+    not_applicable = 2
+    type = 3
+
+    def __str__(self) -> str:
+        """String representation of the Extent enum."""
+        if self == AssetKind.instance:
+            return "Instance"
+        if self == AssetKind.not_applicable:
+            return "NotApplicable"
+        if self == AssetKind.type:
+            return "Type"
+
+        return ""
+
+
 # region SdkWrapper
 
 
@@ -393,8 +413,27 @@ class SdkWrapper:
         sm_data = _to_dict(submodel)
         return self._client.submodel.patch_submodel_by_id(submodel_id, sm_data)
 
+    # endregion
 
-# endregion
+    # region shell registry
+
+    def get_all_asset_administration_shell_descriptors(
+        self, limit: int = 100, cursor: str = "", asset_kind: AssetKind = AssetKind.default, asset_type: str = ""
+    ) -> None:
+        """Returns all Asset Administration Shell Descriptors.
+
+        :param limit: Maximum number of Submodels to return
+        :param cursor: Cursor for pagination
+        :param asset_kind: The Asset's kind (Instance or Type). Available values : Instance, NotApplicable, Type
+        :param asset_type: The Asset's type (UTF8-BASE64-URL-encoded)
+        :return: Asset Administration Shell Descriptors or None if an error occurred
+        """
+        content: dict = self._client.shell_registry.get_all_asset_administration_shell_descriptors()
+        tmp = content["result"][0]
+        return _to_object(tmp)
+
+    # endregion
+
 
 # region wrapper
 
