@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
+from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [5080, 80]
 
-AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
@@ -51,8 +50,44 @@ def client_aas_reg(request) -> AasHttpClient:
 
     return client
 
-def test_(client: AasHttpClient, client_aas_reg):
-    result = client.submodel.get_all_submodels()
-    result_reg = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
-    assert result is not None
-    assert result_reg is not None
+@pytest.fixture(scope="module")
+def shared_sm() -> model.Submodel:
+    # create a Submodel
+    return model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests")
+
+@pytest.fixture(scope="module")
+def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
+    # create an AAS
+    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+
+    # add Submodel to AAS
+    sdk_tools.add_submodel_to_aas(aas, shared_sm)
+
+    return aas
+
+def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
+    sm_data = sdk_tools.convert_to_dict(shared_sm)
+    sm_result = client.submodel.post_submodel(sm_data)
+
+    assert sm_result is not None
+
+    shell_data = sdk_tools.convert_to_dict(shared_aas)
+    shell_result = client.shell.post_asset_administration_shell(shell_data)
+    assert shell_result is not None
+
+def test_001_(client_aas_reg: AasHttpClient):
+    descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 1
+    assert results[0]["id"] == SHELL_ID
+
+def test_099a_delete_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
+    result = client.submodel.delete_submodel_by_id(shared_sm.id)
+    assert result
+
+    submodels = client.shell.delete_asset_administration_shell_by_id(shared_aas.id)
+    assert submodels
