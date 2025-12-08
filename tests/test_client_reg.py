@@ -65,6 +65,24 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 
     return aas
 
+def test_000a_clean_server(client: AasHttpClient, client_aas_reg):
+    shells_result = client.shell.get_all_asset_administration_shells()
+
+    for shell in shells_result.get("result", []):
+        client.shell.delete_asset_administration_shell_by_id(shell["id"])
+
+    submodels_result = client.submodel.get_all_submodels()
+    for submodel in submodels_result.get("result", []):
+        client.submodel.delete_submodel_by_id(submodel["id"])
+
+    shells_result = client.shell.get_all_asset_administration_shells()
+    assert len(shells_result.get("result")) == 0
+    submodels_result = client.submodel.get_all_submodels()
+    assert len(submodels_result.get("result")) == 0
+    shell_descriptors_result = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+    assert len(shell_descriptors_result.get("result")) == 0
+
+
 def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm_data = sdk_tools.convert_to_dict(shared_sm)
     sm_result = client.submodel.post_submodel(sm_data)
@@ -75,7 +93,7 @@ def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministr
     shell_result = client.shell.post_asset_administration_shell(shell_data)
     assert shell_result is not None
 
-def test_001_(client_aas_reg: AasHttpClient):
+def test_001_get_all_asset_administration_shell_descriptors(client_aas_reg: AasHttpClient):
     descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
 
     assert descriptors is not None
@@ -84,6 +102,13 @@ def test_001_(client_aas_reg: AasHttpClient):
     assert results is not None
     assert len(results) == 1
     assert results[0]["id"] == SHELL_ID
+
+def test_002_get_self_description(client_aas_reg: AasHttpClient):
+    descripton = client_aas_reg.shell_registry.get_self_description()
+
+    assert descripton is not None
+    assert "profiles" in descripton
+    assert len(descripton["profiles"]) == 1
 
 def test_099a_delete_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.submodel.delete_submodel_by_id(shared_sm.id)

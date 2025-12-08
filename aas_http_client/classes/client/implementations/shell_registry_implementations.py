@@ -32,6 +32,13 @@ class ShellRegistryImplementation(BaseModel):
         self._o_auth_settings = o_auth_settings
 
     # GET /shell-descriptors/{aasIdentifier}
+    # PUT /shell-descriptors/{aasIdentifier}
+    # DELETE /shell-descriptors/{aasIdentifier}
+    # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
+    # PUT /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
+    # DELETE /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier
+
+    # GET /shell-descriptors/{aasIdentifier}
     def get_all_asset_administration_shell_descriptors(
         self, limit: int = 100, cursor: str = "", asset_kind: str = "", asset_type: str = ""
     ) -> dict | None:
@@ -59,6 +66,36 @@ class ShellRegistryImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
+    # POST /shell-descriptors
+    # DELETE /shell-descriptors
+    # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
+    # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
+    # POST /search
+    # GET /description
+    def get_self_description(self) -> dict | None:
+        """Returns the self-describing information of a network resource (ServiceDescription).
+
+        :return: self-describing information of a network resource
+        """
+        url = f"{self._base_url}/description"
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
