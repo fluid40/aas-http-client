@@ -110,6 +110,32 @@ def test_002_get_self_description(client_aas_reg: AasHttpClient):
     assert "profiles" in descripton
     assert len(descripton["profiles"]) == 1
 
+def test_003_search(client_aas_reg: AasHttpClient):
+    request_body = {
+        "page": {
+            "index": 0,
+            "size": 1
+        },
+        "sortBy": {
+            "direction": "ASC",
+            "path": [
+            "idShort"
+            ]
+        }
+    }
+
+    search_result = client_aas_reg.shell_registry.search(request_body)
+
+    assert search_result is not None
+    assert "total" in search_result
+    total = search_result["total"]
+    assert total == 1
+    assert "hits" in search_result
+    hits = search_result["hits"]
+    assert hits is not None
+    assert len(hits) == 1
+    assert hits[0]["id"] == SHELL_ID
+
 def test_099a_delete_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.submodel.delete_submodel_by_id(shared_sm.id)
     assert result

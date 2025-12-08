@@ -84,6 +84,31 @@ class ShellRegistryImplementation(BaseModel):
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /search
+    def search(self, request_body: dict) -> dict | None:
+        """Searches for Asset Administration Shell Descriptors based on the provided query.
+
+        :param request_body:query as a dictionary
+        :return: Search results as a dictionary or None if an error occurred
+        """
+        url = f"{self._base_url}/search"
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # GET /description
     def get_self_description(self) -> dict | None:
         """Returns the self-describing information of a network resource (ServiceDescription).
