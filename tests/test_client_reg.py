@@ -22,6 +22,8 @@ SHELL_ID = "fluid40/aas_http_client_unit_tests"
 CONFIG_FILE_ENV = "./tests/server_configs/test_java_server_config.yml"
 CONFIG_FILE_AAS_REG_ENV = "./tests/server_configs/test_aas_reg_server_config.yml"
 
+shared_descriptor = {}
+
 @pytest.fixture(scope="module")
 def client(request) -> AasHttpClient:
     try:
@@ -65,6 +67,10 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 
     return aas
 
+@pytest.fixture(scope="module")
+def global_descriptor():
+    return shared_descriptor
+
 def test_000a_clean_server(client: AasHttpClient, client_aas_reg):
     shells_result = client.shell.get_all_asset_administration_shells()
 
@@ -103,12 +109,16 @@ def test_001_get_all_asset_administration_shell_descriptors(client_aas_reg: AasH
     assert len(results) == 1
     assert results[0]["id"] == SHELL_ID
 
-def test_002_get_self_description(client_aas_reg: AasHttpClient):
-    descripton = client_aas_reg.shell_registry.get_self_description()
+    global shared_descriptor
+    shared_descriptor.clear()
+    shared_descriptor.update(results[0])
 
-    assert descripton is not None
-    assert "profiles" in descripton
-    assert len(descripton["profiles"]) == 1
+def test_002_get_self_description(client_aas_reg: AasHttpClient):
+    description = client_aas_reg.shell_registry.get_self_description()
+
+    assert description is not None
+    assert "profiles" in description
+    assert len(description["profiles"]) == 1
 
 def test_003_search(client_aas_reg: AasHttpClient):
     request_body = {
@@ -136,9 +146,35 @@ def test_003_search(client_aas_reg: AasHttpClient):
     assert len(hits) == 1
     assert hits[0]["id"] == SHELL_ID
 
-def test_099a_delete_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
+def test_004_delete_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.submodel.delete_submodel_by_id(shared_sm.id)
     assert result
 
     submodels = client.shell.delete_asset_administration_shell_by_id(shared_aas.id)
     assert submodels
+
+def test_005_get_descriptor_by_id(client_aas_reg: AasHttpClient, global_descriptor):
+    result = client_aas_reg.shell_registry.post_asset_administration_shell_descriptor(global_descriptor)
+
+    assert result is not None
+    assert "id" in result
+    assert result["id"] == SHELL_ID
+
+    descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 1
+    assert results[0]["id"] == SHELL_ID
+
+def test_006_delete_all_descriptors(client_aas_reg: AasHttpClient):
+    result = client_aas_reg.shell_registry.delete_all_asset_administration_shell_descriptors()
+    assert result
+
+    descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 0
