@@ -94,7 +94,7 @@ class ShellRegistryImplementation(BaseModel):
             response = self._session.post(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_202):
+            if response.status_code not in STATUS_CODE_201:
                 log_response_errors(response)
                 return None
 
@@ -106,6 +106,29 @@ class ShellRegistryImplementation(BaseModel):
         return json.loads(content)
 
     # DELETE /shell-descriptors
+    def delete_all_asset_administration_shell_descriptors(self) -> bool:
+        """Deletes all Asset Administration Shell Descriptors.
+
+        :return: True if deletion was successful, False otherwise
+        """
+        url = f"{self._base_url}/shell-descriptors"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /search
