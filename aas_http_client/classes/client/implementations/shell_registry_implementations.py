@@ -80,6 +80,31 @@ class ShellRegistryImplementation(BaseModel):
         return json.loads(content)
 
     # POST /shell-descriptors
+    def post_asset_administration_shell_descriptor(self, request_body: dict) -> dict | None:
+        """Creates a new Asset Administration Shell Descriptor, i.e. registers an AAS.
+
+        :param request_body: Asset Administration Shell Descriptor object
+        :return: Created Asset Administration Shell Descriptor data or None if an error occurred
+        """
+        url = f"{self._base_url}/shell-descriptors"
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_202):
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # DELETE /shell-descriptors
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
