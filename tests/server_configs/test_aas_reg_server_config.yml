@@ -1,5 +1,5 @@
 {
-	"BaseUrl": "http://localhost:5080/",
+	"BaseUrl": "http://localhost:8076/",
 	"HttpsProxy": null,
 	"HttpProxy": null,
 	"TimeOut": 20,
@@ -9,12 +9,10 @@
 	"EncodedIds": false,
 	"AuthenticationSettings": {
 		"BasicAuthentication": {
-			"Username": ""
+
 		},
 		"ServiceProviderAuthentication": {
-			"ClientId": "",
-			"TokenUrl": "",
-			"GrantType": "client_credentials"
+
 		}
 	}
 }

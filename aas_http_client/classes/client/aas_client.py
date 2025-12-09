@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
-from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, SmImplementation, get_token
+from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, ShellRegistryImplementation, SmImplementation, get_token
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
@@ -18,9 +18,6 @@ from aas_http_client.utilities.http_helper import (
 )
 
 logger = logging.getLogger(__name__)
-
-
-# region AasHttpClient
 
 
 class AasHttpClient(BaseModel):
@@ -41,6 +38,7 @@ class AasHttpClient(BaseModel):
     encoded_ids: bool = Field(default=True, alias="EncodedIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
     shell: ShellImplementation = Field(default=None)
     submodel: SmImplementation = Field(default=None)
+    shell_registry: ShellRegistryImplementation = Field(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -70,6 +68,9 @@ class AasHttpClient(BaseModel):
 
         self.shell = ShellImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
         self.submodel = SmImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
+        self.shell_registry = ShellRegistryImplementation(
+            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
+        )
 
     def _handle_auth_method(self):
         """Handles the authentication method based on the provided settings."""
@@ -99,24 +100,28 @@ class AasHttpClient(BaseModel):
 
         :return: Response data as a dictionary containing shell information, or None if an error occurred
         """
-        url = f"{self.base_url}/shells"
+        urls: list[str] = []
+        urls.append(f"{self.base_url}/shells")
+        urls.append(f"{self.base_url}/submodels")
+        urls.append(f"{self.base_url}/shell-descriptors")
+        urls.append(f"{self.base_url}/submodel-descriptors")
 
         self.set_token()
 
-        try:
-            response = self._session.get(url, timeout=10)
-            logger.debug(f"Call REST API url '{response.url}'")
+        for url in urls:
+            logger.debug(f"Testing connectivity with URL: {url}")
+            try:
+                response = self._session.get(url, timeout=10)
+                logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
+                if response.status_code == STATUS_CODE_200:
+                    content = response.content.decode("utf-8")
+                    return json.loads(content)
 
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
+            except requests.exceptions.RequestException as e:
+                logger.debug(f"Error call REST API: {e}")
 
-        content = response.content.decode("utf-8")
-        return json.loads(content)
+        return None
 
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
@@ -134,13 +139,8 @@ class AasHttpClient(BaseModel):
 
         return None
 
-    # endregion
 
-
-# region client
-
-
-def create_client_by_url(
+def create_client_by_url(  # noqa: PLR0913
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
@@ -154,7 +154,7 @@ def create_client_by_url(
     connection_time_out: int = 60,
     ssl_verify: str = True,  # noqa: FBT002
     trust_env: bool = True,  # noqa: FBT001, FBT002
-    encoded_ids: bool = True,
+    encoded_ids: bool = True,  # noqa: FBT001, FBT002
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given parameters.
 
@@ -308,6 +308,3 @@ def _connect_to_api(client: AasHttpClient) -> bool:
         counter += 1
         logger.warning(f"Retrying connection (attempt: {counter}).")
         time.sleep(1)
-
-
-# endregion

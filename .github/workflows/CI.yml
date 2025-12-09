@@ -22,10 +22,8 @@ jobs:
         id: check
         run: |
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            # At least one parent commit exists
             CHANGED_FILES="$(git diff --name-only HEAD^ HEAD)"
           else
-            # First commit in branch → consider all files as "changed"
             echo "No parent commit found, using full file list"
             CHANGED_FILES="$(git ls-files)"
           fi
@@ -34,30 +32,14 @@ jobs:
           echo "$CHANGED_FILES"
 
           if echo "$CHANGED_FILES" | grep -q '^pyproject\.toml$'; then
-            echo "pyproject.toml has changed"
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "pyproject.toml has NOT changed"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-  Test_client:
-    name: Test HTTP client
+  client_env_tests:
+    name: Client AAS Env Tests
     runs-on: ubuntu-latest
-
-    services:
-      java_aas_server:
-        image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
-        ports:
-          - 8075:8075
-        env:
-          SERVER_PORT: 8075
-          SERVER_HOST: javaaasserver
-
-      dotnet_aas_server:
-        image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
-        ports:
-          - 5043:5043
 
     steps:
       - name: Checkout code
@@ -66,7 +48,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -74,68 +56,51 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Wait for Java server to be healthy
-        run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:8075/shells > /dev/null; then
-              echo "Java server is ready!"
-              break
-            fi
-            sleep 2
-          done
+      - name: Start server infrastructure
+        run: docker compose -f .github/docker-compose-env.yaml up -d --build
 
-      - name: Wait for dotNet server to be healthy
+      - name: Wait for infrastructure to be healthy
         run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:5043/shells > /dev/null; then
-              echo "dotNet server is ready!"
-              break
-            fi
-            sleep 2
-          done
+          echo "Waiting for services..."
 
-      - name: Start Python AAS server
-        run: |
-          docker run -d --name python_aas_server -p 8080:80 \
-            -e API_BASE_PATH=/ \
-            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY \
-            -e STORAGE_PATH=/storage \
-            -v ./storage:/storage \
-            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+          wait_for() {
+            NAME=$1
+            URL=$2
+            echo "Waiting for $NAME at $URL"
+            for i in {1..60}; do
+              if curl -sSf "$URL" >/dev/null; then
+                echo "$NAME is ready."
+                return 0
+              fi
+              sleep 2
+            done
+            echo "❌ Timeout waiting for $NAME"
+            docker ps -a
+            exit 1
+          }
 
-      - name: Wait for python server to be healthy
-        run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:8080/shells > /dev/null; then
-              echo "Python server is ready!"
-              break
-            fi
-            sleep 2
-          done
+          wait_for "Java AAS"   "http://localhost:8075/shells"
+          wait_for "dotNet AAS" "http://localhost:5043/shells"
+          wait_for "Python AAS" "http://localhost:5080/shells"
 
-      - name: Run tests
+      - name: Run client tests
         run: pytest -v tests/test_client.py
 
-  Test_SDK_Wrapper:
-    name: Test HTTP wrapper
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          echo "======== Dumping container logs =========="
+          for c in $(docker ps -a --format '{{.Names}}'); do
+            echo "------------- $c -------------"
+            docker logs $c || true
+          done
+
+      - name: Tear down
+        run: docker compose -f .github/docker-compose-env.yaml down
+
+  wrapper_env_tests:
+    name: Wrapper AAS Env Tests
     runs-on: ubuntu-latest
-
-    services:
-      java_aas_server:
-        image: eclipsebasyx/aas-environment:2.0.0-milestone-07
-        ports:
-          - 8075:8075
-        env:
-          SERVER_PORT: 8075
-          SERVER_HOST: javaaasserver
-
-      dotnet_aas_server:
-        image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
-        ports:
-          - 5043:5043
 
     steps:
       - name: Checkout code
@@ -144,7 +109,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -152,56 +117,116 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Wait for Java server to be healthy
-        run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:8075/shells > /dev/null; then
-              echo "Java server is ready!"
-              break
-            fi
-            sleep 2
-          done
+      - name: Start server infrastructure
+        run: docker compose -f .github/docker-compose-env.yaml up -d --build
 
-      - name: Wait for dotNet server to be healthy
+      - name: Wait for infrastructure to be healthy
         run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:5043/shells > /dev/null; then
-              echo "dotNet server is ready!"
-              break
-            fi
-            sleep 2
-          done
+          echo "Waiting for services..."
 
-      - name: Start Python AAS server
-        run: |
-          docker run -d --name python_aas_server -p 8080:80 \
-            -e API_BASE_PATH=/ \
-            -e STORAGE_TYPE=LOCAL_FILE_READ_ONLY \
-            -e STORAGE_PATH=/storage \
-            -v ./storage:/storage \
-            engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+          wait_for() {
+            NAME=$1
+            URL=$2
+            echo "Waiting for $NAME at $URL"
+            for i in {1..60}; do
+              if curl -sSf "$URL" >/dev/null; then
+                echo "$NAME is ready."
+                return 0
+              fi
+              sleep 2
+            done
+            echo "❌ Timeout waiting for $NAME"
+            docker ps -a
+            exit 1
+          }
 
-      - name: Wait for python server to be healthy
-        run: |
-          echo "Waiting for server..."
-          for i in {1..50}; do
-            if curl -sSf http://localhost:8080/shells > /dev/null; then
-              echo "Python server is ready!"
-              break
-            fi
-            sleep 2
-          done
+          wait_for "Java AAS"   "http://localhost:8075/shells"
+          wait_for "dotNet AAS" "http://localhost:5043/shells"
+          wait_for "Python AAS" "http://localhost:5080/shells"
 
-      - name: Run tests
+      - name: Run wrapper tests
         run: pytest -v tests/test_wrapper.py
+
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          echo "======== Dumping container logs =========="
+          for c in $(docker ps -a --format '{{.Names}}'); do
+            echo "------------- $c -------------"
+            docker logs $c || true
+          done
+
+      - name: Tear down
+        run: docker compose -f .github/docker-compose-env.yaml down
+
+  client_reg_tests:
+    name: Client AAS Registry Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Start server infrastructure
+        run: docker compose -f .github/docker-compose-reg.yaml up -d --build
+
+      - name: Wait for infrastructure to be healthy
+        run: |
+          echo "Waiting for services..."
+
+          wait_for() {
+            NAME=$1
+            URL=$2
+            echo "Waiting for $NAME at $URL"
+            for i in {1..60}; do
+              if curl -sSf "$URL" >/dev/null; then
+                echo "$NAME is ready."
+                return 0
+              fi
+              sleep 2
+            done
+            echo "❌ Timeout waiting for $NAME"
+            docker ps -a
+            exit 1
+          }
+
+          wait_for "Java AAS"   "http://localhost:8075/shells"
+          wait_for "dotNet AAS" "http://localhost:5043/shells"
+          wait_for "Python AAS" "http://localhost:5080/shells"
+          wait_for "AAS Registry" "http://localhost:8076/shell-descriptors"
+          wait_for "SM Registry"  "http://localhost:8077/submodel-descriptors"
+
+      - name: Run client tests
+        run: pytest -v tests/test_client_reg.py
+
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          echo "======== Dumping container logs =========="
+          for c in $(docker ps -a --format '{{.Names}}'); do
+            echo "------------- $c -------------"
+            docker logs $c || true
+          done
+
+      - name: Tear down
+        run: docker compose -f .github/docker-compose-reg.yaml down
 
   Publish_PyPI_Package:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
-    needs: [Test_client, Test_SDK_Wrapper, Detect_Project_Changes]
+    needs: [client_env_tests, wrapper_env_tests, client_reg_tests, Detect_Project_Changes]
 
     steps:
       - uses: actions/checkout@v4
@@ -231,7 +256,6 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: twine upload dist/*
 
-
   Github_Release:
     name: Create GitHub Release
     if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
@@ -254,7 +278,6 @@ jobs:
         run: |
           VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Extracted VERSION=$VERSION"
 
       - name: Generate Changelog
         id: changelog
@@ -270,7 +293,6 @@ jobs:
           if git rev-parse "$VERSION_TAG" >/dev/null 2>&1; then
             echo "Tag $VERSION_TAG already exists."
           else
-            echo "Creating tag $VERSION_TAG"
             git tag "$VERSION_TAG"
             git push origin "$VERSION_TAG"
           fi
@@ -285,16 +307,10 @@ jobs:
             ## 📝 Release Notes
 
             **Version:** v${{ steps.get_version.outputs.version }}
-            **Commit:** `${{ steps.get_version.outputs.hash }}`
 
             ### 🧩 Build Information
             - Pypi package: `aas-http-client ${{ steps.get_version.outputs.version }}`
             - `pip install aas-http-client`
-
-            ### 🔗 Links
-            - [Compare changes](https://github.com/${{ github.repository }}/compare/last...v${{ steps.get_version.outputs.version }})
-            - [Full commit log](https://github.com/${{ github.repository }}/commits/main)
           files: dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

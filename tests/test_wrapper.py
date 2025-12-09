@@ -9,7 +9,7 @@ import json
 from aas_http_client.utilities import encoder
 
 JAVA_SERVER_PORTS = [8075]
-PYTHON_SERVER_PORTS = [8080, 80]
+PYTHON_SERVER_PORTS = [5080, 80]
 DOTNET_SERVER_PORTS = [5043]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"

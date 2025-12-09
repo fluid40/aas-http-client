@@ -1,15 +1,4 @@
 services:
-  dev_container:
-    build: .
-    container_name: aas-http-client-devcontainer
-    volumes:
-      - ../..:/workspaces:cached
-    command: sleep infinity
-    networks:
-      - bridge
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
   basyx_dotnet_repo_server:
     image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
     container_name: dotnetaasserver
@@ -43,7 +32,6 @@ services:
       - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
     volumes:
-      - ./storage/java_server/aas:/application/aas
       - ./basyx/aas-env.properties:/application/application.properties
     depends_on:
       aas-registry:

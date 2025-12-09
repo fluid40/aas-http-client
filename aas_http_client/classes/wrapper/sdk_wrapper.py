@@ -56,6 +56,26 @@ class Extent(Enum):
         return ""
 
 
+class AssetKind(Enum):
+    """Determines to which asset kind the resource is being serialized."""
+
+    default = 0
+    instance = 1
+    not_applicable = 2
+    type = 3
+
+    def __str__(self) -> str:
+        """String representation of the Extent enum."""
+        if self == AssetKind.instance:
+            return "Instance"
+        if self == AssetKind.not_applicable:
+            return "NotApplicable"
+        if self == AssetKind.type:
+            return "Type"
+
+        return ""
+
+
 # region SdkWrapper
 
 
@@ -393,8 +413,14 @@ class SdkWrapper:
         sm_data = _to_dict(submodel)
         return self._client.submodel.patch_submodel_by_id(submodel_id, sm_data)
 
+    # endregion
 
-# endregion
+    # region shell registry
+
+    # currently no SDK implementation for descriptor classes -> no implementation for wrapper
+
+    # endregion
+
 
 # region wrapper
 
