@@ -14,7 +14,6 @@ from aas_http_client.classes.client.implementations import AuthMethod, ShellImpl
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    log_response_errors,
 )
 
 logger = logging.getLogger(__name__)
