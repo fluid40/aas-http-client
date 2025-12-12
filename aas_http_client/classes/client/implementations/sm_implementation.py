@@ -1,6 +1,5 @@
 import json
 import logging
-from pathlib import Path
 
 import requests
 from pydantic import BaseModel
@@ -481,80 +480,6 @@ class SmImplementation(BaseModel):
                 return None
 
             if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
-                return False
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return False
-
-        return True
-
-    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def get_submodel_element_attachment_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
-        """Returns the attachment of a specific submodel element from the Submodel at a specified path.
-
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
-        :param id_short_path: Path of the Submodel element to retrieve attachment
-        :return: Attachment data as bytes or None if an error occurred
-        """
-        if not self._encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
-
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
-
-        self._set_token()
-
-        try:
-            response = self._session.get(url, timeout=self._time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
-                return None
-
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
-            return None
-
-        return response.content
-
-    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def put_file_by_path(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
-        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
-
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
-        :param id_short_path: Path of the Submodel element to retrieve attachment
-        :param attachment_path: Path to the file to upload as attachment
-        :return: Attachment data as bytes or None if an error occurred
-        """
-        if not self._encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
-
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
-
-        self._set_token()
-
-        try:
-            with attachment_path.open("rb") as f:
-                response = self._session.put(
-                    url,
-                    data=f,  # Dateiinhalt direkt
-                    headers={"Content-Type": "application/octet-stream"},  # wichtiger Header
-                    timeout=self._time_out,
-                )
-
-            logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code == 404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
-                return False
-
-            if response.status_code != 204:
                 log_response_errors(response)
                 return False
 

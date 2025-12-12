@@ -43,7 +43,7 @@ services:
       - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
     volumes:
-      - ./storage/java_server/aas:/application/aas
+      - ./aas:/application/aas
       - ./basyx/aas-env.properties:/application/application.properties
     depends_on:
       aas-registry:
@@ -101,6 +101,27 @@ services:
       retries: 5
     networks:
       - bridge
+
+  aas-web-ui:
+    image: eclipsebasyx/aas-gui:SNAPSHOT
+    container_name: aas_ui
+    ports:
+      - '8065:3000'
+    environment:
+      AAS_REGISTRY_PATH: http://localhost:8077/shell-descriptors
+      SUBMODEL_REGISTRY_PATH: http://localhost:8076/submodel-descriptors
+      AAS_REPO_PATH: http://localhost:8075/shells
+      SUBMODEL_REPO_PATH: http://localhost:8075/submodels
+      CD_REPO_PATH: http://localhost:8075/concept-descriptions
+      PRIMARY_COLOR: '#00A0C7'
+      LOGO_LIGHT_PATH: fluid40_light.png
+      LOGO_DARK_PATH: fluid40_dark.png
+      DASHBOARD_SERVICE_PATH:
+    volumes:
+      - ./logo:/usr/src/app/dist/Logo
+    depends_on:
+      java_aas_server :
+        condition: service_healthy
 
 networks:
   bridge:
