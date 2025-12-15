@@ -1,6 +1,5 @@
 import json
 import logging
-from pathlib import Path
 
 import requests
 from pydantic import BaseModel
@@ -490,6 +489,7 @@ class SmImplementation(BaseModel):
 
         return True
 
+<<<<<<< HEAD
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def get_submodel_element_attachment_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
         """Returns the attachment of a specific submodel element from the Submodel at a specified path.
@@ -582,6 +582,8 @@ class SmImplementation(BaseModel):
         headers.pop("Content-Type", None)
         return self._session.post(url, headers=headers, files=files)
 
+=======
+>>>>>>> d5f0de9e081a17482b3c3553ccccdc0ad66c8538
     def _set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
 
