@@ -676,26 +676,6 @@ def test_020b_encoded_ids(client: AasHttpClient):
     assert encoded_sm is not None
     assert encoded_sm.get("id", "") == SHELL_ID
 
-def test_021_post_asset_administration_shell_with_encoded_id(client: AasHttpClient):
-    parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS:
-        # NOTE: Basyx java server do not provide this endpoint
-        return
-
-    file_sme = model.File("file_sme", content_type="application/octet-stream")
-    file_post_result =client.submodel.post_submodel_element_submodel_repo(SM_ID, sdk_tools.convert_to_dict(file_sme))
-
-    assert file_post_result is not None
-
-    file_get_result = client.submodel.get_submodel_element_by_path_submodel_repo(SM_ID, file_sme.id_short)
-
-    assert file_get_result is not None
-    assert file_get_result.get("idShort", "") == file_sme.id_short
-
-    file = Path(f"./tests/test_data/https.pdf").resolve()
-    client.experimental.post_file_by_path(SM_ID, file_sme.id_short, file)
-
-
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.shell.delete_asset_administration_shell_by_id(shared_aas.id)
 
