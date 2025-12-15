@@ -126,3 +126,8 @@ class ExperimentalImplementation(BaseModel):
             return token
 
         return None
+
+    def _post_multipart(self, url, files):
+        headers = dict(self._session.headers)
+        headers.pop("Content-Type", None)
+        return self._session.post(url, headers=headers, files=files)
