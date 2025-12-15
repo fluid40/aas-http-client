@@ -17,7 +17,7 @@ def start() -> None:
     """Start the demo process."""
     # create a submodel element
     # client = aas_client.create_client_by_url(base_url="http://host.docker.internal:5043", encoded_ids=False)
-    client = aas_client.create_client_by_url(base_url="http://pythonaasserver:80/", encoded_ids=False)
+    client = aas_client.create_client_by_url(base_url="http://host.docker.internal:5088/", encoded_ids=False)
     client_shell_reg = aas_client.create_client_by_url(base_url="http://aas-registry:8080", encoded_ids=False)
 
     sm = model_builder.create_base_submodel("TestSubmodel", "TestSM")
@@ -39,6 +39,6 @@ def start() -> None:
     file_get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
 
     file = Path(f"./tests/test_data/https.pdf").resolve()
-    tmp = client.submodel.put_file_by_path(sm.id, file_sme.id_short, file)
+    tmp = client.experimental.post_file_by_path(sm.id, file_sme.id_short, file)
 
     print("Get all AAS Descriptors from Shell Registry:")

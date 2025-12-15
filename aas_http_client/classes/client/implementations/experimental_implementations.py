@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 from pydantic import BaseModel
@@ -65,8 +66,8 @@ class ExperimentalImplementation(BaseModel):
 
         return response.content
 
-    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def put_file_by_path(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def post_file_by_path(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
 
         :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
@@ -77,16 +78,20 @@ class ExperimentalImplementation(BaseModel):
         if not self._encoded_ids:
             submodel_identifier = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
+        # Keine Slashes im idShort!
+        encoded_path = quote(id_short_path, safe="")
+
+        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{encoded_path}/attachment"
 
         self._set_token()
 
         try:
             with attachment_path.open("rb") as f:
-                response = self._session.put(
+                files = {"file": (attachment_path.name, f, "application/pdf")}
+
+                response = self._session.post(
                     url,
-                    data=f,  # Dateiinhalt direkt
-                    headers={"Content-Type": "application/octet-stream"},  # wichtiger Header
+                    files=files,
                     timeout=self._time_out,
                 )
 
@@ -96,7 +101,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
-            if response.status_code != 204:
+            if response.status_code not in (200, 201, 204):
                 log_response_errors(response)
                 return False
 
