@@ -693,7 +693,7 @@ def test_021_post_asset_administration_shell_with_encoded_id(client: AasHttpClie
     assert file_get_result.get("idShort", "") == file_sme.id_short
 
     file = Path(f"./tests/test_data/https.pdf").resolve()
-    client.experimental.put_file_by_path(SM_ID, file_sme.id_short, file)
+    client.experimental.post_file_by_path(SM_ID, file_sme.id_short, file)
 
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
