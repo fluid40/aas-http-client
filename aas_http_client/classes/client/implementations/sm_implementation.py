@@ -541,14 +541,27 @@ class SmImplementation(BaseModel):
 
         try:
             with attachment_path.open("rb") as f:
-                response = self._session.put(
-                    url,
-                    data=f,  # Dateiinhalt direkt
-                    headers={"Content-Type": "application/octet-stream"},  # wichtiger Header
-                    timeout=self._time_out,
-                )
+                file_bytes = f.read()
+
+            headers = dict(self._session.headers)
+            headers.pop("Content-Type", None)
+
+            response = self._session.post(
+                url,
+                headers=headers,
+                files={
+                    "file": (
+                        attachment_path.name,
+                        file_bytes,  # 🔥 BYTES, nicht File-Handle
+                        "application/pdf",
+                    )
+                },
+                timeout=self._time_out,
+            )
 
             logger.debug(f"Call REST API url '{response.url}'")
+
+            print(self._session.headers)
 
             if response.status_code == 404:
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
@@ -563,6 +576,11 @@ class SmImplementation(BaseModel):
             return False
 
         return True
+
+    def _post_multipart(self, url, files):
+        headers = dict(self._session.headers)
+        headers.pop("Content-Type", None)
+        return self._session.post(url, headers=headers, files=files)
 
     def _set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
