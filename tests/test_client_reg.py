@@ -4,12 +4,8 @@ from aas_http_client.classes.client.aas_client import create_client_by_config, A
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
-import json
-import basyx.aas.adapter.json
-from urllib.parse import urlparse
 import logging
 from aas_http_client.demo.logging_handler import initialize_logging
-from aas_http_client.utilities import encoder
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +17,7 @@ SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
 CONFIG_FILE_ENV = "./tests/server_configs/test_java_server_config.yml"
 CONFIG_FILE_AAS_REG_ENV = "./tests/server_configs/test_aas_reg_server_config.yml"
+CONFIG_FILE_SM_REG_ENV = "./tests/server_configs/test_sm_reg_server_config.yml"
 
 shared_descriptor = {}
 
@@ -47,6 +44,20 @@ def client_aas_reg(request) -> AasHttpClient:
         raise RuntimeError("Unable to connect to server.")
 
     descriptors = client.shell_registry.get_all_asset_administration_shell_descriptors()
+    if descriptors is None:
+        raise RuntimeError("No descriptors found on server. Please check the server configuration.")
+
+    return client
+
+@pytest.fixture(scope="module")
+def client_sm_reg(request) -> AasHttpClient:
+    try:
+        initialize_logging()
+        client = create_client_by_config(Path(CONFIG_FILE_SM_REG_ENV))
+    except Exception as e:
+        raise RuntimeError("Unable to connect to server.")
+
+    descriptors = client.submodel_registry.get_all_submodel_descriptors()
     if descriptors is None:
         raise RuntimeError("No descriptors found on server. Please check the server configuration.")
 
