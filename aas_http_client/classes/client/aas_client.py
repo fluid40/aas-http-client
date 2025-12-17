@@ -16,6 +16,7 @@ from aas_http_client.classes.client.implementations import (
     ShellImplementation,
     ShellRegistryImplementation,
     SmImplementation,
+    SubmodelRegistryImplementation,
     get_token,
 )
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
@@ -46,6 +47,7 @@ class AasHttpClient(BaseModel):
     submodel: SmImplementation = Field(default=None)
     shell_registry: ShellRegistryImplementation = Field(default=None)
     experimental: ExperimentalImplementation = Field(default=None)
+    submodel_registry: SubmodelRegistryImplementation = Field(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -78,6 +80,9 @@ class AasHttpClient(BaseModel):
             self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
         )
         self.experimental = ExperimentalImplementation(
+            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
+        )
+        self.submodel_registry = SubmodelRegistryImplementation(
             self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
         )
 
