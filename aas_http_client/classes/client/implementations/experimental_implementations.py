@@ -67,16 +67,16 @@ class ExperimentalImplementation(BaseModel):
         return response.content
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
+    def post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
-        :param attachment_path: Path to the file to upload as attachment
+        :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
-        if attachment_path.exists() is False or not attachment_path.is_file():
-            logger.error(f"Attachment file '{attachment_path}' does not exist.")
+        if file.exists() is False or not file.is_file():
+            logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
         if not self._encoded_ids:
@@ -87,10 +87,10 @@ class ExperimentalImplementation(BaseModel):
         self._set_token()
 
         try:
-            mime_type, _ = mimetypes.guess_type(attachment_path)
+            mime_type, _ = mimetypes.guess_type(file)
 
-            with attachment_path.open("rb") as f:
-                files = {"file": (attachment_path.name, f, mime_type or "application/octet-stream")}
+            with file.open("rb") as f:
+                files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.post(url, files=files, timeout=self._time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
@@ -109,16 +109,17 @@ class ExperimentalImplementation(BaseModel):
 
         return True
 
-    def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
-        :param attachment_path: Path to the file to upload as attachment
+        :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
-        if attachment_path.exists() is False or not attachment_path.is_file():
-            logger.error(f"Attachment file '{attachment_path}' does not exist.")
+        if file.exists() is False or not file.is_file():
+            logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
         if not self._encoded_ids:
@@ -129,10 +130,10 @@ class ExperimentalImplementation(BaseModel):
         self._set_token()
 
         try:
-            mime_type, _ = mimetypes.guess_type(attachment_path)
+            mime_type, _ = mimetypes.guess_type(file)
 
-            with attachment_path.open("rb") as f:
-                files = {"file": (attachment_path.name, f, mime_type or "application/octet-stream")}
+            with file.open("rb") as f:
+                files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.put(url, files=files, timeout=self._time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")

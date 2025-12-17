@@ -750,7 +750,7 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")
     assert result_sme is not None
     assert "value" in result_sme
-    assert result_sme.get("value", "") == ""
+    assert result_sme.get("value", "") == None
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.shell.delete_asset_administration_shell_by_id(shared_aas.id)

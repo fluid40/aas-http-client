@@ -1,3 +1,5 @@
+"""Pagination wrapper classes for AAS HTTP Client."""
+
 import logging
 
 from basyx.aas import model
