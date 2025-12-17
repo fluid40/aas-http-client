@@ -34,44 +34,44 @@ class ExperimentalImplementation(BaseModel):
         self._o_auth_settings = o_auth_settings
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def get_submodel_element_attachment_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
-        """Returns the attachment of a specific submodel element from the Submodel at a specified path.
+    def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
+        """Downloads file content from a specific submodel element from the Submodel at a specified path.
 
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
-        :param id_short_path: Path of the Submodel element to retrieve attachment
-        :return: Attachment data as bytes or None if an error occurred
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: Attachment data as bytes (octet-stream) or None if an error occurred
         """
         if not self._encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier = decode_base_64(submodel_identifier)
 
         url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
-        self._set_token()
+        self._set_token()  # ensures Authorization header is set
 
         try:
             response = self._session.get(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code == STATUS_CODE_404:
+            if response.status_code == 404:
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
                 return None
 
-            if response.status_code != STATUS_CODE_200:
+            if response.status_code != 200:
                 log_response_errors(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            logger.error(f"Error calling REST API: {e}")
             return None
 
         return response.content
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
-    def post_file_by_path(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
+    def post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
 
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
-        :param id_short_path: Path of the Submodel element to retrieve attachment
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param attachment_path: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
