@@ -622,7 +622,7 @@ def test_021_post_file_by_path_submodel_repo(wrapper: SdkWrapper):
 
     filename = "https.pdf"
     file = Path(f"./tests/test_data/{filename}").resolve()
-    result = wrapper.post_file_by_path_submodel_repo(SM_ID, file_sme.id_short, file)
+    result = wrapper.experimental_post_file_by_path_submodel_repo(SM_ID, file_sme.id_short, file)
     assert result is True
 
     result_sme = wrapper.get_submodel_element_by_path_submodel_repo(SM_ID, file_sme.id_short)
@@ -640,7 +640,7 @@ def test_022_get_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
         # NOTE: Basyx java server do not provide this endpoint
         return
 
-    attachment = wrapper.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    attachment = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
     assert attachment is not None
     assert attachment.content_type == "application/pdf"
     assert isinstance(attachment.content, bytes)
@@ -657,10 +657,10 @@ def test_023_put_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
 
     filename = "aimc.json"
     file = Path(f"./tests/test_data/{filename}").resolve()
-    result = wrapper.put_file_by_path_submodel_repo(SM_ID, "file_sme", file)
+    result = wrapper.experimental_put_file_by_path_submodel_repo(SM_ID, "file_sme", file)
     assert result is True
 
-    get_result = wrapper.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    get_result = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
     assert get_result is not None
     assert len(get_result.content) > 0
     assert get_result.content.startswith(b"{\n")
@@ -678,10 +678,10 @@ def test_024_delete_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
         # NOTE: Basyx java server do not provide this endpoint
         return
 
-    result = wrapper.delete_file_by_path_submodel_repo(SM_ID, "file_sme")
+    result = wrapper.experimental_delete_file_by_path_submodel_repo(SM_ID, "file_sme")
     assert result is True
 
-    get_result = wrapper.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    get_result = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
     assert get_result is None
 
     result_sme = wrapper.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")

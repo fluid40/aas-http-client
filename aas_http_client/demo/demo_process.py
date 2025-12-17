@@ -46,7 +46,7 @@ def start() -> None:
 
     attachment = client.experimental.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
 
-    attachment_2 = wrapper.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
+    attachment_2 = wrapper.experimental_get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
 
     file = Path(f"./tests/test_data/aimc.json").resolve()
     tmp = client.experimental.put_file_by_path_submodel_repo(sm.id, file_sme.id_short, file)

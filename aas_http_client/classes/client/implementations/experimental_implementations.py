@@ -35,7 +35,7 @@ class ExperimentalImplementation(BaseModel):
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
-        """Downloads file content from a specific submodel element from the Submodel at a specified path.
+        """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
@@ -68,7 +68,7 @@ class ExperimentalImplementation(BaseModel):
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
-        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
@@ -111,7 +111,7 @@ class ExperimentalImplementation(BaseModel):
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
-        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
@@ -154,7 +154,7 @@ class ExperimentalImplementation(BaseModel):
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
-        """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy.
+        """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
         :param submodel_identifier: The Submodel’s unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
