@@ -82,7 +82,7 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 def global_descriptor():
     return shared_descriptor
 
-def test_000a_clean_server(client: AasHttpClient, client_aas_reg):
+def test_000a_clean_server(client: AasHttpClient, client_aas_reg, client_sm_reg):
     shells_result = client.shell.get_all_asset_administration_shells()
 
     for shell in shells_result.get("result", []):
@@ -98,7 +98,8 @@ def test_000a_clean_server(client: AasHttpClient, client_aas_reg):
     assert len(submodels_result.get("result")) == 0
     shell_descriptors_result = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     assert len(shell_descriptors_result.get("result")) == 0
-
+    sm_descriptors_result = client_sm_reg.submodel_registry.get_all_submodel_descriptors()
+    assert len(sm_descriptors_result.get("result")) == 0
 
 def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm_data = sdk_tools.convert_to_dict(shared_sm)

@@ -341,7 +341,7 @@ class SdkWrapper:
         content: list = self._client.submodel.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
 
         if not content:
-            return []
+            return None
 
         return create_submodel_paging_data(content)
 
