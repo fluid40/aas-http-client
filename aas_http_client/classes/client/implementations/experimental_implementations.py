@@ -75,6 +75,10 @@ class ExperimentalImplementation(BaseModel):
         :param attachment_path: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
+        if attachment_path.exists() is False or not attachment_path.is_file():
+            logger.error(f"Attachment file '{attachment_path}' does not exist.")
+            return False
+
         if not self._encoded_ids:
             submodel_identifier = decode_base_64(submodel_identifier)
 
@@ -101,6 +105,81 @@ class ExperimentalImplementation(BaseModel):
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, attachment_path: Path) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param attachment_path: Path to the file to upload as attachment
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        if attachment_path.exists() is False or not attachment_path.is_file():
+            logger.error(f"Attachment file '{attachment_path}' does not exist.")
+            return False
+
+        if not self._encoded_ids:
+            submodel_identifier = decode_base_64(submodel_identifier)
+
+        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
+
+        self._set_token()
+
+        try:
+            mime_type, _ = mimetypes.guess_type(attachment_path)
+
+            with attachment_path.open("rb") as f:
+                files = {"file": (attachment_path.name, f, mime_type or "application/octet-stream")}
+                response = self._session.put(url, files=files, timeout=self._time_out)
+
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == 404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return False
+
+            if response.status_code not in (200, 201, 204):
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
+        """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: True if deletion was successful, False otherwise
+        """
+        if not self._encoded_ids:
+            submodel_identifier = decode_base_64(submodel_identifier)
+
+        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == 404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return False
+
+            if response.status_code not in (200, 202, 204):
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error calling REST API: {e}")
             return False
 
         return True
