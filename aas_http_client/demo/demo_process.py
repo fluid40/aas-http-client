@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 def start() -> None:
     """Start the demo process."""
     # create a submodel element
-    client = aas_client.create_client_by_url(base_url="http://host.docker.internal:5088", encoded_ids=False)
+    client = aas_client.create_client_by_url(base_url="http://dotnetaasserver:5043", encoded_ids=False)
     # client = aas_client.create_client_by_url(base_url="http://pythonaasserver:80/", encoded_ids=False)
     client_shell_reg = aas_client.create_client_by_url(base_url="http://aas-registry:8080", encoded_ids=False)
 
@@ -39,6 +39,19 @@ def start() -> None:
     file_get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
 
     file = Path(f"./tests/test_data/https.pdf").resolve()
-    tmp = client.experimental.post_file_by_path(sm.id, file_sme.id_short, file)
+    tmp = client.experimental.post_file_by_path_submodel_repo(sm.id, file_sme.id_short, file)
 
-    print("Get all AAS Descriptors from Shell Registry:")
+    file_get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
+
+    attachment = client.experimental.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
+
+    file = Path(f"./tests/test_data/aimc.json").resolve()
+    tmp = client.experimental.put_file_by_path_submodel_repo(sm.id, file_sme.id_short, file)
+
+    attachment = client.experimental.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
+
+    delete_result = client.experimental.delete_file_by_path_submodel_repo(sm.id, file_sme.id_short)
+
+    attachment = client.experimental.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
+
+    print(attachment)

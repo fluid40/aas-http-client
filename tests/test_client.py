@@ -676,6 +676,82 @@ def test_020b_encoded_ids(client: AasHttpClient):
     assert encoded_sm is not None
     assert encoded_sm.get("id", "") == SHELL_ID
 
+def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    file_sme = model.File("file_sme", content_type="application/pdf")
+    file_post_result = client.submodel.post_submodel_element_submodel_repo(SM_ID, sdk_tools.convert_to_dict(file_sme))
+    assert file_post_result is not None
+
+    filename = "https.pdf"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+    result = client.experimental.post_file_by_path_submodel_repo(SM_ID, file_sme.id_short, file)
+    assert result is True
+
+    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(SM_ID, file_sme.id_short)
+
+    assert result_sme is not None
+    assert result_sme.get("idShort", "") == file_sme.id_short
+    assert result_sme.get("contentType", "") == file_sme.content_type
+    assert "value" in result_sme
+    assert result_sme.get("value", "") == f"/{filename}"
+
+def test_022_get_file_content_by_path_submodel_repo(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    result = client.experimental.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result is not None
+    assert len(result) > 0
+    assert result.startswith(b"%PDF-1.7")
+
+def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    filename = "aimc.json"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+    result = client.experimental.put_file_by_path_submodel_repo(SM_ID, "file_sme", file)
+    assert result is True
+
+    get_result = client.experimental.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert get_result is not None
+    assert len(get_result) > 0
+    assert get_result.startswith(b"{\n")
+
+    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result_sme is not None
+    assert "value" in result_sme
+    assert result_sme.get("value", "") == f"/{filename}"
+
+def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    result = client.experimental.delete_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result is True
+
+    get_result = client.experimental.get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert get_result is None
+
+    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result_sme is not None
+    assert "value" in result_sme
+    assert result_sme.get("value", "") == ""
+
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     result = client.shell.delete_asset_administration_shell_by_id(shared_aas.id)
 
