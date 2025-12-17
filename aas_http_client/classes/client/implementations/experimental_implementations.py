@@ -1,7 +1,7 @@
 import json
 import logging
+import mimetypes
 from pathlib import Path
-from urllib.parse import quote
 
 import requests
 from pydantic import BaseModel
@@ -78,22 +78,16 @@ class ExperimentalImplementation(BaseModel):
         if not self._encoded_ids:
             submodel_identifier = decode_base_64(submodel_identifier)
 
-        # Keine Slashes im idShort!
-        encoded_path = quote(id_short_path, safe="")
-
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{encoded_path}/attachment"
+        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
         self._set_token()
 
         try:
-            with attachment_path.open("rb") as f:
-                files = {"file": (attachment_path.name, f, "application/pdf")}
+            mime_type, _ = mimetypes.guess_type(attachment_path)
 
-                response = self._session.post(
-                    url,
-                    files=files,
-                    timeout=self._time_out,
-                )
+            with attachment_path.open("rb") as f:
+                files = {"file": (attachment_path.name, f, mime_type or "application/octet-stream")}
+                response = self._session.post(url, files=files, timeout=self._time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 

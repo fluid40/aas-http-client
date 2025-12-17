@@ -66,7 +66,6 @@ class AasHttpClient(BaseModel):
 
         self._session.headers.update(
             {
-                "Content-Type": "application/json",
                 "Accept": "*/*",
                 "User-Agent": "python-requests/2.32.5",
                 "Connection": "close",
