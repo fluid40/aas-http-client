@@ -5,9 +5,11 @@ import logging
 from enum import Enum
 from pathlib import Path
 
+import magic
 from basyx.aas import model
 
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
+from aas_http_client.classes.wrapper.attachment import Attachment
 from aas_http_client.classes.wrapper.pagination import (
     ShellPaginatedData,
     SubmodelElementPaginatedData,
@@ -418,6 +420,66 @@ class SdkWrapper:
     # region shell registry
 
     # currently no SDK implementation for descriptor classes -> no implementation for wrapper
+
+    # endregion
+
+    # region experimental
+
+    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def experimental_get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> Attachment | None:
+        """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: Attachment object with file content as bytes (octet-stream) or None if an error occurred
+        """
+        sme = self.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
+
+        if not sme or not isinstance(sme, model.File):
+            logger.warning(f"No submodel element found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
+            return None
+
+        byte_content = self._client.experimental.get_file_by_path_submodel_repo(submodel_identifier, id_short_path)
+
+        if not byte_content:
+            logger.warning(f"No file found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
+            return None
+
+        return Attachment(
+            content=byte_content,
+            content_type=magic.from_buffer(byte_content, mime=True),
+            filename=sme.value,
+        )
+
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def experimental_post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file: Path to the file to upload as attachment
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        return self._client.experimental.post_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
+
+    def experimental_put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file: Path to the file to upload as attachment
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        return self._client.experimental.put_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
+
+    def experimental_delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
+        """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: True if deletion was successful, False otherwise
+        """
+        return self._client.experimental.delete_file_by_path_submodel_repo(submodel_identifier, id_short_path)
 
     # endregion
 

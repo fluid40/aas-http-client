@@ -10,11 +10,17 @@ from pydantic import BaseModel, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
-from aas_http_client.classes.client.implementations import AuthMethod, ShellImplementation, ShellRegistryImplementation, SmImplementation, get_token
+from aas_http_client.classes.client.implementations import (
+    AuthMethod,
+    ExperimentalImplementation,
+    ShellImplementation,
+    ShellRegistryImplementation,
+    SmImplementation,
+    get_token,
+)
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    log_response_errors,
 )
 
 logger = logging.getLogger(__name__)
@@ -39,6 +45,7 @@ class AasHttpClient(BaseModel):
     shell: ShellImplementation = Field(default=None)
     submodel: SmImplementation = Field(default=None)
     shell_registry: ShellRegistryImplementation = Field(default=None)
+    experimental: ExperimentalImplementation = Field(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -59,7 +66,6 @@ class AasHttpClient(BaseModel):
 
         self._session.headers.update(
             {
-                "Content-Type": "application/json",
                 "Accept": "*/*",
                 "User-Agent": "python-requests/2.32.5",
                 "Connection": "close",
@@ -69,6 +75,9 @@ class AasHttpClient(BaseModel):
         self.shell = ShellImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
         self.submodel = SmImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
         self.shell_registry = ShellRegistryImplementation(
+            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
+        )
+        self.experimental = ExperimentalImplementation(
             self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
         )
 

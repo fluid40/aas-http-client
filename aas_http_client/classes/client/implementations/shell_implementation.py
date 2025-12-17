@@ -196,7 +196,7 @@ class ShellImplementation(BaseModel):
             response = self._session.post(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
+            if response.status_code != STATUS_CODE_201:
                 log_response_errors(response)
                 return None
 

@@ -609,6 +609,85 @@ def test_020b_encoded_ids(wrapper: SdkWrapper):
     assert encoded_sm is not None
     assert encoded_sm.id == SHELL_ID
 
+def test_021_post_file_by_path_submodel_repo(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    file_sme = model.File("file_sme", content_type="application/pdf")
+    file_post_result = wrapper.post_submodel_element_submodel_repo(SM_ID, file_sme)
+    assert file_post_result is not None
+
+    filename = "https.pdf"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+    result = wrapper.experimental_post_file_by_path_submodel_repo(SM_ID, file_sme.id_short, file)
+    assert result is True
+
+    result_sme = wrapper.get_submodel_element_by_path_submodel_repo(SM_ID, file_sme.id_short)
+
+    assert result_sme is not None
+    assert result_sme.id_short == file_sme.id_short
+
+    assert result_sme.content_type == file_sme.content_type
+    assert result_sme.value == f"/{filename}"
+
+def test_022_get_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    attachment = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert attachment is not None
+    assert attachment.content_type == "application/pdf"
+    assert isinstance(attachment.content, bytes)
+    assert len(attachment.content) > 0
+    assert attachment.content.startswith(b"%PDF-1.7")
+    assert attachment.filename == "/https.pdf"
+
+def test_023_put_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    filename = "aimc.json"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+    result = wrapper.experimental_put_file_by_path_submodel_repo(SM_ID, "file_sme", file)
+    assert result is True
+
+    get_result = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert get_result is not None
+    assert len(get_result.content) > 0
+    assert get_result.content.startswith(b"{\n")
+    assert get_result.filename == f"/{filename}"
+    assert get_result.content_type == "application/json"
+
+    result_sme = wrapper.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result_sme is not None
+    assert result_sme.value == f"/{filename}"
+
+def test_024_delete_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        # NOTE: Basyx java server do not provide this endpoint
+        return
+
+    result = wrapper.experimental_delete_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result is True
+
+    get_result = wrapper.experimental_get_file_by_path_submodel_repo(SM_ID, "file_sme")
+    assert get_result is None
+
+    result_sme = wrapper.get_submodel_element_by_path_submodel_repo(SM_ID, "file_sme")
+    assert result_sme is not None
+    assert result_sme.value == None
+
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_aas: model.AssetAdministrationShell):
     result = wrapper.delete_asset_administration_shell_by_id(shared_aas.id)
 

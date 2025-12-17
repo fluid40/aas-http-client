@@ -10,7 +10,6 @@ from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
-    STATUS_CODE_202,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response_errors,
@@ -35,7 +34,7 @@ class SmImplementation(BaseModel):
     def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
         """Returns a specific Submodel.
 
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve
+        :param submodel_identifier: The Submodel’s unique id
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
@@ -57,6 +56,10 @@ class SmImplementation(BaseModel):
             response = self._session.get(url, params=params, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                return None
+
             if response.status_code != STATUS_CODE_200:
                 log_response_errors(response)
                 return None
@@ -72,7 +75,7 @@ class SmImplementation(BaseModel):
     def put_submodels_by_id(self, submodel_identifier: str, request_body: dict) -> bool:
         """Updates a existing Submodel.
 
-        :param submodel_identifier: Encoded ID of the Submodel to update
+        :param submodel_identifier: The Submodel’s unique id
         :param request_body: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
@@ -86,6 +89,10 @@ class SmImplementation(BaseModel):
         try:
             response = self._session.put(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
@@ -101,7 +108,7 @@ class SmImplementation(BaseModel):
     def delete_submodel_by_id(self, submodel_identifier: str) -> bool:
         """Deletes a Submodel.
 
-        :param submodel_identifier: Encoded ID of the Submodel to delete
+        :param submodel_identifier: The Submodel’s unique id
         :return: True if the deletion was successful, False otherwise
         """
         if not self._encoded_ids:
@@ -114,6 +121,10 @@ class SmImplementation(BaseModel):
         try:
             response = self._session.delete(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
@@ -131,8 +142,8 @@ class SmImplementation(BaseModel):
     ) -> dict | None:
         """Returns a specific submodel element from the Submodel at a specified path.
 
-        :param submodel_identifier: Encoded ID of the Submodel to retrieve element from
-        :param id_short_path: Path of the Submodel element to retrieve
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
@@ -154,8 +165,12 @@ class SmImplementation(BaseModel):
             response = self._session.get(url, params=params, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return None
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -173,8 +188,8 @@ class SmImplementation(BaseModel):
     ) -> dict | None:
         """Creates a new submodel element at a specified path within submodel elements hierarchy.
 
-        :param submodel_identifier: Encoded ID of the Submodel to create elements for
-        :param id_short_path: Path within the Submodel elements hierarchy
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param request_body: Data for the new Submodel element
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
@@ -197,6 +212,10 @@ class SmImplementation(BaseModel):
             response = self._session.post(url, json=request_body, params=params, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return None
+
             if response.status_code != STATUS_CODE_201:
                 log_response_errors(response)
                 return None
@@ -212,8 +231,8 @@ class SmImplementation(BaseModel):
     def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
         """Deletes a submodel element at a specified path within the submodel elements hierarchy.
 
-        :param submodel_identifier: Encoded ID of the Submodel to delete submodel element from
-        :param id_short_path: Path of the Submodel element to delete
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if the deletion was successful, False otherwise
         """
         if not self._encoded_ids:
@@ -225,6 +244,10 @@ class SmImplementation(BaseModel):
         try:
             response = self._session.delete(url, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
@@ -243,9 +266,9 @@ class SmImplementation(BaseModel):
         """Returns all Submodels.
 
         :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)
-        :param id_short: The idShort of the Submodel
-        :param limit: Maximum number of Submodels to return
-        :param cursor: Cursor for pagination
+        :param id_short: The Submodels’s IdShort
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel data or None if an error occurred
@@ -298,7 +321,7 @@ class SmImplementation(BaseModel):
             response = self._session.post(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_202):
+            if response.status_code != STATUS_CODE_201:
                 log_response_errors(response)
                 return None
 
@@ -315,7 +338,7 @@ class SmImplementation(BaseModel):
     ) -> list[dict] | None:
         """Returns all submodel elements including their hierarchy.
 
-        :param submodel_identifier: Decoded ID of the Submodel to retrieve elements from
+        :param submodel_identifier: The Submodel’s unique id
         :param limit: The maximum number of elements in the response array
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
@@ -358,7 +381,7 @@ class SmImplementation(BaseModel):
     def post_submodel_element_submodel_repo(self, submodel_identifier: str, request_body: dict) -> dict | None:
         """Creates a new submodel element.
 
-        :param submodel_identifier: Encoded ID of the Submodel to create elements for
+        :param submodel_identifier: The Submodel’s unique id
         :param request_body: Data for the new Submodel element
         :return: Submodel element data or None if an error occurred
         """
@@ -393,8 +416,8 @@ class SmImplementation(BaseModel):
     ) -> bool:
         """Updates the value of an existing SubmodelElement.
 
-        :param submodel_identifier: Encoded ID of the Submodel to update submodel element for
-        :param id_short_path: Path of the Submodel element to update
+        :param submodel_identifier: The Submodel’s unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param value: Submodel element value to update as string
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :return: True if the patch was successful, False otherwise
@@ -413,6 +436,10 @@ class SmImplementation(BaseModel):
         try:
             response = self._session.patch(url, json=value, params=params, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
@@ -434,7 +461,7 @@ class SmImplementation(BaseModel):
     def patch_submodel_by_id(self, submodel_identifier: str, submodel_data: dict) -> bool:
         """Updates an existing Submodel.
 
-        :param submodel_identifier: Encoded ID of the Submodel to delete
+        :param submodel_identifier: The Submodel’s unique id
         :return: True if the patch was successful, False otherwise
         """
         if not self._encoded_ids:
@@ -447,6 +474,10 @@ class SmImplementation(BaseModel):
         try:
             response = self._session.patch(url, json=submodel_data, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                return None
 
             if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
