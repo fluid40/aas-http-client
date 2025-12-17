@@ -1,3 +1,5 @@
+"""Shell Registry Implementation Module."""
+
 import json
 import logging
 
@@ -6,7 +8,6 @@ from pydantic import BaseModel
 
 from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import OAuth
-from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -38,7 +39,7 @@ class ShellRegistryImplementation(BaseModel):
     # PUT /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
     # DELETE /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier
 
-    # GET /shell-descriptors/{aasIdentifier}
+    # GET /shell-descriptors
     def get_all_asset_administration_shell_descriptors(
         self, limit: int = 100, cursor: str = "", asset_kind: str = "", asset_type: str = ""
     ) -> dict | None:
