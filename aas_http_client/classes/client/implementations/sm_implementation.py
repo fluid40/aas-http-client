@@ -262,7 +262,7 @@ class SmImplementation(BaseModel):
     # GET /submodels
     def get_all_submodels(
         self, semantic_id: str = "", id_short: str = "", limit: int = 0, cursor: str = "", level: str = "", extent: str = ""
-    ) -> list[dict] | None:
+    ) -> dict | None:
         """Returns all Submodels.
 
         :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)

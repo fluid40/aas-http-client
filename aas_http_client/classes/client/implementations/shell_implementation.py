@@ -138,7 +138,7 @@ class ShellImplementation(BaseModel):
     # GET /shells
     def get_all_asset_administration_shells(
         self, asset_ids: list[dict] | None = None, id_short: str = "", limit: int = 100, cursor: str = ""
-    ) -> list[dict] | None:
+    ) -> dict | None:
         """Returns all Asset Administration Shells.
 
         :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
