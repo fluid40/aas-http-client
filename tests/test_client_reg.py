@@ -109,7 +109,7 @@ def test_000a_clean_server(client: AasHttpClient, client_aas_reg: AasHttpClient,
     sm_descriptors_result = client_sm_reg.submodel_registry.get_all_submodel_descriptors()
     assert len(sm_descriptors_result.get("result")) == 0
 
-def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
+def test_000b_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm_data = sdk_tools.convert_to_dict(shared_sm)
     sm_result = client.submodel.post_submodel(sm_data)
 
@@ -119,14 +119,14 @@ def test_000_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministr
     shell_result = client.shell.post_asset_administration_shell(shell_data)
     assert shell_result is not None
 
-def test_001a_get_self_description(client_aas_reg: AasHttpClient):
+def test_001a_get_self_description_shell(client_aas_reg: AasHttpClient):
     description = client_aas_reg.shell_registry.get_self_description()
 
     assert description is not None
     assert "profiles" in description
     assert len(description["profiles"]) == 1
 
-def test_001b_get_self_description(client_sm_reg: AasHttpClient):
+def test_001b_get_self_description_sm(client_sm_reg: AasHttpClient):
     description = client_sm_reg.submodel_registry.get_self_description()
 
     assert description is not None
@@ -187,7 +187,7 @@ def test_004_get_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     shared_sm_descriptor.clear()
     shared_sm_descriptor.update(results[0])
 
-def test_05_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
+def test_005_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     result = client.submodel.delete_submodel_by_id(shared_sm.id)
     assert result
 
@@ -203,7 +203,7 @@ def test_05_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, 
     sm_descriptors_result = client_sm_reg.submodel_registry.get_all_submodel_descriptors()
     assert len(sm_descriptors_result.get("result")) == 0
 
-def test_06_post_asset_administration_shell_descriptor(client_aas_reg: AasHttpClient, global_shell_descriptor):
+def test_006_post_asset_administration_shell_descriptor(client_aas_reg: AasHttpClient, global_shell_descriptor):
     result = client_aas_reg.shell_registry.post_asset_administration_shell_descriptor(global_shell_descriptor)
 
     assert result is not None
@@ -229,7 +229,7 @@ def test_007_delete_all_asset_administration_shell_descriptors(client_aas_reg: A
     assert results is not None
     assert len(results) == 0
 
-def test_08_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor):
+def test_008_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor):
     result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
 
     assert result is not None
