@@ -32,6 +32,11 @@ In addition to the core HTTP client, this library offers wrapper modules for pop
 Currently available wrappers:
 - [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
+The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import 'aas_http_client.utilities'):
+- encoder: base64 encoding and decoding
+- sdk_tools: e.g. Framework object serialization and deserialization, basic submodel operations
+- model_builder: creation of some basic AAS model elements
+
 ## Documentation
 
 🚀 [Getting Started](docs/getting_started.md)
