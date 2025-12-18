@@ -1,5 +1,5 @@
 {
-	"BaseUrl": "http://sm-localhost:8077/",
+	"BaseUrl": "http://localhost:8077/",
 	"HttpsProxy": null,
 	"HttpProxy": null,
 	"TimeOut": 20,
