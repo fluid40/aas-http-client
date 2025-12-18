@@ -19,7 +19,6 @@ This is a generic HTTP client that can communicate with various types of AAS and
 The client should be compatible with various types of AAS repository server.
 
 Tested servers include:
-- [Eclipse BaSyx .Net SDK server](https://github.com/eclipse-basyx/basyx-dotnet)
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
 - [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
 - [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)

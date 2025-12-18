@@ -1,16 +1,16 @@
 # Changelog
 
 ## [0.6.3] - 2025-12-09
-- ✨Feat: Add first endpoints for SM-Registry server communication ('client.submodel_registry')
+- ✨Feat: Add first endpoints for SM-Registry server communication ('client.submodel_registry'). Not available in wrapper.
 
 ## [0.6.2] - 2025-12-10
-- ✨Feat: Add endpoints for './attachment' in submodel repository. Experimental feature - may not be supported by all servers.
+- ✨Feat: Add endpoints for './attachment' in submodel repository ('client.experimental', 'wrapper.experimental_...'). Experimental feature - may not be supported by all servers.
 
 ## [0.6.1] - 2025-12-10
 - ✨Feat: Update 'basyx-python-sdk' package to version 2.0.0
 
 ## [0.6.0] - 2025-12-09
-- ✨Feat: Add first endpoints for AAS-Registry server communication ('client.shell_registry')
+- ✨Feat: Add first endpoints for AAS-Registry server communication ('client.shell_registry'). Not available in wrapper.
 
 ## [0.5.6] - 2025-12-01
 - 🐛Fix: Bugfix in parameter name 'EncodeIds'
