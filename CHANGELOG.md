@@ -1,9 +1,9 @@
 # Changelog
 
-## [0.6.3] - 2025-12-09
+## [0.6.3] - 2025-12-18
 - ✨Feat: Add first endpoints for SM-Registry server communication ('client.submodel_registry'). Not available in wrapper.
 
-## [0.6.2] - 2025-12-10
+## [0.6.2] - 2025-12-17
 - ✨Feat: Add endpoints for './attachment' in submodel repository ('client.experimental', 'wrapper.experimental_...'). Experimental feature - may not be supported by all servers.
 
 ## [0.6.1] - 2025-12-10
