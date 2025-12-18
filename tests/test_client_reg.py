@@ -2,8 +2,7 @@ import pytest
 from pathlib import Path
 from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient
 from basyx.aas import model
-import aas_http_client.utilities.model_builder as model_builder
-import aas_http_client.utilities.sdk_tools as sdk_tools
+from aas_http_client.utilities import sdk_tools, model_builder
 import logging
 from aas_http_client.demo.logging_handler import initialize_logging
 

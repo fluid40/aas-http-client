@@ -5,7 +5,7 @@ import logging
 from enum import Enum
 from pathlib import Path
 
-import magic
+import puremagic
 from basyx.aas import model
 
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
@@ -447,7 +447,7 @@ class SdkWrapper:
 
         return Attachment(
             content=byte_content,
-            content_type=magic.from_buffer(byte_content, mime=True),
+            content_type=puremagic.from_string(byte_content, mime=True),
             filename=sme.value,
         )
 
