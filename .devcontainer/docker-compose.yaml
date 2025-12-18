@@ -85,6 +85,19 @@ services:
     networks:
       - bridge
 
+  aasx-server:
+    container_name: aasxaasserver
+    image: docker.io/adminshellio/aasx-server-blazor-for-demo:main
+    ports:
+      - 8074:8074
+    environment:
+      - Kestrel__Endpoints__Http__Url=http://*:8074
+    volumes:
+      - ./aasxs:/usr/share/aasxs
+    command: --no-security --data-path /usr/share/aasxs --external-blazor http://localhost:8074
+    networks:
+      - bridge
+
   mongo:
     image: mongo:4.4
     container_name: mongo
