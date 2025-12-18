@@ -30,15 +30,17 @@ Additionally, wrappers are provided that work with various AAS frameworks and us
 Wrappers are currently available for the following frameworks:
 - [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
-## Links
+## Documentation
 
 🚀 [Getting Started](docs/getting_started.md)
 
 🛠️ [Configuration](docs/configuration.md)
 
-🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
-
 📝 [Changelog](CHANGELOG.md)
+
+## Resources
+
+🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
