@@ -15,8 +15,9 @@
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
-This is a generic HTTP client that can communicate with various types of AAS and submodel repository servers. It uses Python dictionaries for input and output parameters of functions. It supports the most common endpoints for the [specified AAS server endpoint](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html). The client is compatible with various types of AAS repository server.
-The client should be compatible with various types of AAS repository server.
+AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the [AAS server specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html), ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.
+
+> **Note:** Each client instance is designed to communicate with a single AAS server at a time (1-to-1 mapping). To interact with multiple servers, create a separate client instance for each server.
 
 Tested servers include:
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
@@ -24,10 +25,11 @@ Tested servers include:
 - [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
 - [Eclipse AASX server](https://github.com/eclipse-aaspe)
 
-The behavior may vary depending on the details of the implementation and compliance with the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications). It also depends on which endpoints are provided by the server.
+The actual behavior of the client may vary depending on the specific server implementation and its level of compliance with the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications). Supported endpoints and features depend on what each server provides.
 
-Additionally, wrappers are provided that work with various AAS frameworks and use the HTTP client as middleware. These wrappers use the SDK-specific data model classes for function input and output parameters.
-Wrappers are currently available for the following frameworks:
+In addition to the core HTTP client, this library offers wrapper modules for popular AAS frameworks. These wrappers use the HTTP client as middleware and expose SDK-specific data model classes for input and output, making integration with those frameworks seamless.
+
+Currently available wrappers:
 - [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
 ## Documentation
