@@ -658,10 +658,10 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient,
     sm = new_client.submodel.get_submodel_by_id(AIMC_SM_ID)
     assert sm is None
 
-    encoded_id = encoder.decode_base_64(AIMC_SM_ID)
-    encoded_sm = new_client.submodel.get_submodel_by_id(encoded_id)
-    assert encoded_sm is not None
-    assert encoded_sm.get("id", "") == AIMC_SM_ID
+    decoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    decoded_sm = new_client.submodel.get_submodel_by_id(decoded_id)
+    assert decoded_sm is not None
+    assert decoded_sm.get("id", "") == AIMC_SM_ID
 
 def test_020b_encoded_ids(client: AasHttpClient):
     base_url: str = client.base_url
@@ -671,10 +671,10 @@ def test_020b_encoded_ids(client: AasHttpClient):
     sm = new_client.shell.get_asset_administration_shell_by_id(SHELL_ID)
     assert sm is None
 
-    encoded_id = encoder.decode_base_64(SHELL_ID)
-    encoded_sm = new_client.shell.get_asset_administration_shell_by_id(encoded_id)
-    assert encoded_sm is not None
-    assert encoded_sm.get("id", "") == SHELL_ID
+    decoded_id = encoder.decode_base_64(SHELL_ID)
+    decoded_sm = new_client.shell.get_asset_administration_shell_by_id(decoded_id)
+    assert decoded_sm is not None
+    assert decoded_sm.get("id", "") == SHELL_ID
 
 def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
     parsed = urlparse(client.base_url)

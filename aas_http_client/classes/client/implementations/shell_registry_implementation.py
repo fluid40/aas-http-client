@@ -33,6 +33,35 @@ class ShellRegistryImplementation(BaseModel):
         self._o_auth_settings = o_auth_settings
 
     # GET /shell-descriptors/{aasIdentifier}
+    def get_asset_administration_shell_descriptor_by_id(self, aas_identifier: str) -> dict | None:
+        """Returns a specific Asset Administration Shell Descriptor.
+
+        :aas_identifier: The Asset Administration Shell’s unique id
+        :return: Asset Administration Shell Descriptor data or None if an error occurred
+        """
+        url = f"{self._base_url}/shell-descriptors/{aas_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # PUT /shell-descriptors/{aasIdentifier}
     # DELETE /shell-descriptors/{aasIdentifier}
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
