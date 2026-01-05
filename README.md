@@ -19,6 +19,10 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
 
 > **Note:** Each client instance is designed to communicate with a single AAS server at a time (1-to-1 mapping). To interact with multiple servers, create a separate client instance for each server.
 
+---
+
+## Supported Servers
+
 Tested servers include:
 - [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
 - [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
@@ -37,6 +41,8 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 - sdk_tools: e.g. Framework object serialization and deserialization, basic submodel operations
 - model_builder: creation of some basic AAS model elements
 
+---
+
 ## Documentation
 
 🚀 [Getting Started](docs/getting_started.md)
@@ -45,6 +51,8 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 
 📝 [Changelog](CHANGELOG.md)
 
+---
+
 ## Resources
 
 🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
@@ -52,6 +60,8 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
 📜 [MIT License](LICENSE)
+
+---
 
 ## ⚡ Quickstart
 
