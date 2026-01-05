@@ -238,6 +238,30 @@ def test_008_put_asset_administration_shell_descriptor_by_id(client_aas_reg: Aas
     assert descriptor["id"] == SHELL_ID
     assert descriptor["idShort"] ==  global_shell_descriptor["idShort"]
 
+def test_009_delete_asset_administration_shell_descriptor_by_id(client_aas_reg: AasHttpClient, global_shell_descriptor: dict):
+    decoded_id = encoder.decode_base_64(global_shell_descriptor.get("id", ""))
+    result = client_aas_reg.shell_registry.delete_asset_administration_shell_descriptor_by_id(decoded_id)
+
+    assert result is True
+
+    descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 0
+
+    # Re-post the descriptor for further tests
+    global_shell_descriptor["idShort"] = "sm_http_client_unit_tests"
+    result = client_aas_reg.shell_registry.post_asset_administration_shell_descriptor(global_shell_descriptor)
+
+    descriptors = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 1
+
 def test_0xx_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
     result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
 
