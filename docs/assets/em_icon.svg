@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg width="470" height="470" viewBox="0 0 470 470" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g>
-    <rect width="470" height="470" fill="#FFFFFF" fill-rule="evenodd" fill-opacity="0" />
-    <path id="Oval" d="M0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98Z" fill="#F7A600" fill-rule="evenodd" transform="translate(137 248)" />
-    <path id="Oval" d="M0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98Z" fill="#982A2C" fill-rule="evenodd" transform="translate(137 27)" />
-  </g>
-</svg>
