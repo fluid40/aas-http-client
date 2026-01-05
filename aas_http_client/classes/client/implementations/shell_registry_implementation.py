@@ -82,7 +82,7 @@ class ShellRegistryImplementation(BaseModel):
                 logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
                 return None
 
-            if response.status_code != STATUS_CODE_200:
+            if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
                 return False
 
