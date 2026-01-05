@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.7.5] - 2026-05-xx
+- 📝Feat: Add missing endpoints for AAS-Registry server communication ('client.shell_registry'). Not available in wrapper.
+
 ## [0.7.2] - 2026-05-01
 - 📝Doc: Update documentation
 
