@@ -11,7 +11,7 @@
 
 ---
 
-[![License: em](https://img.shields.io/badge/license-emSL-%23f8a602?label=License&labelColor=%23992b2e)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-%23f8a602?label=License&labelColor=%23992b2e)](LICENSE)
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
@@ -51,7 +51,7 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
-📜 [em AG Software License](LICENSE)
+📜 [MIT License](LICENSE)
 
 ## ⚡ Quickstart
 
