@@ -309,8 +309,9 @@ jobs:
             **Version:** v${{ steps.get_version.outputs.version }}
 
             ### 🧩 Build Information
-            - Pypi package: `aas-http-client ${{ steps.get_version.outputs.version }}`
+            - PyPI package: [`aas-http-client ${{ steps.get_version.outputs.version }}`](https://pypi.org/project/aas-http-client/${{ steps.get_version.outputs.version }})
             - `pip install aas-http-client`
+            - [Changelog](CHANGELOG.md)
           files: dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

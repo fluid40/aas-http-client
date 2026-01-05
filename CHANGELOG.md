@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.7.2] - 2026-05-01
+- 📝Doc: Update documentation
+
 ## [0.7.1] - 2025-12-18
 - 🐛Fix: Replace package 'python-magic' with package 'puremagic'.
 
