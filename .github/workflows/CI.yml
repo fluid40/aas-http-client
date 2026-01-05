@@ -307,6 +307,7 @@ jobs:
             ## 📝 Release Notes
 
             **Version:** v${{ steps.get_version.outputs.version }}
+            **Commit:** `${{ steps.get_version.outputs.hash }}`
 
             ### 🧩 Build Information
             - PyPI package: [`aas-http-client ${{ steps.get_version.outputs.version }}`](https://pypi.org/project/aas-http-client/${{ steps.get_version.outputs.version }})
