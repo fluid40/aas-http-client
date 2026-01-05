@@ -219,12 +219,24 @@ def test_006_post_asset_administration_shell_descriptor(client_aas_reg: AasHttpC
     assert results[0]["id"] == SHELL_ID
 
 def test_007_get_asset_administration_shell_descriptor_by_id(client_aas_reg: AasHttpClient, global_shell_descriptor: dict):
-    asset_id = global_shell_descriptor.get("id", "")
-    decoded_id = encoder.decode_base_64(asset_id)
+    decoded_id = encoder.decode_base_64(global_shell_descriptor.get("id", ""))
     descriptor = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(decoded_id)
 
     assert descriptor is not None
     assert descriptor["id"] == SHELL_ID
+
+def test_008_put_asset_administration_shell_descriptor_by_id(client_aas_reg: AasHttpClient, global_shell_descriptor: dict):
+    decoded_id = encoder.decode_base_64(global_shell_descriptor.get("id", ""))
+    global_shell_descriptor["idShort"] = "sm_http_client_unit_tests_updated"
+    result = client_aas_reg.shell_registry.put_asset_administration_shell_descriptor_by_id(decoded_id, global_shell_descriptor)
+
+    assert result is True
+
+    descriptor = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(decoded_id)
+
+    assert descriptor is not None
+    assert descriptor["id"] == SHELL_ID
+    assert descriptor["idShort"] ==  global_shell_descriptor["idShort"]
 
 def test_0xx_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
     result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
