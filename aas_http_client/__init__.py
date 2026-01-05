@@ -7,6 +7,7 @@ __copyright__ = f"Copyright (C) {datetime.now(tz=timezone.utc).year} :em enginee
 __author__ = "Daniel Klein"
 
 try:
+    __license__ = "MIT"
     __version__ = importlib.metadata.version(__name__)
 except importlib.metadata.PackageNotFoundError:
     __version__ = "0.0.0-dev"
