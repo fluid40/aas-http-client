@@ -93,6 +93,33 @@ class SubmodelRegistryImplementation(BaseModel):
         return True
 
     # DELETE /submodel-descriptors/{submodelIdentifier}
+    def delete_submodel_descriptor_by_id(self, submodel_identifier: str) -> bool:
+        """Deletes a Submodel Descriptor, i.e. de-registers a submodel.
+
+        :param submodel_identifier: The unique identifier of the Submodel Descriptor
+        :return: True if deletion was successful, False otherwise
+        """
+        url = f"{self._base_url}/submodel-descriptors/{submodel_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.delete(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
+                return False
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
 
     # GET /submodel-descriptors
     def get_all_submodel_descriptors(self, limit: int = 100, cursor: str = "") -> dict | None:
