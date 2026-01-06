@@ -305,7 +305,6 @@ def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_de
     sm_descriptors.append(global_sm_descriptor)
 
     result = client_aas_reg.shell_registry.post_asset_administration_shell_descriptor(global_shell_descriptor)
-
     assert result is not None
     assert "id" in result
     assert result["id"] == SHELL_ID
@@ -313,7 +312,6 @@ def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_de
     assert len(result["submodelDescriptors"]) == 1
 
     get_result = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(encoder.decode_base_64(SHELL_ID))
-
     assert get_result is not None
     assert "id" in get_result
     assert get_result["id"] == SHELL_ID
@@ -323,8 +321,8 @@ def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_de
 def test_051_get_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
     decoded_shell_id = encoder.decode_base_64(SHELL_ID)
     decoded_sm_id = encoder.decode_base_64(SM_ID)
-    descriptor = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
 
+    descriptor = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
     assert descriptor is not None
     assert descriptor["id"] == SM_ID
 
@@ -332,8 +330,8 @@ def test_052_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: Aas
     decoded_shell_id = encoder.decode_base_64(SHELL_ID)
     decoded_sm_id = encoder.decode_base_64(SM_ID)
     global_sm_descriptor["idShort"] = "sm_http_client_unit_tests_updated"
-    result = client_aas_reg.shell_registry.put_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id, global_sm_descriptor)
 
+    result = client_aas_reg.shell_registry.put_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id, global_sm_descriptor)
     assert result is True
 
     descriptor = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
@@ -344,12 +342,11 @@ def test_052_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: Aas
 def test_053_delete_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
     decoded_shell_id = encoder.decode_base_64(SHELL_ID)
     decoded_sm_id = encoder.decode_base_64(SM_ID)
-    result = client_aas_reg.shell_registry.delete_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
 
+    result = client_aas_reg.shell_registry.delete_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
     assert result is True
 
     sm_descriptors = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
-
     assert sm_descriptors is None
 
     shell_descriptor = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(decoded_shell_id)
@@ -361,7 +358,17 @@ def test_054_post_submodel_descriptor_through_superpath(client_aas_reg: AasHttpC
     decoded_shell_id = encoder.decode_base_64(SHELL_ID)
 
     descriptor = client_aas_reg.shell_registry.post_submodel_descriptor_through_superpath(decoded_shell_id, global_sm_descriptor)
-
     assert descriptor is not None
     assert "id" in descriptor
     assert descriptor["id"] == SM_ID
+
+def test_055_get_all_submodel_descriptors_through_superpath(client_aas_reg: AasHttpClient):
+    decoded_shell_id = encoder.decode_base_64(SHELL_ID)
+
+    descriptors = client_aas_reg.shell_registry.get_all_submodel_descriptors_through_superpath(decoded_shell_id)
+    assert descriptors is not None
+    assert "result" in descriptors
+    results = descriptors["result"]
+    assert results is not None
+    assert len(results) == 1
+    assert results[0]["id"] == SM_ID
