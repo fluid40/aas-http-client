@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.8.5] - 2026-01-06
+- ✨Feat: Add missing endpoints for Submodel-Registry server communication ('client.submodel_registry'). Not available in wrapper.
+
 ## [0.7.5] - 2026-01-06
 - ✨Feat: Add missing endpoints for AAS-Registry server communication ('client.shell_registry'). Not available in wrapper.
 
