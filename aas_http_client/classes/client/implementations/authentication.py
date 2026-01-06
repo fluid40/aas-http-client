@@ -23,7 +23,17 @@ class AuthMethod(Enum):
     bearer = 4
 
 
-def get_token(o_auth_configuration: OAuth) -> str | None:
+class TokenData:
+    """Holds token data."""
+
+    def __init__(self, access_token: str, token_type: str, expires_in: int):
+        """Initializes the TokenData with the given parameters."""
+        self.access_token = access_token
+        self.token_type = token_type
+        self.expires_in = expires_in
+
+
+def get_token(o_auth_configuration: OAuth) -> TokenData | None:
     """Get token based on the provided OAuth configuration.
 
     :param auth_configuration: Authentication configuration
@@ -46,7 +56,7 @@ def get_token(o_auth_configuration: OAuth) -> str | None:
     return token
 
 
-def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
+def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200) -> TokenData | None:
     """Get token from a specific authentication service provider by basic authentication.
 
     :param endpoint: Get token endpoint for the authentication service provider
@@ -62,7 +72,7 @@ def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout
     return _get_token_from_endpoint(endpoint, data, auth, timeout)
 
 
-def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> dict | None:
+def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> TokenData | None:
     """Get token from a specific authentication service provider by username and password.
 
     :param endpoint: Get token endpoint for the authentication service provider
@@ -76,7 +86,7 @@ def get_token_by_password(endpoint: str, username: str, password: str, timeout=2
     return _get_token_from_endpoint(endpoint, data, None, timeout)
 
 
-def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> dict | None:
+def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> TokenData | None:
     """Get token from a specific authentication service provider.
 
     :param endpoint: Get token endpoint for the authentication service provider
@@ -94,8 +104,35 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Error call REST API: {e}")
-        return False
+        return None
 
     content = response.content.decode("utf-8")
+
+    if not content:
+        logger.error("No content in token response")
+        return None
+
     data = json.loads(content)
-    return data.get("access_token", None)
+
+    if not data:
+        logger.error("No data in token response")
+        return None
+
+    return TokenData(data.get("access_token", "").strip(), data.get("token_type", ""), data.get("expires_in", 0))
+
+
+def set_token(self, session) -> str | None:
+    """Set authentication token in session headers based on configured authentication method.
+
+    :return: The access token if set, otherwise None
+    """
+    if self._auth_method != AuthMethod.o_auth:
+        return None
+
+    token_data = get_token(self.auth_settings.o_auth)
+
+    if token_data and token_data.access_token:
+        self._session.headers.update({"Authorization": f"Bearer {token_data.access_token}"})
+        return token_data.access_token
+
+    return None

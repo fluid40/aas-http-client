@@ -79,12 +79,8 @@ class AasHttpClient(BaseModel):
         self.shell_registry = ShellRegistryImplementation(
             self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
         )
-        self.experimental = ExperimentalImplementation(
-            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
-        )
-        self.submodel_registry = SubmodelRegistryImplementation(
-            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
-        )
+        self.submodel_registry = SubmodelRegistryImplementation(self)
+        self.experimental = ExperimentalImplementation(self)
 
     def _handle_auth_method(self):
         """Handles the authentication method based on the provided settings."""
@@ -140,16 +136,16 @@ class AasHttpClient(BaseModel):
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
 
-        :raises requests.exceptions.RequestException: If token retrieval fails
+        :return: The access token if set, otherwise None
         """
         if self._auth_method != AuthMethod.o_auth:
             return None
 
-        token = get_token(self.auth_settings.o_auth).strip()
+        token_data = get_token(self.auth_settings.o_auth)
 
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
+        if token_data and token_data.access_token:
+            self._session.headers.update({"Authorization": f"Bearer {token_data.access_token}"})
+            return token_data.access_token
 
         return None
 
