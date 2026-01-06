@@ -306,7 +306,7 @@ class ShellRegistryImplementation(BaseModel):
 
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
-    def post_submodel_descriptor_through_superpath(self, aas_identifier: str) -> dict | None:
+    def post_submodel_descriptor_through_superpath(self, aas_identifier: str, request_body: dict) -> dict | None:
         """Creates a new Submodel Descriptor, i.e. registers a submodel.
 
         :param aas_identifier: The Asset Administration Shell’s unique id
@@ -318,7 +318,7 @@ class ShellRegistryImplementation(BaseModel):
         self._set_token()
 
         try:
-            response = self._session.post(url, timeout=self._time_out)
+            response = self._session.post(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
