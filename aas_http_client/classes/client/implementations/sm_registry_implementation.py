@@ -33,6 +33,35 @@ class SubmodelRegistryImplementation(BaseModel):
         self._o_auth_settings = o_auth_settings
 
     # GET /submodel-descriptors/{submodelIdentifier}
+    def get_submodel_descriptor_by_id(self, submodel_identifier: str) -> dict | None:
+        """Returns the Submodel Descriptor for the given submodel identifier.
+
+        :param submodel_identifier: The unique identifier of the Submodel Descriptor
+        :return: Submodel Descriptor data or None if an error occurred
+        """
+        url = f"{self._base_url}/submodel-descriptors/{submodel_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # PUT /submodel-descriptors/{submodelIdentifier}
     # DELETE /submodel-descriptors/{submodelIdentifier}
 
