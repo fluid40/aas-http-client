@@ -262,7 +262,7 @@ def test_009_delete_asset_administration_shell_descriptor_by_id(client_aas_reg: 
     assert results is not None
     assert len(results) == 1
 
-def test_0xx_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
+def test_010_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
     result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
 
     assert result is not None
@@ -277,7 +277,7 @@ def test_0xx_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_de
     assert len(results) == 1
     assert results[0]["id"] == SM_ID
 
-def test_098_delete_all_asset_administration_shell_descriptors(client_aas_reg: AasHttpClient):
+def test_050a_delete_all_asset_administration_shell_descriptors(client_aas_reg: AasHttpClient):
     result = client_aas_reg.shell_registry.delete_all_asset_administration_shell_descriptors()
     assert result
 
@@ -288,7 +288,7 @@ def test_098_delete_all_asset_administration_shell_descriptors(client_aas_reg: A
     assert results is not None
     assert len(results) == 0
 
-def test_099_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
+def test_050b_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     result = client_sm_reg.submodel_registry.delete_all_submodel_descriptors()
     assert result
 
@@ -298,3 +298,32 @@ def test_099_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     results = descriptors["result"]
     assert results is not None
     assert len(results) == 0
+
+def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_descriptor: dict, global_sm_descriptor: dict):
+    global_shell_descriptor["submodelDescriptors"] = []
+    sm_descriptors: list[dict] = global_shell_descriptor.get("submodelDescriptors", [])
+    sm_descriptors.append(global_sm_descriptor)
+
+    result = client_aas_reg.shell_registry.post_asset_administration_shell_descriptor(global_shell_descriptor)
+
+    assert result is not None
+    assert "id" in result
+    assert result["id"] == SHELL_ID
+    assert "submodelDescriptors" in result
+    assert len(result["submodelDescriptors"]) == 1
+
+    get_result = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(encoder.decode_base_64(SHELL_ID))
+
+    assert get_result is not None
+    assert "id" in get_result
+    assert get_result["id"] == SHELL_ID
+    assert "submodelDescriptors" in get_result
+    assert len(get_result["submodelDescriptors"])
+
+def test_051_get_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
+    decoded_shell_id = encoder.decode_base_64(SHELL_ID)
+    decoded_sm_id = encoder.decode_base_64(SM_ID)
+    descriptor = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
+
+    assert descriptor is not None
+    assert descriptor["id"] == SM_ID
