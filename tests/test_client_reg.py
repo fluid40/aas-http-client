@@ -372,3 +372,16 @@ def test_055_get_all_submodel_descriptors_through_superpath(client_aas_reg: AasH
     assert results is not None
     assert len(results) == 1
     assert results[0]["id"] == SM_ID
+
+def test_056_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
+    result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
+    assert result is not None
+    assert "id" in result
+    assert result["id"] == SM_ID
+
+def test_057_get_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
+    decoded_sm_id = encoder.decode_base_64(SM_ID)
+
+    descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(decoded_sm_id)
+    assert descriptor is not None
+    assert descriptor["id"] == SM_ID
