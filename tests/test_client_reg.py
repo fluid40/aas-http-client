@@ -340,3 +340,19 @@ def test_052_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: Aas
     assert descriptor is not None
     assert descriptor["id"] == SM_ID
     assert descriptor["idShort"] == "sm_http_client_unit_tests_updated"
+
+def test_053_delete_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
+    decoded_shell_id = encoder.decode_base_64(SHELL_ID)
+    decoded_sm_id = encoder.decode_base_64(SM_ID)
+    result = client_aas_reg.shell_registry.delete_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
+
+    assert result is True
+
+    sm_descriptors = client_aas_reg.shell_registry.get_submodel_descriptor_by_id_through_superpath(decoded_shell_id, decoded_sm_id)
+
+    assert sm_descriptors is None
+
+    shell_descriptor = client_aas_reg.shell_registry.get_asset_administration_shell_descriptor_by_id(decoded_shell_id)
+    assert shell_descriptor is not None
+    assert "submodelDescriptors" in shell_descriptor
+    assert len(shell_descriptor["submodelDescriptors"]) == 0
