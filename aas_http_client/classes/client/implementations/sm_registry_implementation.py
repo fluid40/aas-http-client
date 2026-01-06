@@ -63,7 +63,7 @@ class SubmodelRegistryImplementation(BaseModel):
         return json.loads(content)
 
     # PUT /submodel-descriptors/{submodelIdentifier}
-    def put_submodel_descriptor_by_id(self, submodel_identifier: str, request_body: dict) -> dict | None:
+    def put_submodel_descriptor_by_id(self, submodel_identifier: str, request_body: dict) -> bool:
         """Creates or updates an existing Submodel Descriptor.
 
         :param submodel_identifier: The unique identifier of the Submodel Descriptor
@@ -78,16 +78,19 @@ class SubmodelRegistryImplementation(BaseModel):
             response = self._session.put(url, json=request_body, timeout=self._time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code != STATUS_CODE_200:
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
+                return False
+
+            if response.status_code != STATUS_CODE_204:
                 log_response_errors(response)
-                return None
+                return False
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
-            return None
+            return False
 
-        content = response.content.decode("utf-8")
-        return json.loads(content)
+        return True
 
     # DELETE /submodel-descriptors/{submodelIdentifier}
 
