@@ -306,6 +306,35 @@ class ShellRegistryImplementation(BaseModel):
 
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
+    def post_submodel_descriptor_through_superpath(self, aas_identifier: str) -> dict | None:
+        """Creates a new Submodel Descriptor, i.e. registers a submodel.
+
+        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param request_body: Asset Administration Shell Descriptor object
+        :return: Created Asset Administration Shell Descriptor data or None if an error occurred
+        """
+        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
+
+        self._set_token()
+
+        try:
+            response = self._session.post(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
+                return False
+
+            if response.status_code != STATUS_CODE_201:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
 
     # POST /search
     def search(self, request_body: dict) -> dict | None:
