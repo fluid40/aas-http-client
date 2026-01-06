@@ -279,6 +279,13 @@ jobs:
           VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+          GIT_HASH=$(git rev-parse --short HEAD)
+          echo "hash=$GIT_HASH" >> $GITHUB_OUTPUT
+
+      - name: Get commit hash
+        id: get_hash
+        run: echo "hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
       - name: Generate Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
