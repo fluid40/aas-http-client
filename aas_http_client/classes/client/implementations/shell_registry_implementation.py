@@ -153,6 +153,36 @@ class ShellRegistryImplementation(BaseModel):
         return json.loads(content)
 
     # PUT /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
+    def put_submodel_descriptor_by_id_through_superpath(self, aas_identifier: str, submodel_identifier: str, request_body: dict) -> bool:
+        """Creates or updates an existing Submodel Descriptor.
+
+        :aas_identifier: The Asset Administration Shell’s unique id
+        :submodel_identifier: The Submodel’s unique id
+        :request_body: Submodel Descriptor object
+        :return: True if creation or update was successful, False otherwise
+        """
+        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
+                return False
+
+            if response.status_code != STATUS_CODE_204:
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # DELETE /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier
 
     # GET /shell-descriptors
