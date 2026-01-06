@@ -248,6 +248,7 @@ class ShellRegistryImplementation(BaseModel):
 
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors
     # POST /shell-descriptors/{aasIdentifier}/submodel-descriptors
+
     # POST /search
     def search(self, request_body: dict) -> dict | None:
         """Searches for Asset Administration Shell Descriptors based on the provided query.
