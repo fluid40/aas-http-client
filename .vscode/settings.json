@@ -4,7 +4,8 @@
         "basyx",
         "Pypi",
         "submodel",
-        "submodels"
+        "submodels",
+        "superpath"
     ],
     "python.testing.pytestArgs": [
         "tests"

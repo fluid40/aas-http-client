@@ -122,6 +122,36 @@ class ShellRegistryImplementation(BaseModel):
         return True
 
     # GET /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
+    def get_submodel_descriptor_by_id_through_superpath(self, aas_identifier: str, submodel_identifier: str) -> dict | None:
+        """Returns a specific Submodel Descriptor.
+
+        :aas_identifier: The Asset Administration Shell’s unique id
+        :submodel_identifier: The Submodel’s unique id
+        :return: Submodel Descriptor data or None if an error occurred
+        """
+        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+
+        self._set_token()
+
+        try:
+            response = self._session.get(url, timeout=self._time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response_errors(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # PUT /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier}
     # DELETE /shell-descriptors/{aasIdentifier}/submodel-descriptors/{submodelIdentifier
 
