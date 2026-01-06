@@ -385,3 +385,15 @@ def test_057_get_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
     descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(decoded_sm_id)
     assert descriptor is not None
     assert descriptor["id"] == SM_ID
+
+def test_058_put_submodel_descriptor_by_id(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
+    decoded_sm_id = encoder.decode_base_64(SM_ID)
+    global_sm_descriptor["idShort"] = "sm_http_client_unit_tests_updated"
+
+    result = client_sm_reg.submodel_registry.put_submodel_descriptor_by_id(decoded_sm_id, global_sm_descriptor)
+    assert result is True
+
+    descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(decoded_sm_id)
+    assert descriptor is not None
+    assert descriptor["id"] == SM_ID
+    assert descriptor["idShort"] == "sm_http_client_unit_tests_updated"
