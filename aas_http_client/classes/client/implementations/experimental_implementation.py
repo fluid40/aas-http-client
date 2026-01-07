@@ -34,7 +34,7 @@ class ExperimentalImplementation(BaseModel):
     def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
         """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: Attachment data as bytes (octet-stream) or None if an error occurred
         """
@@ -46,7 +46,7 @@ class ExperimentalImplementation(BaseModel):
         self._client.set_token()  # ensures Authorization header is set
 
         try:
-            response = self._client._session.get(url, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -67,7 +67,7 @@ class ExperimentalImplementation(BaseModel):
     def post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -88,7 +88,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client._session.post(url, files=files, timeout=self._client.time_out)
+                response = self._client.get_session().post(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -110,7 +110,7 @@ class ExperimentalImplementation(BaseModel):
     def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -131,7 +131,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client._session.put(url, files=files, timeout=self._client.time_out)
+                response = self._client.get_session().put(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -153,7 +153,7 @@ class ExperimentalImplementation(BaseModel):
     def delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if deletion was successful, False otherwise
         """
@@ -165,7 +165,7 @@ class ExperimentalImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.delete(url, timeout=self._client.time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
@@ -183,6 +183,6 @@ class ExperimentalImplementation(BaseModel):
         return True
 
     def _post_multipart(self, url, files):
-        headers = dict(self._client._session.headers)
+        headers = dict(self._client.get_session().headers)
         headers.pop("Content-Type", None)
-        return self._client._session.post(url, headers=headers, files=files)
+        return self._client.get_session().post(url, headers=headers, files=files)

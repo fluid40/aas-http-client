@@ -1,3 +1,5 @@
+"""Implements authentication methods for the HTTP client."""
+
 import json
 import logging
 from enum import Enum

@@ -33,7 +33,7 @@ class ShellImplementation(BaseModel):
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :return: Asset Administration Shells data or None if an error occurred
         """
         if not self._client.encoded_ids:
@@ -44,7 +44,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -66,7 +66,7 @@ class ShellImplementation(BaseModel):
     def put_asset_administration_shell_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :param request_body: Json data of the Asset Administration Shell data to put
         :return: True if the update was successful, False otherwise
         """
@@ -78,7 +78,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -99,7 +99,7 @@ class ShellImplementation(BaseModel):
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
@@ -110,7 +110,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.delete(url, timeout=self._client.time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -164,7 +164,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, timeout=self._client.time_out, params=params)
+            response = self._client.get_session().get(url, timeout=self._client.time_out, params=params)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -190,7 +190,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -228,7 +228,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -260,7 +260,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -295,7 +295,7 @@ class ShellImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
