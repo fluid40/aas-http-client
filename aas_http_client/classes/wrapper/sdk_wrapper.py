@@ -24,6 +24,23 @@ from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 logger = logging.getLogger(__name__)
 
 
+class IdEncoding(Enum):
+    """Determines the ID encoding mode for API requests."""
+
+    default = 0
+    encoded = 1
+    decoded = 2
+
+    def __str__(self) -> str:
+        """String representation of the IdMode enum."""
+        if self == IdEncoding.encoded:
+            return "encoded"
+        if self == IdEncoding.decoded:
+            return "decoded"
+
+        return ""
+
+
 class Level(Enum):
     """Determines the structural depth of the respective resource content."""
 
@@ -102,6 +119,26 @@ class SdkWrapper:
 
         self._client = client
         self.base_url = client.base_url
+
+    def set_encoded_ids(self, encoded_ids: IdEncoding):
+        """Sets whether to use encoded IDs for API requests.
+
+        :param encoded_ids: If enabled, all IDs used in API requests have to be base64-encoded
+        """
+        if encoded_ids == IdEncoding.encoded:
+            self._client.encoded_ids = True
+        else:
+            self._client.encoded_ids = False
+
+    def get_encoded_ids(self) -> IdEncoding:
+        """Gets whether encoded IDs are used for API requests.
+
+        :return: True if encoded IDs are used, False otherwise
+        """
+        if self._client.encoded_ids:
+            return IdEncoding.encoded
+
+        return IdEncoding.decoded
 
     def get_client(self) -> AasHttpClient:
         """Returns the underlying AAS HTTP client.
