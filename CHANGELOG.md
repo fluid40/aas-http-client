@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.2] - 2026-01-07
+- ✨Feat: Improve oAuth authentication handling and add oAuth Token caching.
+- 🐛Fix: Fix handling of decoded / encoded IDs in registry implementations.
+
 ## [0.8.0] - 2026-01-06
 - ✨Feat: Add missing endpoints for Submodel-Registry server communication ('client.submodel_registry'). Not available in wrapper.
 
