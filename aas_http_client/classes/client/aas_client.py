@@ -17,6 +17,7 @@ from aas_http_client.classes.client.implementations import (
     ShellRegistryImplementation,
     SmImplementation,
     SubmodelRegistryImplementation,
+    TokenData,
     get_token,
 )
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
@@ -48,6 +49,7 @@ class AasHttpClient(BaseModel):
     shell_registry: ShellRegistryImplementation = Field(default=None)
     experimental: ExperimentalImplementation = Field(default=None)
     submodel_registry: SubmodelRegistryImplementation = Field(default=None)
+    _cached_token: TokenData | None = PrivateAttr(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -74,17 +76,18 @@ class AasHttpClient(BaseModel):
             }
         )
 
-        self.shell = ShellImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
-        self.submodel = SmImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
-        self.shell_registry = ShellRegistryImplementation(
-            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
-        )
-        self.experimental = ExperimentalImplementation(
-            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
-        )
-        self.submodel_registry = SubmodelRegistryImplementation(
-            self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids
-        )
+        self.shell = ShellImplementation(self)
+        self.submodel = SmImplementation(self)
+        self.shell_registry = ShellRegistryImplementation(self)
+        self.submodel_registry = SubmodelRegistryImplementation(self)
+        self.experimental = ExperimentalImplementation(self)
+
+    def get_session(self) -> Session:
+        """Get the HTTP session used by the client.
+
+        :return: The requests.Session object used for HTTP communication
+        """
+        return self._session
 
     def _handle_auth_method(self):
         """Handles the authentication method based on the provided settings."""
@@ -140,16 +143,25 @@ class AasHttpClient(BaseModel):
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
 
-        :raises requests.exceptions.RequestException: If token retrieval fails
+        :return: The access token if set, otherwise None
         """
         if self._auth_method != AuthMethod.o_auth:
             return None
 
-        token = get_token(self.auth_settings.o_auth).strip()
+        now = time.time()
+        # Check if cached token exists and is not expired
+        if self._cached_token and self._cached_token.token_expiry > now:
+            return self._cached_token.access_token
 
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
+        # Obtain new token
+        token_data = get_token(self.auth_settings.o_auth)
+
+        if token_data and token_data.access_token:
+            # Cache the token data
+            self._cached_token = token_data
+            # Update session headers with the new token
+            self._session.headers.update({"Authorization": f"Bearer {self._cached_token.access_token}"})
+            return self._cached_token.access_token
 
         return None
 

@@ -2,16 +2,18 @@
 
 import json
 import logging
+from typing import TYPE_CHECKING
 
 import requests
 from pydantic import BaseModel
 
-from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
-from aas_http_client.classes.Configuration.config_classes import OAuth
+if TYPE_CHECKING:
+    from aas_http_client.classes.client.aas_client import AasHttpClient
+
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
-    STATUS_CODE_202,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response_errors,
@@ -23,28 +25,26 @@ logger = logging.getLogger(__name__)
 class ShellRegistryImplementation(BaseModel):
     """Implementation of Asset Administration Shell Registry related API calls."""
 
-    def __init__(self, session: requests.Session, base_url: str, time_out: int, auth_method: AuthMethod, o_auth_settings: OAuth, encoded_ids: bool):
+    def __init__(self, client: "AasHttpClient"):
         """Initializes the ShellRegistryImplementation with the given parameters."""
-        self._session = session
-        self._base_url = base_url
-        self._time_out = time_out
-        self._encoded_ids = encoded_ids
-        self._auth_method = auth_method
-        self._o_auth_settings = o_auth_settings
+        self._client = client
 
     # GET /shell-descriptors/{aasIdentifier}
     def get_asset_administration_shell_descriptor_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell Descriptor.
 
-        :aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :return: Asset Administration Shell Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -66,16 +66,19 @@ class ShellRegistryImplementation(BaseModel):
     def put_asset_administration_shell_descriptor_by_id(self, aas_identifier: str, request_body: dict) -> bool:
         """Creates or updates an existing Asset Administration Shell Descriptor.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :param request_body: Asset Administration Shell Descriptor object
         :return: Created or updated Asset Administration Shell Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -96,15 +99,18 @@ class ShellRegistryImplementation(BaseModel):
     def delete_asset_administration_shell_descriptor_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell Descriptor, i.e. de-registers an AAS.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :return: True if deletion was successful, False otherwise
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -125,16 +131,20 @@ class ShellRegistryImplementation(BaseModel):
     def get_submodel_descriptor_by_id_through_superpath(self, aas_identifier: str, submodel_identifier: str) -> dict | None:
         """Returns a specific Submodel Descriptor.
 
-        :aas_identifier: The Asset Administration Shell’s unique id
-        :submodel_identifier: The Submodel’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_identifier: The Submodels unique id
         :return: Submodel Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -156,17 +166,21 @@ class ShellRegistryImplementation(BaseModel):
     def put_submodel_descriptor_by_id_through_superpath(self, aas_identifier: str, submodel_identifier: str, request_body: dict) -> bool:
         """Creates or updates an existing Submodel Descriptor.
 
-        :aas_identifier: The Asset Administration Shell’s unique id
-        :submodel_identifier: The Submodel’s unique id
-        :request_body: Submodel Descriptor object
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_identifier: The Submodels unique id
+        :param request_body: Submodel Descriptor object
         :return: True if creation or update was successful, False otherwise
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -187,16 +201,20 @@ class ShellRegistryImplementation(BaseModel):
     def delete_submodel_descriptor_by_id_through_superpath(self, aas_identifier: str, submodel_identifier: str) -> bool:
         """Deletes a Submodel Descriptor, i.e. de-registers a submodel.
 
-        :aas_identifier: The Asset Administration Shell’s unique id
-        :submodel_identifier: The Submodel’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_identifier: The Submodels unique id
         :return: True if deletion was successful, False otherwise
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -225,7 +243,7 @@ class ShellRegistryImplementation(BaseModel):
         :param asset_type: The Asset's type (UTF8-BASE64-URL-encoded)
         :return: Asset Administration Shell Descriptors data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors"
+        url = f"{self._client.base_url}/shell-descriptors"
 
         params = {}
         if asset_kind:
@@ -237,10 +255,10 @@ class ShellRegistryImplementation(BaseModel):
         if cursor:
             params["cursor"] = cursor
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -261,12 +279,12 @@ class ShellRegistryImplementation(BaseModel):
         :param request_body: Asset Administration Shell Descriptor object
         :return: Created Asset Administration Shell Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors"
+        url = f"{self._client.base_url}/shell-descriptors"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -286,12 +304,12 @@ class ShellRegistryImplementation(BaseModel):
 
         :return: True if deletion was successful, False otherwise
         """
-        url = f"{self._base_url}/shell-descriptors"
+        url = f"{self._client.base_url}/shell-descriptors"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -308,15 +326,18 @@ class ShellRegistryImplementation(BaseModel):
     def get_all_submodel_descriptors_through_superpath(self, aas_identifier: str) -> dict | None:
         """Returns all Submodel Descriptors for a specific Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :return: Submodel Descriptors data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
+
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -338,16 +359,19 @@ class ShellRegistryImplementation(BaseModel):
     def post_submodel_descriptor_through_superpath(self, aas_identifier: str, request_body: dict) -> dict | None:
         """Creates a new Submodel Descriptor, i.e. registers a submodel.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id
+        :param aas_identifier: The Asset Administration Shells unique id
         :param request_body: Asset Administration Shell Descriptor object
         :return: Created Asset Administration Shell Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
+
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -372,12 +396,12 @@ class ShellRegistryImplementation(BaseModel):
         :param request_body:query as a dictionary
         :return: Search results as a dictionary or None if an error occurred
         """
-        url = f"{self._base_url}/search"
+        url = f"{self._client.base_url}/search"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -397,12 +421,12 @@ class ShellRegistryImplementation(BaseModel):
 
         :return: self-describing information of a network resource
         """
-        url = f"{self._base_url}/description"
+        url = f"{self._client.base_url}/description"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -415,19 +439,3 @@ class ShellRegistryImplementation(BaseModel):
 
         content = response.content.decode("utf-8")
         return json.loads(content)
-
-    def _set_token(self) -> str | None:
-        """Set authentication token in session headers based on configured authentication method.
-
-        :raises requests.exceptions.RequestException: If token retrieval fails
-        """
-        if self._auth_method != AuthMethod.o_auth:
-            return None
-
-        token = get_token(self._o_auth_settings).strip()
-
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
-
-        return None

@@ -2,16 +2,19 @@
 
 import json
 import logging
+from typing import TYPE_CHECKING
 
 import requests
 from pydantic import BaseModel
 
-from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
-from aas_http_client.classes.Configuration.config_classes import OAuth
+if TYPE_CHECKING:
+    from aas_http_client.classes.client.aas_client import AasHttpClient
+
+
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
-    STATUS_CODE_202,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response_errors,
@@ -23,14 +26,9 @@ logger = logging.getLogger(__name__)
 class SubmodelRegistryImplementation(BaseModel):
     """Implementation of Submodel Registry related API calls."""
 
-    def __init__(self, session: requests.Session, base_url: str, time_out: int, auth_method: AuthMethod, o_auth_settings: OAuth, encoded_ids: bool):
-        """Initializes the SubmodelRegistryImplementation with the given parameters."""
-        self._session = session
-        self._base_url = base_url
-        self._time_out = time_out
-        self._encoded_ids = encoded_ids
-        self._auth_method = auth_method
-        self._o_auth_settings = o_auth_settings
+    def __init__(self, client: "AasHttpClient"):
+        """Initializes the SubmodelRegistryImplementation with the given client."""
+        self._client = client
 
     # GET /submodel-descriptors/{submodelIdentifier}
     def get_submodel_descriptor_by_id(self, submodel_identifier: str) -> dict | None:
@@ -39,12 +37,15 @@ class SubmodelRegistryImplementation(BaseModel):
         :param submodel_identifier: The unique identifier of the Submodel Descriptor
         :return: Submodel Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -70,12 +71,15 @@ class SubmodelRegistryImplementation(BaseModel):
         :param request_body: Submodel Descriptor object
         :return: Updated Submodel Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -99,12 +103,15 @@ class SubmodelRegistryImplementation(BaseModel):
         :param submodel_identifier: The unique identifier of the Submodel Descriptor
         :return: True if deletion was successful, False otherwise
         """
-        url = f"{self._base_url}/submodel-descriptors/{submodel_identifier}"
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        self._set_token()
+        url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
+
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -129,7 +136,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: Submodel Descriptors data or None if an error occurred
         """
-        url = f"{self._base_url}/submodel-descriptors"
+        url = f"{self._client.base_url}/submodel-descriptors"
 
         params = {}
         if limit:
@@ -137,10 +144,10 @@ class SubmodelRegistryImplementation(BaseModel):
         if cursor:
             params["cursor"] = cursor
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -161,12 +168,12 @@ class SubmodelRegistryImplementation(BaseModel):
         :param request_body: Submodel Descriptor object
         :return: Created Submodel Descriptor data or None if an error occurred
         """
-        url = f"{self._base_url}/submodel-descriptors"
+        url = f"{self._client.base_url}/submodel-descriptors"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -186,12 +193,12 @@ class SubmodelRegistryImplementation(BaseModel):
 
         :return: True if deletion was successful, False otherwise
         """
-        url = f"{self._base_url}/submodel-descriptors"
+        url = f"{self._client.base_url}/submodel-descriptors"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -210,12 +217,12 @@ class SubmodelRegistryImplementation(BaseModel):
 
         :return: self-describing information of a network resource
         """
-        url = f"{self._base_url}/description"
+        url = f"{self._client.base_url}/description"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -228,19 +235,3 @@ class SubmodelRegistryImplementation(BaseModel):
 
         content = response.content.decode("utf-8")
         return json.loads(content)
-
-    def _set_token(self) -> str | None:
-        """Set authentication token in session headers based on configured authentication method.
-
-        :raises requests.exceptions.RequestException: If token retrieval fails
-        """
-        if self._auth_method != AuthMethod.o_auth:
-            return None
-
-        token = get_token(self._o_auth_settings).strip()
-
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
-
-        return None
