@@ -32,8 +32,6 @@ def client() -> AasHttpClient:
         if (rand % 2) == 0:
             client.encoded_ids = True
 
-        client.encoded_ids = True
-
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
