@@ -1,8 +1,14 @@
+"""Implementation of Submodel related API calls."""
+
 import json
 import logging
+from typing import TYPE_CHECKING
 
 import requests
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from aas_http_client.classes.client.aas_client import AasHttpClient
 
 from aas_http_client.classes.client.implementations import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import OAuth
@@ -21,14 +27,9 @@ logger = logging.getLogger(__name__)
 class SmImplementation(BaseModel):
     """Implementation of Submodel related API calls."""
 
-    def __init__(self, session: requests.Session, base_url: str, time_out: int, auth_method: AuthMethod, o_auth_settings: OAuth, encoded_ids: bool):
+    def __init__(self, client: "AasHttpClient"):
         """Initializes the SmImplementation with the given parameters."""
-        self._session = session
-        self._base_url = base_url
-        self._time_out = time_out
-        self._encoded_ids = encoded_ids
-        self._auth_method = auth_method
-        self._o_auth_settings = o_auth_settings
+        self._client = client
 
     # GET /submodels/{submodelIdentifier}
     def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
@@ -39,10 +40,10 @@ class SmImplementation(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
         params = {}
         if level:
@@ -50,10 +51,10 @@ class SmImplementation(BaseModel):
         if extent:
             params["extent"] = extent
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -79,15 +80,15 @@ class SmImplementation(BaseModel):
         :param request_body: Json data of the Submodel to update
         :return: True if the update was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -111,15 +112,15 @@ class SmImplementation(BaseModel):
         :param submodel_identifier: The Submodel’s unique id
         :return: True if the deletion was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -148,10 +149,10 @@ class SmImplementation(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         params = {}
         if level:
@@ -159,10 +160,10 @@ class SmImplementation(BaseModel):
         if extent:
             params["extent"] = extent
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -195,10 +196,10 @@ class SmImplementation(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         params = {}
         if level:
@@ -206,10 +207,10 @@ class SmImplementation(BaseModel):
         if extent:
             params["extent"] = extent
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, params=params, timeout=self._time_out)
+            response = self._client._session.post(url, json=request_body, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -235,14 +236,14 @@ class SmImplementation(BaseModel):
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if the deletion was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
-        self._set_token()
+        self._client.set_token()
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -273,7 +274,7 @@ class SmImplementation(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel data or None if an error occurred
         """
-        url = f"{self._base_url}/submodels"
+        url = f"{self._client.base_url}/submodels"
 
         params = {}
         if semantic_id:
@@ -289,10 +290,10 @@ class SmImplementation(BaseModel):
         if extent:
             params["extent"] = extent
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -313,12 +314,12 @@ class SmImplementation(BaseModel):
         :param request_body: Json data of the Submodel to post
         :return: Submodel data or None if an error occurred
         """
-        url = f"{self._base_url}/submodels"
+        url = f"{self._client.base_url}/submodels"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -345,10 +346,10 @@ class SmImplementation(BaseModel):
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel element data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
         params = {}
         if limit:
@@ -360,10 +361,10 @@ class SmImplementation(BaseModel):
         if extent:
             params["extent"] = extent
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, params=params, timeout=self._time_out)
+            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -385,15 +386,15 @@ class SmImplementation(BaseModel):
         :param request_body: Data for the new Submodel element
         :return: Submodel element data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -422,19 +423,19 @@ class SmImplementation(BaseModel):
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
         :return: True if the patch was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
 
         params = {}
         if level:
             params["level"] = level
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.patch(url, json=value, params=params, timeout=self._time_out)
+            response = self._client._session.patch(url, json=value, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -464,15 +465,15 @@ class SmImplementation(BaseModel):
         :param submodel_identifier: The Submodel’s unique id
         :return: True if the patch was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.patch(url, json=submodel_data, timeout=self._time_out)
+            response = self._client._session.patch(url, json=submodel_data, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -488,19 +489,3 @@ class SmImplementation(BaseModel):
             return False
 
         return True
-
-    def _set_token(self) -> str | None:
-        """Set authentication token in session headers based on configured authentication method.
-
-        :raises requests.exceptions.RequestException: If token retrieval fails
-        """
-        if self._auth_method != AuthMethod.o_auth:
-            return None
-
-        token = get_token(self._o_auth_settings).strip()
-
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
-
-        return None

@@ -10,8 +10,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
-from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
-from aas_http_client.classes.Configuration.config_classes import OAuth
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -37,6 +36,9 @@ class ShellRegistryImplementation(BaseModel):
         :aas_identifier: The Asset Administration Shell’s unique id
         :return: Asset Administration Shell Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
         self._client.set_token()
@@ -68,6 +70,9 @@ class ShellRegistryImplementation(BaseModel):
         :param request_body: Asset Administration Shell Descriptor object
         :return: Created or updated Asset Administration Shell Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
         self._client.set_token()
@@ -97,6 +102,9 @@ class ShellRegistryImplementation(BaseModel):
         :param aas_identifier: The Asset Administration Shell’s unique id
         :return: True if deletion was successful, False otherwise
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
         self._client.set_token()
@@ -127,6 +135,10 @@ class ShellRegistryImplementation(BaseModel):
         :submodel_identifier: The Submodel’s unique id
         :return: Submodel Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
@@ -159,6 +171,10 @@ class ShellRegistryImplementation(BaseModel):
         :request_body: Submodel Descriptor object
         :return: True if creation or update was successful, False otherwise
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
@@ -189,6 +205,10 @@ class ShellRegistryImplementation(BaseModel):
         :submodel_identifier: The Submodel’s unique id
         :return: True if deletion was successful, False otherwise
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
@@ -309,6 +329,9 @@ class ShellRegistryImplementation(BaseModel):
         :param aas_identifier: The Asset Administration Shell’s unique id
         :return: Submodel Descriptors data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 
         self._client.set_token()
@@ -340,6 +363,9 @@ class ShellRegistryImplementation(BaseModel):
         :param request_body: Asset Administration Shell Descriptor object
         :return: Created Asset Administration Shell Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 
         self._client.set_token()

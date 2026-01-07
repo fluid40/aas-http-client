@@ -11,8 +11,7 @@ if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
 
-from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
-from aas_http_client.classes.Configuration.config_classes import OAuth
+from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -38,6 +37,9 @@ class SubmodelRegistryImplementation(BaseModel):
         :param submodel_identifier: The unique identifier of the Submodel Descriptor
         :return: Submodel Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
@@ -69,6 +71,9 @@ class SubmodelRegistryImplementation(BaseModel):
         :param request_body: Submodel Descriptor object
         :return: Updated Submodel Descriptor data or None if an error occurred
         """
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
@@ -98,6 +103,9 @@ class SubmodelRegistryImplementation(BaseModel):
         :param submodel_identifier: The unique identifier of the Submodel Descriptor
         :return: True if deletion was successful, False otherwise
         """
+        if not self._client.encoded_ids:
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()

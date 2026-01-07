@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 STATUS_CODE_200 = 200
 STATUS_CODE_201 = 201
-STATUS_CODE_202 = 202
 STATUS_CODE_204 = 204
 STATUS_CODE_404 = 404
 
