@@ -17,6 +17,7 @@ from aas_http_client.classes.client.implementations import (
     ShellRegistryImplementation,
     SmImplementation,
     SubmodelRegistryImplementation,
+    TokenData,
     get_token,
 )
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
@@ -48,6 +49,7 @@ class AasHttpClient(BaseModel):
     shell_registry: ShellRegistryImplementation = Field(default=None)
     experimental: ExperimentalImplementation = Field(default=None)
     submodel_registry: SubmodelRegistryImplementation = Field(default=None)
+    _cached_token: TokenData | None = PrivateAttr(default=None)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -146,11 +148,20 @@ class AasHttpClient(BaseModel):
         if self._auth_method != AuthMethod.o_auth:
             return None
 
+        now = time.time()
+        # Check if cached token exists and is not expired
+        if self._cached_token and self._cached_token.token_expiry > now:
+            return self._cached_token.access_token
+
+        # Obtain new token
         token_data = get_token(self.auth_settings.o_auth)
 
         if token_data and token_data.access_token:
-            self._session.headers.update({"Authorization": f"Bearer {token_data.access_token}"})
-            return token_data.access_token
+            # Cache the token data
+            self._cached_token = token_data
+            # Update session headers with the new token
+            self._session.headers.update({"Authorization": f"Bearer {self._cached_token.access_token}"})
+            return self._cached_token.access_token
 
         return None
 

@@ -2,6 +2,7 @@
 
 import json
 import logging
+import time
 from enum import Enum
 
 import requests
@@ -28,11 +29,11 @@ class AuthMethod(Enum):
 class TokenData:
     """Holds token data."""
 
-    def __init__(self, access_token: str, token_type: str, expires_in: int):
+    def __init__(self, access_token: str, token_type: str, token_expiry: float):
         """Initializes the TokenData with the given parameters."""
-        self.access_token = access_token
-        self.token_type = token_type
-        self.expires_in = expires_in
+        self.access_token: str = access_token
+        self.token_type: str = token_type
+        self.token_expiry: float = token_expiry
 
 
 def get_token(o_auth_configuration: OAuth) -> TokenData | None:
@@ -120,4 +121,14 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
         logger.error("No data in token response")
         return None
 
-    return TokenData(data.get("access_token", "").strip(), data.get("token_type", ""), data.get("expires_in", 0))
+    access_token: str = data.get("access_token", "").strip()
+    expires_in: int = data.get("expires_in", 0)
+    if not access_token or not expires_in:
+        logger.error("Invalid token data in response")
+        return None
+
+    token_type: str = data.get("token_type", "").strip()
+    now: float = time.time()
+    token_expiry: float = now + int(expires_in) - 60  # Subtract 60 seconds as buffer
+
+    return TokenData(access_token=access_token, token_type=token_type, token_expiry=token_expiry)
