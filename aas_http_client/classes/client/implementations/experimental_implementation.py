@@ -96,7 +96,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
-            if response.status_code not in (200, 201, 204):
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
                 log_response_errors(response)
                 return False
 
@@ -139,7 +139,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
-            if response.status_code not in (200, 201, 204):
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
                 log_response_errors(response)
                 return False
 
@@ -172,7 +172,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
-            if response.status_code not in (200, 202, 204):
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
                 log_response_errors(response)
                 return False
 
