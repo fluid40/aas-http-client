@@ -5,10 +5,11 @@ import logging
 from typing import TYPE_CHECKING
 
 import requests
+from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
-from pydantic import BaseModel
+
 
 from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
 from aas_http_client.classes.Configuration.config_classes import OAuth

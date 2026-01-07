@@ -1,16 +1,19 @@
+"""Implementation of Asset Administration Shell related API calls."""
+
 import json
 import logging
+from typing import TYPE_CHECKING
 
 import requests
 from pydantic import BaseModel
 
-from aas_http_client.classes.client.implementations.authentication import AuthMethod, get_token
-from aas_http_client.classes.Configuration.config_classes import OAuth
+if TYPE_CHECKING:
+    from aas_http_client.classes.client.aas_client import AasHttpClient
+
 from aas_http_client.utilities.encoder import decode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
-    STATUS_CODE_202,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response_errors,
@@ -22,14 +25,9 @@ logger = logging.getLogger(__name__)
 class ShellImplementation(BaseModel):
     """Implementation of Asset Administration Shell related API calls."""
 
-    def __init__(self, session: requests.Session, base_url: str, time_out: int, auth_method: AuthMethod, o_auth_settings: OAuth, encoded_ids: bool):
+    def __init__(self, client: "AasHttpClient"):
         """Initializes the ShellImplementation with the given parameters."""
-        self._session = session
-        self._base_url = base_url
-        self._time_out = time_out
-        self._encoded_ids = encoded_ids
-        self._auth_method = auth_method
-        self._o_auth_settings = o_auth_settings
+        self._client = client
 
     # GET /shells/{aasIdentifier}
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
@@ -38,15 +36,15 @@ class ShellImplementation(BaseModel):
         :param aas_identifier: The Asset Administration Shell’s unique id
         :return: Asset Administration Shells data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}"
+        url = f"{self._client.base_url}/shells/{aas_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -72,15 +70,15 @@ class ShellImplementation(BaseModel):
         :param request_body: Json data of the Asset Administration Shell data to put
         :return: True if the update was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}"
+        url = f"{self._client.base_url}/shells/{aas_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -104,15 +102,15 @@ class ShellImplementation(BaseModel):
         :param aas_identifier: The Asset Administration Shell’s unique id
         :return: True if the deletion was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}"
+        url = f"{self._client.base_url}/shells/{aas_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.delete(url, timeout=self._time_out)
+            response = self._client._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -147,7 +145,7 @@ class ShellImplementation(BaseModel):
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells data or None if an error occurred
         """
-        url = f"{self._base_url}/shells"
+        url = f"{self._client.base_url}/shells"
 
         # Build query parameters
         if asset_ids is None:
@@ -163,10 +161,10 @@ class ShellImplementation(BaseModel):
         if cursor:
             params["cursor"] = cursor
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out, params=params)
+            response = self._client._session.get(url, timeout=self._client.time_out, params=params)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -187,13 +185,12 @@ class ShellImplementation(BaseModel):
         :param request_body: Json data of the Asset Administration Shell to post
         :return: Response data as a dictionary or None if an error occurred
         """
-        url = f"{self._base_url}/shells"
-        logger.debug(f"Call REST API url '{url}'")
+        url = f"{self._client.base_url}/shells"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.post(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -222,16 +219,16 @@ class ShellImplementation(BaseModel):
         :param request_body: Json data to the Submodel to put
         :return: True if the update was successful, False otherwise
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.put(url, json=request_body, timeout=self._time_out)
+            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -255,15 +252,15 @@ class ShellImplementation(BaseModel):
         :param aas_identifier: ID of the AAS reference to retrieve
         :return: Asset Administration Shells reference data or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}/$reference"
+        url = f"{self._client.base_url}/shells/{aas_identifier}/$reference"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -289,16 +286,16 @@ class ShellImplementation(BaseModel):
         :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel object or None if an error occurred
         """
-        if not self._encoded_ids:
+        if not self._client.encoded_ids:
             aas_identifier: str = decode_base_64(aas_identifier)
             submodel_identifier: str = decode_base_64(submodel_identifier)
 
-        url = f"{self._base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
+        url = f"{self._client.base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
-        self._set_token()
+        self._client.set_token()
 
         try:
-            response = self._session.get(url, timeout=self._time_out)
+            response = self._client._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -315,19 +312,3 @@ class ShellImplementation(BaseModel):
 
         content = response.content.decode("utf-8")
         return json.loads(content)
-
-    def _set_token(self) -> str | None:
-        """Set authentication token in session headers based on configured authentication method.
-
-        :raises requests.exceptions.RequestException: If token retrieval fails
-        """
-        if self._auth_method != AuthMethod.o_auth:
-            return None
-
-        token = get_token(self._o_auth_settings).strip()
-
-        if token:
-            self._session.headers.update({"Authorization": f"Bearer {token}"})
-            return token
-
-        return None

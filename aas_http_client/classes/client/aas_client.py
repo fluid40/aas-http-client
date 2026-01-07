@@ -74,7 +74,7 @@ class AasHttpClient(BaseModel):
             }
         )
 
-        self.shell = ShellImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
+        self.shell = ShellImplementation(self)
         self.submodel = SmImplementation(self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids)
         self.shell_registry = ShellRegistryImplementation(
             self._session, self.base_url, self.time_out, self._auth_method, self.auth_settings.o_auth, self.encoded_ids

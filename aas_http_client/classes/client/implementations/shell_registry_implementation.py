@@ -11,7 +11,6 @@ from aas_http_client.classes.Configuration.config_classes import OAuth
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
-    STATUS_CODE_202,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response_errors,
