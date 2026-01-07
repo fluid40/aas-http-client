@@ -54,7 +54,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -88,7 +88,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.put(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -120,7 +120,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.delete(url, timeout=self._client.time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -163,7 +163,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -210,7 +210,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.post(url, json=request_body, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().post(url, json=request_body, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -243,7 +243,7 @@ class SmImplementation(BaseModel):
 
         self._client.set_token()
         try:
-            response = self._client._session.delete(url, timeout=self._client.time_out)
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -293,7 +293,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -319,7 +319,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -364,7 +364,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.get(url, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -394,7 +394,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.post(url, json=request_body, timeout=self._client.time_out)
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -435,7 +435,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.patch(url, json=value, params=params, timeout=self._client.time_out)
+            response = self._client.get_session().patch(url, json=value, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -473,7 +473,7 @@ class SmImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client._session.patch(url, json=submodel_data, timeout=self._client.time_out)
+            response = self._client.get_session().patch(url, json=submodel_data, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:

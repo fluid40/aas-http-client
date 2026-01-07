@@ -80,6 +80,13 @@ class AasHttpClient(BaseModel):
         self.submodel_registry = SubmodelRegistryImplementation(self)
         self.experimental = ExperimentalImplementation(self)
 
+    def get_session(self) -> Session:
+        """Get the HTTP session used by the client.
+
+        :return: The requests.Session object used for HTTP communication
+        """
+        return self._session
+
     def _handle_auth_method(self):
         """Handles the authentication method based on the provided settings."""
         if self.auth_settings.bearer_auth.is_active():

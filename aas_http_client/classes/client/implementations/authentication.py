@@ -119,20 +119,3 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
         return None
 
     return TokenData(data.get("access_token", "").strip(), data.get("token_type", ""), data.get("expires_in", 0))
-
-
-def set_token(self, session) -> str | None:
-    """Set authentication token in session headers based on configured authentication method.
-
-    :return: The access token if set, otherwise None
-    """
-    if self._auth_method != AuthMethod.o_auth:
-        return None
-
-    token_data = get_token(self.auth_settings.o_auth)
-
-    if token_data and token_data.access_token:
-        self._session.headers.update({"Authorization": f"Bearer {token_data.access_token}"})
-        return token_data.access_token
-
-    return None
