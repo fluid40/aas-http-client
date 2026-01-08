@@ -252,7 +252,7 @@ class ShellImplementation(BaseModel):
         """Returns all Asset Administration Shells.
 
         :param assetIds: A list of specific Asset identifiers (format: {"identifier": "string",  "encodedIdentifier": "string"})
-        :param idShort: The Asset Administration Shell's IdShort
+        :param idShort: The Asset Administration Shells IdShort
         :param limit: The maximum number of elements in the response array
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells data or None if an error occurred
@@ -317,7 +317,82 @@ class ShellImplementation(BaseModel):
         return json.loads(content)
 
     # GET /shells/{aasIdentifier}/submodel-refs
+    def get_all_submodel_references_aas_repository(self, aas_identifier: str, limit: int = 100, cursor: str = "") -> dict | None:
+        """Returns all submodel references.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :return: List of Submodel references or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs"
+
+        params = {}
+        if limit:
+            params["limit"] = limit
+        if cursor:
+            params["cursor"] = cursor
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().get(url, timeout=self._client.time_out, params=params)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # POST /shells/{aasIdentifier}/submodel-refs
+    def post_submodel_reference_aas_repository(self, aas_identifier: str, request_body: dict) -> dict | None:
+        """Creates a submodel reference at the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param request_body: Reference to the Submodel
+        :return: Response data as a dictionary or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs"
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_201:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
 
     # not supported by Java Server
