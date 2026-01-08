@@ -9,7 +9,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from aas_http_client.classes.Configuration.config_classes import OAuth
-from aas_http_client.utilities.http_helper import log_response_errors
+from aas_http_client.utilities.http_helper import log_response
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +102,7 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
         logger.debug(f"Call REST API url '{response.url}'")
 
         if response.status_code != 200:
-            log_response_errors(response)
+            log_response(response)
             return None
 
     except requests.exceptions.RequestException as e:

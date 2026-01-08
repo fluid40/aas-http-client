@@ -17,7 +17,7 @@ from aas_http_client.utilities.http_helper import (
     STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
-    log_response_errors,
+    log_response,
 )
 
 logger = logging.getLogger(__name__)
@@ -50,11 +50,12 @@ class ExperimentalImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.warning(f"Submodel element with IDShort path '{id_short_path}' or file content not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -94,10 +95,11 @@ class ExperimentalImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.debug(response.text)
                 return False
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:
@@ -137,10 +139,11 @@ class ExperimentalImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.debug(response.text)
                 return False
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:
@@ -173,7 +176,7 @@ class ExperimentalImplementation(BaseModel):
                 return False
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:

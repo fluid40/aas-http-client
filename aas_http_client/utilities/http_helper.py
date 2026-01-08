@@ -13,7 +13,7 @@ STATUS_CODE_204 = 204
 STATUS_CODE_404 = 404
 
 
-def log_response_errors(response: Response, log_level: int = logging.ERROR):  # noqa: C901, PLR0912
+def log_response(response: Response, log_level: int = logging.ERROR):  # noqa: C901, PLR0912
     """Extracts and logs error messages from an HTTP response.
 
     This method parses the response content for error details, messages, or error fields,
@@ -60,3 +60,5 @@ def log_response_errors(response: Response, log_level: int = logging.ERROR):  # 
     logger.log(log_level, f"Status code: {response.status_code}")
     for result_error_message in result_error_messages:
         logger.log(log_level, result_error_message)
+
+    logger.debug(f"Full response content: {response.content}")

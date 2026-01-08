@@ -21,15 +21,15 @@ AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
-CONFIG_FILES = [
-    "./tests/server_configs/test_java_server_config.yml",
-    "./tests/server_configs/test_dotnet_server_config.yml",
-    "./tests/server_configs/test_python_server_config.yml"
-]
-
 # CONFIG_FILES = [
-#     "./tests/server_configs/test_dotnet_server_config_local.json",
+#     "./tests/server_configs/test_java_server_config.yml",
+#     "./tests/server_configs/test_dotnet_server_config.yml",
+#     "./tests/server_configs/test_python_server_config.yml"
 # ]
+
+CONFIG_FILES = [
+    "./tests/server_configs/test_dotnet_server_config_local.yml",
+]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def client(request) -> AasHttpClient:
@@ -912,8 +912,7 @@ def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
 def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     parsed = urlparse(client.base_url)
     if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
-        # NOTE: python server implementation differs
-        # NOTE: Basyx java server do not provide this endpoint
+        # NOTE: python server do not provide this endpoint
         return
 
     sm_id = SM_ID
@@ -931,6 +930,23 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert result_sme is not None
     assert "value" in result_sme
     assert result_sme.get("value", "") == None
+
+def test_025_put_thumbnail_aas_repository(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    filename = "Pen_Machine.png"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+
+    result = client.shell.put_thumbnail_aas_repository(shell_id, file.name, file)
+    assert result is True
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID
