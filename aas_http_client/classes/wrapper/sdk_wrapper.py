@@ -265,7 +265,7 @@ class SdkWrapper:
     def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, submodel: model.Submodel) -> bool:
         """Updates the Submodel.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :param submodel_identifier: ID of the submodel to put
         :param submodel: Submodel to put
         :return: True if the update was successful, False otherwise
@@ -499,7 +499,7 @@ class SdkWrapper:
     def experimental_get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> Attachment | None:
         """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: Attachment object with file content as bytes (octet-stream) or None if an error occurred
         """
@@ -525,7 +525,7 @@ class SdkWrapper:
     def experimental_post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -535,7 +535,7 @@ class SdkWrapper:
     def experimental_put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -545,7 +545,7 @@ class SdkWrapper:
     def experimental_delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if deletion was successful, False otherwise
         """
