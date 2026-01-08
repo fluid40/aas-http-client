@@ -1,8 +1,10 @@
 {
-  "base_url": "http://host.docker.internal:5088/",
-  "time_out": 10,
-  "https_proxy": null,
-  "http_proxy": null,
-  "connection_time_out": 10,
-  "trust_env": false
+	"BaseUrl": "http://host.docker.internal:5088/",
+	"HttpsProxy": null,
+	"HttpProxy": null,
+	"TimeOut": 20,
+	"ConnectionTimeOut": 10,
+	"SslVerify": true,
+	"TrustEnv": true,
+	"EncodedIds": false
 }

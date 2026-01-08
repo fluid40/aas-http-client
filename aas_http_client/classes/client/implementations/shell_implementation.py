@@ -2,6 +2,8 @@
 
 import json
 import logging
+import mimetypes
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import requests
@@ -16,7 +18,7 @@ from aas_http_client.utilities.http_helper import (
     STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
-    log_response_errors,
+    log_response,
 )
 
 logger = logging.getLogger(__name__)
@@ -49,10 +51,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -83,10 +86,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code is not STATUS_CODE_204:
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:
@@ -115,10 +119,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:
@@ -127,11 +132,118 @@ class ShellImplementation(BaseModel):
 
         return True
 
-    # GET /shells/{aasIdentifier}
-    # PUT /shells/{aasIdentifier}
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    def get_thumbnail_aas_repository(self, aas_identifier: str) -> bytes | None:
+        """Returns the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :return: Thumbnail file data as bytes (octet-stream) or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        return response.content
+
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:
+        """Creates or updates the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param file_name: The name of the thumbnail file
+        :param file: Path to the thumbnail file to upload as attachment
+        :return: True if the update was successful, False otherwise
+        """
+        if file.exists() is False or not file.is_file():
+            logger.error(f"Attachment file '{file}' does not exist.")
+            return False
+
+        if not self._client.encoded_ids:
+            aas_identifier = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
+
+        params = {"fileName": file_name}
+
+        self._client.set_token()
+
+        try:
+            mime_type, _ = mimetypes.guess_type(file)
+
+            with file.open("rb") as f:
+                files = {"file": (file.name, f, mime_type or "application/octet-stream")}
+                response = self._client.get_session().put(url, files=files, params=params, timeout=self._client.time_out)
+
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
+                return False
+
+            # original dotnet server delivers 200 instead of 204
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+    def delete_thumbnail_aas_repository(self, aas_identifier: str) -> bool:
+        """Deletes the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :return: True if the deletion was successful, False otherwise
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                logger.debug(response.text)
+                return False
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
 
     # GET /shells
     def get_all_asset_administration_shells(
@@ -168,7 +280,7 @@ class ShellImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -194,7 +306,7 @@ class ShellImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -233,10 +345,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_204:
-                log_response_errors(response)
+                log_response(response)
                 return False
 
         except requests.exceptions.RequestException as e:
@@ -265,10 +378,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
@@ -300,10 +414,11 @@ class ShellImplementation(BaseModel):
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
-                log_response_errors(response)
+                log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:

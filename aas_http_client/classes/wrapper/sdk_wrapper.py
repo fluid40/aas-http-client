@@ -155,7 +155,7 @@ class SdkWrapper:
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> model.AssetAdministrationShell | None:
         """Returns a specific Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: Asset Administration Shells or None if an error occurred
         """
         content: dict = self._client.shell.get_asset_administration_shell_by_id(aas_identifier)
@@ -170,7 +170,7 @@ class SdkWrapper:
     def put_asset_administration_shell_by_id(self, aas_identifier: str, aas: model.AssetAdministrationShell) -> bool:
         """Creates or replaces an existing Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :param aas: Asset Administration Shell to put
         :return: True if the update was successful, False otherwise
         """
@@ -181,16 +181,49 @@ class SdkWrapper:
     def delete_asset_administration_shell_by_id(self, aas_identifier: str) -> bool:
         """Deletes an Asset Administration Shell.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: True if the deletion was successful, False otherwise
         """
         return self._client.shell.delete_asset_administration_shell_by_id(aas_identifier)
 
-    # GET /shells/{aasIdentifier}
-    # PUT /shells/{aasIdentifier}
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    def get_thumbnail_aas_repository(self, aas_identifier: str) -> Attachment | None:
+        """Downloads the thumbnail of a specific Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
+        :return: Attachment object with thumbnail content as bytes (octet-stream) or None if an error occurred
+        """
+        byte_content = self._client.shell.get_thumbnail_aas_repository(aas_identifier)
+
+        if not byte_content:
+            logger.warning(f"No thumbnail found for AAS with ID '{aas_identifier}' on server.")
+            return None
+
+        return Attachment(
+            content=byte_content,
+            content_type=puremagic.from_string(byte_content, mime=True),
+            filename="thumbnail",
+        )
+
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:
+        """Creates or updates the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param file_name: The name of the thumbnail file
+        :param file: Path to the thumbnail file to upload as attachment
+        :return: True if the update was successful, False otherwise
+        """
+        return self._client.shell.put_thumbnail_aas_repository(aas_identifier, file_name, file)
+
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
+    def delete_thumbnail_aas_repository(self, aas_identifier: str) -> bool:
+        """Deletes the thumbnail of a specific Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
+        :return: True if the deletion was successful, False otherwise
+        """
+        return self._client.shell.delete_thumbnail_aas_repository(aas_identifier)
 
     # GET /shells
     def get_all_asset_administration_shells(
@@ -232,7 +265,7 @@ class SdkWrapper:
     def put_submodel_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str, submodel: model.Submodel) -> bool:
         """Updates the Submodel.
 
-        :param aas_identifier: The Asset Administration Shell’s unique id (decoded)
+        :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :param submodel_identifier: ID of the submodel to put
         :param submodel: Submodel to put
         :return: True if the update was successful, False otherwise
@@ -466,7 +499,7 @@ class SdkWrapper:
     def experimental_get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> Attachment | None:
         """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: Attachment object with file content as bytes (octet-stream) or None if an error occurred
         """
@@ -492,7 +525,7 @@ class SdkWrapper:
     def experimental_post_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -502,7 +535,7 @@ class SdkWrapper:
     def experimental_put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
@@ -512,7 +545,7 @@ class SdkWrapper:
     def experimental_delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
-        :param submodel_identifier: The Submodel’s unique id
+        :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if deletion was successful, False otherwise
         """
