@@ -100,6 +100,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.debug(response.text)
                 return False
 
+            # original dotnet server delivers 200 instead of 204
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
                 log_response(response)
                 return False
@@ -144,6 +145,7 @@ class ExperimentalImplementation(BaseModel):
                 logger.debug(response.text)
                 return False
 
+            # original dotnet server delivers 200 instead of 204
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
                 log_response(response)
                 return False

@@ -21,15 +21,15 @@ AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
-# CONFIG_FILES = [
-#     "./tests/server_configs/test_java_server_config.yml",
-#     "./tests/server_configs/test_dotnet_server_config.yml",
-#     "./tests/server_configs/test_python_server_config.yml"
-# ]
-
 CONFIG_FILES = [
-    "./tests/server_configs/test_dotnet_server_config_local.yml",
+    "./tests/server_configs/test_java_server_config.yml",
+    "./tests/server_configs/test_dotnet_server_config.yml",
+    "./tests/server_configs/test_python_server_config.yml"
 ]
+
+# CONFIG_FILES = [
+#     "./tests/server_configs/test_dotnet_server_config_local.yml",
+# ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def client(request) -> AasHttpClient:
