@@ -168,6 +168,11 @@ def test_003_post_asset_administration_shell(client: AasHttpClient, shared_aas: 
     assert len(shells) == 1
     assert shells[0].get("idShort", "") == shared_aas.id_short
     assert shells[0].get("id", "") == SHELL_ID
+    submodels = shells[0].get("submodels", [])
+    assert len(submodels) == 1
+    submodel: dict = submodels[0]
+    assert len(submodel.get("keys", [])) == 1
+    assert submodel.get("keys", [])[0].get("value", "") == SM_ID
 
 def test_004a_get_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     shell_id = SHELL_ID
@@ -994,6 +999,57 @@ def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
 
     get_result = client.shell.get_thumbnail_aas_repository(shell_id)
     assert get_result is None
+
+def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    assert result is not None
+    shells = result.get("result", [])
+    assert len(shells) == 1
+
+def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    id = "temp_sm_id"
+    id_short = "TempSM"
+    temp_sml_ref = model.ModelReference.from_referable(model_builder.create_base_submodel(identifier=id, id_short=id_short))
+
+    result = client.shell.post_submodel_reference_aas_repository(shell_id, sdk_tools.convert_to_dict(temp_sml_ref))
+
+    assert result is not None
+    assert len(result.get("keys", [])) > 0
+    key: dict = result.get("keys", [])[0]
+    assert key.get("value", "") == id
+    assert key.get("type", "") == "Submodel"
+
+    check_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    assert check_result is not None
+    check_shells = check_result.get("result", [])
+    assert len(check_shells) == 2
+
+def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClient):
+    shell_id = SHELL_ID
+    sm_id = "temp_sm_id"
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+        sm_id = encoder.decode_base_64(sm_id)
+
+    result = client.shell.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
+
+    assert result is True
+
+    get_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    assert get_result is not None
+    shells = get_result.get("result", [])
+    assert len(shells) == 1
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID

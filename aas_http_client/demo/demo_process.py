@@ -16,18 +16,6 @@ logger = logging.getLogger(__name__)
 def start() -> None:
     """Start the demo process."""
 
-    oauth = sdk_wrapper.create_wrapper_by_url(
-        base_url="https://aurora-fluid40.iqstruct-engineering.de/aas-env",
-        o_auth_token_url="https://aurora-fluid40.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
-        o_auth_client_id="workstation-1",
-        o_auth_client_secret="nY0mjyECF60DGzNmQUjL81XurSl8etom",
-        ssl_verify=False,
-    )
-
-    oauth.get_all_asset_administration_shells()
-
-    oauth.get_all_submodels()
-
     # create a submodel element
     wrapper = sdk_wrapper.create_wrapper_by_url(base_url="http://javaaasserver:8075", encoded_ids=False)
     client = wrapper.get_client()

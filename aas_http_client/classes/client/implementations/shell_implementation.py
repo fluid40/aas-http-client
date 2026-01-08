@@ -394,6 +394,39 @@ class ShellImplementation(BaseModel):
         return json.loads(content)
 
     # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
+    def delete_submodel_reference_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> bool:
+        """Deletes the submodel reference from the Asset Administration Shell. Does not delete the submodel itself.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_identifier: The Submodels unique id
+        :return: True if the deletion was successful, False otherwise
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+            submodel_identifier: str = decode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs/{submodel_identifier}"
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code not in (STATUS_CODE_204, STATUS_CODE_200):
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
 
     # not supported by Java Server
 
