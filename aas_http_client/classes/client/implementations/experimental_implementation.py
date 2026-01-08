@@ -36,7 +36,7 @@ class ExperimentalImplementation(BaseModel):
 
         :param submodel_identifier: The Submodels unique id
         :param id_short_path: IdShort path to the submodel element (dot-separated)
-        :return: Attachment data as bytes (octet-stream) or None if an error occurred
+        :return: Attachment file data as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.encoded_ids:
             submodel_identifier = decode_base_64(submodel_identifier)

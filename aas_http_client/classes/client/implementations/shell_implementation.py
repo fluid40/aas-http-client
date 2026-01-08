@@ -133,6 +133,37 @@ class ShellImplementation(BaseModel):
         return True
 
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
+    def get_thumbnail_aas_repository(self, aas_identifier: str) -> bytes | None:
+        """Returns the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :return: Thumbnail file data as bytes (octet-stream) or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            aas_identifier: str = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
+
+        self._client.set_token()
+
+        try:
+            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        return response.content
 
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
     def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:

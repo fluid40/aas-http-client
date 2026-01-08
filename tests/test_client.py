@@ -931,7 +931,21 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert "value" in result_sme
     assert result_sme.get("value", "") == None
 
-def test_025_put_thumbnail_aas_repository(client: AasHttpClient):
+def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = client.shell.get_thumbnail_aas_repository(shell_id)
+    assert result is None
+
+def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
@@ -947,6 +961,22 @@ def test_025_put_thumbnail_aas_repository(client: AasHttpClient):
 
     result = client.shell.put_thumbnail_aas_repository(shell_id, file.name, file)
     assert result is True
+
+def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = client.shell.get_thumbnail_aas_repository(shell_id)
+    assert result is not None
+    assert len(result) > 0
+    assert result.startswith(b"\x89PNG\r\n\x1a\n")
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID
