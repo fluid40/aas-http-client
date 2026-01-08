@@ -50,7 +50,9 @@ class ExperimentalImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' or file content not found.")
+                logger.warning(
+                    f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
+                )
                 logger.debug(response.text)
                 return None
 
@@ -94,11 +96,11 @@ class ExperimentalImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
                 return False
 
-            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
                 log_response(response)
                 return False
 
@@ -138,11 +140,11 @@ class ExperimentalImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
                 return False
 
-            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
                 log_response(response)
                 return False
 
@@ -172,10 +174,10 @@ class ExperimentalImplementation(BaseModel):
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
-                logger.warning(f"Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
-            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+            if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return False
 
