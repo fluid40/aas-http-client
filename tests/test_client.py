@@ -978,6 +978,23 @@ def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
     assert len(result) > 0
     assert result.startswith(b"\x89PNG\r\n\x1a\n")
 
+def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
+    parsed = urlparse(client.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        return
+
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = client.shell.delete_thumbnail_aas_repository(shell_id)
+    assert result is True
+
+    get_result = client.shell.get_thumbnail_aas_repository(shell_id)
+    assert get_result is None
+
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID
 
