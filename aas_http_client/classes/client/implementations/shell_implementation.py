@@ -2,6 +2,8 @@
 
 import json
 import logging
+import mimetypes
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import requests
@@ -127,10 +129,56 @@ class ShellImplementation(BaseModel):
 
         return True
 
-    # GET /shells/{aasIdentifier}
-    # PUT /shells/{aasIdentifier}
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
+
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:
+        """Updates the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param file_name: The name of the thumbnail file
+        :param file: Path to the thumbnail file to upload as attachment
+        :return: True if the update was successful, False otherwise
+        """
+        if file.exists() is False or not file.is_file():
+            logger.error(f"Attachment file '{file}' does not exist.")
+            return False
+
+        if not self._client.encoded_ids:
+            aas_identifier = decode_base_64(aas_identifier)
+
+        url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
+
+        # Build query parameters
+        params = {}
+        if file_name:
+            params["file_name"] = file_name
+
+        self._client.set_token()
+
+        try:
+            mime_type, _ = mimetypes.guess_type(file)
+
+            with file.open("rb") as f:
+                files = {"file": (file.name, f, mime_type or "application/octet-stream")}
+                response = self._client.get_session().post(url, files=files, timeout=self._client.time_out, params=params)
+
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                return None
+
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+                log_response_errors(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
 
     # GET /shells

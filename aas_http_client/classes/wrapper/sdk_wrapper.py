@@ -186,8 +186,6 @@ class SdkWrapper:
         """
         return self._client.shell.delete_asset_administration_shell_by_id(aas_identifier)
 
-    # GET /shells/{aasIdentifier}
-    # PUT /shells/{aasIdentifier}
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
