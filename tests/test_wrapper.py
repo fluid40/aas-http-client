@@ -1,3 +1,4 @@
+from http import client
 import pytest
 from pathlib import Path
 from aas_http_client.classes.wrapper.sdk_wrapper import IdEncoding, Level, create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
@@ -881,6 +882,73 @@ def test_024_delete_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
     result_sme = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, "file_sme")
     assert result_sme is not None
     assert result_sme.value == None
+
+def test_025_get_thumbnail_aas_repository(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = wrapper.get_thumbnail_aas_repository(shell_id)
+    assert result is None
+
+def test_026_put_thumbnail_aas_repository(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    filename = "Pen_Machine.png"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+
+    result = wrapper.put_thumbnail_aas_repository(shell_id, file.name, file)
+    assert result is True
+
+def test_027_get_thumbnail_aas_repository(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = wrapper.get_thumbnail_aas_repository(shell_id)
+    assert result is not None
+
+    assert len(result.content) > 0
+    assert result.content.startswith(b"\x89PNG\r\n\x1a\n")
+    assert result.filename == "thumbnail"
+    assert result.content_type == "image/png"
+
+def test_028_delete_thumbnail_aas_repository(wrapper: SdkWrapper):
+    parsed = urlparse(wrapper.base_url)
+    if int(parsed.port) in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        return
+
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = wrapper.delete_thumbnail_aas_repository(shell_id)
+    assert result is True
+
+    get_result = wrapper.get_thumbnail_aas_repository(shell_id)
+    assert get_result is None
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID

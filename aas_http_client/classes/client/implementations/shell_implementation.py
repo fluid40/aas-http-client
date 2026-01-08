@@ -167,7 +167,7 @@ class ShellImplementation(BaseModel):
 
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
     def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:
-        """Updates the thumbnail of the Asset Administration Shell.
+        """Creates or updates the thumbnail of the Asset Administration Shell.
 
         :param aas_identifier: The Asset Administration Shells unique id
         :param file_name: The name of the thumbnail file
