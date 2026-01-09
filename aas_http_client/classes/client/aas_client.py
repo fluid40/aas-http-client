@@ -13,10 +13,10 @@ from requests.auth import HTTPBasicAuth
 from aas_http_client.classes.client.implementations import (
     AuthMethod,
     ExperimentalImplementation,
-    ShellImplementation,
     ShellRegistryImplementation,
-    SmImplementation,
+    ShellRepoImplementation,
     SubmodelRegistryImplementation,
+    SubmodelRepoImplementation,
     TokenData,
     get_token,
 )
@@ -44,8 +44,8 @@ class AasHttpClient(BaseModel):
     _session: Session = PrivateAttr(default=None)
     _auth_method: AuthMethod = PrivateAttr(default=AuthMethod.basic_auth)
     encoded_ids: bool = Field(default=True, alias="EncodedIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
-    shell: ShellImplementation = Field(default=None)
-    submodel: SmImplementation = Field(default=None)
+    shells: ShellRepoImplementation = Field(default=None)
+    submodels: SubmodelRepoImplementation = Field(default=None)
     shell_registry: ShellRegistryImplementation = Field(default=None)
     experimental: ExperimentalImplementation = Field(default=None)
     submodel_registry: SubmodelRegistryImplementation = Field(default=None)
@@ -76,8 +76,8 @@ class AasHttpClient(BaseModel):
             }
         )
 
-        self.shell = ShellImplementation(self)
-        self.submodel = SmImplementation(self)
+        self.shells = ShellRepoImplementation(self)
+        self.submodels = SubmodelRepoImplementation(self)
         self.shell_registry = ShellRegistryImplementation(self)
         self.submodel_registry = SubmodelRegistryImplementation(self)
         self.experimental = ExperimentalImplementation(self)

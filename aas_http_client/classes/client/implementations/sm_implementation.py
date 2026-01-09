@@ -22,7 +22,7 @@ from aas_http_client.utilities.http_helper import (
 logger = logging.getLogger(__name__)
 
 
-class SmImplementation(BaseModel):
+class SubmodelRepoImplementation(BaseModel):
     """Implementation of Submodel related API calls."""
 
     def __init__(self, client: "AasHttpClient"):

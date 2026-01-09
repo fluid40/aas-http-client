@@ -50,7 +50,7 @@ def client(request) -> AasHttpClient:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
-    shells = client.shell.get_all_asset_administration_shells()
+    shells = client.shells.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
 
@@ -110,7 +110,7 @@ def test_001a_connect(client: AasHttpClient):
     assert client is not None
 
 def test_001b_delete_all_asset_administration_shells(client: AasHttpClient):
-    result = client.shell.get_all_asset_administration_shells()
+    result = client.shells.get_all_asset_administration_shells()
     assert result is not None
     shells = result.get("result", [])
 
@@ -121,15 +121,15 @@ def test_001b_delete_all_asset_administration_shells(client: AasHttpClient):
             shell_id = encoder.decode_base_64(shell_id)
 
         if shell_id:
-            delete_result = client.shell.delete_asset_administration_shell_by_id(shell_id)
+            delete_result = client.shells.delete_asset_administration_shell_by_id(shell_id)
             assert delete_result
 
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
     shells = shells_result.get("result", [])
     assert len(shells) == 0
 
 def test_001c_delete_all_submodels(client: AasHttpClient):
-    result = client.submodel.get_all_submodels()
+    result = client.submodels.get_all_submodels()
     assert result is not None
     submodels = result.get("result", [])
 
@@ -140,15 +140,15 @@ def test_001c_delete_all_submodels(client: AasHttpClient):
             submodel_id = encoder.decode_base_64(submodel_id)
 
         if submodel_id:
-            delete_result = client.submodel.delete_submodel_by_id(submodel_id)
+            delete_result = client.submodels.delete_submodel_by_id(submodel_id)
             assert delete_result
 
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     submodels = submodels_result.get("result", [])
     assert len(submodels) == 0
 
 def test_002_get_all_asset_administration_shells(client: AasHttpClient):
-    result = client.shell.get_all_asset_administration_shells()
+    result = client.shells.get_all_asset_administration_shells()
     assert result is not None
     shells = result.get("result", [])
     assert len(shells) == 0
@@ -156,13 +156,13 @@ def test_002_get_all_asset_administration_shells(client: AasHttpClient):
 def test_003_post_asset_administration_shell(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     aas_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
-    result = client.shell.post_asset_administration_shell(aas_data)
+    result = client.shells.post_asset_administration_shell(aas_data)
 
     assert result is not None
     assert result.get("idShort", "") == shared_aas.id_short
     assert result.get("id", "") == SHELL_ID
 
-    get_result = client.shell.get_all_asset_administration_shells()
+    get_result = client.shells.get_all_asset_administration_shells()
     assert get_result is not None
     shells = get_result.get("result", [])
     assert len(shells) == 1
@@ -180,14 +180,14 @@ def test_004a_get_asset_administration_shell_by_id(client: AasHttpClient, shared
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.get_asset_administration_shell_by_id(shell_id)
+    result = client.shells.get_asset_administration_shell_by_id(shell_id)
 
     assert result is not None
     assert result.get("idShort", "") == shared_aas.id_short
     assert result.get("id", "") == SHELL_ID
 
 def test_004b_get_asset_administration_shell_by_id(client: AasHttpClient):
-    result = client.shell.get_asset_administration_shell_by_id("non_existent_id")
+    result = client.shells.get_asset_administration_shell_by_id("non_existent_id")
 
     assert result is None
 
@@ -207,10 +207,10 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.put_asset_administration_shell_by_id(shell_id, aas_data)
+    result = client.shells.put_asset_administration_shell_by_id(shell_id, aas_data)
     assert result
 
-    get_result = client.shell.get_asset_administration_shell_by_id(shell_id)
+    get_result = client.shells.get_asset_administration_shell_by_id(shell_id)
     assert get_result
     assert get_result.get("idShort", "") == shared_aas.id_short
     assert get_result.get("id", "") == SHELL_ID
@@ -227,7 +227,7 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     # restore to its original state
     sm_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
-    client.shell.put_asset_administration_shell_by_id(shell_id, sm_data)  # Restore original submodel
+    client.shells.put_asset_administration_shell_by_id(shell_id, sm_data)  # Restore original submodel
 
 def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
     # put with other ID
@@ -253,11 +253,11 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
         # NOTE: Python server crashes by this test
         result = False
     else:
-        result = client.shell.put_asset_administration_shell_by_id(shell_id, aas_data)
+        result = client.shells.put_asset_administration_shell_by_id(shell_id, aas_data)
 
     assert not result
 
-    get_result = client.shell.get_asset_administration_shell_by_id(shell_id)
+    get_result = client.shells.get_asset_administration_shell_by_id(shell_id)
 
     assert get_result.get("description", {})[0].get("text", "") != description_text
     assert get_result.get("description", {})[0].get("text", "") == shared_aas.description.get("en", "")
@@ -268,7 +268,7 @@ def test_006_get_asset_administration_shell_by_id_reference_aas_repository(clien
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.get_asset_administration_shell_by_id_reference_aas_repository(shell_id)
+    result = client.shells.get_asset_administration_shell_by_id_reference_aas_repository(shell_id)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in JAVA_SERVER_PORTS:
@@ -288,12 +288,12 @@ def test_007_get_submodel_by_id_aas_repository(client: AasHttpClient):
         shell_id = encoder.decode_base_64(SHELL_ID)
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.shell.get_submodel_by_id_aas_repository(shell_id, sm_id)
+    result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
     assert result is None
 
 def test_008_get_all_submodels(client: AasHttpClient):
-    result = client.submodel.get_all_submodels()
+    result = client.submodels.get_all_submodels()
     assert result is not None
     submodels = result.get("result", [])
     assert len(submodels) == 0
@@ -302,13 +302,13 @@ def test_009a_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
 
-    result = client.submodel.post_submodel(sm_data)
+    result = client.submodels.post_submodel(sm_data)
 
     assert result is not None
     result_id_short = result.get("idShort", "")
     assert result_id_short == shared_sm.id_short
 
-    get_result = client.submodel.get_all_submodels()
+    get_result = client.submodels.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 1
@@ -320,13 +320,13 @@ def test_009b_post_submodel(client: AasHttpClient):
     with Path.open(sm_template_file, "r", encoding="utf-8") as f:
         sm_data = json.load(f)
 
-    result = client.submodel.post_submodel(sm_data)
+    result = client.submodels.post_submodel(sm_data)
 
     assert result is not None
     result_id = result.get("id", "")
     assert result_id == AIMC_SM_ID
 
-    get_result = client.submodel.get_all_submodels()
+    get_result = client.submodels.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 2
@@ -339,7 +339,7 @@ def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
         shell_id = encoder.decode_base_64(SHELL_ID)
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.shell.get_submodel_by_id_aas_repository(shell_id, sm_id)
+    result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in JAVA_SERVER_PORTS:
@@ -356,14 +356,14 @@ def test_011a_get_submodel_by_id(client: AasHttpClient, shared_sm: model.Submode
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.get_submodel_by_id(sm_id)
+    result = client.submodels.get_submodel_by_id(sm_id)
 
     assert result is not None
     result_id_short = result.get("idShort", "")
     assert result_id_short == shared_sm.id_short
 
 def test_011b_get_submodel_by_id(client: AasHttpClient):
-    result = client.submodel.get_submodel_by_id("non_existent_id")
+    result = client.submodels.get_submodel_by_id("non_existent_id")
 
     assert result is None
 
@@ -373,7 +373,7 @@ def test_011c_get_submodel_by_id(client: AasHttpClient):
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(AIMC_SM_ID)
 
-    result = client.submodel.get_submodel_by_id(sm_id)
+    result = client.submodels.get_submodel_by_id(sm_id)
 
     assert result is not None
     result_id = result.get("id", "")
@@ -385,7 +385,7 @@ def test_011d_get_submodel_by_id(client: AasHttpClient):
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(AIMC_SM_ID)
 
-    result = client.submodel.get_submodel_by_id(sm_id, level="core")
+    result = client.submodels.get_submodel_by_id(sm_id, level="core")
 
     assert result is not None
     result_id = result.get("id", "")
@@ -407,7 +407,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.patch_submodel_by_id(sm_id, sm_data)
+    result = client.submodels.patch_submodel_by_id(sm_id, sm_data)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -416,7 +416,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     else:
         assert result is True
 
-        get_result = client.submodel.get_submodel_by_id(sm_id)
+        get_result = client.submodels.get_submodel_by_id(sm_id)
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sm.id_short
         assert get_result.get("id", "") == SM_ID
@@ -443,7 +443,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
         shell_id = encoder.decode_base_64(SHELL_ID)
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.shell.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)
+    result = client.shells.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in JAVA_SERVER_PORTS:
@@ -452,7 +452,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     else:
         assert result
 
-        get_result = client.shell.get_submodel_by_id_aas_repository(shell_id, sm_id)
+        get_result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sm.id_short
         assert get_result.get("id", "") == SM_ID
@@ -464,7 +464,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     # restore to its original state
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
-    client.shell.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)  # Restore original submodel
+    client.shells.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)  # Restore original submodel
 
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submodel):
     sm = model.Submodel(SM_ID)
@@ -481,11 +481,11 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.put_submodels_by_id(sm_id, sm_data)
+    result = client.submodels.put_submodels_by_id(sm_id, sm_data)
 
     assert result is True
 
-    get_result = client.submodel.get_submodel_by_id(sm_id)
+    get_result = client.submodels.get_submodel_by_id(sm_id)
     assert get_result is not None
     assert get_result.get("idShort", "") == shared_sm.id_short
     assert get_result.get("id", "") == SM_ID
@@ -497,7 +497,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     # restore to its original state
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
-    client.submodel.put_submodels_by_id(SM_ID, sm_data)  # Restore original submodel
+    client.submodels.put_submodels_by_id(SM_ID, sm_data)  # Restore original submodel
 
 def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient, shared_sm: model.Submodel):
     sm_id = SM_ID
@@ -505,7 +505,7 @@ def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    submodel_elements = client.submodel.get_all_submodel_elements_submodel_repository(sm_id)
+    submodel_elements = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
     assert submodel_elements is not None
     assert len(submodel_elements.get("result", [])) == 0
@@ -519,7 +519,7 @@ def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.post_submodel_element_submodel_repo(sm_id, sme_data)
+    result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_string.id_short
@@ -527,7 +527,7 @@ def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
     assert result.get("value", "") == shared_sme_string.value
 
-    get_result = client.submodel.get_all_submodel_elements_submodel_repository(sm_id)
+    get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
     assert len(get_result.get("result", [])) == 1
 
@@ -540,7 +540,7 @@ def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.post_submodel_element_submodel_repo(sm_id, sme_data)
+    result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_bool.id_short
@@ -548,7 +548,7 @@ def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
     assert json.loads(result.get("value", "").lower()) == shared_sme_bool.value
 
-    get_result = client.submodel.get_all_submodel_elements_submodel_repository(sm_id)
+    get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
     assert len(get_result.get("result", [])) == 2
 
@@ -561,7 +561,7 @@ def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.post_submodel_element_submodel_repo(sm_id, sme_data)
+    result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_int.id_short
@@ -569,7 +569,7 @@ def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
     assert int(result.get("value", "")) == shared_sme_int.value
 
-    get_result = client.submodel.get_all_submodel_elements_submodel_repository(sm_id)
+    get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
     assert len(get_result.get("result", [])) == 3
 
@@ -582,7 +582,7 @@ def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.post_submodel_element_submodel_repo(sm_id, sme_data)
+    result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_float.id_short
@@ -590,7 +590,7 @@ def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
     assert float(result.get("value", "")) == shared_sme_float.value
 
-    get_result = client.submodel.get_all_submodel_elements_submodel_repository(sm_id)
+    get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
     assert len(get_result.get("result", [])) == 4
 
@@ -600,7 +600,7 @@ def test_017a_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_string.id_short
@@ -614,7 +614,7 @@ def test_017b_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_bool.id_short
@@ -628,7 +628,7 @@ def test_017c_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_int.id_short
@@ -642,7 +642,7 @@ def test_017d_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_float.id_short
@@ -658,7 +658,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
+    result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -667,7 +667,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     else:
         assert result is True
 
-        get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+        get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
 
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_string.id_short
@@ -683,7 +683,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
+    result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -692,7 +692,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     else:
         assert result is True
 
-        get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+        get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
 
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_bool.id_short
@@ -708,7 +708,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
+    result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -717,7 +717,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     else:
         assert result is True
 
-        get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+        get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
 
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_int.id_short
@@ -733,7 +733,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
+    result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -742,7 +742,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     else:
         assert result is True
 
-        get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+        get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
 
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_float.id_short
@@ -759,7 +759,7 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    first_result = client.submodel.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
+    first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
 
     assert first_result is not None
 
@@ -767,12 +767,12 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     property_dict = sdk_tools.convert_to_dict(property)
     del property_dict["idShort"]
 
-    result = client.submodel.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property_dict)
+    result = client.submodels.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property_dict)
 
     assert result is not None
     assert "idShort" not in result  # idShort was deleted
 
-    submodel = client.submodel.get_submodel_by_id(sm_id)
+    submodel = client.submodels.get_submodel_by_id(sm_id)
 
     assert submodel is not None
     elements = submodel.get("submodelElements", [])
@@ -793,19 +793,19 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    first_result = client.submodel.post_submodel_element_submodel_repo(sm_id, submodel_element_collection_dict)
+    first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_collection_dict)
 
     assert first_result is not None
 
     property = model_builder.create_base_submodel_element_property("sme_property_in_collection", model.datatypes.String, "Value in List")
     property_dict = sdk_tools.convert_to_dict(property)
 
-    result = client.submodel.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_collection.id_short, property_dict)
+    result = client.submodels.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_collection.id_short, property_dict)
 
     assert result is not None
     assert result["idShort"] == property.id_short
 
-    submodel = client.submodel.get_submodel_by_id(sm_id)
+    submodel = client.submodels.get_submodel_by_id(sm_id)
 
     assert submodel is not None
     elements = submodel.get("submodelElements", [])
@@ -820,11 +820,11 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     new_client: AasHttpClient = create_client_by_url(base_url=base_url)
     assert new_client is not None
 
-    sm = new_client.submodel.get_submodel_by_id(AIMC_SM_ID)
+    sm = new_client.submodels.get_submodel_by_id(AIMC_SM_ID)
     assert sm is None
 
     decoded_id = encoder.decode_base_64(AIMC_SM_ID)
-    decoded_sm = new_client.submodel.get_submodel_by_id(decoded_id)
+    decoded_sm = new_client.submodels.get_submodel_by_id(decoded_id)
     assert decoded_sm is not None
     assert decoded_sm.get("id", "") == AIMC_SM_ID
 
@@ -833,11 +833,11 @@ def test_020b_encoded_ids(client: AasHttpClient):
     new_client: AasHttpClient = create_client_by_url(base_url=base_url)
     assert new_client is not None
 
-    sm = new_client.shell.get_asset_administration_shell_by_id(SHELL_ID)
+    sm = new_client.shells.get_asset_administration_shell_by_id(SHELL_ID)
     assert sm is None
 
     decoded_id = encoder.decode_base_64(SHELL_ID)
-    decoded_sm = new_client.shell.get_asset_administration_shell_by_id(decoded_id)
+    decoded_sm = new_client.shells.get_asset_administration_shell_by_id(decoded_id)
     assert decoded_sm is not None
     assert decoded_sm.get("id", "") == SHELL_ID
 
@@ -854,7 +854,7 @@ def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
         sm_id = encoder.decode_base_64(SM_ID)
 
     file_sme = model.File("file_sme", content_type="application/pdf")
-    file_post_result = client.submodel.post_submodel_element_submodel_repo(sm_id, sdk_tools.convert_to_dict(file_sme))
+    file_post_result = client.submodels.post_submodel_element_submodel_repo(sm_id, sdk_tools.convert_to_dict(file_sme))
     assert file_post_result is not None
 
     filename = "https.pdf"
@@ -862,7 +862,7 @@ def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
     result = client.experimental.post_file_by_path_submodel_repo(sm_id, file_sme.id_short, file)
     assert result is True
 
-    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, file_sme.id_short)
+    result_sme = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, file_sme.id_short)
 
     assert result_sme is not None
     assert result_sme.get("idShort", "") == file_sme.id_short
@@ -909,7 +909,7 @@ def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert len(get_result) > 0
     assert get_result.startswith(b"{\n")
 
-    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, "file_sme")
+    result_sme = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, "file_sme")
     assert result_sme is not None
     assert "value" in result_sme
     assert result_sme.get("value", "") == f"/{filename}"
@@ -931,7 +931,7 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     get_result = client.experimental.get_file_by_path_submodel_repo(sm_id, "file_sme")
     assert get_result is None
 
-    result_sme = client.submodel.get_submodel_element_by_path_submodel_repo(sm_id, "file_sme")
+    result_sme = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, "file_sme")
     assert result_sme is not None
     assert "value" in result_sme
     assert result_sme.get("value", "") == None
@@ -947,7 +947,7 @@ def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.get_thumbnail_aas_repository(shell_id)
+    result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert result is None
 
 def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
@@ -964,7 +964,7 @@ def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
     filename = "Pen_Machine.png"
     file = Path(f"./tests/test_data/{filename}").resolve()
 
-    result = client.shell.put_thumbnail_aas_repository(shell_id, file.name, file)
+    result = client.shells.put_thumbnail_aas_repository(shell_id, file.name, file)
     assert result is True
 
 def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
@@ -978,7 +978,7 @@ def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.get_thumbnail_aas_repository(shell_id)
+    result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert result is not None
     assert len(result) > 0
     assert result.startswith(b"\x89PNG\r\n\x1a\n")
@@ -994,10 +994,10 @@ def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.delete_thumbnail_aas_repository(shell_id)
+    result = client.shells.delete_thumbnail_aas_repository(shell_id)
     assert result is True
 
-    get_result = client.shell.get_thumbnail_aas_repository(shell_id)
+    get_result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert get_result is None
 
 def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
@@ -1006,7 +1006,7 @@ def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    result = client.shells.get_all_submodel_references_aas_repository(shell_id)
     assert result is not None
     references = result.get("result", [])
     assert len(references) == 1
@@ -1021,7 +1021,7 @@ def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
     id_short = "TempSM"
     temp_sml_ref = model.ModelReference.from_referable(model_builder.create_base_submodel(identifier=id, id_short=id_short))
 
-    result = client.shell.post_submodel_reference_aas_repository(shell_id, sdk_tools.convert_to_dict(temp_sml_ref))
+    result = client.shells.post_submodel_reference_aas_repository(shell_id, sdk_tools.convert_to_dict(temp_sml_ref))
 
     assert result is not None
     assert len(result.get("keys", [])) > 0
@@ -1029,7 +1029,7 @@ def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
     assert key.get("value", "") == id
     assert key.get("type", "") == "Submodel"
 
-    check_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    check_result = client.shells.get_all_submodel_references_aas_repository(shell_id)
     assert check_result is not None
     check_references = check_result.get("result", [])
     assert len(check_references) == 2
@@ -1042,11 +1042,11 @@ def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClien
         shell_id = encoder.decode_base_64(SHELL_ID)
         sm_id = encoder.decode_base_64(sm_id)
 
-    result = client.shell.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
+    result = client.shells.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
 
     assert result is True
 
-    get_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
+    get_result = client.shells.get_all_submodel_references_aas_repository(shell_id)
     assert get_result is not None
     references = get_result.get("result", [])
     assert len(references) == 1
@@ -1057,11 +1057,11 @@ def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     if client.encoded_ids:
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.shell.delete_asset_administration_shell_by_id(shell_id)
+    result = client.shells.delete_asset_administration_shell_by_id(shell_id)
 
     assert result is True
 
-    get_result = client.shell.get_all_asset_administration_shells()
+    get_result = client.shells.get_all_asset_administration_shells()
     assert get_result is not None
     shells = get_result.get("result", [])
     assert len(shells) == 0
@@ -1072,11 +1072,11 @@ def test_099a_delete_submodel_by_id(client: AasHttpClient):
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(SM_ID)
 
-    result = client.submodel.delete_submodel_by_id(sm_id)
+    result = client.submodels.delete_submodel_by_id(sm_id)
 
     assert result is True
 
-    get_result = client.submodel.get_all_submodels()
+    get_result = client.submodels.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 1
@@ -1087,11 +1087,11 @@ def test_099b_delete_submodel_by_id(client: AasHttpClient):
     if client.encoded_ids:
         sm_id = encoder.decode_base_64(AIMC_SM_ID)
 
-    result = client.submodel.delete_submodel_by_id(sm_id)
+    result = client.submodels.delete_submodel_by_id(sm_id)
 
     assert result is True
 
-    get_result = client.submodel.get_all_submodels()
+    get_result = client.submodels.get_all_submodels()
     assert get_result is not None
     submodels = get_result.get("result", [])
     assert len(submodels) == 0
