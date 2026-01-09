@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.1] - 2026-01-08
+- 🐛Fix: Rename the client sub-modules ('client.shell' to 'client.shell' and 'client.submodel' to 'client.submodels') so that they conform to the naming convention for endpoints.
+
 ## [0.9.0] - 2026-01-08
 - ✨Feat: Add endpoints for Submodel reference handling to wrapper and client ('client.shell')
 
