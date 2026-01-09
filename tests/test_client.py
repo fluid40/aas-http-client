@@ -1008,8 +1008,8 @@ def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
 
     result = client.shell.get_all_submodel_references_aas_repository(shell_id)
     assert result is not None
-    shells = result.get("result", [])
-    assert len(shells) == 1
+    references = result.get("result", [])
+    assert len(references) == 1
 
 def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
@@ -1031,8 +1031,8 @@ def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
 
     check_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
     assert check_result is not None
-    check_shells = check_result.get("result", [])
-    assert len(check_shells) == 2
+    check_references = check_result.get("result", [])
+    assert len(check_references) == 2
 
 def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
@@ -1048,8 +1048,8 @@ def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClien
 
     get_result = client.shell.get_all_submodel_references_aas_repository(shell_id)
     assert get_result is not None
-    shells = get_result.get("result", [])
-    assert len(shells) == 1
+    references = get_result.get("result", [])
+    assert len(references) == 1
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID

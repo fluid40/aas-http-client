@@ -950,6 +950,55 @@ def test_028_delete_thumbnail_aas_repository(wrapper: SdkWrapper):
     get_result = wrapper.get_thumbnail_aas_repository(shell_id)
     assert get_result is None
 
+def test_029_get_all_submodel_references_aas_repository(wrapper: SdkWrapper):
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    result = wrapper.get_all_submodel_references_aas_repository(shell_id)
+    assert result is not None
+    references = result.results
+    assert len(references) == 1
+
+def test_030_post_submodel_reference_aas_repository(wrapper: SdkWrapper):
+    shell_id = SHELL_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+
+    id = "temp_sm_id"
+    id_short = "TempSM"
+    temp_sml_ref = model.ModelReference.from_referable(model_builder.create_base_submodel(identifier=id, id_short=id_short))
+
+    result = wrapper.post_submodel_reference_aas_repository(shell_id, temp_sml_ref)
+
+    assert result is not None
+    assert len(result.get("keys", [])) > 0
+    key: dict = result.get("keys", [])[0]
+    assert key.get("value", "") == id
+    assert key.get("type", "") == "Submodel"
+
+    check_result = wrapper.get_all_submodel_references_aas_repository(shell_id)
+    assert check_result is not None
+    assert len(check_result.results) == 2
+
+def test_031_delete_submodel_reference_by_id_aas_repository(wrapper: SdkWrapper):
+    shell_id = SHELL_ID
+    sm_id = "temp_sm_id"
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        shell_id = encoder.decode_base_64(SHELL_ID)
+        sm_id = encoder.decode_base_64(sm_id)
+
+    result = wrapper.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
+
+    assert result is True
+
+    get_result = wrapper.get_all_submodel_references_aas_repository(shell_id)
+    assert get_result is not None
+    assert len(get_result.results) == 1
+
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 

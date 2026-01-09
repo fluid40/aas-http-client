@@ -40,8 +40,7 @@ def convert_to_object(content: dict) -> Any | None:
 
     try:
         dict_string = json.dumps(content)
-        model_object = json.loads(dict_string, cls=basyx.aas.adapter.json.AASFromJsonDecoder)
-        return model_object
+        return json.loads(dict_string, cls=basyx.aas.adapter.json.json_deserialization.AASFromJsonDecoder)
     except Exception as e:
         logger.error(f"Decoding error: {e}")
         logger.error(f"In JSON: {content}")

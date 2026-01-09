@@ -11,9 +11,11 @@ from basyx.aas import model
 from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
 from aas_http_client.classes.wrapper.attachment import Attachment
 from aas_http_client.classes.wrapper.pagination import (
+    ReferencePaginatedData,
     ShellPaginatedData,
     SubmodelElementPaginatedData,
     SubmodelPaginatedData,
+    create_reference_paging_data,
     create_shell_paging_data,
     create_submodel_element_paging_data,
     create_submodel_paging_data,
@@ -256,8 +258,38 @@ class SdkWrapper:
         return _to_object(content)
 
     # GET /shells/{aasIdentifier}/submodel-refs
+    def get_all_submodel_references_aas_repository(self, aas_identifier: str, limit: int = 100, cursor: str = "") -> ReferencePaginatedData | None:
+        """Returns all submodel references.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param limit: The maximum number of elements in the response array
+        :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
+        :return: List of paginated Submodel References or None if an error occurred
+        """
+        references_result = self._client.shell.get_all_submodel_references_aas_repository(aas_identifier, limit, cursor)
+        return create_reference_paging_data(references_result)
+
     # POST /shells/{aasIdentifier}/submodel-refs
+    def post_submodel_reference_aas_repository(self, aas_identifier: str, submodel_reference: model.ModelReference) -> model.ModelReference | None:
+        """Creates a submodel reference at the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_reference: Reference to the Submodel
+        :return: Reference Submodel object or None if an error occurred
+        """
+        ref_data = _to_dict(submodel_reference)
+        content: dict = self._client.shell.post_submodel_reference_aas_repository(aas_identifier, ref_data)
+        return _to_object(content)
+
     # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
+    def delete_submodel_reference_by_id_aas_repository(self, aas_identifier: str, submodel_identifier: str) -> bool:
+        """Deletes the submodel reference from the Asset Administration Shell. Does not delete the submodel itself.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param submodel_identifier: The Submodels unique id
+        :return: True if the deletion was successful, False otherwise
+        """
+        return self._client.shell.delete_submodel_reference_by_id_aas_repository(aas_identifier, submodel_identifier)
 
     # not supported by Java Server
 
