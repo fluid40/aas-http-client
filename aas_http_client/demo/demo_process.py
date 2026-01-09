@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 def start() -> None:
     """Start the demo process."""
+
     # create a submodel element
     wrapper = sdk_wrapper.create_wrapper_by_url(base_url="http://javaaasserver:8075", encoded_ids=False)
     client = wrapper.get_client()
@@ -33,6 +34,8 @@ def start() -> None:
 
     result = client.submodel.post_submodel(sm_data)
     result = client.shell.post_asset_administration_shell(shell_data)
+
+    put_result = client.shell.put_thumbnail_aas_repository(shell.id, "Pen_Machine.png", Path("./tests/test_data/Pen_Machine.png").resolve())
 
     descriptors = client_shell_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     descriptor = sdk_tools.convert_to_object(descriptors.get("result", [])[0])

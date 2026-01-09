@@ -1,7 +1,10 @@
 # Changelog
 
+## [0.9.0] - 2026-01-08
+- ✨Feat: Add endpoints for Submodel reference handling to wrapper and client ('client.shell')
+
 ## [0.8.5] - 2026-01-08
-- Add endpoints for AAS thumbnail handling to wrapper and client ('client.shell')
+- ✨Feat: Add endpoints for AAS thumbnail handling to wrapper and client ('client.shell')
 
 ## [0.8.2] - 2026-01-07
 - ✨Feat: Improve oAuth authentication handling and add oAuth Token caching.
