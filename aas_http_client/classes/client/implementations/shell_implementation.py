@@ -24,7 +24,7 @@ from aas_http_client.utilities.http_helper import (
 logger = logging.getLogger(__name__)
 
 
-class ShellImplementation(BaseModel):
+class ShellRepoImplementation(BaseModel):
     """Implementation of Asset Administration Shell related API calls."""
 
     def __init__(self, client: "AasHttpClient"):

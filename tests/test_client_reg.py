@@ -35,7 +35,7 @@ def client() -> AasHttpClient:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
-    shells = client.shell.get_all_asset_administration_shells()
+    shells = client.shells.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
 
@@ -95,7 +95,7 @@ def global_sm_descriptor() -> dict:
     return shared_sm_descriptor
 
 def test_000a_clean_server(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
 
     for shell in shells_result.get("result", []):
 
@@ -104,9 +104,9 @@ def test_000a_clean_server(client: AasHttpClient, client_aas_reg: AasHttpClient,
         if client.encoded_ids:
             shell_id = encoder.decode_base_64(shell_id)
 
-        client.shell.delete_asset_administration_shell_by_id(shell_id)
+        client.shells.delete_asset_administration_shell_by_id(shell_id)
 
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     for submodel in submodels_result.get("result", []):
 
         sm_id = submodel["id"]
@@ -114,14 +114,14 @@ def test_000a_clean_server(client: AasHttpClient, client_aas_reg: AasHttpClient,
         if client.encoded_ids:
             sm_id = encoder.decode_base_64(sm_id)
 
-        client.submodel.delete_submodel_by_id(sm_id)
+        client.submodels.delete_submodel_by_id(sm_id)
 
     client_aas_reg.shell_registry.delete_all_asset_administration_shell_descriptors()
     client_sm_reg.submodel_registry.delete_all_submodel_descriptors()
 
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
     assert len(shells_result.get("result")) == 0
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     assert len(submodels_result.get("result")) == 0
     shell_descriptors_result = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     assert len(shell_descriptors_result.get("result")) == 0
@@ -130,12 +130,12 @@ def test_000a_clean_server(client: AasHttpClient, client_aas_reg: AasHttpClient,
 
 def test_000b_post_assets(client: AasHttpClient, shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     sm_data = sdk_tools.convert_to_dict(shared_sm)
-    sm_result = client.submodel.post_submodel(sm_data)
+    sm_result = client.submodels.post_submodel(sm_data)
 
     assert sm_result is not None
 
     shell_data = sdk_tools.convert_to_dict(shared_aas)
-    shell_result = client.shell.post_asset_administration_shell(shell_data)
+    shell_result = client.shells.post_asset_administration_shell(shell_data)
     assert shell_result is not None
 
 def test_001a_get_self_description_shell(client_aas_reg: AasHttpClient):
@@ -214,15 +214,15 @@ def test_005_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient,
         sm_id = encoder.decode_base_64(SM_ID)
         shell_id = encoder.decode_base_64(SHELL_ID)
 
-    result = client.submodel.delete_submodel_by_id(sm_id)
+    result = client.submodels.delete_submodel_by_id(sm_id)
     assert result
 
-    submodels = client.shell.delete_asset_administration_shell_by_id(shell_id)
+    submodels = client.shells.delete_asset_administration_shell_by_id(shell_id)
     assert submodels
 
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
     assert len(shells_result.get("result")) == 0
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     assert len(submodels_result.get("result")) == 0
     shell_descriptors_result = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     assert len(shell_descriptors_result.get("result")) == 0
@@ -480,21 +480,21 @@ def test_059_delete_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
     assert sm_descriptors is None
 
 def test_099_cleanup(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
 
     for shell in shells_result.get("result", []):
-        client.shell.delete_asset_administration_shell_by_id(shell["id"])
+        client.shells.delete_asset_administration_shell_by_id(shell["id"])
 
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     for submodel in submodels_result.get("result", []):
-        client.submodel.delete_submodel_by_id(submodel["id"])
+        client.submodels.delete_submodel_by_id(submodel["id"])
 
     client_aas_reg.shell_registry.delete_all_asset_administration_shell_descriptors()
     client_sm_reg.submodel_registry.delete_all_submodel_descriptors()
 
-    shells_result = client.shell.get_all_asset_administration_shells()
+    shells_result = client.shells.get_all_asset_administration_shells()
     assert len(shells_result.get("result")) == 0
-    submodels_result = client.submodel.get_all_submodels()
+    submodels_result = client.submodels.get_all_submodels()
     assert len(submodels_result.get("result")) == 0
     shell_descriptors_result = client_aas_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     assert len(shell_descriptors_result.get("result")) == 0

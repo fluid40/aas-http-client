@@ -26,29 +26,29 @@ def start() -> None:
     shell = model_builder.create_base_ass("TestAAS", "TestAAS")
     sdk_tools.add_submodel_to_aas(shell, sm)
 
-    client.shell.delete_asset_administration_shell_by_id(shell.id)
-    client.submodel.delete_submodel_by_id(sm.id)
+    client.shells.delete_asset_administration_shell_by_id(shell.id)
+    client.submodels.delete_submodel_by_id(sm.id)
 
     shell_data = sdk_tools.convert_to_dict(shell)
     sm_data = sdk_tools.convert_to_dict(sm)
 
-    result = client.submodel.post_submodel(sm_data)
-    result = client.shell.post_asset_administration_shell(shell_data)
+    result = client.submodels.post_submodel(sm_data)
+    result = client.shells.post_asset_administration_shell(shell_data)
 
-    put_result = client.shell.put_thumbnail_aas_repository(shell.id, "Pen_Machine.png", Path("./tests/test_data/Pen_Machine.png").resolve())
+    put_result = client.shells.put_thumbnail_aas_repository(shell.id, "Pen_Machine.png", Path("./tests/test_data/Pen_Machine.png").resolve())
 
     descriptors = client_shell_reg.shell_registry.get_all_asset_administration_shell_descriptors()
     descriptor = sdk_tools.convert_to_object(descriptors.get("result", [])[0])
 
     file_sme = model.File("file_sme", content_type="application/pdf")
-    file_post_result = client.submodel.post_submodel_element_submodel_repo(sm.id, sdk_tools.convert_to_dict(file_sme))
+    file_post_result = client.submodels.post_submodel_element_submodel_repo(sm.id, sdk_tools.convert_to_dict(file_sme))
 
     file_get_result = wrapper.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
 
     file = Path(f"./tests/test_data/https.pdf").resolve()
     tmp = client.experimental.post_file_by_path_submodel_repo(sm.id, file_sme.id_short, file)
 
-    file_get_result = client.submodel.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
+    file_get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm.id, file_sme.id_short)
 
     attachment = client.experimental.get_file_by_path_submodel_repo(sm.id, file_sme.id_short)
 
