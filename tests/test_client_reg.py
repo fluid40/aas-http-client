@@ -223,6 +223,10 @@ def test_005a_get_endpoint(client: AasHttpClient, client_sm_reg: AasHttpClient):
     href = protocol_info.get("href", "")
     assert href is not None
 
+    sm = client.get_endpoint(href)
+    assert sm is not None
+    assert sm.get("id") == SM_ID
+
 def test_005b_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
     sm_id = SM_ID
     shell_id = SHELL_ID
