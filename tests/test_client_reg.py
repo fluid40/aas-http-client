@@ -213,6 +213,15 @@ def test_005a_get_endpoint(client: AasHttpClient, client_sm_reg: AasHttpClient):
 
     descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(sm_id)
     assert descriptor is not None
+    assert descriptor.get("id") == SM_ID
+    endpoints = descriptor.get("endpoints", [])
+    assert len(endpoints) == 1
+    endpoint = endpoints[0]
+    assert "protocolInformation" in endpoint
+    protocol_info: dict = endpoint["protocolInformation"]
+    assert protocol_info.get("endpointProtocol") == "http"
+    href = protocol_info.get("href", "")
+    assert href is not None
 
 def test_005b_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
     sm_id = SM_ID
