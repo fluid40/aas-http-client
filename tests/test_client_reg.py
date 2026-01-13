@@ -206,7 +206,15 @@ def test_004_get_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     shared_sm_descriptor.clear()
     shared_sm_descriptor.update(results[0])
 
-def test_005_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
+def test_005a_get_endpoint(client: AasHttpClient, client_sm_reg: AasHttpClient):
+    sm_id = SM_ID
+    if client.encoded_ids:
+        sm_id = encoder.decode_base_64(SM_ID)
+
+    descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(sm_id)
+    assert descriptor is not None
+
+def test_005b_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
     sm_id = SM_ID
     shell_id = SHELL_ID
 
