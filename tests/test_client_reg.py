@@ -223,6 +223,8 @@ def test_005a_get_endpoint(client: AasHttpClient, client_sm_reg: AasHttpClient):
     href = protocol_info.get("href", "")
     assert href is not None
 
+    logger.info(f"Testing endpoint href: {href}")
+
     sm = client.get_endpoint(href)
     assert sm is not None
     assert sm.get("id") == SM_ID
