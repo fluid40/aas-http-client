@@ -143,14 +143,14 @@ def test_001a_get_self_description_shell(client_aas_reg: AasHttpClient):
 
     assert description is not None
     assert "profiles" in description
-    assert len(description["profiles"]) == 1
+    assert len(description["profiles"]) == 2
 
 def test_001b_get_self_description_sm(client_sm_reg: AasHttpClient):
     description = client_sm_reg.submodel_registry.get_self_description()
 
     assert description is not None
     assert "profiles" in description
-    assert len(description["profiles"]) == 1
+    assert len(description["profiles"]) == 2
 
 def test_002_search(client_aas_reg: AasHttpClient):
     request_body = {
