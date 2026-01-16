@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.2] - 2026-01-16
+- ✨Feat: Add generic endpoint implementations (GET, PATCH, PUT, POST and DELETE) for handling individual endpoints (e.g. from descriptors) to the client.
+
 ## [0.9.1] - 2026-01-08
 - 🐛Fix: Rename the client sub-modules ('client.shell' to 'client.shell**s**' and 'client.submodels' to 'client.submodel**s**') so that they conform to the naming convention for endpoints.
 
