@@ -206,7 +206,30 @@ def test_004_get_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     shared_sm_descriptor.clear()
     shared_sm_descriptor.update(results[0])
 
-def test_005_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
+def test_005a_get_endpoint(client: AasHttpClient, client_sm_reg: AasHttpClient):
+    sm_id = SM_ID
+    if client.encoded_ids:
+        sm_id = encoder.decode_base_64(SM_ID)
+
+    descriptor = client_sm_reg.submodel_registry.get_submodel_descriptor_by_id(sm_id)
+    assert descriptor is not None
+    assert descriptor.get("id") == SM_ID
+    endpoints = descriptor.get("endpoints", [])
+    assert len(endpoints) == 1
+    endpoint = endpoints[0]
+    assert "protocolInformation" in endpoint
+    protocol_info: dict = endpoint["protocolInformation"]
+    assert protocol_info.get("endpointProtocol") == "http"
+    href = protocol_info.get("href", "")
+    assert href is not None
+
+    print(f"Testing endpoint href: {href}")
+
+    sm = client.get_endpoint(href)
+    assert sm is not None
+    assert sm.get("id") == SM_ID
+
+def test_005b_delete_assets(client: AasHttpClient, client_aas_reg: AasHttpClient, client_sm_reg: AasHttpClient):
     sm_id = SM_ID
     shell_id = SHELL_ID
 
@@ -315,7 +338,7 @@ def test_010_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_de
     assert len(results) == 1
     assert results[0]["id"] == SM_ID
 
-def test_050a_delete_all_asset_administration_shell_descriptors(client_aas_reg: AasHttpClient):
+def test_011a_delete_all_asset_administration_shell_descriptors(client_aas_reg: AasHttpClient):
     result = client_aas_reg.shell_registry.delete_all_asset_administration_shell_descriptors()
     assert result
 
@@ -326,7 +349,7 @@ def test_050a_delete_all_asset_administration_shell_descriptors(client_aas_reg: 
     assert results is not None
     assert len(results) == 0
 
-def test_050b_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
+def test_011b_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     result = client_sm_reg.submodel_registry.delete_all_submodel_descriptors()
     assert result
 
@@ -337,7 +360,7 @@ def test_050b_delete_all_submodel_descriptors(client_sm_reg: AasHttpClient):
     assert results is not None
     assert len(results) == 0
 
-def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_descriptor: dict, global_sm_descriptor: dict):
+def test_011c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_descriptor: dict, global_sm_descriptor: dict):
     global_shell_descriptor["submodelDescriptors"] = []
     sm_descriptors: list[dict] = global_shell_descriptor.get("submodelDescriptors", [])
     sm_descriptors.append(global_sm_descriptor)
@@ -361,7 +384,7 @@ def test_050c_post_aas_descriptor(client_aas_reg: AasHttpClient, global_shell_de
     assert "submodelDescriptors" in get_result
     assert len(get_result["submodelDescriptors"])
 
-def test_051_get_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
+def test_012_get_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
     shell_id = SHELL_ID
     sm_id = SM_ID
 
@@ -373,7 +396,7 @@ def test_051_get_submodel_descriptor_by_id_through_superpath(client_aas_reg: Aas
     assert descriptor is not None
     assert descriptor["id"] == SM_ID
 
-def test_052_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient, global_sm_descriptor: dict):
+def test_013_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient, global_sm_descriptor: dict):
     global_sm_descriptor["idShort"] = "sm_http_client_unit_tests_updated"
 
     shell_id = SHELL_ID
@@ -391,7 +414,7 @@ def test_052_put_submodel_descriptor_by_id_through_superpath(client_aas_reg: Aas
     assert descriptor["id"] == SM_ID
     assert descriptor["idShort"] == "sm_http_client_unit_tests_updated"
 
-def test_053_delete_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
+def test_014_delete_submodel_descriptor_by_id_through_superpath(client_aas_reg: AasHttpClient):
     shell_id = SHELL_ID
     sm_id = SM_ID
 
@@ -410,7 +433,7 @@ def test_053_delete_submodel_descriptor_by_id_through_superpath(client_aas_reg: 
     assert "submodelDescriptors" in shell_descriptor
     assert len(shell_descriptor["submodelDescriptors"]) == 0
 
-def test_054_post_submodel_descriptor_through_superpath(client_aas_reg: AasHttpClient, global_sm_descriptor: dict):
+def test_015_post_submodel_descriptor_through_superpath(client_aas_reg: AasHttpClient, global_sm_descriptor: dict):
     shell_id = SHELL_ID
 
     if client_aas_reg.encoded_ids:
@@ -421,7 +444,7 @@ def test_054_post_submodel_descriptor_through_superpath(client_aas_reg: AasHttpC
     assert "id" in descriptor
     assert descriptor["id"] == SM_ID
 
-def test_055_get_all_submodel_descriptors_through_superpath(client_aas_reg: AasHttpClient):
+def test_016_get_all_submodel_descriptors_through_superpath(client_aas_reg: AasHttpClient):
     shell_id = SHELL_ID
 
     if client_aas_reg.encoded_ids:
@@ -435,13 +458,13 @@ def test_055_get_all_submodel_descriptors_through_superpath(client_aas_reg: AasH
     assert len(results) == 1
     assert results[0]["id"] == SM_ID
 
-def test_056_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
+def test_017_post_submodel_descriptor(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
     result = client_sm_reg.submodel_registry.post_submodel_descriptor(global_sm_descriptor)
     assert result is not None
     assert "id" in result
     assert result["id"] == SM_ID
 
-def test_057_get_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
+def test_018_get_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
     sm_id = SM_ID
 
     if client_sm_reg.encoded_ids:
@@ -451,7 +474,7 @@ def test_057_get_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
     assert descriptor is not None
     assert descriptor["id"] == SM_ID
 
-def test_058_put_submodel_descriptor_by_id(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
+def test_019_put_submodel_descriptor_by_id(client_sm_reg: AasHttpClient, global_sm_descriptor: dict):
     global_sm_descriptor["idShort"] = "sm_http_client_unit_tests_updated"
 
     sm_id = SM_ID
@@ -467,7 +490,7 @@ def test_058_put_submodel_descriptor_by_id(client_sm_reg: AasHttpClient, global_
     assert descriptor["id"] == SM_ID
     assert descriptor["idShort"] == "sm_http_client_unit_tests_updated"
 
-def test_059_delete_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
+def test_020_delete_submodel_descriptor_by_id(client_sm_reg: AasHttpClient):
     sm_id = SM_ID
 
     if client_sm_reg.encoded_ids:

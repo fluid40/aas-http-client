@@ -23,6 +23,9 @@ from aas_http_client.classes.client.implementations import (
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
+    STATUS_CODE_201,
+    STATUS_CODE_202,
+    STATUS_CODE_204,
 )
 
 logger = logging.getLogger(__name__)
@@ -162,6 +165,104 @@ class AasHttpClient(BaseModel):
             # Update session headers with the new token
             self._session.headers.update({"Authorization": f"Bearer {self._cached_token.access_token}"})
             return self._cached_token.access_token
+
+        return None
+
+    def get_endpoint(self, end_point_url: str) -> None | dict:
+        """Generic GET request for endpoint.
+
+        :param end_point_url: The endpoint URL to send the GET request to.
+        :return: The base URL of the AAS server.
+        """
+        try:
+            response = self._session.get(end_point_url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_200:
+                content = response.content.decode("utf-8")
+                return json.loads(content)
+
+        except requests.exceptions.RequestException as e:
+            logger.debug(f"Error call REST API: {e}")
+
+        return None
+
+    def put_endpoint(self, end_point_url: str, request_body: dict) -> None | dict:
+        """Generic PUT request for endpoint.
+
+        :param end_point_url: The endpoint URL to send the PUT request to.
+        :param request_body: The request body to send with the PUT request.
+        :return: The base URL of the AAS server.
+        """
+        try:
+            response = self._session.put(end_point_url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+                content = response.content.decode("utf-8")
+                return json.loads(content)
+
+        except requests.exceptions.RequestException as e:
+            logger.debug(f"Error call REST API: {e}")
+
+        return None
+
+    def post_endpoint(self, end_point_url: str, request_body: dict) -> None | dict:
+        """Generic POST request for endpoint.
+
+        :param end_point_url: The endpoint URL to send the POST request to.
+        :param request_body: The request body to send with the POST request.
+        :return: The base URL of the AAS server.
+        """
+        try:
+            response = self._session.post(end_point_url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_201, STATUS_CODE_200, STATUS_CODE_202):
+                content = response.content.decode("utf-8")
+                return json.loads(content)
+
+        except requests.exceptions.RequestException as e:
+            logger.debug(f"Error call REST API: {e}")
+
+        return None
+
+    def patch_endpoint(self, end_point_url: str, request_body: dict) -> None | dict:
+        """Generic PATCH request for endpoint.
+
+        :param end_point_url: The endpoint URL to send the PATCH request to.
+        :param request_body: The request body to send with the PATCH request.
+        :return: The base URL of the AAS server.
+        """
+        try:
+            response = self._session.patch(end_point_url, json=request_body, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
+                content = response.content.decode("utf-8")
+                return json.loads(content)
+
+        except requests.exceptions.RequestException as e:
+            logger.debug(f"Error call REST API: {e}")
+
+        return None
+
+    def delete_endpoint(self, end_point_url: str) -> None | dict:
+        """Generic DELETE request for endpoint.
+
+        :param end_point_url: The endpoint URL to send the DELETE request to.
+        :return: The base URL of the AAS server.
+        """
+        try:
+            response = self._session.delete(end_point_url, timeout=self.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204, STATUS_CODE_202):
+                content = response.content.decode("utf-8")
+                return json.loads(content)
+
+        except requests.exceptions.RequestException as e:
+            logger.debug(f"Error call REST API: {e}")
 
         return None
 
