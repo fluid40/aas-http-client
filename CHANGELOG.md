@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.3] - 2026-01-20
+- ✨Feat: Update package dependencies.
+
 ## [0.9.2] - 2026-01-16
 - ✨Feat: Add generic endpoint implementations (GET, PATCH, PUT, POST and DELETE) for handling individual endpoints (e.g. from descriptors) to the client.
 
