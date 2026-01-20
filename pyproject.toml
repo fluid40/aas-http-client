@@ -4,17 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aas-http-client"
-version = "0.9.2"
+version = "0.9.3"
 description = "Generic python HTTP client for communication with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Daniel Klein", email = "daniel.klein@em.ag" }]
+requires-python = ">=3.11"
 dependencies = [
-    "typing>=3.7.4.3",
-    "pydantic>=2.11.5",
-    "requests>=2.32.3",
+    "pydantic>=2.12.5",
+    "requests>=2.32.5",
     "basyx-python-sdk>=2.0.0",
-    "python-magic>=0.4.27",
     "puremagic>=1.30",
 ]
 [project.urls]
