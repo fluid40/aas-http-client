@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.3] - 2026-01-20
+## [0.9.4] - 2026-01-20
 - ✨Feat: Update package dependencies.
 
 ## [0.9.2] - 2026-01-16
