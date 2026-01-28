@@ -56,6 +56,10 @@ def get_token(o_auth_configuration: OAuth) -> TokenData | None:
             o_auth_configuration.get_client_secret(),
         )
 
+    if not token:
+        logger.error(f"Failed to receive token from endpoint '{o_auth_configuration.token_url}'")
+        return None
+
     return token
 
 
