@@ -139,7 +139,7 @@ class AasHttpClient(BaseModel):
                     return json.loads(content)
 
             except requests.exceptions.RequestException as e:
-                logger.debug(f"Error call REST API: {e}")
+                logger.error(f"Error call REST API: {e}")
 
         return None
 
@@ -419,7 +419,7 @@ def _connect_to_api(client: AasHttpClient) -> bool:
     :raises TimeoutError: If connection attempts fail for the entire timeout duration
     """
     start_time = time.time()
-    logger.debug(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
+    logger.info(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
     counter: int = 0
     while True:
         try:
@@ -427,6 +427,9 @@ def _connect_to_api(client: AasHttpClient) -> bool:
             if root:
                 logger.info(f"Connected to server API at '{client.base_url}' successfully.")
                 return True
+
+            logger.error(f"Connection attempt to '{client.base_url}' failed.")
+
         except requests.exceptions.ConnectionError:
             pass
         if time.time() - start_time > client.connection_time_out:
