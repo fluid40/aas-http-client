@@ -10,7 +10,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
-from aas_http_client.utilities.encoder import decode_base_64
+from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -39,7 +39,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -80,7 +80,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -113,7 +113,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -151,7 +151,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
@@ -199,7 +199,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
@@ -240,7 +240,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
@@ -351,7 +351,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: List of Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
@@ -391,7 +391,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
@@ -428,7 +428,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
 
@@ -471,7 +471,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
