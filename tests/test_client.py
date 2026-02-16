@@ -42,6 +42,9 @@ def client(request) -> AasHttpClient:
 
         client = create_client_by_config(file)
 
+        if client is None:
+            raise RuntimeError("Failed to create client from configuration file.")
+
         # Randomly set encoded_ids to True or False for testing both scenarios
         rand = random.randint(0, 10)
         if (rand % 2) == 0:
@@ -93,7 +96,7 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 
 def test_000a_create_client_by_url(client: AasHttpClient):
     base_url: str = client.base_url
-    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    new_client = create_client_by_url(base_url=base_url)
     assert new_client is not None
 
 def test_000b_create_client_by_dict(client: AasHttpClient):
@@ -103,7 +106,7 @@ def test_000b_create_client_by_dict(client: AasHttpClient):
         "BaseUrl": base_url
     }
 
-    new_client: AasHttpClient = create_client_by_dict(configuration=config_dict)
+    new_client = create_client_by_dict(configuration=config_dict)
     assert new_client is not None
 
 def test_001a_connect(client: AasHttpClient):
@@ -118,13 +121,17 @@ def test_001b_delete_all_asset_administration_shells(client: AasHttpClient):
         shell_id = shell.get("id", "")
 
         if client.encoded_ids:
-            shell_id = encoder.decode_base_64(shell_id)
+            shell_id = encoder.encode_base_64(shell_id)
 
         if shell_id:
             delete_result = client.shells.delete_asset_administration_shell_by_id(shell_id)
             assert delete_result
 
     shells_result = client.shells.get_all_asset_administration_shells()
+
+    if shells_result is None:
+        raise RuntimeError("Failed to retrieve shells after deletion.")
+
     shells = shells_result.get("result", [])
     assert len(shells) == 0
 
@@ -137,13 +144,17 @@ def test_001c_delete_all_submodels(client: AasHttpClient):
         submodel_id = submodel.get("id", "")
 
         if client.encoded_ids:
-            submodel_id = encoder.decode_base_64(submodel_id)
+            submodel_id = encoder.encode_base_64(submodel_id)
 
         if submodel_id:
             delete_result = client.submodels.delete_submodel_by_id(submodel_id)
             assert delete_result
 
     submodels_result = client.submodels.get_all_submodels()
+
+    if submodels_result is None:
+        raise RuntimeError("Failed to retrieve submodels after deletion.")
+
     submodels = submodels_result.get("result", [])
     assert len(submodels) == 0
 
@@ -178,7 +189,7 @@ def test_004a_get_asset_administration_shell_by_id(client: AasHttpClient, shared
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.get_asset_administration_shell_by_id(shell_id)
 
@@ -205,7 +216,7 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.put_asset_administration_shell_by_id(shell_id, aas_data)
     assert result
@@ -246,7 +257,7 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     parsed = urlparse(client.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -266,7 +277,7 @@ def test_006_get_asset_administration_shell_by_id_reference_aas_repository(clien
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.get_asset_administration_shell_by_id_reference_aas_repository(shell_id)
 
@@ -285,8 +296,8 @@ def test_007_get_submodel_by_id_aas_repository(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(SM_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
@@ -336,8 +347,8 @@ def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     sm_id = SM_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(SM_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
@@ -354,7 +365,7 @@ def test_011a_get_submodel_by_id(client: AasHttpClient, shared_sm: model.Submode
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.get_submodel_by_id(sm_id)
 
@@ -371,7 +382,7 @@ def test_011c_get_submodel_by_id(client: AasHttpClient):
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = client.submodels.get_submodel_by_id(sm_id)
 
@@ -383,7 +394,7 @@ def test_011d_get_submodel_by_id(client: AasHttpClient):
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = client.submodels.get_submodel_by_id(sm_id, level="core")
 
@@ -405,7 +416,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.patch_submodel_by_id(sm_id, sm_data)
 
@@ -440,8 +451,8 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     sm_id = SM_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(SM_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.shells.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)
 
@@ -479,7 +490,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.put_submodels_by_id(sm_id, sm_data)
 
@@ -503,7 +514,7 @@ def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_elements = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
 
@@ -517,7 +528,7 @@ def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
@@ -538,7 +549,7 @@ def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
@@ -559,7 +570,7 @@ def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
@@ -580,7 +591,7 @@ def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.post_submodel_element_submodel_repo(sm_id, sme_data)
 
@@ -598,7 +609,7 @@ def test_017a_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
 
@@ -612,7 +623,7 @@ def test_017b_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
 
@@ -626,7 +637,7 @@ def test_017c_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
 
@@ -640,7 +651,7 @@ def test_017d_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
 
@@ -656,7 +667,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
@@ -681,7 +692,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
@@ -706,7 +717,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
@@ -731,7 +742,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
@@ -757,7 +768,7 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
 
@@ -791,7 +802,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_collection_dict)
 
@@ -823,7 +834,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     sm = new_client.submodels.get_submodel_by_id(AIMC_SM_ID)
     assert sm is None
 
-    decoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    decoded_id = encoder.encode_base_64(AIMC_SM_ID)
     decoded_sm = new_client.submodels.get_submodel_by_id(decoded_id)
     assert decoded_sm is not None
     assert decoded_sm.get("id", "") == AIMC_SM_ID
@@ -836,7 +847,7 @@ def test_020b_encoded_ids(client: AasHttpClient):
     sm = new_client.shells.get_asset_administration_shell_by_id(SHELL_ID)
     assert sm is None
 
-    decoded_id = encoder.decode_base_64(SHELL_ID)
+    decoded_id = encoder.encode_base_64(SHELL_ID)
     decoded_sm = new_client.shells.get_asset_administration_shell_by_id(decoded_id)
     assert decoded_sm is not None
     assert decoded_sm.get("id", "") == SHELL_ID
@@ -851,7 +862,7 @@ def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     file_sme = model.File("file_sme", content_type="application/pdf")
     file_post_result = client.submodels.post_submodel_element_submodel_repo(sm_id, sdk_tools.convert_to_dict(file_sme))
@@ -880,7 +891,7 @@ def test_022_get_file_content_by_path_submodel_repo(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.experimental.get_file_by_path_submodel_repo(sm_id, "file_sme")
     assert result is not None
@@ -897,7 +908,7 @@ def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     filename = "aimc.json"
     file = Path(f"./tests/test_data/{filename}").resolve()
@@ -923,7 +934,7 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.experimental.delete_file_by_path_submodel_repo(sm_id, "file_sme")
     assert result is True
@@ -945,7 +956,7 @@ def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert result is None
@@ -959,7 +970,7 @@ def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     filename = "Pen_Machine.png"
     file = Path(f"./tests/test_data/{filename}").resolve()
@@ -976,7 +987,7 @@ def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert result is not None
@@ -992,7 +1003,7 @@ def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.delete_thumbnail_aas_repository(shell_id)
     assert result is True
@@ -1004,7 +1015,7 @@ def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.get_all_submodel_references_aas_repository(shell_id)
     assert result is not None
@@ -1015,7 +1026,7 @@ def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     id = "temp_sm_id"
     id_short = "TempSM"
@@ -1039,8 +1050,8 @@ def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClien
     sm_id = "temp_sm_id"
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(sm_id)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(sm_id)
 
     result = client.shells.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
 
@@ -1055,7 +1066,7 @@ def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID
 
     if client.encoded_ids:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = client.shells.delete_asset_administration_shell_by_id(shell_id)
 
@@ -1070,7 +1081,7 @@ def test_099a_delete_submodel_by_id(client: AasHttpClient):
     sm_id = SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = client.submodels.delete_submodel_by_id(sm_id)
 
@@ -1085,7 +1096,7 @@ def test_099b_delete_submodel_by_id(client: AasHttpClient):
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = client.submodels.delete_submodel_by_id(sm_id)
 

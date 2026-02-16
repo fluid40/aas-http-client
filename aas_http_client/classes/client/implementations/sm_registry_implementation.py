@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
 
-from aas_http_client.utilities.encoder import decode_base_64
+from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -38,7 +38,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
@@ -73,7 +73,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Updated Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
@@ -106,7 +106,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 

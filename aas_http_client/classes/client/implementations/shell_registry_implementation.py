@@ -10,7 +10,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
-from aas_http_client.utilities.encoder import decode_base_64
+from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -37,7 +37,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -72,7 +72,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Created or updated Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -105,7 +105,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -139,8 +139,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -176,8 +176,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if creation or update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -211,8 +211,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
-            submodel_identifier: str = decode_base_64(submodel_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
+            submodel_identifier: str = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -336,7 +336,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Submodel Descriptors data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 
@@ -371,7 +371,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Created Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = decode_base_64(aas_identifier)
+            aas_identifier: str = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 

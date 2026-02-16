@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 import requests
 from pydantic import BaseModel
 
-from aas_http_client.utilities.encoder import decode_base_64
+from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -39,7 +39,7 @@ class ExperimentalImplementation(BaseModel):
         :return: Attachment file data as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
@@ -80,7 +80,7 @@ class ExperimentalImplementation(BaseModel):
             return False
 
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
@@ -125,7 +125,7 @@ class ExperimentalImplementation(BaseModel):
             return False
 
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
@@ -165,7 +165,7 @@ class ExperimentalImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 

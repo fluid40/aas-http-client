@@ -12,9 +12,12 @@ def decode_base_64(text: str) -> str:
     :param text: Base64 encoded string to decode
     :return:  Decoded string
     """
-    text_bytes = text.encode("utf-8")
-    base64_bytes = base64.b64encode(text_bytes)
-    return base64_bytes.decode("utf-8")
+    missing_padding = len(text) % 4
+    if missing_padding:
+        text += "=" * (4 - missing_padding)
+
+    decoded = base64.b64decode(text)
+    return decoded.decode("utf-8")
 
 
 def encode_base_64(text: str) -> str:
@@ -23,6 +26,5 @@ def encode_base_64(text: str) -> str:
     :param text: String to encode
     :return: Base64 encoded string
     """
-    text_bytes = text.encode("utf-8")
-    base64_bytes = base64.b64decode(text_bytes)
-    return base64_bytes.decode("utf-8")
+    encoded_bytes = base64.b64encode(text.encode("utf-8"))
+    return encoded_bytes.decode("utf-8")

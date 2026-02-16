@@ -122,7 +122,7 @@ def test_001b_delete_all_asset_administration_shells(wrapper: SdkWrapper):
         shell_id = shell.id
 
         if wrapper.get_encoded_ids() == IdEncoding.encoded:
-            shell_id = encoder.decode_base_64(shell_id)
+            shell_id = encoder.encode_base_64(shell_id)
 
         if shell_id:
             delete_result = wrapper.delete_asset_administration_shell_by_id(shell_id)
@@ -139,7 +139,7 @@ def test_001c_delete_all_submodels(wrapper: SdkWrapper):
         submodel_id = submodel.id
 
         if wrapper.get_encoded_ids() == IdEncoding.encoded:
-            submodel_id = encoder.decode_base_64(submodel_id)
+            submodel_id = encoder.encode_base_64(submodel_id)
 
         if submodel_id:
             delete_result = wrapper.delete_submodel_by_id(submodel_id)
@@ -170,7 +170,7 @@ def test_004a_get_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_a
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(shell_id)
+        shell_id = encoder.encode_base_64(shell_id)
 
     shell = wrapper.get_asset_administration_shell_by_id(shell_id)
 
@@ -194,7 +194,7 @@ def test_005a_put_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_a
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(shell_id)
+        shell_id = encoder.encode_base_64(shell_id)
 
     result = wrapper.put_asset_administration_shell_by_id(shell_id, aas)
 
@@ -232,7 +232,7 @@ def test_005b_put_asset_administration_shell_by_id(wrapper: SdkWrapper, shared_a
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     parsed = urlparse(wrapper.base_url)
     if int(parsed.port) in PYTHON_SERVER_PORTS:
@@ -251,7 +251,7 @@ def test_006_get_asset_administration_shell_by_id_reference_aas_repository(wrapp
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     reference = wrapper.get_asset_administration_shell_by_id_reference_aas_repository(shell_id)
 
@@ -263,7 +263,7 @@ def test_007_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_sm: m
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     submodel = wrapper.get_submodel_by_id_aas_repository(shell_id, shared_sm.id)
 
@@ -310,8 +310,8 @@ def test_010_get_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_sm: m
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(SM_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel = wrapper.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
@@ -328,7 +328,7 @@ def test_011a_get_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel = wrapper.get_submodel_by_id(sm_id)
 
@@ -345,7 +345,7 @@ def test_011c_get_submodel_by_id(wrapper: SdkWrapper):
     sm_id = AIMC_SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = wrapper.get_submodel_by_id(sm_id)
 
@@ -356,7 +356,7 @@ def test_011d_get_submodel_by_id(wrapper: SdkWrapper):
     sm_id = AIMC_SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = wrapper.get_submodel_by_id(sm_id, level=Level.core)
 
@@ -374,7 +374,7 @@ def test_012_patch_submodel_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.patch_submodel_by_id(sm_id, sm)
 
@@ -408,8 +408,8 @@ def test_013_put_submodel_by_id_aas_repository(wrapper: SdkWrapper, shared_sm: m
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(SM_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.put_submodel_by_id_aas_repository(shell_id, sm_id, sm)
 
@@ -447,7 +447,7 @@ def test_014_put_submodels_by_id(wrapper: SdkWrapper, shared_sm: model.Submodel)
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.put_submodels_by_id(sm_id, sm)
 
@@ -473,7 +473,7 @@ def test_015_get_all_submodel_elements_submodel_repository(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_elements = wrapper.get_all_submodel_elements_submodel_repository(sm_id)
 
@@ -484,7 +484,7 @@ def test_016a_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.post_submodel_element_submodel_repo(sm_id, shared_sme_string)
 
@@ -508,7 +508,7 @@ def test_016b_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.post_submodel_element_submodel_repo(sm_id, shared_sme_bool)
 
@@ -532,7 +532,7 @@ def test_016c_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.post_submodel_element_submodel_repo(sm_id, shared_sme_int)
 
@@ -556,7 +556,7 @@ def test_016d_post_submodel_element_submodel_repo(wrapper: SdkWrapper, shared_sm
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.post_submodel_element_submodel_repo(sm_id, shared_sme_float)
 
@@ -580,7 +580,7 @@ def test_017a_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, sh
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
 
@@ -597,7 +597,7 @@ def test_017b_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, sh
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
 
@@ -614,7 +614,7 @@ def test_017c_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, sh
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
 
@@ -631,7 +631,7 @@ def test_017d_get_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, sh
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
 
@@ -650,7 +650,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
@@ -678,7 +678,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
@@ -706,7 +706,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
@@ -734,7 +734,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
@@ -764,7 +764,7 @@ def test_020a_encoded_ids(wrapper: SdkWrapper):
     sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)
     assert sm is None
 
-    encoded_id = encoder.decode_base_64(AIMC_SM_ID)
+    encoded_id = encoder.encode_base_64(AIMC_SM_ID)
     encoded_sm = new_wrapper.get_submodel_by_id(encoded_id)
     assert encoded_sm is not None
     assert encoded_sm.id == AIMC_SM_ID
@@ -777,7 +777,7 @@ def test_020b_encoded_ids(wrapper: SdkWrapper):
     sm = new_wrapper.get_asset_administration_shell_by_id(SHELL_ID)
     assert sm is None
 
-    encoded_id = encoder.decode_base_64(SHELL_ID)
+    encoded_id = encoder.encode_base_64(SHELL_ID)
     encoded_sm = new_wrapper.get_asset_administration_shell_by_id(encoded_id)
     assert encoded_sm is not None
     assert encoded_sm.id == SHELL_ID
@@ -794,7 +794,7 @@ def test_021_post_file_by_path_submodel_repo(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     file_post_result = wrapper.post_submodel_element_submodel_repo(sm_id, file_sme)
     assert file_post_result is not None
@@ -822,7 +822,7 @@ def test_022_get_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     attachment = wrapper.experimental_get_file_by_path_submodel_repo(sm_id, "file_sme")
     assert attachment is not None
@@ -845,7 +845,7 @@ def test_023_put_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.experimental_put_file_by_path_submodel_repo(sm_id, "file_sme", file)
     assert result is True
@@ -871,7 +871,7 @@ def test_024_delete_file_content_by_path_submodel_repo(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.experimental_delete_file_by_path_submodel_repo(sm_id, "file_sme")
     assert result is True
@@ -892,7 +892,7 @@ def test_025_get_thumbnail_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = wrapper.get_thumbnail_aas_repository(shell_id)
     assert result is None
@@ -906,7 +906,7 @@ def test_026_put_thumbnail_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     filename = "Pen_Machine.png"
     file = Path(f"./tests/test_data/{filename}").resolve()
@@ -923,7 +923,7 @@ def test_027_get_thumbnail_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = wrapper.get_thumbnail_aas_repository(shell_id)
     assert result is not None
@@ -942,7 +942,7 @@ def test_028_delete_thumbnail_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = wrapper.delete_thumbnail_aas_repository(shell_id)
     assert result is True
@@ -954,7 +954,7 @@ def test_029_get_all_submodel_references_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = wrapper.get_all_submodel_references_aas_repository(shell_id)
     assert result is not None
@@ -965,7 +965,7 @@ def test_030_post_submodel_reference_aas_repository(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     id = "temp_sm_id"
     id_short = "TempSM"
@@ -988,8 +988,8 @@ def test_031_delete_submodel_reference_by_id_aas_repository(wrapper: SdkWrapper)
     sm_id = "temp_sm_id"
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
-        sm_id = encoder.decode_base_64(sm_id)
+        shell_id = encoder.encode_base_64(SHELL_ID)
+        sm_id = encoder.encode_base_64(sm_id)
 
     result = wrapper.delete_submodel_reference_by_id_aas_repository(shell_id, sm_id)
 
@@ -1003,7 +1003,7 @@ def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        shell_id = encoder.decode_base_64(SHELL_ID)
+        shell_id = encoder.encode_base_64(SHELL_ID)
 
     result = wrapper.delete_asset_administration_shell_by_id(shell_id)
 
@@ -1017,7 +1017,7 @@ def test_099a_delete_submodel_by_id(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(SM_ID)
+        sm_id = encoder.encode_base_64(SM_ID)
 
     result = wrapper.delete_submodel_by_id(sm_id)
 
@@ -1031,7 +1031,7 @@ def test_099b_delete_submodel_by_id(wrapper: SdkWrapper):
     sm_id = SM_ID
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
-        sm_id = encoder.decode_base_64(AIMC_SM_ID)
+        sm_id = encoder.encode_base_64(AIMC_SM_ID)
 
     result = wrapper.delete_submodel_by_id(sm_id)
 
