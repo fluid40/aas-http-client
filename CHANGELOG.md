@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.6] - 2026-02-17
+
+- 🚀Improvement: Use urlsafe base64 encoding/decoding
+
 ## [0.9.5] - 2026-02-03
 
 - 🚀Improvement: Reorder authentication method handling for improved logic flow
