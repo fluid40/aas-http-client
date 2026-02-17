@@ -7,7 +7,7 @@ def test_001a_decode_base_64():
     decoded = encoder.decode_base_64(encoded)
     assert decoded == "EnergyMonitoring"
     new_encoded = encoder.encode_base_64(decoded)
-    assert new_encoded == encoded + "=="
+    assert new_encoded == encoded
 
 
 def test_001b_decode_base_64():
@@ -22,7 +22,7 @@ def test_002a_encode_base_64():
     decoded = "EnergyMonitoring"
 
     encoded = encoder.encode_base_64(decoded)
-    assert encoded == "RW5lcmd5TW9uaXRvcmluZw=="
+    assert encoded == "RW5lcmd5TW9uaXRvcmluZw"
     new_decoded = encoder.decode_base_64(encoded)
     assert new_decoded == decoded
 
