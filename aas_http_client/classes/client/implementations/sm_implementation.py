@@ -459,6 +459,37 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
+    def invoke_operation_submodel_repo(self, submodel_identifier: str, id_short_path: str, request_body: dict, async_: str = "async") -> dict | None:
+        """Synchronously invokes an Operation at a specified path.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the operation element (dot-separated)
+        :param request_body: Input parameters for the operation
+        :param async_: Determines whether an operation invocation is performed asynchronously or synchronously
+        :return: Operation result or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/invoke"
+
+        self._client.set_token()
+
+        try:
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
 
     # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
