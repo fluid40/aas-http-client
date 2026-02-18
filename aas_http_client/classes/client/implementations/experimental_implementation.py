@@ -14,7 +14,6 @@ from pydantic import BaseModel
 from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response,
