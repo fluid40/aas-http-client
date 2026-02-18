@@ -4,7 +4,7 @@ import json
 import logging
 import mimetypes
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import requests
 from pydantic import BaseModel
@@ -39,7 +39,7 @@ class ShellRepoImplementation(BaseModel):
         :return: Asset Administration Shells data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}"
 
@@ -74,7 +74,7 @@ class ShellRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}"
 
@@ -87,7 +87,7 @@ class ShellRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code is not STATUS_CODE_204:
                 log_response(response)
@@ -140,7 +140,7 @@ class ShellRepoImplementation(BaseModel):
         :return: Thumbnail file data as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
 
@@ -220,7 +220,7 @@ class ShellRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/asset-information/thumbnail"
 
@@ -263,13 +263,13 @@ class ShellRepoImplementation(BaseModel):
         if asset_ids is None:
             asset_ids = []
 
-        params = {}
+        params: dict[str, Any] = {}
         if asset_ids is not None and len(asset_ids) > 0:
             params["assetIds"] = asset_ids
         if id_short:
             params["idShort"] = id_short
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
 
@@ -326,13 +326,13 @@ class ShellRepoImplementation(BaseModel):
         :return: List of Submodel references or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs"
 
-        params = {}
+        params: dict[str, str] = {}
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
 
@@ -367,7 +367,7 @@ class ShellRepoImplementation(BaseModel):
         :return: Response data as a dictionary or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs"
 
@@ -402,8 +402,8 @@ class ShellRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/submodel-refs/{submodel_identifier}"
 
@@ -416,7 +416,7 @@ class ShellRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code not in (STATUS_CODE_204, STATUS_CODE_200):
                 log_response(response)
@@ -440,8 +440,8 @@ class ShellRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
@@ -454,7 +454,7 @@ class ShellRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -474,7 +474,7 @@ class ShellRepoImplementation(BaseModel):
         :return: Asset Administration Shells reference data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/$reference"
 
@@ -509,8 +509,8 @@ class ShellRepoImplementation(BaseModel):
         :return: Submodel object or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shells/{aas_identifier}/submodels/{submodel_identifier}"
 
