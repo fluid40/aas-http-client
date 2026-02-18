@@ -161,6 +161,10 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: Asset Administration Shells or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.shells.get_asset_administration_shell_by_id(aas_identifier)
 
         if not content:
@@ -177,6 +181,10 @@ class SdkWrapper:
         :param aas: Asset Administration Shell to put
         :return: True if the update was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         aas_data = _to_dict(aas)
 
         if aas_data is None:
@@ -192,6 +200,10 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: True if the deletion was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.shells.delete_asset_administration_shell_by_id(aas_identifier)
 
     # GET /shells/{aasIdentifier}/asset-information/thumbnail
@@ -201,6 +213,10 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: Attachment object with thumbnail content as bytes (octet-stream) or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         byte_content = self._client.shells.get_thumbnail_aas_repository(aas_identifier)
 
         if not byte_content:
@@ -222,6 +238,10 @@ class SdkWrapper:
         :param file: Path to the thumbnail file to upload as attachment
         :return: True if the update was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.shells.put_thumbnail_aas_repository(aas_identifier, file_name, file)
 
     # DELETE /shells/{aasIdentifier}/asset-information/thumbnail
@@ -231,6 +251,10 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: True if the deletion was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.shells.delete_thumbnail_aas_repository(aas_identifier)
 
     # GET /shells
@@ -245,6 +269,10 @@ class SdkWrapper:
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.shells.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
 
         if not content:
@@ -259,6 +287,10 @@ class SdkWrapper:
         :param aas: Asset Administration Shell to post
         :return: Asset Administration Shell or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         aas_data = _to_dict(aas)
         if aas_data is None:
             return None
@@ -278,6 +310,10 @@ class SdkWrapper:
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Submodel References or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         references_result = self._client.shells.get_all_submodel_references_aas_repository(aas_identifier, limit, cursor)
 
         if not references_result:
@@ -293,6 +329,10 @@ class SdkWrapper:
         :param submodel_reference: Reference to the Submodel
         :return: Reference Submodel object or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         ref_data = _to_dict(submodel_reference)
         if ref_data is None:
             return None
@@ -311,6 +351,10 @@ class SdkWrapper:
         :param submodel_identifier: The Submodels unique id
         :return: True if the deletion was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.shells.delete_submodel_reference_by_id_aas_repository(aas_identifier, submodel_identifier)
 
     # not supported by Java Server
@@ -324,6 +368,10 @@ class SdkWrapper:
         :param submodel: Submodel to put
         :return: True if the update was successful, False otherwise
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         sm_data = _to_dict(submodel)
 
         if sm_data is None:
@@ -354,6 +402,10 @@ class SdkWrapper:
         :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel or None if an error occurred
         """
+        if not self._client.shells:
+            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.shells.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
 
         if not content:
@@ -374,6 +426,10 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel data or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.submodels.get_submodel_by_id(submodel_identifier, str(level), str(extent))
 
         if not content:
@@ -389,6 +445,10 @@ class SdkWrapper:
         :param submodel: Submodel data to update
         :return: True if the update was successful, False otherwise
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         sm_data = _to_dict(submodel)
 
         if sm_data is None:
@@ -403,6 +463,10 @@ class SdkWrapper:
         :param submodel_id: ID of the submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.submodels.delete_submodel_by_id(submodel_id)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
@@ -417,6 +481,10 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.submodels.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
 
         if not content:
@@ -444,6 +512,10 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element object or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         sme_data = _to_dict(submodel_element)
 
         if sme_data is None:
@@ -460,13 +532,17 @@ class SdkWrapper:
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     # TODO write test
-    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes a submodel element at a specified path within the submodel elements hierarchy.
 
         :param submodel_identifier: Encoded ID of the Submodel to delete submodel element from
         :param id_short_path: Path of the Submodel element to delete
         :return: True if the deletion was successful, False otherwise
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.submodels.delete_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
 
     # GET /submodels
@@ -489,6 +565,10 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.submodels.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
 
         if not content:
@@ -503,6 +583,10 @@ class SdkWrapper:
         :param submodel: Submodel to post
         :return: Submodel or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         sm_data = _to_dict(submodel)
 
         if sm_data is None:
@@ -525,6 +609,10 @@ class SdkWrapper:
         :param submodel_id: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel elements or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         content = self._client.submodels.get_all_submodel_elements_submodel_repository(submodel_id)
 
         if not content:
@@ -540,6 +628,10 @@ class SdkWrapper:
         :param request_body: Submodel element
         :return: Submodel or None if an error occurred
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         sme_data = _to_dict(submodel_element)
 
         if sme_data is None:
@@ -564,6 +656,10 @@ class SdkWrapper:
         :param value: Submodel element value to update as string
         :return: True if the patch was successful, False otherwise
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
 
     # GET /submodels/{submodelIdentifier}/$value
@@ -573,12 +669,16 @@ class SdkWrapper:
     # not supported by Java Server
 
     # PATCH /submodels/{submodelIdentifier}
-    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel):
+    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel) -> bool:
         """Updates an existing Submodel.
 
         :param submodel_id: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
         """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         sm_data = _to_dict(submodel)
 
         if sm_data is None:
@@ -604,6 +704,10 @@ class SdkWrapper:
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: Attachment object with file content as bytes (octet-stream) or None if an error occurred
         """
+        if not self._client.experimental:
+            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
         sme = self.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
 
         if not sme or not isinstance(sme, model.File):
@@ -631,6 +735,10 @@ class SdkWrapper:
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
+        if not self._client.experimental:
+            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.experimental.post_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
 
     def experimental_put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
@@ -641,6 +749,10 @@ class SdkWrapper:
         :param file: Path to the file to upload as attachment
         :return: Attachment data as bytes or None if an error occurred
         """
+        if not self._client.experimental:
+            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.experimental.put_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
 
     def experimental_delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
@@ -650,6 +762,10 @@ class SdkWrapper:
         :param id_short_path: IdShort path to the submodel element (dot-separated)
         :return: True if deletion was successful, False otherwise
         """
+        if not self._client.experimental:
+            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
         return self._client.experimental.delete_file_by_path_submodel_repo(submodel_identifier, id_short_path)
 
     # endregion

@@ -30,6 +30,14 @@ class SubmodelRegistryImplementation(BaseModel):
         """Initializes the SubmodelRegistryImplementation with the given client."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /submodel-descriptors/{submodelIdentifier}
     def get_submodel_descriptor_by_id(self, submodel_identifier: str) -> dict | None:
         """Returns the Submodel Descriptor for the given submodel identifier.
@@ -45,7 +53,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -80,7 +88,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -113,7 +121,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -150,7 +158,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -176,7 +184,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -201,7 +209,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -225,7 +233,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:

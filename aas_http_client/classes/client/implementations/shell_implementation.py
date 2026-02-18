@@ -31,6 +31,14 @@ class ShellRepoImplementation(BaseModel):
         """Initializes the ShellImplementation with the given parameters."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /shells/{aasIdentifier}
     def get_asset_administration_shell_by_id(self, aas_identifier: str) -> dict | None:
         """Returns a specific Asset Administration Shell.
@@ -46,7 +54,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -81,7 +89,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -114,7 +122,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -147,7 +155,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -192,7 +200,7 @@ class ShellRepoImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client.get_session().put(url, files=files, params=params, timeout=self._client.time_out)
+                response = self._session.put(url, files=files, params=params, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -227,7 +235,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -276,7 +284,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out, params=params)
+            response = self._session.get(url, timeout=self._client.time_out, params=params)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -302,7 +310,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -339,7 +347,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out, params=params)
+            response = self._session.get(url, timeout=self._client.time_out, params=params)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -374,7 +382,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -410,7 +418,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -448,7 +456,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -481,7 +489,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -517,7 +525,7 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:

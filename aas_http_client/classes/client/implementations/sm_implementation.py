@@ -29,6 +29,14 @@ class SubmodelRepoImplementation(BaseModel):
         """Initializes the SmImplementation with the given parameters."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /submodels/{submodelIdentifier}
     def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
         """Returns a specific Submodel.
@@ -52,7 +60,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -87,7 +95,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -120,7 +128,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -164,7 +172,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -212,7 +220,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, params=params, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -232,7 +240,7 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
-    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes a submodel element at a specified path within the submodel elements hierarchy.
 
         :param submodel_identifier: The Submodels unique id
@@ -246,13 +254,13 @@ class SubmodelRepoImplementation(BaseModel):
 
         self._client.set_token()
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -297,7 +305,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -323,7 +331,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -368,7 +376,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -398,7 +406,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -439,7 +447,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().patch(url, json=value, params=params, timeout=self._client.time_out)
+            response = self._session.patch(url, json=value, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -478,7 +486,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().patch(url, json=submodel_data, timeout=self._client.time_out)
+            response = self._session.patch(url, json=submodel_data, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
