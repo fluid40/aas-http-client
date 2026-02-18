@@ -34,7 +34,7 @@ def create_base_submodel_element_property(
         display_name = "POC Submodel Element"
 
     display_name_text = {"en": f"{display_name}"}
-    sme.display_name = model.MultiLanguageTextType(display_name_text)
+    sme.display_name = model.MultiLanguageNameType(display_name_text)
 
     return sme
 
@@ -61,7 +61,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
         display_name = "POC AAS"
 
     display_name_text = {"en": f"{display_name}"}
-    sm.display_name = model.MultiLanguageTextType(display_name_text)
+    sm.display_name = model.MultiLanguageNameType(display_name_text)
 
     return sm
 
@@ -96,7 +96,7 @@ def create_base_ass(
         display_name = "POC AAS"
 
     display_name_text = {"en": f"{display_name}"}
-    aas.display_name = model.MultiLanguageTextType(display_name_text)
+    aas.display_name = model.MultiLanguageNameType(display_name_text)
 
     return aas
 

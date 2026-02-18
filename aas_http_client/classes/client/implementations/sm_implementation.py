@@ -340,7 +340,7 @@ class SubmodelRepoImplementation(BaseModel):
     # GET /submodels/{submodelIdentifier}/submodel-elements
     def get_all_submodel_elements_submodel_repository(
         self, submodel_identifier: str, limit: int = 100, cursor: str = "", level: str = "", extent: str = ""
-    ) -> list[dict] | None:
+    ) -> dict | None:
         """Returns all submodel elements including their hierarchy.
 
         :param submodel_identifier: The Submodels unique id

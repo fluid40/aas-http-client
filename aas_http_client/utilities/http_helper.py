@@ -56,10 +56,10 @@ def log_response(response: Response, log_level: int = logging.ERROR):  # noqa: C
 
     except json.JSONDecodeError:
         if response.content and response.content != "b''":
-            result_error_messages.append(response.content)
+            result_error_messages.append(str(response.content))
 
     logger.log(log_level, f"Status code: {response.status_code}")
     for result_error_message in result_error_messages:
         logger.log(log_level, result_error_message)
 
-    logger.debug(f"Full response content: {response.content}")
+    logger.debug(f"Full response content: {str(response.content)}")

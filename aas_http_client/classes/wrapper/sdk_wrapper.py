@@ -4,6 +4,7 @@ import json
 import logging
 from enum import Enum
 from pathlib import Path
+from typing import Any
 
 import puremagic
 from basyx.aas import model
@@ -103,7 +104,7 @@ class AssetKind(Enum):
 class SdkWrapper:
     """Represents a wrapper for the BaSyx Python SDK to communicate with a REST API."""
 
-    _client: AasHttpClient = None
+    _client: AasHttpClient
     base_url: str = ""
 
     def __init__(self, config_string: str, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""):
@@ -160,7 +161,7 @@ class SdkWrapper:
         :param aas_identifier: The Asset Administration Shells unique id (decoded)
         :return: Asset Administration Shells or None if an error occurred
         """
-        content: dict = self._client.shells.get_asset_administration_shell_by_id(aas_identifier)
+        content = self._client.shells.get_asset_administration_shell_by_id(aas_identifier)
 
         if not content:
             logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
@@ -177,6 +178,11 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         aas_data = _to_dict(aas)
+
+        if aas_data is None:
+            logger.error(f"Failed to serialize Asset Administration Shell with ID '{aas_identifier}' to dictionary.")
+            return False
+
         return self._client.shells.put_asset_administration_shell_by_id(aas_identifier, aas_data)
 
     # DELETE /shells/{aasIdentifier}
@@ -239,7 +245,7 @@ class SdkWrapper:
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :return: List of paginated Asset Administration Shells or None if an error occurred
         """
-        content: dict = self._client.shells.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
+        content = self._client.shells.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
 
         if not content:
             return None
@@ -254,7 +260,13 @@ class SdkWrapper:
         :return: Asset Administration Shell or None if an error occurred
         """
         aas_data = _to_dict(aas)
-        content: dict = self._client.shells.post_asset_administration_shell(aas_data)
+        if aas_data is None:
+            return None
+
+        content = self._client.shells.post_asset_administration_shell(aas_data)
+        if not content:
+            return None
+
         return _to_object(content)
 
     # GET /shells/{aasIdentifier}/submodel-refs
@@ -267,6 +279,10 @@ class SdkWrapper:
         :return: List of paginated Submodel References or None if an error occurred
         """
         references_result = self._client.shells.get_all_submodel_references_aas_repository(aas_identifier, limit, cursor)
+
+        if not references_result:
+            return None
+
         return create_reference_paging_data(references_result)
 
     # POST /shells/{aasIdentifier}/submodel-refs
@@ -278,7 +294,13 @@ class SdkWrapper:
         :return: Reference Submodel object or None if an error occurred
         """
         ref_data = _to_dict(submodel_reference)
-        content: dict = self._client.shells.post_submodel_reference_aas_repository(aas_identifier, ref_data)
+        if ref_data is None:
+            return None
+
+        content = self._client.shells.post_submodel_reference_aas_repository(aas_identifier, ref_data)
+        if not content:
+            return None
+
         return _to_object(content)
 
     # DELETE /shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}
@@ -303,6 +325,10 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
+
+        if sm_data is None:
+            return False
+
         return self._client.shells.put_submodel_by_id_aas_repository(aas_identifier, submodel_identifier, sm_data)
 
     # GET /shells/{aasIdentifier}/$reference
@@ -314,6 +340,10 @@ class SdkWrapper:
         """
         # workaround because serialization not working
         aas = self.get_asset_administration_shell_by_id(aas_identifier)
+
+        if not aas:
+            return None
+
         return model.ModelReference.from_referable(aas)
 
     # GET /shells/{aasIdentifier}/submodels/{submodelIdentifier}
@@ -324,7 +354,11 @@ class SdkWrapper:
         :param submodel_identifier: ID of the submodel to retrieve
         :return: Submodel or None if an error occurred
         """
-        content: dict = self._client.shells.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
+        content = self._client.shells.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
+
+        if not content:
+            return None
+
         return _to_object(content)
 
     # endregion
@@ -343,7 +377,6 @@ class SdkWrapper:
         content = self._client.submodels.get_submodel_by_id(submodel_identifier, str(level), str(extent))
 
         if not content:
-            logger.warning(f"No submodel found with ID '{submodel_identifier}' on server.")
             return None
 
         return _to_object(content)
@@ -357,6 +390,10 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
+
+        if sm_data is None:
+            return False
+
         return self._client.submodels.put_submodels_by_id(submodel_identifier, sm_data)
 
     # DELETE /submodels/{submodelIdentifier}
@@ -380,7 +417,11 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: Submodel element data or None if an error occurred
         """
-        content: dict = self._client.submodels.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
+        content = self._client.submodels.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
+
+        if not content:
+            return None
+
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
@@ -404,9 +445,17 @@ class SdkWrapper:
         :return: Submodel element object or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.submodels.post_submodel_element_by_path_submodel_repo(
+
+        if sme_data is None:
+            return None
+
+        content = self._client.submodels.post_submodel_element_by_path_submodel_repo(
             submodel_identifier, id_short_path, sme_data, str(level), str(extent)
         )
+
+        if not content:
+            return None
+
         return _to_object(content)
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
@@ -440,7 +489,7 @@ class SdkWrapper:
         :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
         :return: List of Submodel or None if an error occurred
         """
-        content: list = self._client.submodels.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
+        content = self._client.submodels.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
 
         if not content:
             return None
@@ -455,7 +504,15 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         sm_data = _to_dict(submodel)
-        content: dict = self._client.submodels.post_submodel(sm_data)
+
+        if sm_data is None:
+            return None
+
+        content = self._client.submodels.post_submodel(sm_data)
+
+        if not content:
+            return None
+
         return _to_object(content)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements
@@ -471,7 +528,7 @@ class SdkWrapper:
         content = self._client.submodels.get_all_submodel_elements_submodel_repository(submodel_id)
 
         if not content:
-            return []
+            return None
 
         return create_submodel_element_paging_data(content)
 
@@ -484,7 +541,15 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         sme_data = _to_dict(submodel_element)
-        content: dict = self._client.submodels.post_submodel_element_submodel_repo(submodel_id, sme_data)
+
+        if sme_data is None:
+            return None
+
+        content = self._client.submodels.post_submodel_element_submodel_repo(submodel_id, sme_data)
+
+        if not content:
+            return None
+
         return _to_object(content)
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
@@ -515,6 +580,10 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         sm_data = _to_dict(submodel)
+
+        if sm_data is None:
+            return False
+
         return self._client.submodels.patch_submodel_by_id(submodel_id, sm_data)
 
     # endregion
@@ -601,7 +670,7 @@ def create_wrapper_by_url(
     https_proxy: str = "",
     time_out: int = 200,
     connection_time_out: int = 60,
-    ssl_verify: str = True,  # noqa: FBT002
+    ssl_verify: bool = True,  # noqa: FBT001, FBT002
     trust_env: bool = True,  # noqa: FBT001, FBT002
     encoded_ids: bool = True,  # noqa: FBT001, FBT002
 ) -> SdkWrapper | None:
@@ -624,15 +693,15 @@ def create_wrapper_by_url(
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
     logger.info(f"Create AAS server http client from URL '{base_url}'.")
-    config_dict: dict[str, str] = {}
+    config_dict: dict[str, Any] = {}
     config_dict["BaseUrl"] = base_url
     config_dict["HttpProxy"] = http_proxy
     config_dict["HttpsProxy"] = https_proxy
-    config_dict["TimeOut"] = time_out
-    config_dict["ConnectionTimeOut"] = connection_time_out
-    config_dict["SslVerify"] = ssl_verify
-    config_dict["TrustEnv"] = trust_env
-    config_dict["EncodedIds"] = encoded_ids
+    config_dict["TimeOut"] = str(time_out)
+    config_dict["ConnectionTimeOut"] = str(connection_time_out)
+    config_dict["SslVerify"] = str(ssl_verify)
+    config_dict["TrustEnv"] = str(trust_env)
+    config_dict["EncodedIds"] = str(encoded_ids)
 
     config_dict["AuthenticationSettings"] = {
         "BasicAuth": {"Username": basic_auth_username},
