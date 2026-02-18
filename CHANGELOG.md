@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.7] - 2026-02-17
+
+- 🚀Improvement: General code improvements
+
 ## [0.9.6] - 2026-02-17
 
 - 🚀Improvement: Use urlsafe base64 encoding/decoding
