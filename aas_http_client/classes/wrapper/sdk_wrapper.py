@@ -493,6 +493,27 @@ class SdkWrapper:
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def put_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, submodel_element: model.SubmodelElement, level: Level = Level.default
+    ) -> bool:
+        """Updates a submodel element at a specified path within the submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the Submodel to update element for
+        :param id_short_path: Path of the Submodel element to update
+        :param request_body: Submodel element data to update as dictionary
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the update was successful, False otherwise
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        sme_data = _to_dict(submodel_element)
+
+        if sme_data is None:
+            return False
+
+        return self._client.submodels.put_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, sme_data, str(level))
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def post_submodel_element_by_path_submodel_repo(

@@ -192,6 +192,44 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def put_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, request_body: dict, level: str = "") -> bool:
+        """Creates or updates an existing submodel element at a specified path within submodel elements hierarchy.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param request_body: Data for the submodel element
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the operation was successful, False otherwise
+        """
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
+
+        params: dict[str, str] = {}
+        if level:
+            params["level"] = level
+
+        self._client.set_token()
+
+        try:
+            response = self._session.put(url, json=request_body, params=params, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                logger.debug(response.text)
+                return False
+
+            if response.status_code != STATUS_CODE_204:
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def post_submodel_element_by_path_submodel_repo(

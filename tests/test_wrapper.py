@@ -25,7 +25,7 @@ CONFIG_FILES = [
 ]
 
 # CONFIG_FILES = [
-#     "./tests/server_configs/test_dotnet_server_config_local.json",
+#     "./tests/server_configs/test_dotnet_server_config.yml",
 # ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
@@ -652,6 +652,9 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element: model.Property = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    old_value = submodel_element.value
+
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
     parsed = urlparse(wrapper.base_url)
@@ -671,6 +674,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         assert isinstance(submodel_element, model.Property)
         property: model.Property = submodel_element
         assert property.value == new_value
+        assert property.value != old_value
 
 def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_bool: model.Property):
     new_value = "false"
@@ -679,6 +683,9 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element: model.Property = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    old_value = submodel_element.value
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
@@ -699,6 +706,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         assert isinstance(submodel_element, model.Property)
         property: model.Property = submodel_element
         assert property.value == json.loads(new_value)
+        assert property.value != old_value
 
 def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_int: model.Property):
     new_value = "263"
@@ -707,6 +715,9 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element: model.Property = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    old_value = submodel_element.value
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
@@ -727,6 +738,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         assert isinstance(submodel_element, model.Property)
         property: model.Property = submodel_element
         assert property.value == int(new_value)
+        assert property.value != old_value
 
 def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_float: model.Property):
     new_value = "262.1"
@@ -735,6 +747,9 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
 
     if wrapper.get_encoded_ids() == IdEncoding.encoded:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element: model.Property = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    old_value = submodel_element.value
 
     result = wrapper.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
@@ -755,6 +770,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         assert isinstance(submodel_element, model.Property)
         property: model.Property = submodel_element
         assert property.value == float(new_value)
+        assert property.value != old_value
 
 def test_020a_encoded_ids(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
@@ -998,6 +1014,35 @@ def test_031_delete_submodel_reference_by_id_aas_repository(wrapper: SdkWrapper)
     get_result = wrapper.get_all_submodel_references_aas_repository(shell_id)
     assert get_result is not None
     assert len(get_result.results) == 1
+
+def test_032_put_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, shared_sme_string: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    sme: model.Property = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    old_value = sme.value
+
+    new_value = "New Value via PUT"
+    shared_sme_string.value = new_value
+
+    result = wrapper.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, shared_sme_string)
+
+    assert result is True
+
+    sme = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+
+    assert sme is not None
+    assert sme.id_short == shared_sme_string.id_short
+    assert sme.value == new_value
+    assert sme.value != old_value
+    assert sme.description.get("en", "") == shared_sme_string.description.get("en", "")
+    assert sme.display_name.get("en", "") == shared_sme_string.display_name.get("en", "")
+
+    # restore original value
+    shared_sme_string.value = "Sample String Value"
+    wrapper.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, shared_sme_string)
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID

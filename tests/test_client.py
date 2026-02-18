@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import pytest
 from pathlib import Path
 from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
@@ -28,7 +29,7 @@ CONFIG_FILES = [
 ]
 
 # CONFIG_FILES = [
-#     "./tests/server_configs/test_dotnet_server_config_local.yml",
+#     "./tests/server_configs/test_dotnet_server_config.yml",
 # ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
@@ -669,6 +670,9 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    old_value = submodel_element.get("value", "")
+
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
     parsed = urlparse(client.base_url)
@@ -685,6 +689,7 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result.get("value", "") == new_value
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+        assert get_result.get("value", "") != old_value
 
 def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
     new_value = "false"
@@ -693,6 +698,9 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
 
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    old_value = submodel_element.get("value", "")
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
@@ -710,6 +718,7 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert json.loads(get_result.get("value", "").lower()) == json.loads(new_value)
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+        assert get_result.get("value", "").lower() != old_value.lower()
 
 def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_int: model.Property):
     new_value = "263"
@@ -718,6 +727,9 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
 
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    old_value = submodel_element.get("value", "")
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
@@ -735,6 +747,7 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert int(get_result.get("value", "")) == int(new_value)
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+        assert int(get_result.get("value", "")) != int(old_value)
 
 def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
     new_value = "262.1"
@@ -743,6 +756,9 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
 
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
+
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    old_value = submodel_element.get("value", "")
 
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
@@ -760,6 +776,7 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert float(get_result.get("value", "")) == float(new_value)
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
+        assert float(get_result.get("value", "")) != float(old_value)
 
 def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient):
     submodel_element_list = model.SubmodelElementList(id_short="sme_list_1", type_value_list_element=model.Property, value_type_list_element=model.datatypes.String)
@@ -1061,6 +1078,38 @@ def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClien
     assert get_result is not None
     references = get_result.get("result", [])
     assert len(references) == 1
+
+def test_032_put_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    old_value = get_result.get("value", "")
+
+    new_value = "New Value via PUT"
+
+    sme_data_string = json.dumps(shared_sme_string, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sme_data = json.loads(sme_data_string)
+    sme_data["value"] = new_value
+
+    result = client.submodels.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, sme_data)
+
+    assert result is True
+
+    get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+
+    assert get_result is not None
+    assert get_result.get("idShort", "") == shared_sme_string.id_short
+    assert get_result.get("value", "") == new_value
+    assert get_result.get("value", "") != old_value
+    assert get_result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
+    assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+
+    # restore original value
+    sme_data["value"] = "Sample String Value"
+    result = client.submodels.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, sme_data)
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     shell_id = SHELL_ID
