@@ -39,11 +39,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -80,7 +80,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -93,7 +93,7 @@ class SubmodelRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -113,7 +113,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -126,7 +126,7 @@ class SubmodelRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -151,11 +151,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -174,7 +174,7 @@ class SubmodelRepoImplementation(BaseModel):
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
-                return False
+                return None
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
@@ -199,11 +199,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -240,7 +240,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
@@ -271,7 +271,7 @@ class SubmodelRepoImplementation(BaseModel):
         """Returns all Submodels.
 
         :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)
-        :param id_short: The Submodelss IdShort
+        :param id_short: The Submodels IdShort
         :param limit: The maximum number of elements in the response array
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
@@ -280,13 +280,13 @@ class SubmodelRepoImplementation(BaseModel):
         """
         url = f"{self._client.base_url}/submodels"
 
-        params = {}
+        params: dict[str, str] = {}
         if semantic_id:
             params["semanticId"] = semantic_id
         if id_short:
             params["idShort"] = id_short
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
         if level:
@@ -351,13 +351,13 @@ class SubmodelRepoImplementation(BaseModel):
         :return: List of Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
-        params = {}
+        params: dict[str, str] = {}
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
         if level:
@@ -391,7 +391,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
@@ -428,11 +428,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
 
@@ -445,7 +445,7 @@ class SubmodelRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -471,7 +471,7 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
@@ -484,7 +484,7 @@ class SubmodelRepoImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
