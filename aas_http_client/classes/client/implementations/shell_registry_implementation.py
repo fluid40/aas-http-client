@@ -37,7 +37,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -72,7 +72,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Created or updated Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -85,7 +85,7 @@ class ShellRegistryImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -105,7 +105,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}"
 
@@ -118,7 +118,7 @@ class ShellRegistryImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -139,8 +139,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -176,8 +176,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if creation or update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -211,8 +211,8 @@ class ShellRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors/{submodel_identifier}"
 
@@ -251,13 +251,13 @@ class ShellRegistryImplementation(BaseModel):
         """
         url = f"{self._client.base_url}/shell-descriptors"
 
-        params = {}
+        params: dict[str, str] = {}
         if asset_kind:
             params["asset_kind"] = asset_kind
         if asset_type:
             params["asset_type"] = asset_type
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
 
@@ -336,7 +336,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Submodel Descriptors data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 
@@ -371,7 +371,7 @@ class ShellRegistryImplementation(BaseModel):
         :return: Created Asset Administration Shell Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            aas_identifier: str = encode_base_64(aas_identifier)
+            aas_identifier = encode_base_64(aas_identifier)
 
         url = f"{self._client.base_url}/shell-descriptors/{aas_identifier}/submodel-descriptors"
 
@@ -384,7 +384,7 @@ class ShellRegistryImplementation(BaseModel):
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
                 logger.debug(response.text)
-                return False
+                return None
 
             if response.status_code != STATUS_CODE_201:
                 log_response(response)

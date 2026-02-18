@@ -38,7 +38,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
@@ -73,7 +73,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Updated Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
@@ -106,7 +106,7 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
@@ -141,9 +141,9 @@ class SubmodelRegistryImplementation(BaseModel):
         """
         url = f"{self._client.base_url}/submodel-descriptors"
 
-        params = {}
+        params: dict[str, str] = {}
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
 
