@@ -14,7 +14,6 @@ from pydantic import BaseModel
 from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response,
@@ -29,6 +28,14 @@ class ExperimentalImplementation(BaseModel):
     def __init__(self, client: "AasHttpClient"):
         """Initializes the ExperimentalImplementation with the given client."""
         self._client = client
+
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
@@ -46,7 +53,7 @@ class ExperimentalImplementation(BaseModel):
         self._client.set_token()  # ensures Authorization header is set
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -91,7 +98,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client.get_session().post(url, files=files, timeout=self._client.time_out)
+                response = self._session.post(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -136,7 +143,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client.get_session().put(url, files=files, timeout=self._client.time_out)
+                response = self._session.put(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -172,7 +179,7 @@ class ExperimentalImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
@@ -190,6 +197,6 @@ class ExperimentalImplementation(BaseModel):
         return True
 
     def _post_multipart(self, url, files):
-        headers = dict(self._client.get_session().headers)
+        headers = dict(self._session.headers)
         headers.pop("Content-Type", None)
-        return self._client.get_session().post(url, headers=headers, files=files)
+        return self._session.post(url, headers=headers, files=files)

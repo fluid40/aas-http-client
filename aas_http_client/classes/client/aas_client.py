@@ -4,6 +4,7 @@ import json
 import logging
 import time
 from pathlib import Path
+from typing import Any
 
 import requests
 from pydantic import BaseModel, Field, PrivateAttr, ValidationError
@@ -44,14 +45,14 @@ class AasHttpClient(BaseModel):
     connection_time_out: int = Field(default=100, alias="ConnectionTimeOut", description="Connection timeout for HTTP requests.")
     ssl_verify: bool = Field(default=True, alias="SslVerify", description="Enable SSL verification.")
     trust_env: bool = Field(default=True, alias="TrustEnv", description="Trust environment variables.")
-    _session: Session = PrivateAttr(default=None)
+    _session: Session | None = PrivateAttr(default=None)
     _auth_method: AuthMethod = PrivateAttr(default=AuthMethod.basic_auth)
     encoded_ids: bool = Field(default=True, alias="EncodedIds", description="If enabled, all IDs used in API requests have to be base64-encoded.")
-    shells: ShellRepoImplementation = Field(default=None)
-    submodels: SubmodelRepoImplementation = Field(default=None)
-    shell_registry: ShellRegistryImplementation = Field(default=None)
-    experimental: ExperimentalImplementation = Field(default=None)
-    submodel_registry: SubmodelRegistryImplementation = Field(default=None)
+    shells: ShellRepoImplementation | None = Field(default=None)
+    submodels: SubmodelRepoImplementation | None = Field(default=None)
+    shell_registry: ShellRegistryImplementation | None = Field(default=None)
+    experimental: ExperimentalImplementation | None = Field(default=None)
+    submodel_registry: SubmodelRegistryImplementation | None = Field(default=None)
     _cached_token: TokenData | None = PrivateAttr(default=None)
 
     def initialize(self):
@@ -85,7 +86,7 @@ class AasHttpClient(BaseModel):
         self.submodel_registry = SubmodelRegistryImplementation(self)
         self.experimental = ExperimentalImplementation(self)
 
-    def get_session(self) -> Session:
+    def get_session(self) -> Session | None:
         """Get the HTTP session used by the client.
 
         :return: The requests.Session object used for HTTP communication
@@ -123,6 +124,10 @@ class AasHttpClient(BaseModel):
 
         :return: Response data as a dictionary containing shell information, or None if an error occurred
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         urls: list[str] = []
         urls.append(f"{self.base_url}/shells")
         urls.append(f"{self.base_url}/submodels")
@@ -151,6 +156,10 @@ class AasHttpClient(BaseModel):
 
         :return: The access token if set, otherwise None
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         if self._auth_method != AuthMethod.o_auth:
             return None
 
@@ -177,6 +186,10 @@ class AasHttpClient(BaseModel):
         :param end_point_url: The endpoint URL to send the GET request to.
         :return: The base URL of the AAS server.
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         try:
             response = self._session.get(end_point_url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -197,6 +210,10 @@ class AasHttpClient(BaseModel):
         :param request_body: The request body to send with the PUT request.
         :return: The base URL of the AAS server.
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         try:
             response = self._session.put(end_point_url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -217,6 +234,10 @@ class AasHttpClient(BaseModel):
         :param request_body: The request body to send with the POST request.
         :return: The base URL of the AAS server.
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         try:
             response = self._session.post(end_point_url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -237,6 +258,10 @@ class AasHttpClient(BaseModel):
         :param request_body: The request body to send with the PATCH request.
         :return: The base URL of the AAS server.
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         try:
             response = self._session.patch(end_point_url, json=request_body, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -256,6 +281,10 @@ class AasHttpClient(BaseModel):
         :param end_point_url: The endpoint URL to send the DELETE request to.
         :return: The base URL of the AAS server.
         """
+        if not self._session:
+            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            return None
+
         try:
             response = self._session.delete(end_point_url, timeout=self.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
@@ -282,7 +311,7 @@ def create_client_by_url(  # noqa: PLR0913
     https_proxy: str = "",
     time_out: int = 200,
     connection_time_out: int = 60,
-    ssl_verify: str = True,  # noqa: FBT002
+    ssl_verify: bool = True,  # noqa: FBT001, FBT002
     trust_env: bool = True,  # noqa: FBT001, FBT002
     encoded_ids: bool = True,  # noqa: FBT001, FBT002
 ) -> AasHttpClient | None:
@@ -305,15 +334,15 @@ def create_client_by_url(  # noqa: PLR0913
     :return: An instance of AasHttpClient initialized with the provided parameters or None if connection fails
     """
     logger.info(f"Create AAS server http client from URL '{base_url}'.")
-    config_dict: dict[str, str] = {}
+    config_dict: dict[str, Any] = {}
     config_dict["BaseUrl"] = base_url
     config_dict["HttpProxy"] = http_proxy
     config_dict["HttpsProxy"] = https_proxy
-    config_dict["TimeOut"] = time_out
-    config_dict["ConnectionTimeOut"] = connection_time_out
-    config_dict["SslVerify"] = ssl_verify
-    config_dict["TrustEnv"] = trust_env
-    config_dict["EncodedIds"] = encoded_ids
+    config_dict["TimeOut"] = str(time_out)
+    config_dict["ConnectionTimeOut"] = str(connection_time_out)
+    config_dict["SslVerify"] = str(ssl_verify)
+    config_dict["TrustEnv"] = str(trust_env)
+    config_dict["EncodedIds"] = str(encoded_ids)
 
     config_dict["AuthenticationSettings"] = {
         "BasicAuth": {"Username": basic_auth_username},

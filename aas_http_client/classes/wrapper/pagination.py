@@ -44,7 +44,7 @@ class ReferencePaginatedData:
     paging_metadata: PagingMetadata
     results: list[model.ModelReference]
 
-    def __init__(self, cursor: str, results: list[model.Reference]) -> None:
+    def __init__(self, cursor: str, results: list[model.ModelReference]) -> None:
         """Initialize a paginated data object.
 
         :param paging_metadata: Paging metadata
@@ -102,7 +102,7 @@ class ShellDescriptorPaginatedData:
         self.results = results
 
 
-def create_shell_paging_data(content: dict) -> ShellPaginatedData:
+def create_shell_paging_data(content: dict) -> ShellPaginatedData | None:
     """Create a ShellPaginatedData object from a dictionary.
 
     :param content: Dictionary containing paginated shell data
@@ -137,7 +137,7 @@ def create_shell_paging_data(content: dict) -> ShellPaginatedData:
     )
 
 
-def create_submodel_paging_data(content: dict) -> SubmodelPaginatedData:
+def create_submodel_paging_data(content: dict) -> SubmodelPaginatedData | None:
     """Create a SubmodelPaginatedData object from a dictionary.
 
     :param content: Dictionary containing paginated submodel data
@@ -172,7 +172,7 @@ def create_submodel_paging_data(content: dict) -> SubmodelPaginatedData:
     )
 
 
-def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginatedData:
+def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginatedData | None:
     """Create a SubmodelElementPaginatedData object from a dictionary.
 
     :param content: Dictionary containing paginated submodel element data
@@ -207,7 +207,7 @@ def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginat
     )
 
 
-def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginatedData:
+def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginatedData | None:
     """Create a SubmodelElementPaginatedData object from a dictionary.
 
     :param content: Dictionary containing paginated submodel element data
@@ -242,7 +242,7 @@ def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginat
     )
 
 
-def create_reference_paging_data(content: dict) -> ReferencePaginatedData:
+def create_reference_paging_data(content: dict) -> ReferencePaginatedData | None:
     """Create a ReferencePaginatedData object from a dictionary.
 
     :param content: Dictionary containing paginated reference data
@@ -271,7 +271,7 @@ def create_reference_paging_data(content: dict) -> ReferencePaginatedData:
     if "cursor" in paging_metadata_dict:
         cursor = paging_metadata_dict["cursor"]
 
-    return SubmodelElementPaginatedData(
+    return ReferencePaginatedData(
         cursor=cursor,
         results=ref_list,
     )

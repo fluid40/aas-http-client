@@ -30,6 +30,14 @@ class SubmodelRegistryImplementation(BaseModel):
         """Initializes the SubmodelRegistryImplementation with the given client."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /submodel-descriptors/{submodelIdentifier}
     def get_submodel_descriptor_by_id(self, submodel_identifier: str) -> dict | None:
         """Returns the Submodel Descriptor for the given submodel identifier.
@@ -38,14 +46,14 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -73,14 +81,14 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: Updated Submodel Descriptor data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -106,14 +114,14 @@ class SubmodelRegistryImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodel-descriptors/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -141,16 +149,16 @@ class SubmodelRegistryImplementation(BaseModel):
         """
         url = f"{self._client.base_url}/submodel-descriptors"
 
-        params = {}
+        params: dict[str, str] = {}
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -176,7 +184,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -201,7 +209,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_204:
@@ -225,7 +233,7 @@ class SubmodelRegistryImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:

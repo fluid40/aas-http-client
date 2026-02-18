@@ -29,6 +29,14 @@ class SubmodelRepoImplementation(BaseModel):
         """Initializes the SmImplementation with the given parameters."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /submodels/{submodelIdentifier}
     def get_submodel_by_id(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
         """Returns a specific Submodel.
@@ -39,11 +47,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -52,7 +60,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -80,20 +88,20 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().put(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -113,20 +121,20 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -151,11 +159,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -164,7 +172,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -174,7 +182,7 @@ class SubmodelRepoImplementation(BaseModel):
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
-                return False
+                return None
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
@@ -199,11 +207,11 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
         if extent:
@@ -212,7 +220,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, params=params, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -232,7 +240,7 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # DELETE /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
-    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str):
+    def delete_submodel_element_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes a submodel element at a specified path within the submodel elements hierarchy.
 
         :param submodel_identifier: The Submodels unique id
@@ -240,19 +248,19 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}"
 
         self._client.set_token()
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -271,7 +279,7 @@ class SubmodelRepoImplementation(BaseModel):
         """Returns all Submodels.
 
         :param semantic_id: The value of the semantic id reference (UTF8-BASE64-URL-encoded)
-        :param id_short: The Submodelss IdShort
+        :param id_short: The Submodels IdShort
         :param limit: The maximum number of elements in the response array
         :param cursor: A server-generated identifier retrieved from pagingMetadata that specifies from which position the result listing should continue
         :param level: Determines the structural depth of the respective resource content. Available values : deep, core
@@ -280,13 +288,13 @@ class SubmodelRepoImplementation(BaseModel):
         """
         url = f"{self._client.base_url}/submodels"
 
-        params = {}
+        params: dict[str, str] = {}
         if semantic_id:
             params["semanticId"] = semantic_id
         if id_short:
             params["idShort"] = id_short
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
         if level:
@@ -297,7 +305,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -323,7 +331,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -340,7 +348,7 @@ class SubmodelRepoImplementation(BaseModel):
     # GET /submodels/{submodelIdentifier}/submodel-elements
     def get_all_submodel_elements_submodel_repository(
         self, submodel_identifier: str, limit: int = 100, cursor: str = "", level: str = "", extent: str = ""
-    ) -> list[dict] | None:
+    ) -> dict | None:
         """Returns all submodel elements including their hierarchy.
 
         :param submodel_identifier: The Submodels unique id
@@ -351,13 +359,13 @@ class SubmodelRepoImplementation(BaseModel):
         :return: List of Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
-        params = {}
+        params: dict[str, str] = {}
         if limit:
-            params["limit"] = limit
+            params["limit"] = str(limit)
         if cursor:
             params["cursor"] = cursor
         if level:
@@ -368,7 +376,7 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            response = self._client.get_session().get(url, params=params, timeout=self._client.time_out)
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
@@ -391,14 +399,14 @@ class SubmodelRepoImplementation(BaseModel):
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().post(url, json=request_body, timeout=self._client.time_out)
+            response = self._session.post(url, json=request_body, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
@@ -428,24 +436,24 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
 
-        params = {}
+        params: dict[str, str] = {}
         if level:
             params["level"] = level
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().patch(url, json=value, params=params, timeout=self._client.time_out)
+            response = self._session.patch(url, json=value, params=params, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
@@ -471,20 +479,20 @@ class SubmodelRepoImplementation(BaseModel):
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier: str = encode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().patch(url, json=submodel_data, timeout=self._client.time_out)
+            response = self._session.patch(url, json=submodel_data, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
                 logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
                 logger.debug(response.text)
-                return None
+                return False
 
             if response.status_code != STATUS_CODE_204:
                 log_response(response)
