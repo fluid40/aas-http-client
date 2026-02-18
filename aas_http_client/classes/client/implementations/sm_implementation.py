@@ -491,6 +491,34 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+    def get_submodel_element_by_path_value_only_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> str | None:
+        """Retrieves the value of a specific SubmodelElement.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: Submodel element value or None if an error occurred
+        """
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/$value"
+
+        self._client.set_token()
+
+        try:
+            response = self._session.get(url, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
 
     # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
     def patch_submodel_element_by_path_value_only_submodel_repo(
