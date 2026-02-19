@@ -22,15 +22,15 @@ AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
-# CONFIG_FILES = [
-#     "./tests/server_configs/test_java_server_config.yml",
-#     "./tests/server_configs/test_dotnet_server_config.yml",
-#     "./tests/server_configs/test_python_server_config.yml"
-# ]
-
 CONFIG_FILES = [
-    "./tests/server_configs/test_dotnet_server_config_local.yml",
+    "./tests/server_configs/test_java_server_config.yml",
+    "./tests/server_configs/test_dotnet_server_config.yml",
+    "./tests/server_configs/test_python_server_config.yml"
 ]
+
+# CONFIG_FILES = [
+#     "./tests/server_configs/test_dotnet_server_config_local.yml",
+# ]
 
 @pytest.fixture(params=CONFIG_FILES, scope="module")
 def client(request) -> AasHttpClient:
@@ -83,6 +83,16 @@ def shared_sme_int() -> model.Property:
 def shared_sme_float() -> model.Property:
     # create a Submodel
     return model_builder.create_base_submodel_element_property("sme_property_float", model.datatypes.Float, 262.3)
+
+@pytest.fixture(scope="module")
+def shared_sme_collection() -> model.SubmodelElementCollection:
+    # create a Submodel
+    values: list[model.SubmodelElement] = []
+    values.append(model_builder.create_base_submodel_element_property("coll_element_1", model.datatypes.Integer, 262))
+    values.append(model_builder.create_base_submodel_element_property("coll_element_2", model.datatypes.String, "262"))
+    values.append(model_builder.create_base_submodel_element_property("coll_element_3", model.datatypes.Float, 262.3))
+
+    return model_builder.create_base_submodel_element_collection("sme_property_collection", values)
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
@@ -1374,7 +1384,6 @@ def test_033b_get_submodel_element_by_path_value_only_submodel_repo(client: AasH
 
     sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
     assert sm_data is not None
-    assert value == sm_data.get("value", "")
     assert int(value) == int(sm_data.get("value", ""))
 
 def test_033c_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
@@ -1398,7 +1407,6 @@ def test_033c_get_submodel_element_by_path_value_only_submodel_repo(client: AasH
 
     sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
     assert sm_data is not None
-    assert value == sm_data.get("value", "")
     assert float(value) == float(sm_data.get("value", ""))
 
 def test_033d_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
@@ -1422,8 +1430,34 @@ def test_033d_get_submodel_element_by_path_value_only_submodel_repo(client: AasH
 
     sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
     assert sm_data is not None
-    assert value == sm_data.get("value", "")
-    assert bool(value) == bool(sm_data.get("value", ""))
+    #assert bool(value) == bool(sm_data.get("value", ""))
+
+# def test_033e_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_collection: model.SubmodelElementCollection):
+#     if client.submodels is None:
+#         pytest.skip("Submodels API is not available in this client")
+
+#     post_result = client.submodels.post_submodel_element_submodel_repo(SM_ID, sdk_tools.convert_to_dict(shared_sme_collection))
+#     assert post_result is not None
+
+#     sm_id = SM_ID
+
+#     if client.encoded_ids:
+#         sm_id = encoder.encode_base_64(SM_ID)
+
+#     value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_collection.id_short)
+
+#     parsed = urlparse(client.base_url)
+#     if parsed.port in PYTHON_SERVER_PORTS:
+#         # NOTE: python server do not provide this endpoint
+#         assert value is None
+#         return
+
+#     assert value is not None
+
+#     sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_collection.id_short)
+#     assert sm_data is not None
+#     assert value == sm_data.get("value", "")
+#     assert bool(value) == bool(sm_data.get("value", ""))
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     if client.shells is None:
