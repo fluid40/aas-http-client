@@ -686,7 +686,18 @@ class SdkWrapper:
 
         return content
 
-    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+    def get_submodel_element_by_path_value_only_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> str | None:
+        """Retrieves the value of a specific SubmodelElement.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: Submodel element value or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        return self._client.submodels.get_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, id_short_path)
 
     # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
     def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_identifier: str, submodel_element_path: str, value: str) -> bool:

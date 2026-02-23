@@ -1044,6 +1044,89 @@ def test_032_put_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper, sha
     shared_sme_string.value = "Sample String Value"
     wrapper.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, shared_sme_string)
 
+def test_033a_get_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_string: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = wrapper.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short)
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    assert submodel_element is not None
+    prop: model.Property = submodel_element
+    assert value == prop.value
+
+def test_033b_get_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_int: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = wrapper.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short)
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    assert submodel_element is not None
+    prop: model.Property = submodel_element
+    assert int(value) == prop.value
+
+def test_033c_get_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_float: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = wrapper.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short)
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    submodel_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    assert submodel_element is not None
+    prop: model.Property = submodel_element
+    assert float(value) == prop.value
+
+def test_033d_get_submodel_element_by_path_value_only_submodel_repo(wrapper: SdkWrapper, shared_sme_bool: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = wrapper.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short)
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    sm_data = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    assert sm_data is not None
+    #assert bool(value) == bool(sm_data.get("value", ""))
+
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 

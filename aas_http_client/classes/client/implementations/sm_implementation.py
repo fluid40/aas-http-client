@@ -563,6 +563,46 @@ class SubmodelRepoImplementation(BaseModel):
         return True
 
     # GET /submodels/{submodelIdentifier}/$value
+    def get_submodel_by_id_value_only(self, submodel_identifier: str, level: str = "", extent: str = "") -> dict | None:
+        """Returns a specific Submodel in the ValueOnly representation.
+
+        :param submodel_identifier: The Submodels unique id
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel value as dict or None if an error occurred
+        """
+        params: dict[str, str] = {}
+        if level:
+            params["level"] = level
+        if extent:
+            params["extent"] = extent
+
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/$value"
+
+        self._client.set_token()
+
+        try:
+            response = self._session.get(url, params=params, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return None
+
+        content = response.content.decode("utf-8")
+        return json.loads(content)
+
     # PATCH /submodels/{submodelIdentifier}/$value
     # GET /submodels/{submodelIdentifier}/$metadata
 
