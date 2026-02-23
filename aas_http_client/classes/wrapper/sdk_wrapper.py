@@ -735,6 +735,20 @@ class SdkWrapper:
         return content
 
     # PATCH /submodels/{submodelIdentifier}/$value
+    def patch_submodel_by_id_value_only(self, submodel_identifier: str, request_body: dict, level: Level = Level.default) -> bool:
+        """Updates the values of an existing Submodel.
+
+        :param submodel_identifier: The Submodels unique id
+        :param request_body: Submodel values to update as dict
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the patch was successful, False otherwise
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        return self._client.submodels.patch_submodel_by_id_value_only(submodel_identifier, request_body, str(level))
+
     # GET /submodels/{submodelIdentifier}/$metadata
 
     # not supported by Java Server

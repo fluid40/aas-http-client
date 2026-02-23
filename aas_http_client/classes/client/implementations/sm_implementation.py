@@ -605,6 +605,44 @@ class SubmodelRepoImplementation(BaseModel):
         return json.loads(content)
 
     # PATCH /submodels/{submodelIdentifier}/$value
+    def patch_submodel_by_id_value_only(self, submodel_identifier: str, request_body: dict, level: str = "") -> bool:
+        """Updates the values of an existing Submodel.
+
+        :param submodel_identifier: The Submodels unique id
+        :param request_body: Submodel values to update as dict
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the patch was successful, False otherwise
+        """
+        params: dict[str, str] = {}
+        if level:
+            params["level"] = level
+
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/$value"
+
+        self._client.set_token()
+
+        try:
+            response = self._session.patch(url, json=request_body, params=params, timeout=self._client.time_out)
+            logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                logger.debug(response.text)
+                return False
+
+            if response.status_code != STATUS_CODE_204:
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # GET /submodels/{submodelIdentifier}/$metadata
 
     # not supported by Java Server
