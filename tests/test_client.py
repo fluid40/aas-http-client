@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [5080, 80]
+DOTNET_SERVER_PORTS = [5043]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
@@ -1458,6 +1459,38 @@ def test_033d_get_submodel_element_by_path_value_only_submodel_repo(client: AasH
 #     assert sm_data is not None
 #     assert value == sm_data.get("value", "")
 #     assert bool(value) == bool(sm_data.get("value", ""))
+
+def test_034_get_submodel_by_id_value_only(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    response = client.submodels.get_submodel_by_id_value_only(sm_id)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert response is None
+        return
+    elif parsed.port in DOTNET_SERVER_PORTS:
+        assert response is not None
+        value = response[shared_sm.id_short]
+    else:
+        assert response is not None
+        value = response
+
+    assert value is not None
+    assert len(value) > 5
+    assert "sme_property_int" in value
+    assert int(value["sme_property_int"]) == 263
+    assert "sme_property_string" in value
+    assert value["sme_property_string"] == "Sample String Value"
+    assert "sme_property_float" in value
+    assert float(value["sme_property_float"]) == 262.1
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     if client.shells is None:

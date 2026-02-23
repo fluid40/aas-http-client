@@ -1127,6 +1127,35 @@ def test_033d_get_submodel_element_by_path_value_only_submodel_repo(wrapper: Sdk
     assert sm_data is not None
     #assert bool(value) == bool(sm_data.get("value", ""))
 
+def test_034_get_submodel_by_id_value_only(wrapper: SdkWrapper, shared_sm: model.Submodel):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    response = wrapper.get_submodel_by_id_value_only(sm_id)
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert response is None
+        return
+    elif parsed.port in DOTNET_SERVER_PORTS:
+        assert response is not None
+        value = response[shared_sm.id_short]
+    else:
+        assert response is not None
+        value = response
+
+    assert value is not None
+    assert len(value) > 3
+    assert "sme_property_int" in value
+    assert int(value["sme_property_int"]) == 263
+    assert "sme_property_string" in value
+    assert value["sme_property_string"] == "Sample String Value"
+    assert "sme_property_float" in value
+    assert float(value["sme_property_float"]) == 262.1
+
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 

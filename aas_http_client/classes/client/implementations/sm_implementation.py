@@ -596,6 +596,7 @@ class SubmodelRepoImplementation(BaseModel):
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
+
         except requests.exceptions.RequestException as e:
             logger.error(f"Error call REST API: {e}")
             return None

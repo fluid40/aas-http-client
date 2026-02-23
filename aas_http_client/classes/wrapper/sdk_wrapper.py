@@ -715,6 +715,25 @@ class SdkWrapper:
         return self._client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, submodel_element_path, value)
 
     # GET /submodels/{submodelIdentifier}/$value
+    def get_submodel_by_id_value_only(self, submodel_identifier: str, level: Level = Level.default, extent: Extent = Extent.default) -> dict | None:
+        """Returns the value of a specific Submodel.
+
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel value as dictionary or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        content = self._client.submodels.get_submodel_by_id_value_only(submodel_identifier, str(level), str(extent))
+
+        if not content:
+            return None
+
+        return content
+
     # PATCH /submodels/{submodelIdentifier}/$value
     # GET /submodels/{submodelIdentifier}/$metadata
 
