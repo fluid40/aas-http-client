@@ -1492,7 +1492,7 @@ def test_034_get_submodel_by_id_value_only(client: AasHttpClient, shared_sm: mod
     assert "sme_property_float" in value
     assert float(value["sme_property_float"]) == 262.1
 
-def test_035_patch_submodel_by_id_value_only(client: AasHttpClient, shared_sme_string: model.Property, shared_sme_int: model.Property, shared_sme_float: model.Property):
+def test_035_patch_submodel_by_id_value_only(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_string: model.Property, shared_sme_int: model.Property, shared_sme_float: model.Property):
     if client.submodels is None:
         pytest.skip("Submodels API is not available in this client")
 
@@ -1501,15 +1501,35 @@ def test_035_patch_submodel_by_id_value_only(client: AasHttpClient, shared_sme_s
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
-    patch_dict = {
+    value_dict = {
         shared_sme_string.id_short: shared_sme_string.value,
         shared_sme_int.id_short: str(shared_sme_int.value),
         shared_sme_float.id_short: str(shared_sme_float.value)
     }
 
+    patch_dict = {shared_sm.id_short: value_dict}
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in DOTNET_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        patch_dict = value_dict
+
+
     result = client.submodels.patch_submodel_by_id_value_only(sm_id, patch_dict)
 
     assert result is True
+
+    string_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    int_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    float_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+
+    assert string_prop_dict is not None
+    assert int_prop_dict is not None
+    assert float_prop_dict is not None
+
+    assert string_prop_dict.get("value", "") == shared_sme_string.value
+    assert int(int_prop_dict.get("value", "")) == int(shared_sme_int.value)
+    assert float(float_prop_dict.get("value", "")) == float(shared_sme_float.value)
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     if client.shells is None:
