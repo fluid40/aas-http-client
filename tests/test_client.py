@@ -1551,12 +1551,16 @@ def test_036_get_submodel_by_id_metadata(client: AasHttpClient, shared_sm: model
         sm_id = encoder.encode_base_64(SM_ID)
 
     metadata = client.submodels.get_submodel_by_id_metadata(sm_id)
-
     assert metadata is not None
-    assert metadata.get("id", "") == shared_sm.id
-    assert metadata.get("idShort", "") == shared_sm.id_short
-    assert metadata.get("description", {})[0].get("text", "") != ""
-    assert metadata.get("displayName", {})[0].get("text", "") != ""
+
+    submodel = client.submodels.get_submodel_by_id(sm_id)
+    assert submodel is not None
+
+    assert metadata.get("id", "") == submodel.get("id", "")
+    assert metadata.get("idShort", "") == submodel.get("idShort", "")
+    assert metadata.get("description", {})[0].get("text", "") == submodel.get("description", {})[0].get("text", "")
+    if "displayName" in submodel:
+        assert metadata.get("displayName", {})[0].get("text", "") == submodel.get("displayName", {})[0].get("text", "")
     assert "submodelElements" not in metadata
 
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):

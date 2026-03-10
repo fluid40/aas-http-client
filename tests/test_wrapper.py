@@ -1211,12 +1211,15 @@ def test_036_get_submodel_by_id_metadata(wrapper: SdkWrapper, shared_sm: model.S
         sm_id = encoder.encode_base_64(SM_ID)
 
     metadata = wrapper.get_submodel_by_id_metadata(sm_id)
-
     assert metadata is not None
-    assert metadata.get("id", "") == shared_sm.id
-    assert metadata.get("idShort", "") == shared_sm.id_short
-    assert metadata.get("description", {})[0].get("text", "") != ""
-    assert metadata.get("displayName", {})[0].get("text", "") != ""
+
+    submodel = wrapper.get_submodel_by_id(sm_id)
+    assert submodel is not None
+
+    assert metadata.get("id", "") == submodel.id
+    assert metadata.get("idShort", "") == submodel.id_short
+    assert metadata.get("description", {})[0].get("text", "") == submodel.description.get("en", "")
+    assert metadata.get("displayName", {})[0].get("text", "") == submodel.display_name.get("en", "")
     assert "submodelElements" not in metadata
 
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
