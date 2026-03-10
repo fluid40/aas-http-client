@@ -1559,7 +1559,7 @@ def test_036_get_submodel_by_id_metadata(client: AasHttpClient, shared_sm: model
     assert metadata.get("id", "") == submodel.get("id", "")
     assert metadata.get("idShort", "") == submodel.get("idShort", "")
     assert metadata.get("description", {})[0].get("text", "") == submodel.get("description", {})[0].get("text", "")
-    if "displayName" in submodel:
+    if "displayName" in submodel and submodel.get("displayName", []):
         assert metadata.get("displayName", {})[0].get("text", "") == submodel.get("displayName", {})[0].get("text", "")
     assert "submodelElements" not in metadata
 
