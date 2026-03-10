@@ -457,17 +457,17 @@ class SdkWrapper:
         return self._client.submodels.put_submodels_by_id(submodel_identifier, sm_data)
 
     # DELETE /submodels/{submodelIdentifier}
-    def delete_submodel_by_id(self, submodel_id: str) -> bool:
+    def delete_submodel_by_id(self, submodel_identifier: str) -> bool:
         """Deletes a Submodel.
 
-        :param submodel_id: ID of the submodel to delete
+        :param submodel_identifier: ID of the submodel to delete
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.submodels:
             logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
-        return self._client.submodels.delete_submodel_by_id(submodel_id)
+        return self._client.submodels.delete_submodel_by_id(submodel_identifier)
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def get_submodel_element_by_path_submodel_repo(
@@ -493,6 +493,27 @@ class SdkWrapper:
         return _to_object(content)
 
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
+    def put_submodel_element_by_path_submodel_repo(
+        self, submodel_identifier: str, id_short_path: str, submodel_element: model.SubmodelElement, level: Level = Level.default
+    ) -> bool:
+        """Updates a submodel element at a specified path within the submodel elements hierarchy.
+
+        :param submodel_identifier: Encoded ID of the Submodel to update element for
+        :param id_short_path: Path of the Submodel element to update
+        :param request_body: Submodel element data to update as dictionary
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the update was successful, False otherwise
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        sme_data = _to_dict(submodel_element)
+
+        if sme_data is None:
+            return False
+
+        return self._client.submodels.put_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, sme_data, str(level))
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}
     def post_submodel_element_by_path_submodel_repo(
@@ -602,18 +623,18 @@ class SdkWrapper:
     # GET /submodels/{submodelIdentifier}/submodel-elements
     def get_all_submodel_elements_submodel_repository(
         self,
-        submodel_id: str,
+        submodel_identifier: str,
     ) -> SubmodelElementPaginatedData | None:
         """Returns all submodel elements including their hierarchy. !!!Serialization to model.SubmodelElement currently not possible.
 
-        :param submodel_id: Encoded ID of the Submodel to retrieve elements from
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve elements from
         :return: List of Submodel elements or None if an error occurred
         """
         if not self._client.submodels:
             logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
-        content = self._client.submodels.get_all_submodel_elements_submodel_repository(submodel_id)
+        content = self._client.submodels.get_all_submodel_elements_submodel_repository(submodel_identifier)
 
         if not content:
             return None
@@ -621,7 +642,7 @@ class SdkWrapper:
         return create_submodel_element_paging_data(content)
 
     # POST /submodels/{submodelIdentifier}/submodel-elements
-    def post_submodel_element_submodel_repo(self, submodel_id: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
+    def post_submodel_element_submodel_repo(self, submodel_identifier: str, submodel_element: model.SubmodelElement) -> model.SubmodelElement | None:
         """Creates a new submodel element.
 
         :param submodel_identifier: Encoded ID of the Submodel to create elements for
@@ -637,7 +658,7 @@ class SdkWrapper:
         if sme_data is None:
             return None
 
-        content = self._client.submodels.post_submodel_element_submodel_repo(submodel_id, sme_data)
+        content = self._client.submodels.post_submodel_element_submodel_repo(submodel_identifier, sme_data)
 
         if not content:
             return None
@@ -645,13 +666,44 @@ class SdkWrapper:
         return _to_object(content)
 
     # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/invoke
-    # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
+    def invoke_operation_submodel_repo(self, submodel_identifier: str, id_short_path: str, request_body: dict, async_: str = "async") -> dict | None:
+        """Synchronously invokes an Operation at a specified path.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the operation element (dot-separated)
+        :param request_body: Input parameters for the operation
+        :param async_: Determines whether an operation invocation is performed asynchronously or synchronously
+        :return: Operation result or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        content = self._client.submodels.invoke_operation_submodel_repo(submodel_identifier, id_short_path, request_body, async_)
+
+        if not content:
+            return None
+
+        return content
+
+    def get_submodel_element_by_path_value_only_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> str | None:
+        """Retrieves the value of a specific SubmodelElement.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :return: Submodel element value or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        return self._client.submodels.get_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, id_short_path)
 
     # PATCH /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value
-    def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_id: str, submodel_element_path: str, value: str) -> bool:
+    def patch_submodel_element_by_path_value_only_submodel_repo(self, submodel_identifier: str, submodel_element_path: str, value: str) -> bool:
         """Updates the value of an existing SubmodelElement.
 
-        :param submodel_id: Encoded ID of the Submodel to update submodel element for
+        :param submodel_identifier: Encoded ID of the Submodel to update submodel element for
         :param submodel_element_path: Path of the Submodel element to update
         :param value: Submodel element value to update as string
         :return: True if the patch was successful, False otherwise
@@ -660,19 +712,69 @@ class SdkWrapper:
             logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
-        return self._client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(submodel_id, submodel_element_path, value)
+        return self._client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, submodel_element_path, value)
 
     # GET /submodels/{submodelIdentifier}/$value
+    def get_submodel_by_id_value_only(self, submodel_identifier: str, level: Level = Level.default, extent: Extent = Extent.default) -> dict | None:
+        """Returns the value of a specific Submodel.
+
+        :param submodel_identifier: Encoded ID of the Submodel to retrieve
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :param extent: Determines to which extent the resource is being serialized. Available values : withBlobValue, withoutBlobValue
+        :return: Submodel value as dictionary or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        content = self._client.submodels.get_submodel_by_id_value_only(submodel_identifier, str(level), str(extent))
+
+        if not content:
+            return None
+
+        return content
+
     # PATCH /submodels/{submodelIdentifier}/$value
+    def patch_submodel_by_id_value_only(self, submodel_identifier: str, request_body: dict, level: Level = Level.default) -> bool:
+        """Updates the values of an existing Submodel.
+
+        :param submodel_identifier: The Submodels unique id
+        :param request_body: Submodel values to update as dict
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: True if the patch was successful, False otherwise
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        return self._client.submodels.patch_submodel_by_id_value_only(submodel_identifier, request_body, str(level))
+
     # GET /submodels/{submodelIdentifier}/$metadata
+    def get_submodel_by_id_metadata(self, submodel_identifier: str, level: str = "") -> dict | None:
+        """Returns the metadata attributes of a specific Submodel.
+
+        :param submodel_identifier: The Submodels unique id
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: Metadata attributes of the Submodel as dict or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        content = self._client.submodels.get_submodel_by_id_metadata(submodel_identifier, str(level))
+
+        if not content:
+            return None
+
+        return content
 
     # not supported by Java Server
 
     # PATCH /submodels/{submodelIdentifier}
-    def patch_submodel_by_id(self, submodel_id: str, submodel: model.Submodel) -> bool:
+    def patch_submodel_by_id(self, submodel_identifier: str, submodel: model.Submodel) -> bool:
         """Updates an existing Submodel.
 
-        :param submodel_id: Encoded ID of the Submodel to delete
+        :param submodel_identifier: Encoded ID of the Submodel to delete
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.submodels:
@@ -684,7 +786,7 @@ class SdkWrapper:
         if sm_data is None:
             return False
 
-        return self._client.submodels.patch_submodel_by_id(submodel_id, sm_data)
+        return self._client.submodels.patch_submodel_by_id(submodel_identifier, sm_data)
 
     # endregion
 

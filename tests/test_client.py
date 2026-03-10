@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import pytest
 from pathlib import Path
 from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
@@ -11,11 +12,13 @@ import logging
 from aas_http_client.demo.logging_handler import initialize_logging
 from aas_http_client.utilities import encoder
 import random
+import json
 
 logger = logging.getLogger(__name__)
 
 JAVA_SERVER_PORTS = [8075]
 PYTHON_SERVER_PORTS = [5080, 80]
+DOTNET_SERVER_PORTS = [5043]
 
 AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
@@ -53,6 +56,10 @@ def client(request) -> AasHttpClient:
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
 
+
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shells = client.shells.get_all_asset_administration_shells()
     if shells is None:
         raise RuntimeError("No shells found on server. Please check the server configuration.")
@@ -78,6 +85,16 @@ def shared_sme_int() -> model.Property:
 def shared_sme_float() -> model.Property:
     # create a Submodel
     return model_builder.create_base_submodel_element_property("sme_property_float", model.datatypes.Float, 262.3)
+
+@pytest.fixture(scope="module")
+def shared_sme_collection() -> model.SubmodelElementCollection:
+    # create a Submodel
+    values: list[model.SubmodelElement] = []
+    values.append(model_builder.create_base_submodel_element_property("coll_element_1", model.datatypes.Integer, 262))
+    values.append(model_builder.create_base_submodel_element_property("coll_element_2", model.datatypes.String, "262"))
+    values.append(model_builder.create_base_submodel_element_property("coll_element_3", model.datatypes.Float, 262.3))
+
+    return model_builder.create_base_submodel_element_collection("sme_property_collection", values)
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
@@ -113,6 +130,9 @@ def test_001a_connect(client: AasHttpClient):
     assert client is not None
 
 def test_001b_delete_all_asset_administration_shells(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     result = client.shells.get_all_asset_administration_shells()
     assert result is not None
     shells = result.get("result", [])
@@ -136,6 +156,9 @@ def test_001b_delete_all_asset_administration_shells(client: AasHttpClient):
     assert len(shells) == 0
 
 def test_001c_delete_all_submodels(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     result = client.submodels.get_all_submodels()
     assert result is not None
     submodels = result.get("result", [])
@@ -159,12 +182,18 @@ def test_001c_delete_all_submodels(client: AasHttpClient):
     assert len(submodels) == 0
 
 def test_002_get_all_asset_administration_shells(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     result = client.shells.get_all_asset_administration_shells()
     assert result is not None
     shells = result.get("result", [])
     assert len(shells) == 0
 
 def test_003_post_asset_administration_shell(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     aas_data_string = json.dumps(shared_aas, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     aas_data = json.loads(aas_data_string)
     result = client.shells.post_asset_administration_shell(aas_data)
@@ -186,6 +215,9 @@ def test_003_post_asset_administration_shell(client: AasHttpClient, shared_aas: 
     assert submodel.get("keys", [])[0].get("value", "") == SM_ID
 
 def test_004a_get_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
 
     if client.encoded_ids:
@@ -198,11 +230,20 @@ def test_004a_get_asset_administration_shell_by_id(client: AasHttpClient, shared
     assert result.get("id", "") == SHELL_ID
 
 def test_004b_get_asset_administration_shell_by_id(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     result = client.shells.get_asset_administration_shell_by_id("non_existent_id")
 
     assert result is None
 
 def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
+    assert shared_aas.asset_information is not None
+    assert shared_aas.asset_information.global_asset_id is not None
+
     aas = model.AssetAdministrationShell(id_=shared_aas.asset_information.global_asset_id, asset_information=shared_aas.asset_information)
     aas.id_short = shared_aas.id_short
 
@@ -227,6 +268,7 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     assert get_result.get("id", "") == SHELL_ID
     # description must have changed
     assert get_result.get("description", {})[0].get("text", "") == description_text
+    assert shared_aas.description is not None
     assert get_result.get("description", {})[0].get("text", "") != shared_aas.description.get("en", "")
     # submodels must be retained
     assert len(get_result.get("submodels", [])) == len(shared_aas.submodel)
@@ -241,10 +283,15 @@ def test_005a_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     client.shells.put_asset_administration_shell_by_id(shell_id, sm_data)  # Restore original submodel
 
 def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared_aas: model.AssetAdministrationShell):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     # put with other ID
     id_short = "put_short_id"
     identifier = f"fluid40/{id_short}"
     asset_info = model_builder.create_base_asset_information(identifier)
+    assert asset_info.global_asset_id == identifier
+
     aas = model.AssetAdministrationShell(id_=asset_info.global_asset_id, asset_information=asset_info)
     aas.id_short = id_short
 
@@ -260,7 +307,7 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
         shell_id = encoder.encode_base_64(SHELL_ID)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: Python server crashes by this test
         result = False
     else:
@@ -269,11 +316,15 @@ def test_005b_put_asset_administration_shell_by_id(client: AasHttpClient, shared
     assert not result
 
     get_result = client.shells.get_asset_administration_shell_by_id(shell_id)
-
+    assert get_result is not None
     assert get_result.get("description", {})[0].get("text", "") != description_text
+    assert shared_aas.description is not None
     assert get_result.get("description", {})[0].get("text", "") == shared_aas.description.get("en", "")
 
 def test_006_get_asset_administration_shell_by_id_reference_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
 
     if client.encoded_ids:
@@ -282,7 +333,7 @@ def test_006_get_asset_administration_shell_by_id_reference_aas_repository(clien
     result = client.shells.get_asset_administration_shell_by_id_reference_aas_repository(shell_id)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert result is None
     else:
@@ -292,6 +343,9 @@ def test_006_get_asset_administration_shell_by_id_reference_aas_repository(clien
         assert keys[0].get("value", "") == SHELL_ID
 
 def test_007_get_submodel_by_id_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
     sm_id = SM_ID
 
@@ -304,12 +358,18 @@ def test_007_get_submodel_by_id_aas_repository(client: AasHttpClient):
     assert result is None
 
 def test_008_get_all_submodels(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     result = client.submodels.get_all_submodels()
     assert result is not None
     submodels = result.get("result", [])
     assert len(submodels) == 0
 
 def test_009a_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm_data_string = json.dumps(shared_sm, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sm_data = json.loads(sm_data_string)
 
@@ -326,6 +386,9 @@ def test_009a_post_submodel(client: AasHttpClient, shared_sm: model.Submodel):
     assert submodels[0].get("idShort", "") == shared_sm.id_short
 
 def test_009b_post_submodel(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm_template_file = Path(f"./tests/test_data/aimc.json").resolve()
 
     with Path.open(sm_template_file, "r", encoding="utf-8") as f:
@@ -343,6 +406,9 @@ def test_009b_post_submodel(client: AasHttpClient):
     assert len(submodels) == 2
 
 def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
     sm_id = SM_ID
 
@@ -353,7 +419,7 @@ def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     result = client.shells.get_submodel_by_id_aas_repository(shell_id, sm_id)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert result is None
     else:
@@ -362,6 +428,9 @@ def test_010_get_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
         assert result_id_short == shared_sm.id_short
 
 def test_011a_get_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -374,11 +443,17 @@ def test_011a_get_submodel_by_id(client: AasHttpClient, shared_sm: model.Submode
     assert result_id_short == shared_sm.id_short
 
 def test_011b_get_submodel_by_id(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     result = client.submodels.get_submodel_by_id("non_existent_id")
 
     assert result is None
 
 def test_011c_get_submodel_by_id(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
@@ -391,6 +466,9 @@ def test_011c_get_submodel_by_id(client: AasHttpClient):
     assert result_id == AIMC_SM_ID
 
 def test_011d_get_submodel_by_id(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
@@ -404,6 +482,9 @@ def test_011d_get_submodel_by_id(client: AasHttpClient):
     #assert "submodelElements" not in result
 
 def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodel API is not available in this client")
+
     sm = model.Submodel(shared_sm.id_short)
     sm.id_short = shared_sm.id_short
 
@@ -421,7 +502,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     result = client.submodels.patch_submodel_by_id(sm_id, sm_data)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS or parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: Basyx java and python server do not provide this endpoint
         assert not result
     else:
@@ -433,11 +514,16 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
         assert get_result.get("id", "") == SM_ID
         # Only the description may change in patch.
         assert get_result.get("description", {})[0].get("text", "") == description_text
+        assert shared_sm.description is not None
+        assert shared_sm.display_name is not None
         assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
         # The display name must remain the same.
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sm.display_name.get("en", "")
 
 def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     sm = model.Submodel(SM_ID)
     sm.id_short = shared_sm.id_short
 
@@ -457,7 +543,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     result = client.shells.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS:
         # NOTE: Basyx java server do not provide this endpoint
         assert not result
     else:
@@ -469,6 +555,7 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
         assert get_result.get("id", "") == SM_ID
         # description must have changed
         assert get_result.get("description", {})[0].get("text", "") == description_text
+        assert shared_sm.description is not None
         assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
         assert len(get_result.get("displayName", {})) == 0
 
@@ -478,6 +565,9 @@ def test_013_put_submodel_by_id_aas_repository(client: AasHttpClient, shared_sm:
     client.shells.put_submodel_by_id_aas_repository(shell_id, sm_id, sm_data)  # Restore original submodel
 
 def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm = model.Submodel(SM_ID)
     sm.id_short = shared_sm.id_short
 
@@ -502,6 +592,7 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     assert get_result.get("id", "") == SM_ID
     # description must have changed
     assert get_result.get("description", {})[0].get("text", "") == description_text
+    assert shared_sm.description is not None
     assert get_result.get("description", {})[0].get("text", "") != shared_sm.description.get("en", "")
     assert len(get_result.get("displayName", {})) == 0
 
@@ -511,6 +602,9 @@ def test_014_put_submodels_by_id(client: AasHttpClient, shared_sm: model.Submode
     client.submodels.put_submodels_by_id(SM_ID, sm_data)  # Restore original submodel
 
 def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -522,6 +616,9 @@ def test_015_get_all_submodel_elements_submodel_repository(client: AasHttpClient
     assert len(submodel_elements.get("result", [])) == 0
 
 def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sme_data_string = json.dumps(shared_sme_string, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
 
@@ -534,15 +631,21 @@ def test_016a_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_string.id_short
+    assert shared_sme_string.description is not None
+    assert shared_sme_string.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
     assert result.get("value", "") == shared_sme_string.value
 
     get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
+    assert get_result is not None
 
     assert len(get_result.get("result", [])) == 1
 
 def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sme_data_string = json.dumps(shared_sme_bool, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
 
@@ -555,15 +658,21 @@ def test_016b_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_bool.id_short
+    assert shared_sme_bool.description is not None
+    assert shared_sme_bool.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
     assert json.loads(result.get("value", "").lower()) == shared_sme_bool.value
 
     get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
+    assert get_result is not None
 
     assert len(get_result.get("result", [])) == 2
 
 def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sme_int: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sme_data_string = json.dumps(shared_sme_int, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
 
@@ -576,15 +685,21 @@ def test_016c_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_int.id_short
+    assert shared_sme_int.description is not None
+    assert shared_sme_int.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
     assert int(result.get("value", "")) == shared_sme_int.value
 
     get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
+    assert get_result is not None
 
     assert len(get_result.get("result", [])) == 3
 
 def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sme_data_string = json.dumps(shared_sme_float, cls=basyx.aas.adapter.json.AASToJsonEncoder)
     sme_data = json.loads(sme_data_string)
 
@@ -597,15 +712,21 @@ def test_016d_post_submodel_element_submodel_repo(client: AasHttpClient, shared_
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_float.id_short
+    assert shared_sme_float.description is not None
+    assert shared_sme_float.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
     assert float(result.get("value", "")) == shared_sme_float.value
 
     get_result = client.submodels.get_all_submodel_elements_submodel_repository(sm_id)
+    assert get_result is not None
 
     assert len(get_result.get("result", [])) == 4
 
 def test_017a_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -615,11 +736,16 @@ def test_017a_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_string.id_short
+    assert shared_sme_string.description is not None
+    assert shared_sme_string.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
     assert result.get("value", "") == shared_sme_string.value
 
 def test_017b_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -629,11 +755,16 @@ def test_017b_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_bool.id_short
+    assert shared_sme_bool.description is not None
+    assert shared_sme_bool.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
     assert json.loads(result.get("value", "").lower()) == shared_sme_bool.value
 
 def test_017c_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_int: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -643,11 +774,16 @@ def test_017c_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_int.id_short
+    assert shared_sme_int.description is not None
+    assert shared_sme_int.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
     assert int(result.get("value", "")) == shared_sme_int.value
 
 def test_017d_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -657,11 +793,16 @@ def test_017d_get_submodel_element_by_path_submodel_repo(client: AasHttpClient, 
 
     assert result is not None
     assert result.get("idShort", "") == shared_sme_float.id_short
+    assert shared_sme_float.description is not None
+    assert shared_sme_float.display_name is not None
     assert result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
     assert result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
     assert float(result.get("value", "")) == shared_sme_float.value
 
 def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     new_value = "Patched String Value"
 
     sm_id = SM_ID
@@ -669,10 +810,15 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    assert submodel_element is not None
+
+    old_value = submodel_element.get("value", "")
+
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short, new_value)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         assert result is False
     else:
@@ -683,10 +829,16 @@ def test_018a_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_string.id_short
         assert get_result.get("value", "") == new_value
+        assert shared_sme_string.description is not None
+        assert shared_sme_string.display_name is not None
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+        assert get_result.get("value", "") != old_value
 
 def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     new_value = "false"
 
     sm_id = SM_ID
@@ -694,10 +846,15 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    assert submodel_element is not None
+
+    old_value = submodel_element.get("value", "")
+
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short, new_value)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         assert result is False
     else:
@@ -708,10 +865,16 @@ def test_018b_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_bool.id_short
         assert json.loads(get_result.get("value", "").lower()) == json.loads(new_value)
+        assert shared_sme_bool.description is not None
+        assert shared_sme_bool.display_name is not None
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_bool.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_bool.display_name.get("en", "")
+        assert get_result.get("value", "").lower() != old_value.lower()
 
 def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_int: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     new_value = "263"
 
     sm_id = SM_ID
@@ -719,10 +882,15 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    assert submodel_element is not None
+
+    old_value = submodel_element.get("value", "")
+
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short, new_value)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         assert result is False
     else:
@@ -733,10 +901,16 @@ def test_018c_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_int.id_short
         assert int(get_result.get("value", "")) == int(new_value)
+        assert shared_sme_int.description is not None
+        assert shared_sme_int.display_name is not None
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_int.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_int.display_name.get("en", "")
+        assert int(get_result.get("value", "")) != int(old_value)
 
 def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     new_value = "262.1"
 
     sm_id = SM_ID
@@ -744,10 +918,15 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
+    submodel_element = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    assert submodel_element is not None
+
+    old_value = submodel_element.get("value", "")
+
     result = client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short, new_value)
 
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         assert result is False
     else:
@@ -758,12 +937,22 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert get_result is not None
         assert get_result.get("idShort", "") == shared_sme_float.id_short
         assert float(get_result.get("value", "")) == float(new_value)
+        assert shared_sme_float.description is not None
+        assert shared_sme_float.display_name is not None
         assert get_result.get("description", {})[0].get("text", "") == shared_sme_float.description.get("en", "")
         assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_float.display_name.get("en", "")
+        assert float(get_result.get("value", "")) != float(old_value)
 
 def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     submodel_element_list = model.SubmodelElementList(id_short="sme_list_1", type_value_list_element=model.Property, value_type_list_element=model.datatypes.String)
     submodel_element_list_dict = sdk_tools.convert_to_dict(submodel_element_list)
+    assert submodel_element_list_dict is not None
 
     sm_id = SM_ID
 
@@ -776,6 +965,7 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
     property = model_builder.create_base_submodel_element_property("sme_property_in_list", model.datatypes.String, "Value in List")
     property_dict = sdk_tools.convert_to_dict(property)
+    assert property_dict is not None
     del property_dict["idShort"]
 
     result = client.submodels.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property_dict)
@@ -796,8 +986,15 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
 
 def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     submodel_element_collection = model.SubmodelElementCollection(id_short="sme_collection_1")
     submodel_element_collection_dict = sdk_tools.convert_to_dict(submodel_element_collection)
+    assert submodel_element_collection_dict is not None
 
     sm_id = SM_ID
 
@@ -810,6 +1007,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
     property = model_builder.create_base_submodel_element_property("sme_property_in_collection", model.datatypes.String, "Value in List")
     property_dict = sdk_tools.convert_to_dict(property)
+    assert property_dict is not None
 
     result = client.submodels.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_collection.id_short, property_dict)
 
@@ -828,8 +1026,9 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     assert list_elements[0].get("value", "") == property.value
 
     base_url: str = client.base_url
-    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    new_client = create_client_by_url(base_url=base_url)
     assert new_client is not None
+    assert new_client.submodels is not None
 
     sm = new_client.submodels.get_submodel_by_id(AIMC_SM_ID)
     assert sm is None
@@ -841,8 +1040,9 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
 def test_020b_encoded_ids(client: AasHttpClient):
     base_url: str = client.base_url
-    new_client: AasHttpClient = create_client_by_url(base_url=base_url)
+    new_client = create_client_by_url(base_url=base_url)
     assert new_client is not None
+    assert new_client.shells is not None
 
     sm = new_client.shells.get_asset_administration_shell_by_id(SHELL_ID)
     assert sm is None
@@ -853,8 +1053,14 @@ def test_020b_encoded_ids(client: AasHttpClient):
     assert decoded_sm.get("id", "") == SHELL_ID
 
 def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS or parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         # NOTE: Basyx java server do not provide this endpoint
         return
@@ -882,8 +1088,11 @@ def test_021_post_file_by_path_submodel_repo(client: AasHttpClient):
     assert result_sme.get("value", "") == f"/{filename}"
 
 def test_022_get_file_content_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS or parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         # NOTE: Basyx java server do not provide this endpoint
         return
@@ -899,8 +1108,14 @@ def test_022_get_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert result.startswith(b"%PDF-1.7")
 
 def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS or parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         # NOTE: Basyx java server do not provide this endpoint
         return
@@ -926,8 +1141,14 @@ def test_023_put_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert result_sme.get("value", "") == f"/{filename}"
 
 def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
+    if client.experimental is None:
+        pytest.skip("Experimental API is not available in this client")
+
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in JAVA_SERVER_PORTS or int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in JAVA_SERVER_PORTS or parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         return
 
@@ -948,8 +1169,11 @@ def test_024_delete_file_content_by_path_submodel_repo(client: AasHttpClient):
     assert result_sme.get("value", "") == None
 
 def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         return
 
@@ -962,8 +1186,11 @@ def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
     assert result is None
 
 def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         return
 
@@ -979,8 +1206,11 @@ def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
     assert result is True
 
 def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server implementation differs
         return
 
@@ -995,8 +1225,11 @@ def test_027_get_thumbnail_aas_repository(client: AasHttpClient):
     assert result.startswith(b"\x89PNG\r\n\x1a\n")
 
 def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     parsed = urlparse(client.base_url)
-    if int(parsed.port) in PYTHON_SERVER_PORTS:
+    if parsed.port in PYTHON_SERVER_PORTS:
         # NOTE: python server do not provide this endpoint
         return
 
@@ -1012,6 +1245,9 @@ def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
     assert get_result is None
 
 def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
 
     if client.encoded_ids:
@@ -1023,6 +1259,9 @@ def test_029_get_all_submodel_references_aas_repository(client: AasHttpClient):
     assert len(references) == 1
 
 def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
 
     if client.encoded_ids:
@@ -1046,6 +1285,9 @@ def test_030_post_submodel_reference_aas_repository(client: AasHttpClient):
     assert len(check_references) == 2
 
 def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Submodels API is not available in this client")
+
     shell_id = SHELL_ID
     sm_id = "temp_sm_id"
 
@@ -1062,7 +1304,269 @@ def test_031_delete_submodel_reference_by_id_aas_repository(client: AasHttpClien
     references = get_result.get("result", [])
     assert len(references) == 1
 
+def test_032_put_submodel_element_by_path_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    assert get_result is not None
+    old_value = get_result.get("value", "")
+
+    new_value = "New Value via PUT"
+
+    sme_data_string = json.dumps(shared_sme_string, cls=basyx.aas.adapter.json.AASToJsonEncoder)
+    sme_data = json.loads(sme_data_string)
+    sme_data["value"] = new_value
+
+    result = client.submodels.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, sme_data)
+
+    assert result is True
+
+    get_result = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+
+    assert get_result is not None
+    assert get_result.get("idShort", "") == shared_sme_string.id_short
+    assert get_result.get("value", "") == new_value
+    assert get_result.get("value", "") != old_value
+    assert shared_sme_string.description is not None
+    assert shared_sme_string.display_name is not None
+    assert get_result.get("description", {})[0].get("text", "") == shared_sme_string.description.get("en", "")
+    assert get_result.get("displayName", {})[0].get("text", "") == shared_sme_string.display_name.get("en", "")
+
+    # restore original value
+    sme_data["value"] = "Sample String Value"
+    result = client.submodels.put_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short, sme_data)
+
+def test_033a_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_string: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_string.id_short)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    assert sm_data is not None
+    assert value == sm_data.get("value", "")
+
+def test_033b_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_int: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_int.id_short)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    assert sm_data is not None
+    assert int(value) == int(sm_data.get("value", ""))
+
+def test_033c_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_float: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_float.id_short)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+    assert sm_data is not None
+    assert float(value) == float(sm_data.get("value", ""))
+
+def test_033d_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_bool: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_bool.id_short)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert value is None
+        return
+
+    assert value is not None
+
+    sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_bool.id_short)
+    assert sm_data is not None
+    #assert bool(value) == bool(sm_data.get("value", ""))
+
+# def test_033e_get_submodel_element_by_path_value_only_submodel_repo(client: AasHttpClient, shared_sme_collection: model.SubmodelElementCollection):
+#     if client.submodels is None:
+#         pytest.skip("Submodels API is not available in this client")
+
+#     post_result = client.submodels.post_submodel_element_submodel_repo(SM_ID, sdk_tools.convert_to_dict(shared_sme_collection))
+#     assert post_result is not None
+
+#     sm_id = SM_ID
+
+#     if client.encoded_ids:
+#         sm_id = encoder.encode_base_64(SM_ID)
+
+#     value = client.submodels.get_submodel_element_by_path_value_only_submodel_repo(sm_id, shared_sme_collection.id_short)
+
+#     parsed = urlparse(client.base_url)
+#     if parsed.port in PYTHON_SERVER_PORTS:
+#         # NOTE: python server do not provide this endpoint
+#         assert value is None
+#         return
+
+#     assert value is not None
+
+#     sm_data = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_collection.id_short)
+#     assert sm_data is not None
+#     assert value == sm_data.get("value", "")
+#     assert bool(value) == bool(sm_data.get("value", ""))
+
+def test_034_get_submodel_by_id_value_only(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    response = client.submodels.get_submodel_by_id_value_only(sm_id)
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        assert response is None
+        return
+    elif parsed.port in DOTNET_SERVER_PORTS:
+        assert response is not None
+        value = response[shared_sm.id_short]
+    else:
+        assert response is not None
+        value = response
+
+    assert value is not None
+    assert len(value) > 5
+    assert "sme_property_int" in value
+    assert int(value["sme_property_int"]) == 263
+    assert "sme_property_string" in value
+    assert value["sme_property_string"] == "Sample String Value"
+    assert "sme_property_float" in value
+    assert float(value["sme_property_float"]) == 262.1
+
+def test_035_patch_submodel_by_id_value_only(client: AasHttpClient, shared_sm: model.Submodel, shared_sme_string: model.Property, shared_sme_int: model.Property, shared_sme_float: model.Property):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value_dict = {
+        shared_sme_string.id_short: shared_sme_string.value,
+        shared_sme_int.id_short: str(shared_sme_int.value),
+        shared_sme_float.id_short: str(shared_sme_float.value)
+    }
+
+    # patch_dict = {shared_sm.id: value_dict}
+
+    patch_dict = value_dict
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        return
+
+    if parsed.port in JAVA_SERVER_PORTS:
+        # NOTE: java server endpoint seems to work not correctly
+        return
+
+    elif parsed.port in DOTNET_SERVER_PORTS:
+        patch_dict = value_dict
+
+    result = client.submodels.patch_submodel_by_id_value_only(sm_id, patch_dict)
+
+    assert result is True
+
+    string_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    int_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    float_prop_dict = client.submodels.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+
+    assert string_prop_dict is not None
+    assert int_prop_dict is not None
+    assert float_prop_dict is not None
+
+    assert string_prop_dict.get("value", "") == shared_sme_string.value
+    assert int(int_prop_dict.get("value", "")) == int(shared_sme_int.value)
+    assert float(float_prop_dict.get("value", "")) == float(shared_sme_float.value)
+
+
+def test_036_get_submodel_by_id_metadata(client: AasHttpClient, shared_sm: model.Submodel):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
+    sm_id = SM_ID
+
+    if client.encoded_ids:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    metadata = client.submodels.get_submodel_by_id_metadata(sm_id)
+    assert metadata is not None
+
+    submodel = client.submodels.get_submodel_by_id(sm_id)
+    assert submodel is not None
+
+    assert metadata.get("id", "") == submodel.get("id", "")
+    assert metadata.get("idShort", "") == submodel.get("idShort", "")
+    assert metadata.get("description", {})[0].get("text", "") == submodel.get("description", {})[0].get("text", "")
+    if "displayName" in submodel and submodel.get("displayName", []):
+        assert metadata.get("displayName", {})[0].get("text", "") == submodel.get("displayName", {})[0].get("text", "")
+    assert "submodelElements" not in metadata
+
 def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
     shell_id = SHELL_ID
 
     if client.encoded_ids:
@@ -1078,6 +1582,9 @@ def test_098_delete_asset_administration_shell_by_id(client: AasHttpClient):
     assert len(shells) == 0
 
 def test_099a_delete_submodel_by_id(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = SM_ID
 
     if client.encoded_ids:
@@ -1093,6 +1600,9 @@ def test_099a_delete_submodel_by_id(client: AasHttpClient):
     assert len(submodels) == 1
 
 def test_099b_delete_submodel_by_id(client: AasHttpClient):
+    if client.submodels is None:
+        pytest.skip("Submodels API is not available in this client")
+
     sm_id = AIMC_SM_ID
 
     if client.encoded_ids:
