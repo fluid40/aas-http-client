@@ -750,6 +750,23 @@ class SdkWrapper:
         return self._client.submodels.patch_submodel_by_id_value_only(submodel_identifier, request_body, str(level))
 
     # GET /submodels/{submodelIdentifier}/$metadata
+    def get_submodel_by_id_metadata(self, submodel_identifier: str, level: str = "") -> dict | None:
+        """Returns the metadata attributes of a specific Submodel.
+
+        :param submodel_identifier: The Submodels unique id
+        :param level: Determines the structural depth of the respective resource content. Available values : deep, core
+        :return: Metadata attributes of the Submodel as dict or None if an error occurred
+        """
+        if not self._client.submodels:
+            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return None
+
+        content = self._client.submodels.get_submodel_by_id_metadata(submodel_identifier, str(level))
+
+        if not content:
+            return None
+
+        return content
 
     # not supported by Java Server
 

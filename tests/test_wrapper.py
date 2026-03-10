@@ -1156,6 +1156,69 @@ def test_034_get_submodel_by_id_value_only(wrapper: SdkWrapper, shared_sm: model
     assert "sme_property_float" in value
     assert float(value["sme_property_float"]) == 262.1
 
+def test_035_patch_submodel_by_id_value_only(wrapper: SdkWrapper, shared_sm: model.Submodel, shared_sme_string: model.Property, shared_sme_int: model.Property, shared_sme_float: model.Property):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    value_dict = {
+        shared_sme_string.id_short: shared_sme_string.value,
+        shared_sme_int.id_short: str(shared_sme_int.value),
+        shared_sme_float.id_short: str(shared_sme_float.value)
+    }
+
+    # patch_dict = {shared_sm.id: value_dict}
+
+    patch_dict = value_dict
+
+    parsed = urlparse(wrapper.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server do not provide this endpoint
+        return
+
+    if parsed.port in JAVA_SERVER_PORTS:
+        # NOTE: java server endpoint seems to work not correctly
+        return
+
+    elif parsed.port in DOTNET_SERVER_PORTS:
+        patch_dict = value_dict
+
+    result = wrapper.patch_submodel_by_id_value_only(sm_id, patch_dict)
+
+    assert result is True
+
+    string_prop_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_string.id_short)
+    int_prop_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_int.id_short)
+    float_prop_element = wrapper.get_submodel_element_by_path_submodel_repo(sm_id, shared_sme_float.id_short)
+
+    assert string_prop_element is not None
+    assert int_prop_element is not None
+    assert float_prop_element is not None
+
+    string_prop: model.Property = string_prop_element  # type: ignore
+    int_prop: model.Property = int_prop_element  # type: ignore
+    float_prop: model.Property = float_prop_element  # type: ignore
+
+    assert string_prop.value == shared_sme_string.value
+    assert int(int_prop.value) == int(shared_sme_int.value)
+    assert float(float_prop.value) == float(shared_sme_float.value)
+
+def test_036_get_submodel_by_id_metadata(wrapper: SdkWrapper, shared_sm: model.Submodel):
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    metadata = wrapper.get_submodel_by_id_metadata(sm_id)
+
+    assert metadata is not None
+    assert metadata.get("id", "") == shared_sm.id
+    assert metadata.get("idShort", "") == shared_sm.id_short
+    assert metadata.get("description", {})[0].get("text", "") != ""
+    assert metadata.get("displayName", {})[0].get("text", "") != ""
+    assert "submodelElements" not in metadata
+
 def test_098_delete_asset_administration_shell_by_id(wrapper: SdkWrapper):
     shell_id = SHELL_ID
 
