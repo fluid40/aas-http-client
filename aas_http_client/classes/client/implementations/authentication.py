@@ -126,7 +126,7 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
         return None
 
     access_token: str = data.get("access_token", "").strip()
-    expires_in: int = data.get("expires_in", 0)
+    expires_in: int = int(data.get("expires_in", "0"))
     if not access_token or not expires_in:
         logger.error("Invalid token data in response")
         return None

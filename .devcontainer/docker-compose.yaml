@@ -1,90 +1,4 @@
 services:
-  dev_container:
-    build: .
-    container_name: aas-http-client-devcontainer
-    volumes:
-      - ../..:/workspaces:cached
-    command: sleep infinity
-    networks:
-      - bridge
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  basyx_dotnet_repo_server:
-    image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
-    container_name: dotnetaasserver
-    networks:
-      - bridge
-    ports:
-      - "5043:5043"
-
-  python_aas_server:
-    image:  engineeringmethodsag/fluid-basyx-python-aasx-server:latest
-    container_name: pythonaasserver
-    networks:
-      - bridge
-    ports:
-      - "5080:80"
-    environment:
-      - API_BASE_PATH=/
-      - STORAGE_TYPE=LOCAL_FILE_READ_ONLY
-      - STORAGE_PATH=/storage
-    volumes:
-      - ./storage/python_server:/storage
-
-  java_aas_server:
-    image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
-    container_name: javaaasserver
-    networks:
-      - bridge
-    ports:
-      - '8075:8075'
-    environment:
-      - SERVER_PORT=8075
-      - SERVER_HOST=javaaasserver
-    volumes:
-      - ./aas:/application/aas
-      - ./basyx/aas-env.properties:/application/application.properties
-    depends_on:
-      aas-registry:
-        condition: service_healthy
-      sm-registry:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
-
-  aas-registry:
-    image: eclipsebasyx/aas-registry-log-mongodb:2.0.0-SNAPSHOT
-    container_name: aas-registry
-    environment:
-      - SERVER_PORT=8080
-    volumes:
-      - ./basyx/aas-registry.yml:/workspace/config/application.yml
-    restart: always
-    depends_on:
-      mongo:
-        condition: service_healthy
-    ports:
-      - '8076:8080'
-    networks:
-      - bridge
-
-  sm-registry:
-    image: eclipsebasyx/submodel-registry-log-mongodb:2.0.0-SNAPSHOT
-    container_name: sm-registry
-    environment:
-      - SERVER_PORT=8080
-    volumes:
-      - ./basyx/sm-registry.yml:/workspace/config/application.yml
-    restart: always
-    depends_on:
-      mongo:
-        condition: service_healthy
-    ports:
-      - '8077:8080'
-    networks:
-      - bridge
-
   aasx-server:
     container_name: aasxaasserver
     image: docker.io/adminshellio/aasx-server-blazor-for-demo:main
@@ -97,6 +11,28 @@ services:
     command: --no-security --data-path /usr/share/aasxs --external-blazor http://localhost:8074
     networks:
       - bridge
+
+  basyx_dotnet_repo_server:
+    image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
+    container_name: dotnetaasserver
+    networks:
+      - bridge
+    ports:
+      - "5043:5043"
+
+  python_aas_server:
+    image: engineeringmethodsag/fluid-basyx-python-aasx-server:latest
+    container_name: pythonaasserver
+    networks:
+      - bridge
+    ports:
+      - "5080:80"
+    environment:
+      - API_BASE_PATH=/
+      - STORAGE_TYPE=LOCAL_FILE_READ_ONLY
+      - STORAGE_PATH=/storage
+    volumes:
+      - ./storage/python_server:/storage
 
   mongo:
     image: mongo:4.4
@@ -115,27 +51,92 @@ services:
     networks:
       - bridge
 
+  aas-registry:
+    image: eclipsebasyx/aas-registry-log-mongodb:2.0.0-SNAPSHOT
+    container_name: aas-registry
+    environment:
+      - SERVER_PORT=8080
+    volumes:
+      - ./basyx/aas-registry.yml:/workspace/config/application.yml
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8076:8080"
+    networks:
+      - bridge
+
+  sm-registry:
+    image: eclipsebasyx/submodel-registry-log-mongodb:2.0.0-SNAPSHOT
+    container_name: sm-registry
+    environment:
+      - SERVER_PORT=8080
+    volumes:
+      - ./basyx/sm-registry.yml:/workspace/config/application.yml
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8077:8080"
+    networks:
+      - bridge
+
+  java_aas_server:
+    image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
+    container_name: javaaasserver
+    networks:
+      - bridge
+    ports:
+      - "8075:8075"
+    environment:
+      - SERVER_PORT=8075
+      - SERVER_HOST=javaaasserver
+    volumes:
+      - ./aas:/application/aas
+      - ./basyx/aas-env.properties:/application/application.properties
+    depends_on:
+      aas-registry:
+        condition: service_healthy
+      sm-registry:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+
   aas-web-ui:
     image: eclipsebasyx/aas-gui:SNAPSHOT
     container_name: aas_ui
     ports:
-      - '8065:3000'
+      - "8078:3000"
     environment:
-      AAS_REGISTRY_PATH: http://localhost:8077/shell-descriptors
-      SUBMODEL_REGISTRY_PATH: http://localhost:8076/submodel-descriptors
+      AAS_REGISTRY_PATH: http://localhost:8076/shell-descriptors
+      SUBMODEL_REGISTRY_PATH: http://localhost:8077/submodel-descriptors
       AAS_REPO_PATH: http://localhost:8075/shells
       SUBMODEL_REPO_PATH: http://localhost:8075/submodels
       CD_REPO_PATH: http://localhost:8075/concept-descriptions
-      PRIMARY_COLOR: '#00A0C7'
+      PRIMARY_COLOR: "#00A0C7"
       LOGO_LIGHT_PATH: fluid40_light.png
       LOGO_DARK_PATH: fluid40_dark.png
       DASHBOARD_SERVICE_PATH:
     volumes:
       - ./logo:/usr/src/app/dist/Logo
     depends_on:
-      java_aas_server :
+      java_aas_server:
         condition: service_healthy
+    networks:
+      - bridge
 
+  dev_container:
+    build: .
+    container_name: aas-http-client-devcontainer
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    networks:
+      - bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 networks:
   bridge:
 

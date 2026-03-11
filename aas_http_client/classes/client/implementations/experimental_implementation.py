@@ -11,10 +11,9 @@ if TYPE_CHECKING:
 import requests
 from pydantic import BaseModel
 
-from aas_http_client.utilities.encoder import decode_base_64
+from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
-    STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response,
@@ -30,6 +29,14 @@ class ExperimentalImplementation(BaseModel):
         """Initializes the ExperimentalImplementation with the given client."""
         self._client = client
 
+        session = client.get_session()
+        if session is None:
+            raise ValueError(
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+            )
+
+        self._session: requests.Session = session
+
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:
         """Downloads file content from a specific submodel element from the Submodel at a specified path. Experimental feature - may not be supported by all servers.
@@ -39,14 +46,14 @@ class ExperimentalImplementation(BaseModel):
         :return: Attachment file data as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
         self._client.set_token()  # ensures Authorization header is set
 
         try:
-            response = self._client.get_session().get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
@@ -80,7 +87,7 @@ class ExperimentalImplementation(BaseModel):
             return False
 
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
@@ -91,7 +98,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client.get_session().post(url, files=files, timeout=self._client.time_out)
+                response = self._session.post(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -125,7 +132,7 @@ class ExperimentalImplementation(BaseModel):
             return False
 
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
@@ -136,7 +143,7 @@ class ExperimentalImplementation(BaseModel):
 
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._client.get_session().put(url, files=files, timeout=self._client.time_out)
+                response = self._session.put(url, files=files, timeout=self._client.time_out)
 
             logger.debug(f"Call REST API url '{response.url}'")
 
@@ -165,14 +172,14 @@ class ExperimentalImplementation(BaseModel):
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.encoded_ids:
-            submodel_identifier = decode_base_64(submodel_identifier)
+            submodel_identifier = encode_base_64(submodel_identifier)
 
         url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
 
         self._client.set_token()
 
         try:
-            response = self._client.get_session().delete(url, timeout=self._client.time_out)
+            response = self._session.delete(url, timeout=self._client.time_out)
             logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
@@ -190,6 +197,6 @@ class ExperimentalImplementation(BaseModel):
         return True
 
     def _post_multipart(self, url, files):
-        headers = dict(self._client.get_session().headers)
+        headers = dict(self._session.headers)
         headers.pop("Content-Type", None)
-        return self._client.get_session().post(url, headers=headers, files=files)
+        return self._session.post(url, headers=headers, files=files)

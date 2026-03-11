@@ -10,10 +10,10 @@ from aas_http_client.classes.client.implementations.sm_registry_implementation i
 __all__ = [
     "AuthMethod",
     "ExperimentalImplementation",
-    "ShellRepoImplementation",
     "ShellRegistryImplementation",
-    "SubmodelRepoImplementation",
+    "ShellRepoImplementation",
     "SubmodelRegistryImplementation",
+    "SubmodelRepoImplementation",
     "TokenData",
     "get_token",
 ]

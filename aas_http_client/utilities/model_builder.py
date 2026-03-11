@@ -34,7 +34,28 @@ def create_base_submodel_element_property(
         display_name = "POC Submodel Element"
 
     display_name_text = {"en": f"{display_name}"}
-    sme.display_name = model.MultiLanguageTextType(display_name_text)
+    sme.display_name = model.MultiLanguageNameType(display_name_text)
+
+    return sme
+
+
+def create_base_submodel_element_collection(
+    id_short: str, value: list[model.SubmodelElement], display_name: str = "", description: str = ""
+) -> model.SubmodelElementCollection:
+    """Create a basic SubmodelElement of type SubmodelElementCollection."""
+    sme = model.SubmodelElementCollection(id_short=id_short, value=value)
+
+    if not description:
+        description = f"This is the submodel element with ID short '{id_short}'"
+
+    description_text = {"en": f"{description}"}
+    sme.description = model.MultiLanguageTextType(description_text)
+
+    if not display_name:
+        display_name = "POC Submodel Element"
+
+    display_name_text = {"en": f"{display_name}"}
+    sme.display_name = model.MultiLanguageNameType(display_name_text)
 
     return sme
 
@@ -61,7 +82,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
         display_name = "POC AAS"
 
     display_name_text = {"en": f"{display_name}"}
-    sm.display_name = model.MultiLanguageTextType(display_name_text)
+    sm.display_name = model.MultiLanguageNameType(display_name_text)
 
     return sm
 
@@ -96,7 +117,7 @@ def create_base_ass(
         display_name = "POC AAS"
 
     display_name_text = {"en": f"{display_name}"}
-    aas.display_name = model.MultiLanguageTextType(display_name_text)
+    aas.display_name = model.MultiLanguageNameType(display_name_text)
 
     return aas
 
