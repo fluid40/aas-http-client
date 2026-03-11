@@ -8,5 +8,5 @@ python-json-logger>=4.0.0
 pre_commit>=4.5.1
 commitizen>=4.13.9
 basyx-python-sdk==2.0.0
-puremagic>=2.0.2
+puremagic>=1.30
 types-requests>=2.32.4.20260107
