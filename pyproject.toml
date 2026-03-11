@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aas-http-client"
-version = "0.9.7"
+version = "1.0.0"
 description = "Generic Python HTTP client for communication with various types of AAS servers"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -14,7 +14,7 @@ dependencies = [
     "pydantic>=2.12.5",
     "requests>=2.32.5",
     "basyx-python-sdk>=2.0.0",
-    "puremagic>=1.30",
+    "puremagic>=2.0.2",
     "types-requests>=2.32.4.20260107",
 ]
 [project.urls]

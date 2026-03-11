@@ -1,16 +1,21 @@
 # Changelog
 
+## [1.0.0] - 2026-02-17
+
+- ✨Feat: Implement all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
+- 🚀Improvement: Update all packages to latest versions.
+
 ## [0.9.7] - 2026-02-17
 
-- 🚀Improvement: General code improvements
+- 🚀Improvement: General code improvements.
 
 ## [0.9.6] - 2026-02-17
 
-- 🚀Improvement: Use urlsafe base64 encoding/decoding
+- 🚀Improvement: Use urlsafe base64 encoding/decoding.
 
 ## [0.9.5] - 2026-02-03
 
-- 🚀Improvement: Reorder authentication method handling for improved logic flow
+- 🚀Improvement: Reorder authentication method handling for improved logic flow.
 
 ## [0.9.4] - 2026-01-20
 
