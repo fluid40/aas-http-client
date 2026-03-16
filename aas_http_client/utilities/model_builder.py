@@ -19,7 +19,7 @@ def create_unique_short_id(id_short: str) -> str:
 
 
 def create_base_submodel_element_property(
-    id_short: str, type: model.datatypes, value: Any, display_name: str = "", description: str = ""
+    id_short: str | None, type: model.datatypes, value: Any, display_name: str = "", description: str = ""
 ) -> model.Property:
     """Create a basic SubmodelElement of type Property."""
     sme = model.Property(id_short=id_short, value_type=type, value=value)
@@ -87,7 +87,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
     return sm
 
 
-def create_base_ass(
+def create_base_aas(
     identifier: str, id_short: str, global_asset_identifier: str = "", display_name: str = "", description: str = ""
 ) -> model.AssetAdministrationShell:
     """Create a basic AAS.

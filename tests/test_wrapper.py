@@ -83,7 +83,7 @@ def shared_sm() -> model.Submodel:
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -771,6 +771,39 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         property: model.Property = submodel_element
         assert property.value == float(new_value)
         assert property.value != old_value
+
+# def test_019a_post_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper):
+#     submodel_element_list = model.SubmodelElementList(id_short="sme_list_1", type_value_list_element=model.Property, value_type_list_element=model.datatypes.String)
+
+#     sm_id = SM_ID
+
+#     if wrapper.get_encoded_ids() == IdEncoding.encoded:
+#         sm_id = encoder.encode_base_64(SM_ID)
+
+#     first_result = wrapper.post_submodel_element_submodel_repo(sm_id, submodel_element_list)
+
+#     assert first_result is not None
+
+#     property = model_builder.create_base_submodel_element_property(None, model.datatypes.String, "Value in List")# idShort must be empty for list elements
+
+#     result = wrapper.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property)
+
+#     assert result is not None
+#     assert result.id_short == property.id_short
+
+#     submodel = wrapper.get_submodel_by_id(sm_id)
+
+#     assert submodel is not None
+#     elements = submodel.submodel_element
+#     assert len(elements) == 5  # 4 previous properties + 1 list
+#     # element = elements.value[0]
+
+#     # assert elements[4].id_short == submodel_element_list.id_short
+#     # list_elements = elements[4].value
+#     # assert len(list_elements) == 1
+#     # assert list_elements[0].id_short == ""
+#     # assert list_elements[0].value == property.value
+
 
 def test_020a_encoded_ids(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
