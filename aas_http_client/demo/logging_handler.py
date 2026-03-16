@@ -151,7 +151,7 @@ def set_log_file(
             logger.removeHandler(handler)
             handler.close()
 
-    now = datetime.now()
+    now = datetime.now()  # noqa: DTZ005
     time_string = now.strftime("%Y-%m-%d_%H-%M-%S")
 
     # handle log file and folder
