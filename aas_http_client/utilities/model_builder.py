@@ -3,10 +3,17 @@
 Provides some helper methods for easier work with basyx sdk data model
 """
 
+import json
+import logging
 import uuid
+from pathlib import Path
 from typing import Any
 
 from basyx.aas import model
+
+from aas_http_client.utilities import sdk_tools
+
+logger = logging.getLogger(__name__)
 
 
 def create_unique_short_id(id_short: str) -> str:
@@ -16,6 +23,39 @@ def create_unique_short_id(id_short: str) -> str:
     :return: unique identifier
     """
     return f"{id_short}_{str(uuid.uuid4()).replace('-', '_')}"
+
+
+def create_submodel_from_file(json_file: str = "") -> model.Submodel:
+    """Creates a submodel from a JSON file file.
+
+    :param id: ID of the submodel. If empty, the template's ID is used
+
+    """
+    # Define the path to the submodel template file
+    sm_template_file = Path(json_file).resolve()
+
+    # Check if the template file exists
+    if not sm_template_file.exists():
+        raise FileNotFoundError(f"Submodel template file not found: {sm_template_file}")
+
+    submodel_data = {}
+    try:
+        # Load the template JSON file
+        with Path.open(sm_template_file, "r", encoding="utf-8") as f:
+            submodel_data = json.load(f)
+
+        # Load the template JSON into a Submodel object
+        submodel = sdk_tools.convert_to_object(submodel_data)
+
+        # Ensure the loaded template is indeed a Submodel
+        if not isinstance(submodel, model.Submodel):
+            raise TypeError("Loaded template JSON structure is not a Submodel.")
+
+    except Exception as e:
+        logger.error(f"Error loading submodel template: {e}")
+        raise e
+
+    return submodel
 
 
 def create_base_submodel_element_property(

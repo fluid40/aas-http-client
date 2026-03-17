@@ -956,9 +956,9 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
-    first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
+    post_list_element_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
 
-    assert first_result is not None
+    assert post_list_element_result is not None
 
     property = model_builder.create_base_submodel_element_property(None, model.datatypes.String, "Value in List")
     property_dict = sdk_tools.convert_to_dict(property)
