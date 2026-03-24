@@ -104,7 +104,7 @@ def shared_sm() -> model.Submodel:
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -944,9 +944,6 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(client: Aa
         assert float(get_result.get("value", "")) != float(old_value)
 
 def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient):
-    if client.experimental is None:
-        pytest.skip("Experimental API is not available in this client")
-
     if client.submodels is None:
         pytest.skip("Submodels API is not available in this client")
 
@@ -959,14 +956,14 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     if client.encoded_ids:
         sm_id = encoder.encode_base_64(SM_ID)
 
-    first_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
+    post_list_element_result = client.submodels.post_submodel_element_submodel_repo(sm_id, submodel_element_list_dict)
 
-    assert first_result is not None
+    assert post_list_element_result is not None
 
-    property = model_builder.create_base_submodel_element_property("sme_property_in_list", model.datatypes.String, "Value in List")
+    property = model_builder.create_base_submodel_element_property(None, model.datatypes.String, "Value in List")
     property_dict = sdk_tools.convert_to_dict(property)
     assert property_dict is not None
-    del property_dict["idShort"]
+    assert "idShort" not in property_dict
 
     result = client.submodels.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property_dict)
 
@@ -986,9 +983,6 @@ def test_019a_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
 
 def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient):
-    if client.experimental is None:
-        pytest.skip("Experimental API is not available in this client")
-
     if client.submodels is None:
         pytest.skip("Submodels API is not available in this client")
 

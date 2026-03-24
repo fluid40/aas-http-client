@@ -9,7 +9,7 @@ import logging
 import queue
 import sys
 import uuid
-from datetime import UTC, datetime
+from datetime import datetime
 from logging.handlers import QueueHandler
 from pathlib import Path
 from typing import ClassVar
@@ -151,7 +151,7 @@ def set_log_file(
             logger.removeHandler(handler)
             handler.close()
 
-    now = datetime.now(tz=UTC)
+    now = datetime.now()  # noqa: DTZ005
     time_string = now.strftime("%Y-%m-%d_%H-%M-%S")
 
     # handle log file and folder

@@ -83,7 +83,7 @@ def shared_sm() -> model.Submodel:
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_ass(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
@@ -771,6 +771,85 @@ def test_018d_patch_submodel_element_by_path_value_only_submodel_repo(wrapper: S
         property: model.Property = submodel_element
         assert property.value == float(new_value)
         assert property.value != old_value
+        assert property.value == 262.1
+
+def test_019a_post_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper):
+    submodel_element_list = model.SubmodelElementList(id_short="sme_list_1", type_value_list_element=model.Property, value_type_list_element=model.datatypes.String)
+
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    post_list_element_result = wrapper.post_submodel_element_submodel_repo(sm_id, submodel_element_list)
+
+    assert post_list_element_result is not None
+
+    property = model_builder.create_base_submodel_element_property(None, model.datatypes.String, "Value in List")# idShort must be empty for list elements
+
+    result = wrapper.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_list.id_short, property)
+
+    assert result is not None
+    assert result.id_short == property.id_short
+
+    submodel = wrapper.get_submodel_by_id(sm_id)
+
+    assert submodel is not None
+    elements = submodel.submodel_element
+    assert len(elements) == 5  # 4 previous properties + 1 list
+    element = list(elements)[4]
+    assert element is not None
+    assert isinstance(element, model.SubmodelElementList)
+
+    assert element.id_short == submodel_element_list.id_short
+    list_elements = element.value
+    assert len(list_elements) == 1
+    list_element = list(list_elements)[0]
+    assert isinstance(list_element, model.Property)
+
+    assert "hack" in list_element.id_short
+    assert list_element.value == property.value
+
+def test_019b_post_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper):
+    submodel_element_collection = model.SubmodelElementCollection(id_short="sme_collection_1")
+
+    sm_id = SM_ID
+
+    if wrapper.get_encoded_ids() == IdEncoding.encoded:
+        sm_id = encoder.encode_base_64(SM_ID)
+
+    first_result = wrapper.post_submodel_element_submodel_repo(sm_id, submodel_element_collection)
+
+    assert first_result is not None
+
+    property = model_builder.create_base_submodel_element_property("sme_property_in_collection", model.datatypes.String, "Value in List")
+    result = wrapper.post_submodel_element_by_path_submodel_repo(sm_id, submodel_element_collection.id_short, property)
+
+    assert result is not None
+    assert result.id_short== property.id_short
+
+    submodel = wrapper.get_submodel_by_id(sm_id)
+
+    assert submodel is not None
+    elements = submodel.submodel_element
+    assert len(elements) == 6
+    assert list(elements)[5].id_short == submodel_element_collection.id_short
+    list_elements = list(elements)[5].value
+    assert len(list_elements) == 1
+    assert list(list_elements)[0].id_short == property.id_short
+    assert list(list_elements)[0].value == property.value
+
+    base_url: str = wrapper.base_url
+    new_wrapper = create_wrapper_by_url(base_url=base_url)
+    assert new_wrapper is not None
+
+    sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)
+    assert sm is None
+
+    decoded_id = encoder.encode_base_64(AIMC_SM_ID)
+    decoded_sm = new_wrapper.get_submodel_by_id(decoded_id)
+    assert decoded_sm is not None
+    assert decoded_sm.id == AIMC_SM_ID
 
 def test_020a_encoded_ids(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url

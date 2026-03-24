@@ -23,8 +23,16 @@ def start() -> None:
     client_shell_reg = aas_client.create_client_by_url(base_url="http://aas-registry:8080", encoded_ids=False)
 
     sm = model_builder.create_base_submodel("TestSubmodel", "TestSM")
-    shell = model_builder.create_base_ass("TestAAS", "TestAAS")
+    shell = model_builder.create_base_aas("TestAAS", "TestAAS")
     sdk_tools.add_submodel_to_aas(shell, sm)
+
+    iqstrcut = aas_client.create_client_by_url(
+        base_url="https://aurora-fluid40-rt.iqstruct-engineering.de/aas-env/",
+        o_auth_client_id="fluid40",
+        o_auth_client_secret="LdFB4jRrMMkgcVWgFkOVdDVDXtQ5os8w",
+        o_auth_token_url="https://aurora-fluid40-rt.iqstruct-engineering.de/auth/realms/BaSyx/protocol/openid-connect/token",
+        encoded_ids=False,
+    )
 
     client.shells.delete_asset_administration_shell_by_id(shell.id)
     client.submodels.delete_submodel_by_id(sm.id)
