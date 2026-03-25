@@ -16,8 +16,7 @@ INPUT                   = aas_http_client \
 RECURSIVE               = YES
 
 # Dateien erkennen (WICHTIG: keine kaputten *.py= Einträge!)
-FILE_PATTERNS           = *.py \
-                          *.md
+FILE_PATTERNS           = *.py *.md
 
 # Python-Filter aktivieren
 FILTER_PATTERNS         = *.py=python3 -m doxypypy
@@ -30,6 +29,7 @@ EXTRACT_ALL             = YES
 EXTRACT_PRIVATE         = NO
 EXTRACT_STATIC          = NO
 EXTRACT_LOCAL_CLASSES   = YES
+OPTIMIZE_OUTPUT_JAVA    = NO
 
 # -------------------------------------------------------------
 # Markup / Formatting
