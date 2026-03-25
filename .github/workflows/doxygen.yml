@@ -1,0 +1,51 @@
+# Name des Workflows, der in der GitHub Actions UI angezeigt wird
+name: Build and Deploy Doxygen Documentation
+
+# Trigger: Wann soll dieser Workflow ausgeführt werden?
+on:
+  push:
+    branches:
+      - "**"
+
+# Jobs: Die Aufgaben, die ausgeführt werden sollen
+jobs:
+  build-and-deploy:
+    # Der Typ der Maschine, auf der der Job läuft
+    runs-on: ubuntu-latest
+
+    # Die einzelnen Schritte des Jobs
+    steps:
+      # Schritt 1: Das Repository auschecken
+      # Dieser Schritt lädt den Code deines Repositories auf die Runner-Maschine.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Schritt 2: Doxygen und Abhängigkeiten installieren
+      # Graphviz wird für die Erstellung von Diagrammen benötigt.
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      # Schritt 3 (Optional, für Python-Projekte): Python-Filter installieren
+      # Wenn Sie doxypypy verwenden, müssen Sie es hier installieren.
+      - name: Install Python filter (doxypypy)
+        run: |
+          python -m pip install --upgrade pip
+          pip install doxypypy
+
+      # Schritt 4: Doxygen ausführen, um die Dokumentation zu bauen
+      # Doxygen liest die Doxyfile-Konfiguration und generiert die HTML-Dateien.
+      - name: Build Doxygen Documentation
+        run: doxygen Doxyfile
+
+      # Schritt 5: Die generierte Dokumentation auf GitHub Pages veröffentlichen
+      # Dieser Schritt nimmt den Inhalt des 'docs'-Ordners (wie im Doxyfile definiert)
+      # und pusht ihn in einen speziellen 'gh-pages'-Branch, von dem aus die Seite bereitgestellt wird.
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Muss mit OUTPUT_DIRECTORY aus dem Doxyfile übereinstimmen
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
