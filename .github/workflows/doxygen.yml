@@ -63,6 +63,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/html # Muss mit OUTPUT_DIRECTORY aus dem Doxyfile übereinstimmen
+          publish_dir: ./doc/html
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
