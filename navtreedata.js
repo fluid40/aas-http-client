@@ -25,12 +25,7 @@
 var NAVTREE =
 [
   [ "HTTP Client Documentation", "index.html", [
-    [ "AAS HTTP Client", "index.html#autotoc_md0", [
-      [ "Supported Servers", "index.html#autotoc_md3", null ],
-      [ "Documentation", "index.html#autotoc_md5", null ],
-      [ "Resources", "index.html#autotoc_md6", null ],
-      [ "⚡ Quickstart", "index.html#autotoc_md8", null ]
-    ] ],
+    [ "AAS HTTP Client – Python Library", "index.html", "index" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -59,9 +54,9 @@ var NAVTREEINDEX =
 [
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3840f8f4373736fec49a23808e17a869",
-"namespacetests_1_1test__wrapper.html#a52ff54407e59fecfe98bbd10fc73d3b7",
-"test__wrapper_8py.html#a6777638385c16f5ae7ed7b0ec6a5f4a0"
+"namespaceaas__http__client_1_1utilities_1_1http__helper.html#a057fe2803f86f550091f3c0af5f03800",
+"namespacetests_1_1test__wrapper.html#a4ebbce0c140483641d9ef8bb2d250158",
+"test__wrapper_8py.html#a5ea4bb45672ed9360d805a9030e9ffaf"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

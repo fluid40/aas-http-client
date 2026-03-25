@@ -1,8 +1,8 @@
 var searchData=
 [
   ['check_5ffor_5fupdate_0',['check_for_update',['../namespaceaas__http__client_1_1utilities_1_1version__check.html#a629a03b3302f572daafb9229fd06dd03',1,'aas_http_client::utilities::version_check']]],
-  ['client_1',['client',['../index.html#autotoc_md0',1,'AAS HTTP Client'],['../namespacetests_1_1test__client.html#a61600eeebc6084a71137048a04376765',1,'tests.test_client.client()'],['../namespacetests_1_1test__client__reg.html#a283d9fad14aad3eb62a7af07635eb447',1,'tests.test_client_reg.client()']]],
-  ['client_20documentation_2',['HTTP Client Documentation',['../index.html',1,'']]],
+  ['client_1',['client',['../index.html#autotoc_md6',1,'Client'],['../namespacetests_1_1test__client.html#a61600eeebc6084a71137048a04376765',1,'tests.test_client.client()'],['../namespacetests_1_1test__client__reg.html#a283d9fad14aad3eb62a7af07635eb447',1,'tests.test_client_reg.client()']]],
+  ['client_20–_20python_20library_2',['AAS HTTP Client – Python Library',['../index.html',1,'']]],
   ['client_5faas_5freg_3',['client_aas_reg',['../namespacetests_1_1test__client__reg.html#a9e154a07a112223a6092e2bc2fc1f9c0',1,'tests::test_client_reg']]],
   ['client_5fid_4',['client_id',['../classconfig__classes_1_1OAuth.html#ae5b3859127ca9e0daffbb3c8477dea38',1,'config_classes::OAuth']]],
   ['client_5fsm_5freg_5',['client_sm_reg',['../namespacetests_1_1test__client__reg.html#aa3934cc6a0898a9f2e9016d5d995e53b',1,'tests::test_client_reg']]],

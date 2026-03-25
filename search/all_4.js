@@ -18,6 +18,5 @@ var searchData=
   ['delete_5fthumbnail_5faas_5frepository_15',['delete_thumbnail_aas_repository',['../classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#a2a516ded991d2f15ca6b10998e79a7d5',1,'implementations.shell_implementation.ShellRepoImplementation.delete_thumbnail_aas_repository()'],['../classsdk__wrapper_1_1SdkWrapper.html#a51dc3cb722846ff393987c0edb822c62',1,'sdk_wrapper.SdkWrapper.delete_thumbnail_aas_repository()']]],
   ['demo_5fprocess_16',['demo_process',['../namespacedemo__process.html',1,'']]],
   ['demo_5fprocess_2epy_17',['demo_process.py',['../demo__process_8py.html',1,'']]],
-  ['documentation_18',['documentation',['../index.html#autotoc_md5',1,'Documentation'],['../index.html',1,'HTTP Client Documentation']]],
-  ['dotnet_5fserver_5fports_19',['dotnet_server_ports',['../namespacetests_1_1test__client.html#a206f8e134164ed7671206ed47a2ba59b',1,'tests.test_client.DOTNET_SERVER_PORTS'],['../namespacetests_1_1test__wrapper.html#ad16bc76f46fb35cabc60e9d2e873f43f',1,'tests.test_wrapper.DOTNET_SERVER_PORTS']]]
+  ['dotnet_5fserver_5fports_18',['dotnet_server_ports',['../namespacetests_1_1test__client.html#a206f8e134164ed7671206ed47a2ba59b',1,'tests.test_client.DOTNET_SERVER_PORTS'],['../namespacetests_1_1test__wrapper.html#ad16bc76f46fb35cabc60e9d2e873f43f',1,'tests.test_wrapper.DOTNET_SERVER_PORTS']]]
 ];

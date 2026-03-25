@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['with_5fblob_5fvalue_0',['with_blob_value',['../classsdk__wrapper_1_1Extent.html#a7ca62268d0fd4579488520ddc36bd048',1,'sdk_wrapper::Extent']]],
-  ['without_5fblob_5fvalue_1',['without_blob_value',['../classsdk__wrapper_1_1Extent.html#ab3ef58e605ec1904d72d1d5cfe5ab880',1,'sdk_wrapper::Extent']]],
-  ['wrapper_2',['wrapper',['../namespacetests_1_1test__wrapper.html#af8069bbdef743e309202e8cf75b61dff',1,'tests::test_wrapper']]]
+  ['yellow_0',['yellow',['../classlogging__handler_1_1ColorCodes.html#a436e80454d3d9e983b0006d795503648',1,'logging_handler::ColorCodes']]]
 ];
