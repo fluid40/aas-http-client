@@ -1,11 +1,16 @@
 # Name des Workflows, der in der GitHub Actions UI angezeigt wird
-name: Build and Deploy Doxygen Documentation
+name: Build Doxygen
 
 # Trigger: Wann soll dieser Workflow ausgeführt werden?
 on:
   push:
     branches:
       - "**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 # Jobs: Die Aufgaben, die ausgeführt werden sollen
 jobs:
