@@ -60,7 +60,7 @@ jobs:
       # Dieser Schritt nimmt den Inhalt des 'docs'-Ordners (wie im Doxyfile definiert)
       # und pusht ihn in einen speziellen 'gh-pages'-Branch, von dem aus die Seite bereitgestellt wird.
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./doc/html # Muss mit OUTPUT_DIRECTORY aus dem Doxyfile übereinstimmen
