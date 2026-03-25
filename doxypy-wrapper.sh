@@ -1,2 +1,3 @@
-#!/bin/bash
-python3 -m doxypypy "$@"
+
+#!/usr/bin/env bash
+doxypypy -a "$@"
