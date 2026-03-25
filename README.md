@@ -1,48 +1,48 @@
-<!-- TODO: Go through the readme and enter the information here -->
 
-# AAS HTTP Client
-
-<div align="center">
-<!-- change this to your projects logo if you have on.
-  If you don't have one it might be worth trying chatgpt dall-e to create one for you...
- -->
-<img src="docs/assets/fluid_logo.svg" alt="aas_http_client" width=500 />
-</div>
-
----
+# AAS HTTP Client – Python Library
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-%23f8a602?label=License&labelColor=%23992b2e)](LICENSE)
-[![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
+[![CI](https://github.comclient)](https://github.com/fluid40/aas-http-client/actions)
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
 
-AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the [AAS server specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html), ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.
+The **AAS HTTP Client** is a flexible and powerful Python library for communicating with Asset Administration Shell (AAS) servers over HTTP. It provides a clean API, type hints, and a consistent data model based on standard Python dictionaries.
 
-> **Note:** Each client instance is designed to communicate with a single AAS server at a time (1-to-1 mapping). To interact with multiple servers, create a separate client instance for each server.
+> **Note:** Each client instance communicates with exactly one AAS server (1:1 mapping).
+> For multiple servers, create multiple instances.
 
 Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
 
 ---
 
-## Supported Servers
 
-Tested servers include:
-- [Eclipse BaSyx .Net SDK server (Fluid4.0 Fork)](https://github.com/fluid40/basyx-dotnet)
-- [Eclipse BaSyx Java SDK server](https://github.com/eclipse-basyx/basyx-java-sdk)
-- [Eclipse BaSyx Python SDK server](https://github.com/eclipse-basyx/basyx-python-sdk)
+## 🚀 Features
 
-The actual behavior of the client may vary depending on the specific server implementation and its level of compliance with the [AAS specification](https://industrialdigitaltwin.org/en/content-hub/aasspecifications). Supported endpoints and features depend on what each server provides.
-
-In addition to the core HTTP client, this library offers wrapper modules for popular AAS frameworks. These wrappers use the HTTP client as middleware and expose SDK-specific data model classes for input and output, making integration with those frameworks seamless.
-
-Currently available wrappers:
-- [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
-
-The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import 'aas_http_client.utilities'):
-- encoder: base64 encoding and decoding
-- sdk_tools: e.g. Framework object serialization and deserialization, basic submodel operations
-- model_builder: creation of some basic AAS model elements
+- ✅ Easy REST communication with AAS-compliant servers
+- ✅ Full support for Registry, AAS, and Submodel Repository endpoints
+- ✅ Optional wrapper for the Eclipse BaSyx Python SDK
+- ✅ Built-in authentication (Bearer, OAuth, Basic)
+- ✅ Pagination support
+- ✅ Utility modules (encoding, model builder, SDK tools)
+- ✅ Tested with multiple AAS server implementations
 
 ---
+
+## 🏗️ Supported Servers
+
+The client has been tested with:
+
+- [Eclipse BaSyx .NET SDK (Fluid 4.0 fork)](https://github.com/fluid40/basyx-dotnet)
+- [Eclipse BaSyx Java SDK](https://github.com/eclipse-basyx/basyx-java-sdk)
+- [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
+
+Compatibility depends on the server's adherence to the
+[AAS Specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html).
+
+## 📦 Installation
+
+```bash
+pip install aas-http-client
+
 
 ## Documentation
 
