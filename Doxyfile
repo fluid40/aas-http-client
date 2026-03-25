@@ -19,7 +19,7 @@ RECURSIVE               = YES
 FILE_PATTERNS           = *.py *.md
 
 # Python-Filter aktivieren
-FILTER_PATTERNS = *.py=./doxypy-wrapper.s
+FILTER_PATTERNS = *.py=./doxypy-wrapper.sh
 PYTHON_DOCSTRING        = NO
 
 # -------------------------------------------------------------
