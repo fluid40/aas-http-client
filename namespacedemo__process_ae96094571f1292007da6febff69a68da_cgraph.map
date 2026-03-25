@@ -1,0 +1,7 @@
+<map id="demo_process.start" name="demo_process.start">
+<area shape="rect" id="Node000001" title="Start the demo process." alt="" coords="5,45,156,70"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9" title="Create a HTTP client for a AAS server connection from the given parameters." alt="" coords="204,5,380,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,43,190,38,191,43,157,49"/>
+<area shape="rect" id="Node000003" href="$namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774" title="Create a wrapper for a AAS server connection from the given parameters." alt="" coords="217,69,367,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,66,204,73,203,79,156,71"/>
+</map>

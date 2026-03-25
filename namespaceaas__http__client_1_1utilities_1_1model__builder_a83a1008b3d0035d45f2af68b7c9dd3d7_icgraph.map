@@ -1,0 +1,5 @@
+<map id="aas_http_client.utilities.model_builder.create_base_asset_information" name="aas_http_client.utilities.model_builder.create_base_asset_information">
+<area shape="rect" id="Node000001" title="Return a basic AssetInformation instance." alt="" coords="272,5,491,60"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__http__client_1_1utilities_1_1model__builder.html#af49f7dec27a53f0a73a98fa11e861259" title="Create a basic AAS." alt="" coords="5,13,224,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,35,224,35,224,30,258,30"/>
+</map>

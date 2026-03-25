@@ -1,0 +1,23 @@
+<map id="aas_client.AasHttpClient" name="aas_client.AasHttpClient">
+<area shape="rect" id="Node000001" title="Represents a AasHttpClient to communicate with a REST API." alt="" coords="424,228,607,253"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="81,5,175,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,10,238,9,293,15,349,28,401,53,425,72,445,94,478,143,500,191,513,227,508,228,495,193,473,146,441,97,421,76,399,58,348,33,292,20,238,15,189,15"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="49,55,207,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,65,311,78,358,91,401,110,438,137,469,169,509,226,505,229,465,173,434,141,399,115,356,96,310,83,221,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="92,104,164,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,117,283,130,343,143,401,162,458,193,501,226,498,230,455,198,399,167,341,148,282,135,178,122"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="77,153,179,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="193,170,291,183,401,203,478,225,476,230,399,209,290,188,192,175"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="33,203,223,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="237,220,424,232,423,237,237,225"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="16,252,240,277"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="253,263,400,257,446,251,446,256,400,262,254,269"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="22,301,234,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="248,306,323,298,399,283,446,268,487,251,489,256,448,273,401,289,324,303,249,311"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="21,351,235,376"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="248,358,324,347,399,325,429,309,457,289,500,252,503,256,461,294,432,314,401,330,325,352,249,363"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="5,400,251,425"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="264,412,333,401,367,390,399,376,436,348,466,314,490,279,505,252,510,255,494,282,471,317,439,352,401,380,369,395,334,406,265,418"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="83,449,173,475"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="187,468,236,470,291,467,347,455,374,445,399,432,422,413,443,391,475,339,497,290,508,253,513,254,502,291,480,342,447,394,426,417,401,436,376,450,349,460,292,472,236,475,187,473"/>
+</map>

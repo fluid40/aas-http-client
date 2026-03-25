@@ -1,0 +1,7 @@
+<map id="aas_client.AasHttpClient.get_root" name="aas_client.AasHttpClient.get_root">
+<area shape="rect" id="Node000001" title="Get the root endpoint of the AAS server API to test connectivity." alt="" coords="5,45,245,70"/>
+<area shape="rect" id="Node000002" href="$classaas__client_1_1AasHttpClient.html#ac4ff4425eea0b3a4d6d186274d6a0e22" title="Set authentication token in session headers based on configured authentication method." alt="" coords="299,5,505,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,42,284,36,285,42,236,47"/>
+<area shape="rect" id="Node000003" href="$classconfig__classes_1_1BearerAuth.html#a92105971edf13a3b067bf4d31411ee96" title="Set the bearer token for the authentication." alt="" coords="293,69,511,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,67,280,73,279,78,235,73"/>
+</map>

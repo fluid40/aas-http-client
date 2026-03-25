@@ -1,0 +1,5 @@
+<map id="pagination.SubmodelElementPaginatedData" name="pagination.SubmodelElementPaginatedData">
+<area shape="rect" id="Node000001" title="Class representing paginated data for Submodel Elements." alt="" coords="5,93,220,133"/>
+<area shape="rect" id="Node000002" href="$classpagination_1_1PagingMetadata.html" title="Class representing pagination metadata." alt="" coords="13,5,213,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,44,115,93,110,93,110,44"/>
+</map>

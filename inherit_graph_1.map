@@ -1,0 +1,23 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,248,100,273"/>
+<area shape="rect" id="Node000001" href="$classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API." alt="" coords="221,5,403,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="55,233,63,191,80,138,107,85,125,62,146,41,181,23,220,14,221,19,183,28,150,46,129,65,111,88,85,140,68,192,60,235"/>
+<area shape="rect" id="Node000002" href="$classconfig__classes_1_1AuthenticationConfig.html" title="Authentication Configuration." alt="" coords="205,55,419,95"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="60,234,72,204,91,169,115,134,146,105,174,90,204,81,205,86,176,95,150,110,119,138,95,172,77,206,65,236"/>
+<area shape="rect" id="Node000003" href="$classconfig__classes_1_1BasicAuth.html" title="Basic Authentication Configuration." alt="" coords="219,120,405,145"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="67,235,99,193,122,171,147,154,182,140,218,132,220,138,183,145,149,159,125,176,103,196,71,238"/>
+<area shape="rect" id="Node000004" href="$classconfig__classes_1_1BearerAuth.html" title="Bearer Authentication Configuration." alt="" coords="215,169,409,195"/>
+<area shape="poly" id="edge4_Node000000_Node000004" title=" " alt="" coords="82,238,112,219,147,203,214,187,216,193,149,209,115,224,84,242"/>
+<area shape="rect" id="Node000005" href="$classconfig__classes_1_1OAuth.html" title="Open Authentication Configuration." alt="" coords="232,219,392,244"/>
+<area shape="poly" id="edge5_Node000000_Node000005" title=" " alt="" coords="114,251,231,238,232,243,114,256"/>
+<area shape="rect" id="Node000006" href="$classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html" title="Implementation of Asset Administration Shell Registry related API calls." alt="" coords="148,269,476,309"/>
+<area shape="poly" id="edge6_Node000000_Node000006" title=" " alt="" coords="114,265,148,268,148,274,114,270"/>
+<area shape="rect" id="Node000007" href="$classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html" title="Implementation of Asset Administration Shell related API calls." alt="" coords="159,333,465,373"/>
+<area shape="poly" id="edge7_Node000000_Node000007" title=" " alt="" coords="83,280,114,300,149,318,185,330,183,335,147,323,111,305,80,284"/>
+<area shape="rect" id="Node000008" href="$classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html" title="Implementation of Asset Administration Shell Registry related API calls." alt="" coords="199,397,425,452"/>
+<area shape="poly" id="edge8_Node000000_Node000008" title=" " alt="" coords="68,284,101,335,123,361,149,382,173,395,199,405,197,410,171,400,147,387,119,365,96,338,64,287"/>
+<area shape="rect" id="Node000009" href="$classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html" title="Implementation of Submodel related API calls." alt="" coords="195,476,429,531"/>
+<area shape="poly" id="edge9_Node000000_Node000009" title=" " alt="" coords="61,286,71,326,88,373,114,421,130,443,150,461,171,475,195,486,193,491,169,480,146,465,126,446,109,424,83,375,66,327,56,288"/>
+<area shape="rect" id="Node000010" href="$classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html" title="Implementation of Submodel Registry related API calls." alt="" coords="183,555,441,609"/>
+<area shape="poly" id="edge10_Node000000_Node000010" title=" " alt="" coords="57,287,63,341,77,409,89,445,105,480,125,512,150,540,184,562,181,566,146,544,121,515,100,482,84,447,72,410,58,341,52,288"/>
+</map>

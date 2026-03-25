@@ -1,0 +1,7 @@
+<map id="sdk_wrapper.SdkWrapper.experimental_get_file_by_path_submodel_repo" name="sdk_wrapper.SdkWrapper.experimental_get_file_by_path_submodel_repo">
+<area shape="rect" id="Node000001" title="Downloads file content from a specific submodel element from the Submodel at a specified path." alt="" coords="5,57,283,97"/>
+<area shape="rect" id="Node000002" href="$classsdk__wrapper_1_1SdkWrapper.html#a50d4f24d329c320a4b014b2dccc03c8e" title="Returns a specific submodel element from the Submodel at a specified path." alt="" coords="349,5,562,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,54,335,47,335,52,283,60"/>
+<area shape="rect" id="Node000003" href="$classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html#a15f101239a733054ad654b7b80030bf1" title="Returns a specific submodel element from the Submodel at a specified path." alt="" coords="331,85,580,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="283,93,317,98,317,103,283,98"/>
+</map>
