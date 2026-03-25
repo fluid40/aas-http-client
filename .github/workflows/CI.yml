@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  Detect_Project_Changes:
+  detect-project-changes:
     name: Check for new version
     runs-on: ubuntu-latest
     outputs:
@@ -37,7 +37,7 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-  client_env_tests:
+  client-aas-env-tests:
     name: Client AAS Env Tests
     runs-on: ubuntu-latest
 
@@ -98,7 +98,7 @@ jobs:
       - name: Tear down
         run: docker compose -f .github/docker-compose-env.yaml down
 
-  wrapper_env_tests:
+  wrapper-aas-env-tests:
     name: Wrapper AAS Env Tests
     runs-on: ubuntu-latest
 
@@ -159,7 +159,7 @@ jobs:
       - name: Tear down
         run: docker compose -f .github/docker-compose-env.yaml down
 
-  client_reg_tests:
+  client-registry-tests:
     name: Client AAS Registry Tests
     runs-on: ubuntu-latest
 
@@ -222,16 +222,16 @@ jobs:
       - name: Tear down
         run: docker compose -f .github/docker-compose-reg.yaml down
 
-  Publish_PyPI_Package:
+  publish-pypi-package:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main' && needs.Detect_Project_Changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     needs:
       [
-        client_env_tests,
-        wrapper_env_tests,
-        client_reg_tests,
-        Detect_Project_Changes,
+        client-aas-env-tests,
+        wrapper-aas-env-tests,
+        client-registry-tests,
+        detect-project-changes,
       ]
 
     steps:
@@ -262,10 +262,10 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: twine upload dist/*
 
-  Github_Release:
+  github-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    needs: Publish_PyPI_Package
+    needs: publish-pypi-package
 
     steps:
       - uses: actions/checkout@v5

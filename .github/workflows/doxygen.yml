@@ -15,6 +15,7 @@ permissions:
 # Jobs: Die Aufgaben, die ausgeführt werden sollen
 jobs:
   build-and-deploy:
+    name: Publish Doxygen Pages
     # Der Typ der Maschine, auf der der Job läuft
     runs-on: ubuntu-latest
 
