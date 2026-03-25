@@ -24,7 +24,7 @@ jobs:
       # Schritt 1: Das Repository auschecken
       # Dieser Schritt lädt den Code deines Repositories auf die Runner-Maschine.
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Schritt 2: Doxygen und Abhängigkeiten installieren
       # Graphviz wird für die Erstellung von Diagrammen benötigt.
