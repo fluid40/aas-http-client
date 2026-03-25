@@ -48,6 +48,14 @@ jobs:
       - name: Debug – list generated files
         run: ls -R .
 
+      - name: Debug – Python modules recognized?
+        run: |
+          echo "Python files found:"
+          find aas_http_client -type f -name "*.py"
+
+      - name: Debug – What did Doxygen generate?
+        run: ls -R doc/html
+
       # Schritt 5: Die generierte Dokumentation auf GitHub Pages veröffentlichen
       # Dieser Schritt nimmt den Inhalt des 'docs'-Ordners (wie im Doxyfile definiert)
       # und pusht ihn in einen speziellen 'gh-pages'-Branch, von dem aus die Seite bereitgestellt wird.
