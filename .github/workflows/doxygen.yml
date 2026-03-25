@@ -26,6 +26,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Make doxypy wrapper executable
+        run: chmod +x ./doxypy-wrapper.sh
+
       # Schritt 2: Doxygen und Abhängigkeiten installieren
       # Graphviz wird für die Erstellung von Diagrammen benötigt.
       - name: Install Doxygen and Graphviz
