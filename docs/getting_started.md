@@ -14,9 +14,9 @@ pip install aas-http-client
 
 ---
 
-## 💻 Usage
+## Usage
 
-### 1️⃣ Server Configuration
+### Server Configuration
 
 For detailed configuration options and examples, see the [Configuration Guide](configuration.md).
 
