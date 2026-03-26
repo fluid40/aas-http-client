@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quickstart_0',['⚡ Quickstart',['../index.html#autotoc_md9',1,'']]]
+  ['quickstart_0',['⚡ Quickstart',['../index.html#autotoc_md12',1,'']]]
 ];
