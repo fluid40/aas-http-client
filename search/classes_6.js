@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oauth_0',['OAuth',['../classconfig__classes_1_1OAuth.html',1,'config_classes']]]
+  ['pagingmetadata_0',['PagingMetadata',['../classpagination_1_1PagingMetadata.html',1,'pagination']]]
 ];

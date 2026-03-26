@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logging_5fhandler_0',['logging_handler',['../namespacelogging__handler.html',1,'']]]
+  ['sdk_5fwrapper_0',['sdk_wrapper',['../namespacesdk__wrapper.html',1,'']]]
 ];

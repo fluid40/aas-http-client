@@ -14,9 +14,7 @@ var searchData=
   ['bearer_5fauth_11',['bearer_auth',['../classconfig__classes_1_1AuthenticationConfig.html#a43544f386892f98f9a181734f2d062d8',1,'config_classes::AuthenticationConfig']]],
   ['bearerauth_12',['BearerAuth',['../classconfig__classes_1_1BearerAuth.html',1,'config_classes']]],
   ['best_20practices_13',['Best Practices',['../md_docs_2configuration.html#autotoc_md52',1,'']]],
-  ['blue_14',['blue',['../classlogging__handler_1_1ColorCodes.html#af9cd988f2d686277be6c471e6a9facbc',1,'logging_handler::ColorCodes']]],
-  ['bold_5fred_15',['bold_red',['../classlogging__handler_1_1ColorCodes.html#a7c808983492ba4d066dc2785c1389199',1,'logging_handler::ColorCodes']]],
-  ['by_20configuration_20file_16',['3. Create Client by Configuration File',['../md_docs_2configuration.html#autotoc_md34',1,'']]],
-  ['by_20dictionary_17',['2. Create Client by Dictionary',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
-  ['by_20url_18',['1. Create Client by URL',['../md_docs_2configuration.html#autotoc_md32',1,'']]]
+  ['by_20configuration_20file_14',['3. Create Client by Configuration File',['../md_docs_2configuration.html#autotoc_md34',1,'']]],
+  ['by_20dictionary_15',['2. Create Client by Dictionary',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
+  ['by_20url_16',['1. Create Client by URL',['../md_docs_2configuration.html#autotoc_md32',1,'']]]
 ];

@@ -6,6 +6,5 @@ var searchData=
   ['_5fcreate_5fclient_3',['_create_client',['../namespaceaas__client.html#a14db0efc6fd936124f6354f0f378fdd9',1,'aas_client']]],
   ['_5fget_5ftoken_5ffrom_5fendpoint_4',['_get_token_from_endpoint',['../namespaceimplementations_1_1authentication.html#a6ae5282fe128b4530457a0317508c464',1,'implementations::authentication']]],
   ['_5fhandle_5fauth_5fmethod_5',['_handle_auth_method',['../classaas__client_1_1AasHttpClient.html#a3c4fd48be7e2d6f7532fbabd1d80083b',1,'aas_client::AasHttpClient']]],
-  ['_5fhandle_5ffile_5frotation_6',['_handle_file_rotation',['../namespacelogging__handler.html#a7e0fe242770ce0c5f66ee9003d0405c2',1,'logging_handler']]],
-  ['_5fpost_5fmultipart_7',['_post_multipart',['../classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#ad8453edf4fabf588b82f7f122817134e',1,'implementations::experimental_implementation::ExperimentalImplementation']]]
+  ['_5fpost_5fmultipart_6',['_post_multipart',['../classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#ad8453edf4fabf588b82f7f122817134e',1,'implementations::experimental_implementation::ExperimentalImplementation']]]
 ];

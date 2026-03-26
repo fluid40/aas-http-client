@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['level_0',['Level',['../classsdk__wrapper_1_1Level.html',1,'sdk_wrapper']]]
+  ['oauth_0',['OAuth',['../classconfig__classes_1_1OAuth.html',1,'config_classes']]]
 ];

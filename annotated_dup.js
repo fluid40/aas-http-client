@@ -33,10 +33,6 @@ var annotated_dup =
         [ "SubmodelRegistryImplementation", "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html", "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation" ]
       ] ]
     ] ],
-    [ "logging_handler", "namespacelogging__handler.html", [
-      [ "ColorCodes", "classlogging__handler_1_1ColorCodes.html", null ],
-      [ "CustomConsoleFormatter", "classlogging__handler_1_1CustomConsoleFormatter.html", "classlogging__handler_1_1CustomConsoleFormatter" ]
-    ] ],
     [ "pagination", "namespacepagination.html", [
       [ "PagingMetadata", "classpagination_1_1PagingMetadata.html", "classpagination_1_1PagingMetadata" ],
       [ "ReferencePaginatedData", "classpagination_1_1ReferencePaginatedData.html", "classpagination_1_1ReferencePaginatedData" ],

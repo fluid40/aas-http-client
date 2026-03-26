@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['idencoding_0',['IdEncoding',['../classsdk__wrapper_1_1IdEncoding.html',1,'sdk_wrapper']]]
+  ['level_0',['Level',['../classsdk__wrapper_1_1Level.html',1,'sdk_wrapper']]]
 ];

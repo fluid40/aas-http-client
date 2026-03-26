@@ -1,10 +1,6 @@
 var hierarchy =
 [
     [ "attachment.Attachment", "classattachment_1_1Attachment.html", null ],
-    [ "logging_handler.ColorCodes", "classlogging__handler_1_1ColorCodes.html", null ],
-    [ "logging.Formatter", null, [
-      [ "logging_handler.CustomConsoleFormatter", "classlogging__handler_1_1CustomConsoleFormatter.html", null ]
-    ] ],
     [ "pagination.PagingMetadata", "classpagination_1_1PagingMetadata.html", null ],
     [ "pagination.ReferencePaginatedData", "classpagination_1_1ReferencePaginatedData.html", null ],
     [ "sdk_wrapper.SdkWrapper", "classsdk__wrapper_1_1SdkWrapper.html", null ],
