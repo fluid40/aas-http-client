@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['👨‍⚕️_20troubleshooting_0',['👨‍⚕️ Troubleshooting',['../md_docs_2troubleshooting.html',1,'']]]
+  ['version_5fcheck_2epy_0',['version_check.py',['../version__check_8py.html',1,'']]],
+  ['via_20dictionary_1',['via dictionary',['../md_docs_2getting__started.html#autotoc_md70',1,'📌 Create Client via dictionary'],['../md_docs_2getting__started.html#autotoc_md75',1,'📌 Create Wrapper via dictionary']]],
+  ['via_20parameters_2',['via parameters',['../md_docs_2getting__started.html#autotoc_md69',1,'📌 Create Client via Parameters'],['../md_docs_2getting__started.html#autotoc_md74',1,'📌 Create Wrapper via Parameters']]]
 ];

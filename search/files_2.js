@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['config_5fclasses_2epy_0',['config_classes.py',['../config__classes_8py.html',1,'']]],
-  ['configuration_2emd_1',['configuration.md',['../configuration_8md.html',1,'']]]
+  ['changelog_2emd_0',['CHANGELOG.md',['../CHANGELOG_8md.html',1,'']]],
+  ['config_5fclasses_2epy_1',['config_classes.py',['../config__classes_8py.html',1,'']]],
+  ['configuration_2emd_2',['configuration.md',['../configuration_8md.html',1,'']]]
 ];

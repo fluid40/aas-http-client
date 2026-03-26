@@ -92,8 +92,8 @@ $(document).ready(function(){initNavTree('md_docs_2configuration.html',''); init
   <div class="headertitle"><div class="title">🛠️ AAS HTTP Client Configuration Guide</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md24"></a> This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.</p>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Table of Contents</h1>
 <ul>
 <li>Overview</li>
@@ -106,10 +106,10 @@ Table of Contents</h1>
 <li>Error Handling</li>
 <li>Best Practices</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Overview</h1>
 <p>The AAS HTTP Client provides a convenient way to interact with AAS servers through HTTP/REST APIs. The client supports multiple authentication methods, proxy configurations, and SSL verification options.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Example Configuration File</h1>
 <p>Here's a complete example configuration file (<code>config.json</code>) that demonstrates all available options:</p>
 <div class="fragment"><div class="line">{</div>
@@ -132,7 +132,7 @@ Example Configuration File</h1>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
 Configuration Structure Overview</h2>
 <ul>
 <li><b>Root Level</b>: Contains server connection settings and timeouts</li>
@@ -142,10 +142,10 @@ Configuration Structure Overview</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Configuration File Parameters</h2>
 <p>| Parameter | Type | Required | Default | Description | |--------&mdash;|---&mdash;|-------&mdash;|------&mdash;|----------&mdash;| | <b>Root Level Parameters</b> | | <code>BaseUrl</code> | <code>string</code> | Yes | - | Base URL of the AAS server including protocol and port | | <code>TimeOut</code> | <code>integer</code> | No | <code>200</code> | Maximum time in seconds to wait for API responses | | <code>ConnectionTimeOut</code> | <code>integer</code> | No | <code>60</code> | Maximum time in seconds to wait when establishing connection | | <code>SslVerify</code> | <code>boolean</code> | No | <code>true</code> | Whether to verify SSL/TLS certificates for HTTPS requests | | <code>TrustEnv</code> | <code>boolean</code> | No | <code>true</code> | Whether to trust environment variables for proxy configuration | | <code>HttpProxy</code> | <code>string</code> | No | <code>null</code> | HTTP proxy server URL for non-encrypted connections | | <code>HttpsProxy</code> | <code>string</code> | No | <code>null</code> | HTTPS proxy server URL for encrypted connections | | <code>EncodedIds</code> | <code>boolean</code> | No | <code>true</code> | If enabled, all IDs used in API requests have to be base64-encoded | | <b>Authentication Settings</b> | | <code>AuthenticationSettings.BasicAuth.Username</code> | <code>string</code> | No | - | Username for HTTP Basic Authentication | | <code>AuthenticationSettings.OAuth.ClientId</code> | <code>string</code> | No | - | OAuth2 client identifier | | <code>AuthenticationSettings.OAuth.TokenUrl</code> | <code>string</code> | No | - | OAuth2 token endpoint URL | | <code>AuthenticationSettings.OAuth.GrantType</code> | <code>string</code> | No | - | OAuth2 grant type (<code>client_credentials</code> or <code>password</code>) |</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Key Points</h2>
 <ol type="1">
 <li><b>Authentication compatibility</b>:<ul>
@@ -158,7 +158,7 @@ Key Points</h2>
 <li><b>All settings are optional</b> except <code>BaseUrl</code></li>
 <li><b>Environment variables</b> can override proxy settings when <code>TrustEnv</code> is <code>true</code></li>
 </ol>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Usage with Configuration File</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
 <div class="line"><span class="keyword">from</span> aas_http_client.client <span class="keyword">import</span> create_client_by_config</div>
@@ -171,10 +171,10 @@ Usage with Configuration File</h2>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;secret&quot;</span>,                 <span class="comment"># For OAuth2</span></div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;your-bearer-token&quot;</span>          <span class="comment"># For Bearer Auth (not in config file)</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
 Client Creation Methods</h1>
 <p>There are three ways to create an AAS HTTP client:</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 1. Create Client by URL</h2>
 <p>Create a client by providing parameters directly:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.client <span class="keyword">import</span> create_client_by_url</div>
@@ -186,7 +186,7 @@ Client Creation Methods</h1>
 <div class="line">    time_out=300,</div>
 <div class="line">    ssl_verify=<span class="keyword">True</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md10"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 2. Create Client by Dictionary</h2>
 <p>Create a client using a configuration dictionary:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.client <span class="keyword">import</span> create_client_by_dict</div>
@@ -205,7 +205,7 @@ Client Creation Methods</h1>
 <div class="line">    configuration=config,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md35"></a>
 3. Create Client by Configuration File</h2>
 <p>Create a client using a JSON configuration file:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
@@ -216,9 +216,9 @@ Client Creation Methods</h1>
 <div class="line">    config_file=config_file,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md12"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
 Configuration Parameters</h1>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Basic Parameters</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -236,7 +236,7 @@ Basic Parameters</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>encoded_ids</code>   </td><td class="markdownTableBodyNone"><code>bool</code>   </td><td class="markdownTableBodyNone"><code>True</code>   </td><td class="markdownTableBodyNone">Use base64 encoding for IDs in requests   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Proxy Configuration</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -246,7 +246,7 @@ Proxy Configuration</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>https_proxy</code>   </td><td class="markdownTableBodyNone"><code>str</code>   </td><td class="markdownTableBodyNone"><code>""</code>   </td><td class="markdownTableBodyNone">HTTPS proxy URL   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md39"></a>
 Authentication Parameters</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -264,9 +264,9 @@ Authentication Parameters</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>bearer_auth_token</code>   </td><td class="markdownTableBodyNone"><code>str</code>   </td><td class="markdownTableBodyNone"><code>""</code>   </td><td class="markdownTableBodyNone">Bearer token for authentication (function parameter only)   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 Authentication Methods</h1>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 1. Basic Authentication</h2>
 <p>Use username and password for HTTP Basic Authentication:</p>
 <div class="fragment"><div class="line">client = create_client_by_url(</div>
@@ -274,14 +274,14 @@ Authentication Methods</h1>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
 2. Bearer Token Authentication</h2>
 <p>Use a pre-obtained bearer token (provided as function parameter, not in config file):</p>
 <div class="fragment"><div class="line">client = create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md43"></a>
 3. OAuth2 Client Credentials</h2>
 <p>Use OAuth2 client credentials flow:</p>
 <div class="fragment"><div class="line">client = create_client_by_url(</div>
@@ -290,7 +290,7 @@ Authentication Methods</h1>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;my-client-secret&quot;</span>,</div>
 <div class="line">    o_auth_token_url=<span class="stringliteral">&quot;http://auth-server/oauth/token&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md44"></a>
 4. OAuth2 Password Grant</h2>
 <p>Use OAuth2 password grant flow:</p>
 <div class="fragment"><div class="line">client = create_client_by_url(</div>
@@ -299,14 +299,14 @@ Authentication Methods</h1>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;password&quot;</span>,</div>
 <div class="line">    o_auth_token_url=<span class="stringliteral">&quot;http://auth-server/oauth/token&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md45"></a>
 Configuration Examples</h1>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Minimal Configuration</h2>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:8080&quot;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md23"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md47"></a>
 Basic Authentication Configuration</h2>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;https://aas-server.example.com&quot;,</div>
@@ -318,7 +318,7 @@ Basic Authentication Configuration</h2>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md48"></a>
 OAuth2 Configuration</h2>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;https://aas-server.example.com&quot;,</div>
@@ -333,7 +333,7 @@ OAuth2 Configuration</h2>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md49"></a>
 Proxy Configuration</h2>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;https://aas-server.example.com&quot;,</div>
@@ -346,7 +346,7 @@ Proxy Configuration</h2>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md50"></a>
 Production Environment Configuration</h2>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;https://production-aas.company.com&quot;,</div>
@@ -363,7 +363,7 @@ Production Environment Configuration</h2>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md51"></a>
 Bearer Token Authentication Example</h2>
 <p>Bearer tokens are provided as function parameters, not in configuration files:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
@@ -380,7 +380,7 @@ Bearer Token Authentication Example</h2>
 <div class="line">    configuration=config,</div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md52"></a>
 Error Handling</h1>
 <p>The client creation methods return <code>None</code> if the configuration is invalid or the connection fails:</p>
 <div class="fragment"><div class="line">client = create_client_by_url(base_url=<span class="stringliteral">&quot;http://invalid-url&quot;</span>)</div>
@@ -397,9 +397,9 @@ Error Handling</h1>
 <li><b>SSL verification failure</b>: Invalid certificates when <code>ssl_verify=True</code></li>
 <li><b>Proxy issues</b>: Incorrect proxy configuration</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md53"></a>
 Best Practices</h1>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Security</h2>
 <ol type="1">
 <li><b>Never hardcode credentials</b> in your source code</li>
@@ -416,7 +416,7 @@ Security</h2>
 <div class="line">    basic_auth_password=os.getenv(<span class="stringliteral">&quot;AAS_PASSWORD&quot;</span>),</div>
 <div class="line">    ssl_verify=<span class="keyword">True</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md55"></a>
 Configuration Management</h2>
 <ol type="1">
 <li><b>Use configuration files</b> for different environments</li>
@@ -438,7 +438,7 @@ Configuration Management</h2>
 <div class="line">    <span class="stringliteral">&quot;SslVerify&quot;</span>: true,</div>
 <div class="line">    <span class="stringliteral">&quot;HttpsProxy&quot;</span>: <span class="stringliteral">&quot;http://proxy.company.com:8080&quot;</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md56"></a>
 Error Handling</h2>
 <ol type="1">
 <li><b>Always check</b> if client creation was successful</li>
@@ -464,7 +464,7 @@ Error Handling</h2>
 <div class="line"> </div>
 <div class="line">    logger.info(<span class="stringliteral">&quot;AAS client created successfully&quot;</span>)</div>
 <div class="line">    <span class="keywordflow">return</span> client</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md57"></a>
 Performance</h2>
 <ol type="1">
 <li><b>Reuse client instances</b> instead of creating new ones for each request</li>

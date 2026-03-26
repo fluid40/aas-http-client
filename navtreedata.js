@@ -26,64 +26,89 @@ var NAVTREE =
 [
   [ "HTTP Client Documentation", "index.html", [
     [ "AAS HTTP Client", "index.html", "index" ],
+    [ "Changelog", "md_docs_2CHANGELOG.html", [
+      [ "[1.0.0] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
+      [ "[0.9.7] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md2", null ],
+      [ "[0.9.6] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md3", null ],
+      [ "[0.9.5] - 2026-02-03", "md_docs_2CHANGELOG.html#autotoc_md4", null ],
+      [ "[0.9.4] - 2026-01-20", "md_docs_2CHANGELOG.html#autotoc_md5", null ],
+      [ "[0.9.2] - 2026-01-16", "md_docs_2CHANGELOG.html#autotoc_md6", null ],
+      [ "[0.9.1] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md7", null ],
+      [ "[0.9.0] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md8", null ],
+      [ "[0.8.5] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md9", null ],
+      [ "[0.8.2] - 2026-01-07", "md_docs_2CHANGELOG.html#autotoc_md10", null ],
+      [ "[0.8.0] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md11", null ],
+      [ "[0.7.5] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md12", null ],
+      [ "[0.7.2] - 2026-01-05", "md_docs_2CHANGELOG.html#autotoc_md13", null ],
+      [ "[0.7.1] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md14", null ],
+      [ "[0.7.0] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md15", null ],
+      [ "[0.6.2] - 2025-12-17", "md_docs_2CHANGELOG.html#autotoc_md16", null ],
+      [ "[0.6.1] - 2025-12-10", "md_docs_2CHANGELOG.html#autotoc_md17", null ],
+      [ "[0.6.0] - 2025-12-09", "md_docs_2CHANGELOG.html#autotoc_md18", null ],
+      [ "[0.5.6] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md19", null ],
+      [ "[0.5.5] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md20", null ],
+      [ "[0.5.4] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md21", null ],
+      [ "[0.2.6] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md22", null ],
+      [ "[0.2.5] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md23", null ]
+    ] ],
     [ "🛠️ AAS HTTP Client Configuration Guide", "md_docs_2configuration.html", [
-      [ "Table of Contents", "md_docs_2configuration.html#autotoc_md1", null ],
-      [ "Overview", "md_docs_2configuration.html#autotoc_md2", null ],
-      [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md3", [
-        [ "Configuration Structure Overview", "md_docs_2configuration.html#autotoc_md4", null ],
-        [ "Configuration File Parameters", "md_docs_2configuration.html#autotoc_md5", null ],
-        [ "Key Points", "md_docs_2configuration.html#autotoc_md6", null ],
-        [ "Usage with Configuration File", "md_docs_2configuration.html#autotoc_md7", null ]
+      [ "Table of Contents", "md_docs_2configuration.html#autotoc_md25", null ],
+      [ "Overview", "md_docs_2configuration.html#autotoc_md26", null ],
+      [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md27", [
+        [ "Configuration Structure Overview", "md_docs_2configuration.html#autotoc_md28", null ],
+        [ "Configuration File Parameters", "md_docs_2configuration.html#autotoc_md29", null ],
+        [ "Key Points", "md_docs_2configuration.html#autotoc_md30", null ],
+        [ "Usage with Configuration File", "md_docs_2configuration.html#autotoc_md31", null ]
       ] ],
-      [ "Client Creation Methods", "md_docs_2configuration.html#autotoc_md8", [
-        [ "1. Create Client by URL", "md_docs_2configuration.html#autotoc_md9", null ],
-        [ "2. Create Client by Dictionary", "md_docs_2configuration.html#autotoc_md10", null ],
-        [ "3. Create Client by Configuration File", "md_docs_2configuration.html#autotoc_md11", null ]
+      [ "Client Creation Methods", "md_docs_2configuration.html#autotoc_md32", [
+        [ "1. Create Client by URL", "md_docs_2configuration.html#autotoc_md33", null ],
+        [ "2. Create Client by Dictionary", "md_docs_2configuration.html#autotoc_md34", null ],
+        [ "3. Create Client by Configuration File", "md_docs_2configuration.html#autotoc_md35", null ]
       ] ],
-      [ "Configuration Parameters", "md_docs_2configuration.html#autotoc_md12", [
-        [ "Basic Parameters", "md_docs_2configuration.html#autotoc_md13", null ],
-        [ "Proxy Configuration", "md_docs_2configuration.html#autotoc_md14", null ],
-        [ "Authentication Parameters", "md_docs_2configuration.html#autotoc_md15", null ]
+      [ "Configuration Parameters", "md_docs_2configuration.html#autotoc_md36", [
+        [ "Basic Parameters", "md_docs_2configuration.html#autotoc_md37", null ],
+        [ "Proxy Configuration", "md_docs_2configuration.html#autotoc_md38", null ],
+        [ "Authentication Parameters", "md_docs_2configuration.html#autotoc_md39", null ]
       ] ],
-      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md16", [
-        [ "1. Basic Authentication", "md_docs_2configuration.html#autotoc_md17", null ],
-        [ "2. Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md18", null ],
-        [ "3. OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md19", null ],
-        [ "4. OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md20", null ]
+      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md40", [
+        [ "1. Basic Authentication", "md_docs_2configuration.html#autotoc_md41", null ],
+        [ "2. Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md42", null ],
+        [ "3. OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md43", null ],
+        [ "4. OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md44", null ]
       ] ],
-      [ "Configuration Examples", "md_docs_2configuration.html#autotoc_md21", [
-        [ "Minimal Configuration", "md_docs_2configuration.html#autotoc_md22", null ],
-        [ "Basic Authentication Configuration", "md_docs_2configuration.html#autotoc_md23", null ],
-        [ "OAuth2 Configuration", "md_docs_2configuration.html#autotoc_md24", null ],
-        [ "Proxy Configuration", "md_docs_2configuration.html#autotoc_md25", null ],
-        [ "Production Environment Configuration", "md_docs_2configuration.html#autotoc_md26", null ],
-        [ "Bearer Token Authentication Example", "md_docs_2configuration.html#autotoc_md27", null ]
+      [ "Configuration Examples", "md_docs_2configuration.html#autotoc_md45", [
+        [ "Minimal Configuration", "md_docs_2configuration.html#autotoc_md46", null ],
+        [ "Basic Authentication Configuration", "md_docs_2configuration.html#autotoc_md47", null ],
+        [ "OAuth2 Configuration", "md_docs_2configuration.html#autotoc_md48", null ],
+        [ "Proxy Configuration", "md_docs_2configuration.html#autotoc_md49", null ],
+        [ "Production Environment Configuration", "md_docs_2configuration.html#autotoc_md50", null ],
+        [ "Bearer Token Authentication Example", "md_docs_2configuration.html#autotoc_md51", null ]
       ] ],
-      [ "Error Handling", "md_docs_2configuration.html#autotoc_md28", null ],
-      [ "Best Practices", "md_docs_2configuration.html#autotoc_md29", [
-        [ "Security", "md_docs_2configuration.html#autotoc_md30", null ],
-        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md31", null ],
-        [ "Error Handling", "md_docs_2configuration.html#autotoc_md32", null ],
-        [ "Performance", "md_docs_2configuration.html#autotoc_md33", null ]
+      [ "Error Handling", "md_docs_2configuration.html#autotoc_md52", null ],
+      [ "Best Practices", "md_docs_2configuration.html#autotoc_md53", [
+        [ "Security", "md_docs_2configuration.html#autotoc_md54", null ],
+        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md55", null ],
+        [ "Error Handling", "md_docs_2configuration.html#autotoc_md56", null ],
+        [ "Performance", "md_docs_2configuration.html#autotoc_md57", null ]
       ] ]
     ] ],
     [ "💻 Developer Quick start", "md_docs_2dev__guide.html", null ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
-      [ "📦 Installation", "md_docs_2getting__started.html#autotoc_md38", null ],
-      [ "💻 Usage", "md_docs_2getting__started.html#autotoc_md40", [
-        [ "1️⃣ Server Configuration", "md_docs_2getting__started.html#autotoc_md41", null ],
-        [ "Client", "md_docs_2getting__started.html#autotoc_md43", [
-          [ "📌 Create Client from Configuration File", "md_docs_2getting__started.html#autotoc_md44", null ],
-          [ "📌 Create Client via Parameters", "md_docs_2getting__started.html#autotoc_md45", null ],
-          [ "📌 Create Client via dictionary", "md_docs_2getting__started.html#autotoc_md46", null ]
+      [ "📦 Installation", "md_docs_2getting__started.html#autotoc_md62", null ],
+      [ "Usage", "md_docs_2getting__started.html#autotoc_md64", [
+        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md65", null ],
+        [ "Client", "md_docs_2getting__started.html#autotoc_md67", [
+          [ "📌 Create Client from Configuration File", "md_docs_2getting__started.html#autotoc_md68", null ],
+          [ "📌 Create Client via Parameters", "md_docs_2getting__started.html#autotoc_md69", null ],
+          [ "📌 Create Client via dictionary", "md_docs_2getting__started.html#autotoc_md70", null ]
         ] ],
-        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md48", [
-          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md49", null ],
-          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md50", null ],
-          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md51", null ]
+        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md72", [
+          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md73", null ],
+          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md74", null ],
+          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md75", null ]
         ] ]
       ] ],
-      [ "⚠️ Notes", "md_docs_2getting__started.html#autotoc_md53", null ]
+      [ "⚠️ Notes", "md_docs_2getting__started.html#autotoc_md77", null ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", null ],
     [ "💻 Tutorials", "md_docs_2tutorials.html", null ],
@@ -115,9 +140,9 @@ var NAVTREEINDEX =
 [
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"md_docs_2configuration.html#autotoc_md24",
-"namespacetests_1_1test__client__reg.html#a5db65d38b80c215a6837f4ef97f5ffa1",
-"test__client__reg_8py.html#a8b3aa40d54b817cc42cece75f2f6eb12"
+"md_docs_2CHANGELOG.html#autotoc_md5",
+"namespacetests_1_1test__client.html#aeffe859932685685e53439dee71cb350",
+"test__client__reg_8py.html#a03f806ff3cbd1ff875c8b2a34291edb1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

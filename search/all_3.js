@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['4_20oauth2_20password_20grant_0',['4. OAuth2 Password Grant',['../md_docs_2configuration.html#autotoc_md20',1,'']]]
+  ['3_20create_20client_20by_20configuration_20file_0',['3. Create Client by Configuration File',['../md_docs_2configuration.html#autotoc_md35',1,'']]],
+  ['3_20oauth2_20client_20credentials_1',['3. OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md43',1,'']]]
 ];

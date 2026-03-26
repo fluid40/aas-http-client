@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['🛠️_20aas_20http_20client_20configuration_20guide_0',['🛠️ AAS HTTP Client Configuration Guide',['../md_docs_2configuration.html',1,'']]]
+  ['💻_20developer_20quick_20start_0',['💻 Developer Quick start',['../md_docs_2dev__guide.html',1,'']]],
+  ['💻_20tutorials_1',['💻 Tutorials',['../md_docs_2tutorials.html',1,'']]]
 ];

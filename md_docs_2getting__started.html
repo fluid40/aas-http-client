@@ -92,23 +92,23 @@ $(document).ready(function(){initNavTree('md_docs_2getting__started.html',''); i
   <div class="headertitle"><div class="title">🚀 Getting Started</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md36"></a> This guide will walk you through installing and using <code>aas-http-client</code>.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md60"></a> This guide will walk you through installing and using <code>aas-http-client</code>.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md62"></a>
 📦 Installation</h1>
 <p>Install via pip:</p>
 <div class="fragment"><div class="line">pip install aas-http-client</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md40"></a>
-💻 Usage</h1>
-<h2><a class="anchor" id="autotoc_md41"></a>
-1️⃣ Server Configuration</h2>
+<h1><a class="anchor" id="autotoc_md64"></a>
+Usage</h1>
+<h2><a class="anchor" id="autotoc_md65"></a>
+Server Configuration</h2>
 <p>For detailed configuration options and examples, see the <a class="el" href="md_docs_2configuration.html">Configuration Guide</a>.</p>
 <hr  />
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md67"></a>
 Client</h2>
 <p>The client communicates directly with the server and uses generic dictionaries (dict) for input and output. The serialization and deserialization of the request and response body must be performed on the runtime side.</p>
-<h3><a class="anchor" id="autotoc_md44"></a>
+<h3><a class="anchor" id="autotoc_md68"></a>
 📌 Create Client from Configuration File</h3>
 <p>Create a client from a given configuration file.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
@@ -116,7 +116,7 @@ Client</h2>
 <div class="line"> </div>
 <div class="line">config_file = Path(<span class="stringliteral">&quot;./server_config.json&quot;</span>)                  <span class="comment"># get the config file</span></div>
 <div class="line">client = create_client_by_config(config_file, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)  <span class="comment"># create the client (in this case without password authentication)</span></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md45"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md69"></a>
 📌 Create Client via Parameters</h3>
 <p>Create a client from given parameters.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client <span class="keyword">import</span> create_client_by_url            <span class="comment"># import function to create a client by parameters</span></div>
@@ -132,7 +132,7 @@ Client</h2>
 <div class="line">    ssl_verify=<span class="keyword">True</span>,                                        <span class="comment"># Verify TLS/SSL certificates (optional, default: true)</span></div>
 <div class="line">    trust_env=<span class="keyword">True</span>                                          <span class="comment"># Trust environment variables (optional, default: true)</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md46"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md70"></a>
 📌 Create Client via dictionary</h3>
 <p>Create a client from given JSON dictionary.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client <span class="keyword">import</span> create_client_by_dict            <span class="comment"># import function to create a client by dictionary</span></div>
@@ -154,10 +154,10 @@ Client</h2>
 <div class="line"> </div>
 <div class="line">client = create_client_by_dict(configuration_dict, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)</div>
 </div><!-- fragment --><hr  />
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md72"></a>
 Wrapper</h2>
 <p>The wrapper provides high-level methods using BaSyx Python SDK data models for easier integration.</p>
-<h3><a class="anchor" id="autotoc_md49"></a>
+<h3><a class="anchor" id="autotoc_md73"></a>
 📌 Create Wrapper from Configuration File</h3>
 <p>Create a wrapper from a given configuration file.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
@@ -166,7 +166,7 @@ Wrapper</h2>
 <div class="line"> </div>
 <div class="line">config_file = Path(<span class="stringliteral">&quot;./server_config.json&quot;</span>)                                  <span class="comment"># get the config file</span></div>
 <div class="line">wrapper = create_wrapper_by_config(config_file, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)     <span class="comment"># create the wrapper (in this case without password authentication)</span></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md50"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md74"></a>
 📌 Create Wrapper via Parameters</h3>
 <p>Create a wrapper from given parameters.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.wrapper.sdk_wrapper <span class="keyword">import</span> create_wrapper_by_url       <span class="comment"># import function to create a wrapper by parameters</span></div>
@@ -183,7 +183,7 @@ Wrapper</h2>
 <div class="line">    ssl_verify=<span class="keyword">True</span>,                                                        <span class="comment"># Verify TLS/SSL certificates (optional, default: true)</span></div>
 <div class="line">    trust_env=<span class="keyword">True</span>                                                          <span class="comment"># Trust environment variables (optional, default: true)</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md51"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md75"></a>
 📌 Create Wrapper via dictionary</h3>
 <p>Create a wrapper from given JSON dictionary.</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.wrapper.sdk_wrapper <span class="keyword">import</span> create_wrapper_by_dict      <span class="comment"># import function to create a wrapper by dictionary</span></div>
@@ -205,7 +205,7 @@ Wrapper</h2>
 <div class="line"> </div>
 <div class="line">wrapper = create_wrapper_by_dict(configuration_dict, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md53"></a>
+<h1><a class="anchor" id="autotoc_md77"></a>
 ⚠️ Notes</h1>
 <ul>
 <li>When <code>ssl_verify</code> is set to <code>False</code>, SSL/TLS verification is disabled (⚠️ not recommended in production).</li>
