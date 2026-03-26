@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HTTP Client Documentation: AAS HTTP Client – Python Library</title>
+<title>HTTP Client Documentation: AAS HTTP Client</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,21 +89,22 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">AAS HTTP Client – Python Library </div></div>
+  <div class="headertitle"><div class="title">AAS HTTP Client </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> [<img src="https://img.shields.io/badge/license-MIT-%23f8a602?label=License&amp;labelColor=%23992b2e" alt="License: MIT" class="inline"/>](LICENSE) <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.comclient" alt="CI" class="inline"/></a> <a href="https://pypi.org/project/aas-http-client/"><img src="https://img.shields.io/pypi/v/aas-http-client.svg" alt="PyPI version" style="pointer-events: none;" class="inline"/></a></p>
-<p>The <b>AAS HTTP Client</b> is a flexible and powerful Python library for communicating with Asset Administration Shell (AAS) servers over HTTP. It provides a clean API, type hints, and a consistent data model based on standard Python dictionaries.</p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a></p>
+<p>[<img src="https://img.shields.io/badge/license-MIT-%23f8a602?label=License&amp;labelColor=%23992b2e" alt="License: MIT" class="inline"/>](LICENSE) <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&amp;cache-bust=1" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://pypi.org/project/aas-http-client/"><img src="https://img.shields.io/pypi/v/aas-http-client.svg" alt="PyPI version" style="pointer-events: none;" class="inline"/></a></p>
+<p>AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html">AAS server specification</a>, ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.</p>
 <blockquote class="doxtable">
-<p>&zwj;<b>Note:</b> Each client instance communicates with exactly one AAS server (1:1 mapping). For multiple servers, create multiple instances. </p>
+<p>&zwj;<b>Note:</b> Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances. Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'. </p>
 </blockquote>
-<p>Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.</p>
-<hr  />
+<h1><a class="anchor" id="autotoc_md1"></a>
+&lt;/blockquote&gt;</h1>
 <h1><a class="anchor" id="autotoc_md2"></a>
 🚀 Features</h1>
 <ul>
 <li>✅ Easy REST communication with AAS-compliant servers</li>
-<li>✅ Full support for Registry, AAS, and Submodel Repository endpoints</li>
+<li>✅ Support for Registry, AAS, and Submodel Repository endpoints</li>
 <li>✅ Optional wrapper for the Eclipse BaSyx Python SDK</li>
 <li>✅ Built-in authentication (Bearer, OAuth, Basic)</li>
 <li>✅ Pagination support</li>
@@ -115,57 +116,47 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 🏗️ Supported Servers</h1>
 <p>The client has been tested with:</p>
 <ul>
-<li><a href="https://github.com/fluid40/basyx-dotnet">Eclipse BaSyx .NET SDK (Fluid 4.0 fork)</a></li>
-<li><a href="https://github.com/eclipse-basyx/basyx-java-sdk">Eclipse BaSyx Java SDK</a></li>
+<li><a href="https://github.com/fluid40/basyx-dotnet">https://github.com/fluid40/basyx-dotnet</a></li>
+<li><a href="https://github.com/eclipse-basyx/basyx-java-sdk">https://github.com/eclipse-basyx/basyx-java-sdk</a></li>
+<li><a href="https://github.com/eclipse-basyx/basyx-python-sdk">https://github.com/eclipse-basyx/basyx-python-sdk</a></li>
+</ul>
+<p>Actual behavior depends on each server's implementation of the AAS Specification: <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm">https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm</a></p>
+<p>Currently available wrappers:</p>
+<ul>
 <li><a href="https://github.com/eclipse-basyx/basyx-python-sdk">Eclipse BaSyx Python SDK</a></li>
 </ul>
-<p>Compatibility depends on the server's adherence to the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html">AAS Specification</a>.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-📦 Installation</h1>
+<p>The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import '<a class="el" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a>'):</p>
+<ul>
+<li>encoder: base64 encoding and decoding</li>
+<li>sdk_tools: e.g. Framework object serialization and deserialization, basic submodel operations</li>
+<li>model_builder: creation of some basic AAS model elements</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md6"></a>
+Documentation</h1>
+<p>🚀 Getting Started</p>
+<p>🛠️ Configuration</p>
+<p>📝 Changelog</p>
+<h1><a class="anchor" id="autotoc_md7"></a>
+Resources</h1>
+<p>🤖 <a href="http://github.com/fluid40/aas-http-client/releases">Releases</a></p>
+<p>📦 <a href="https://pypi.org/project/aas-http-client/">Pypi Packages</a></p>
+<p>📜 [MIT License](LICENSE)</p>
+<hr  />
+<h1><a class="anchor" id="autotoc_md9"></a>
+⚡ Quickstart</h1>
+<p>For a detailed introduction, please read Getting Started.</p>
 <div class="fragment"><div class="line">pip install aas-http-client</div>
+<div class="line">````</div>
 <div class="line"> </div>
-<div class="line"> </div>
-<div class="line">## Documentation</div>
-<div class="line"> </div>
-<div class="line">🚀 [Getting Started](docs/getting_started.md)</div>
-<div class="line"> </div>
-<div class="line">🛠️ [Configuration](docs/configuration.md)</div>
-<div class="line"> </div>
-<div class="line">📝 [Changelog](CHANGELOG.md)</div>
-<div class="line"> </div>
-<div class="line">## Resources</div>
-<div class="line"> </div>
-<div class="line">🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)</div>
-<div class="line"> </div>
-<div class="line">📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)</div>
-<div class="line"> </div>
-<div class="line">📜 [MIT License](LICENSE)</div>
-<div class="line"> </div>
-<div class="line">---</div>
-<div class="line"> </div>
-<div class="line">## ⚡ Quickstart</div>
-<div class="line"> </div>
-<div class="line">For a detailed introduction, please read [Getting Started](docs/getting_started.md).</div>
-</div><!-- fragment --><p> bash pip install aas-http-client ````</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
-Client</h2>
-<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client <span class="keyword">import</span> create_client_by_url</div>
-<div class="line"> </div>
-<div class="line">client = create_client_by_url(</div>
-<div class="line">    base_url=<span class="stringliteral">&quot;http://myaasserver:5043/&quot;</span></div>
-<div class="line">)</div>
-<div class="line"> </div>
-<div class="line">print(client.shell.get_shells())</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
-BaSyx Python SDK Wrapper</h2>
-<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.wrapper.sdk_wrapper <span class="keyword">import</span> create_wrapper_by_url</div>
-<div class="line"> </div>
-<div class="line">wrapper = create_wrapper_by_url(</div>
-<div class="line">    base_url=<span class="stringliteral">&quot;http://myaasserver:5043/&quot;</span></div>
-<div class="line">)</div>
-<div class="line"> </div>
-<div class="line">print(wrapper.get_shells())</div>
-</div><!-- fragment --> </div></div><!-- PageDoc -->
+<div class="line">### Client</div>
+</div><!-- fragment --><p> python from <a class="el" href="namespaceaas__http__client.html">aas_http_client</a> import create_client_by_url</p>
+<p>client = create_client_by_url("http://localhost:8081")</p>
+<p>shells = client.shell.get_shells() print(shells)) </p><div class="fragment"><div class="line">### BaSyx Python SDK Wrapper</div>
+</div><!-- fragment --><p> python from <a class="el" href="namespaceaas__http__client.html">aas_http_client</a> import create_client_by_url</p>
+<p>client = create_client_by_url("http://localhost:8081")</p>
+<p>shells = client.shell.get_shells() print(shells) ``` </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
