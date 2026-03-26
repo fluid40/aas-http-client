@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['version_5fcheck_2epy_0',['version_check.py',['../version__check_8py.html',1,'']]]
+  ['quick_20start_0',['💻 Developer Quick start',['../md_docs_2dev__guide.html',1,'']]],
+  ['quickstart_1',['⚡ Quickstart',['../index.html#autotoc_md69',1,'']]]
 ];

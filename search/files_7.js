@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['model_5fbuilder_2epy_0',['model_builder.py',['../model__builder_8py.html',1,'']]]
+  ['logging_5fhandler_2epy_0',['logging_handler.py',['../logging__handler_8py.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🧰_20wrappers_0',['🧰 Wrappers',['../index.html#autotoc_md5',1,'']]]
+  ['⚠️_20notes_0',['⚠️ Notes',['../md_docs_2getting__started.html#autotoc_md53',1,'']]]
 ];

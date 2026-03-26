@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['http_20client_0',['AAS HTTP Client',['../index.html',1,'']]]
+  ['developer_20quick_20start_0',['💻 Developer Quick start',['../md_docs_2dev__guide.html',1,'']]]
 ];

@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['java_5fserver_5fports_0',['java_server_ports',['../namespacetests_1_1test__client.html#a257c854aa52367891bdcdcbc9ad4e154',1,'tests.test_client.JAVA_SERVER_PORTS'],['../namespacetests_1_1test__client__reg.html#a5db65d38b80c215a6837f4ef97f5ffa1',1,'tests.test_client_reg.JAVA_SERVER_PORTS'],['../namespacetests_1_1test__wrapper.html#a8e98e61d6aa3d2a029a3782d0cd730e5',1,'tests.test_wrapper.JAVA_SERVER_PORTS']]]
+  ['features_0',['🚀 Features',['../index.html#autotoc_md58',1,'']]],
+  ['file_1',['file',['../md_docs_2getting__started.html#autotoc_md44',1,'📌 Create Client from Configuration File'],['../md_docs_2getting__started.html#autotoc_md49',1,'📌 Create Wrapper from Configuration File'],['../md_docs_2configuration.html#autotoc_md11',1,'3. Create Client by Configuration File'],['../md_docs_2configuration.html#autotoc_md3',1,'Example Configuration File'],['../md_docs_2configuration.html#autotoc_md7',1,'Usage with Configuration File']]],
+  ['file_20parameters_2',['Configuration File Parameters',['../md_docs_2configuration.html#autotoc_md5',1,'']]],
+  ['filename_3',['filename',['../classattachment_1_1Attachment.html#a932099d9956d531c52103a5f4dcc4325',1,'attachment::Attachment']]],
+  ['format_4',['format',['../classlogging__handler_1_1CustomConsoleFormatter.html#a4d2375ef205be1fb0be1e033712b2123',1,'logging_handler::CustomConsoleFormatter']]],
+  ['formats_5',['FORMATS',['../classlogging__handler_1_1CustomConsoleFormatter.html#a443fb9acbf21ca4e9dcccd9cb6f1bcb2',1,'logging_handler::CustomConsoleFormatter']]],
+  ['from_20configuration_20file_6',['from configuration file',['../md_docs_2getting__started.html#autotoc_md44',1,'📌 Create Client from Configuration File'],['../md_docs_2getting__started.html#autotoc_md49',1,'📌 Create Wrapper from Configuration File']]]
 ];

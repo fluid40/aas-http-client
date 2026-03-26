@@ -1,16 +1,20 @@
 var searchData=
 [
-  ['idencoding_0',['IdEncoding',['../classsdk__wrapper_1_1IdEncoding.html',1,'sdk_wrapper']]],
-  ['implementations_1',['implementations',['../namespaceimplementations.html',1,'']]],
-  ['implementations_3a_3aauthentication_2',['authentication',['../namespaceimplementations_1_1authentication.html',1,'implementations']]],
-  ['implementations_3a_3aexperimental_5fimplementation_3',['experimental_implementation',['../namespaceimplementations_1_1experimental__implementation.html',1,'implementations']]],
-  ['implementations_3a_3ashell_5fimplementation_4',['shell_implementation',['../namespaceimplementations_1_1shell__implementation.html',1,'implementations']]],
-  ['implementations_3a_3ashell_5fregistry_5fimplementation_5',['shell_registry_implementation',['../namespaceimplementations_1_1shell__registry__implementation.html',1,'implementations']]],
-  ['implementations_3a_3asm_5fimplementation_6',['sm_implementation',['../namespaceimplementations_1_1sm__implementation.html',1,'implementations']]],
-  ['implementations_3a_3asm_5fregistry_5fimplementation_7',['sm_registry_implementation',['../namespaceimplementations_1_1sm__registry__implementation.html',1,'implementations']]],
-  ['initialize_8',['initialize',['../classaas__client_1_1AasHttpClient.html#a868aea7fbbb623ab06bae04408b1d7dc',1,'aas_client::AasHttpClient']]],
-  ['initialize_5flogging_9',['initialize_logging',['../namespacelogging__handler.html#ae41a4846190336e50f4aaa009c0485c7',1,'logging_handler']]],
-  ['instance_10',['instance',['../classsdk__wrapper_1_1AssetKind.html#a32ba2947f6753b0eb274a40f2d5fcf63',1,'sdk_wrapper::AssetKind']]],
-  ['invoke_5foperation_5fsubmodel_5frepo_11',['invoke_operation_submodel_repo',['../classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html#ad4da2a0b09595208bedebb3499cf2fd6',1,'implementations.sm_implementation.SubmodelRepoImplementation.invoke_operation_submodel_repo()'],['../classsdk__wrapper_1_1SdkWrapper.html#a5a55114384a5d8f0106427b76303fc1d',1,'sdk_wrapper.SdkWrapper.invoke_operation_submodel_repo()']]],
-  ['is_5factive_12',['is_active',['../classconfig__classes_1_1BearerAuth.html#acd7d3ac15638906237bedbcb84b61562',1,'config_classes.BearerAuth.is_active()'],['../classconfig__classes_1_1BasicAuth.html#af3b7966ddc2d29350e720e59c5c3622d',1,'config_classes.BasicAuth.is_active()'],['../classconfig__classes_1_1OAuth.html#a58f824388b8c313b8ad2d9697ad3b707',1,'config_classes.OAuth.is_active()']]]
+  ['encode_5fbase_5f64_0',['encode_base_64',['../namespaceaas__http__client_1_1utilities_1_1encoder.html#aec495f12ca2bd0c25c749226dae20750',1,'aas_http_client::utilities::encoder']]],
+  ['encoded_1',['encoded',['../classsdk__wrapper_1_1IdEncoding.html#adadbc85bf342bf00682b4110f6c38ab6',1,'sdk_wrapper::IdEncoding']]],
+  ['encoded_5fids_2',['encoded_ids',['../classaas__client_1_1AasHttpClient.html#a9656b067c7dbaa35b24437ef920f303f',1,'aas_client::AasHttpClient']]],
+  ['encoder_2epy_3',['encoder.py',['../encoder_8py.html',1,'']]],
+  ['environment_20configuration_4',['Production Environment Configuration',['../md_docs_2configuration.html#autotoc_md26',1,'']]],
+  ['error_20handling_5',['error handling',['../md_docs_2configuration.html#autotoc_md32',1,'Error Handling'],['../md_docs_2configuration.html#autotoc_md28',1,'Error Handling']]],
+  ['example_6',['Bearer Token Authentication Example',['../md_docs_2configuration.html#autotoc_md27',1,'']]],
+  ['example_20configuration_20file_7',['Example Configuration File',['../md_docs_2configuration.html#autotoc_md3',1,'']]],
+  ['examples_8',['Configuration Examples',['../md_docs_2configuration.html#autotoc_md21',1,'']]],
+  ['experimental_9',['experimental',['../classaas__client_1_1AasHttpClient.html#a89a1b82936c87aa78032f113b11b9311',1,'aas_client.AasHttpClient.experimental'],['../classaas__client_1_1AasHttpClient.html#a4b5ccef09be07ba21248ec7b0f7100d1',1,'aas_client.AasHttpClient.experimental']]],
+  ['experimental_5fdelete_5ffile_5fby_5fpath_5fsubmodel_5frepo_10',['experimental_delete_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a1914750962d70c1ac916290093f2cde5',1,'sdk_wrapper::SdkWrapper']]],
+  ['experimental_5fget_5ffile_5fby_5fpath_5fsubmodel_5frepo_11',['experimental_get_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a63ecdb3e96b036fe7fef980ea05e5b82',1,'sdk_wrapper::SdkWrapper']]],
+  ['experimental_5fimplementation_2epy_12',['experimental_implementation.py',['../experimental__implementation_8py.html',1,'']]],
+  ['experimental_5fpost_5ffile_5fby_5fpath_5fsubmodel_5frepo_13',['experimental_post_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#ae228f8c1e708727c17e00c61357844dd',1,'sdk_wrapper::SdkWrapper']]],
+  ['experimental_5fput_5ffile_5fby_5fpath_5fsubmodel_5frepo_14',['experimental_put_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a095d667aead790adf3aae802c1cc1152',1,'sdk_wrapper::SdkWrapper']]],
+  ['experimentalimplementation_15',['ExperimentalImplementation',['../classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html',1,'implementations::experimental_implementation']]],
+  ['extent_16',['Extent',['../classsdk__wrapper_1_1Extent.html',1,'sdk_wrapper']]]
 ];
