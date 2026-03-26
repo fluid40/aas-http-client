@@ -104,16 +104,16 @@ $(document).ready(function(){initNavTree('http__helper_8py_source.html',''); ini
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> requests.models <span class="keyword">import</span> Response</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#afd6116b3898927321f1a001d32df7736">    8</a></span>logger = logging.getLogger(__name__)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>_logger = logging.getLogger(__name__)</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad008a05fc679112fe43d9aaffa01c9d9">   10</a></span>STATUS_CODE_200 = 200</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a673c5fbb7aa2f260f8e1ec741210bd82">   11</a></span>STATUS_CODE_201 = 201</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad6647ca9d5a55680aeaa9c0c674a9d93">   12</a></span>STATUS_CODE_202 = 202</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3840f8f4373736fec49a23808e17a869">   13</a></span>STATUS_CODE_204 = 204</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a057fe2803f86f550091f3c0af5f03800">   14</a></span>STATUS_CODE_404 = 404</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">def </span>log_response(response: Response, log_level: int = logging.ERROR):  <span class="comment"># noqa: C901, PLR0912</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>STATUS_CODE_200 = 200</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3bb6910b3a6e4d7c546aa1afecb80da4">   11</a></span>STATUS_CODE_201 = 201</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>STATUS_CODE_202 = 202</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad008a05fc679112fe43d9aaffa01c9d9">   13</a></span>STATUS_CODE_204 = 204</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a673c5fbb7aa2f260f8e1ec741210bd82">   14</a></span>STATUS_CODE_404 = 404</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad6647ca9d5a55680aeaa9c0c674a9d93">   15</a></span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3840f8f4373736fec49a23808e17a869">   16</a></span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#a057fe2803f86f550091f3c0af5f03800">   17</a></span><span class="keyword">def </span>log_response(response: Response, log_level: int = logging.ERROR):  <span class="comment"># noqa: C901, PLR0912</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="stringliteral">&quot;&quot;&quot;Extracts and logs error messages from an HTTP response.</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="stringliteral"></span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="stringliteral">    This method parses the response content for error details, messages, or error fields,</span></div>
@@ -122,11 +122,11 @@ $(document).ready(function(){initNavTree('http__helper_8py_source.html',''); ini
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="stringliteral"></span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="stringliteral">    :param response: The HTTP response object to extract and log errors from</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="stringliteral">    :param log_level: The logging level to use (default is logging.ERROR)</span></div>
-<div class="foldopen" id="foldopen00026" data-start="" data-end="">
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#aebee5d803ed01e66bec17c6cb14d33bd">   26</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    result_error_messages: list[str] = []</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">try</span>:</div>
+<div class="foldopen" id="foldopen00029" data-start="" data-end="">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1http__helper.html#aebee5d803ed01e66bec17c6cb14d33bd">   29</a></span>    <span class="keywordflow">try</span>:</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        response_content_dict: dict = json.loads(response.content)</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;detail&quot;</span> <span class="keywordflow">in</span> response_content_dict:</div>
@@ -158,11 +158,11 @@ $(document).ready(function(){initNavTree('http__helper_8py_source.html',''); ini
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">if</span> response.content <span class="keywordflow">and</span> response.content != <span class="stringliteral">&quot;b&#39;&#39;&quot;</span>:</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            result_error_messages.append(str(response.content))</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    logger.log(log_level, f<span class="stringliteral">&quot;Status code: {response.status_code}&quot;</span>)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    _logger.log(log_level, f<span class="stringliteral">&quot;Status code: {response.status_code}&quot;</span>)</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">for</span> result_error_message <span class="keywordflow">in</span> result_error_messages:</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        logger.log(log_level, result_error_message)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        _logger.log(log_level, result_error_message)</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    logger.debug(f<span class="stringliteral">&quot;Full response content: {str(response.content)}&quot;</span>)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    _logger.debug(f<span class="stringliteral">&quot;Full response content: {str(response.content)}&quot;</span>)</div>
 </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

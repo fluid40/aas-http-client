@@ -8,5 +8,5 @@ var model__builder_8py =
     [ "create_reference", "model__builder_8py.html#afb4b8b8b3fd53025d25a2eac4bc4814e", null ],
     [ "create_submodel_from_file", "model__builder_8py.html#a050d6d02326ce1b60ae99d89bb14ce8f", null ],
     [ "create_unique_short_id", "model__builder_8py.html#ac2addcb907182647ca202f2a80435853", null ],
-    [ "logger", "model__builder_8py.html#a206d126bce1d1d171ef01498ee195cf3", null ]
+    [ "_logger", "model__builder_8py.html#aefb68db628d58d1d4c7625b43883ab3e", null ]
 ];

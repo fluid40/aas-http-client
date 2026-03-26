@@ -8,5 +8,5 @@ var sdk__wrapper_8py =
     [ "create_wrapper_by_config", "sdk__wrapper_8py.html#a6fd18b14847fe4c4bf8825068089012b", null ],
     [ "create_wrapper_by_dict", "sdk__wrapper_8py.html#a0183a9ad705f6139a5c27cbb43309b2c", null ],
     [ "create_wrapper_by_url", "sdk__wrapper_8py.html#af1a9de558e9060cb1729a08c83789774", null ],
-    [ "logger", "sdk__wrapper_8py.html#a36b1fd26f04035de6d9900d1d2a47a54", null ]
+    [ "_logger", "sdk__wrapper_8py.html#a71d1b8773b568d1f16840a1975561fc7", null ]
 ];

@@ -1,5 +1,5 @@
 var experimental__implementation_8py =
 [
     [ "implementations.experimental_implementation.ExperimentalImplementation", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation" ],
-    [ "logger", "experimental__implementation_8py.html#a5c9bd86dc9409a47e552b7f79f639a15", null ]
+    [ "_logger", "experimental__implementation_8py.html#aa5e18208fc251816398298aa01fcafce", null ]
 ];

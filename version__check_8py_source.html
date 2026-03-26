@@ -104,18 +104,18 @@ $(document).ready(function(){initNavTree('version__check_8py_source.html',''); i
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">import</span> requests</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1version__check.html#a054448a63919d08f3f788eca56abc3c2">    8</a></span>logger = logging.getLogger(__name__)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>_logger = logging.getLogger(__name__)</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">def </span>check_for_update(package_name=&quot;aas-http-client&quot;):</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1version__check.html#aee716bf647325a9409e97027cc3021df">   11</a></span><span class="keyword">def </span>check_for_update(package_name=&quot;aas-http-client&quot;):</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="stringliteral">&quot;&quot;&quot;Check for updates of the package on PyPI.</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral"></span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">    :param package_name: The name of the package to check for updates, defaults to &quot;aas-http-client&quot;</span></div>
-<div class="foldopen" id="foldopen00015" data-start="" data-end="">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1version__check.html#a629a03b3302f572daafb9229fd06dd03">   15</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">try</span>:</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        current_version = importlib.metadata.version(package_name)</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        pypi_url = f<span class="stringliteral">&quot;https://pypi.org/pypi/{package_name}/json&quot;</span></div>
+<div class="foldopen" id="foldopen00018" data-start="" data-end="">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1version__check.html#a629a03b3302f572daafb9229fd06dd03">   18</a></span>        pypi_url = f<span class="stringliteral">&quot;https://pypi.org/pypi/{package_name}/json&quot;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        latest_version = requests.get(pypi_url, timeout=3).json()[<span class="stringliteral">&quot;info&quot;</span>][<span class="stringliteral">&quot;version&quot;</span>]</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">if</span> current_version != latest_version:</div>
@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('version__check_8py_source.html',''); i
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                f<span class="stringliteral">&quot;Use the following command to update the package: pip install --upgrade {package_name}&quot;</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            )</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> exc:</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        logger.exception(f<span class="stringliteral">&quot;Exception occurred while checking for package update: {exc}&quot;</span>)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        _logger.exception(f<span class="stringliteral">&quot;Exception occurred while checking for package update: {exc}&quot;</span>)</div>
 </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

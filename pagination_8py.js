@@ -11,5 +11,5 @@ var pagination_8py =
     [ "create_shell_paging_data", "pagination_8py.html#af9aa3d094cc4851294d3c4e270b71487", null ],
     [ "create_submodel_element_paging_data", "pagination_8py.html#a8da64aff16286f701851f70c62b8b869", null ],
     [ "create_submodel_paging_data", "pagination_8py.html#a7caff926cf8fe890e04e9e61e451f882", null ],
-    [ "logger", "pagination_8py.html#a632e4be715de6b21b82cf0e65f5c8086", null ]
+    [ "_logger", "pagination_8py.html#ab35ab0eaa229f2bb1446b94b5fa008dd", null ]
 ];

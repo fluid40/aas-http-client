@@ -6,7 +6,7 @@ var namespaceaas__http__client_1_1utilities =
     ] ],
     [ "http_helper", "namespaceaas__http__client_1_1utilities_1_1http__helper.html", [
       [ "log_response", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#aebee5d803ed01e66bec17c6cb14d33bd", null ],
-      [ "logger", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#afd6116b3898927321f1a001d32df7736", null ],
+      [ "_logger", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3bb6910b3a6e4d7c546aa1afecb80da4", null ],
       [ "STATUS_CODE_200", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad008a05fc679112fe43d9aaffa01c9d9", null ],
       [ "STATUS_CODE_201", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#a673c5fbb7aa2f260f8e1ec741210bd82", null ],
       [ "STATUS_CODE_202", "namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad6647ca9d5a55680aeaa9c0c674a9d93", null ],
@@ -22,17 +22,17 @@ var namespaceaas__http__client_1_1utilities =
       [ "create_reference", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e", null ],
       [ "create_submodel_from_file", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f", null ],
       [ "create_unique_short_id", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853", null ],
-      [ "logger", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#a206d126bce1d1d171ef01498ee195cf3", null ]
+      [ "_logger", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#aefb68db628d58d1d4c7625b43883ab3e", null ]
     ] ],
     [ "sdk_tools", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html", [
       [ "add_submodel_to_aas", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a460a93ff1a5007dd317bcbb6da74f483", null ],
       [ "convert_to_dict", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ae3fbd69ec3204b964afcebc0c1f1b350", null ],
       [ "convert_to_object", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac66dd6f5e46c7cc6602fd6f9098c3ee5", null ],
       [ "remove_submodel_from_aas", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac77b1cf83f9f739c5812866ff393db37", null ],
-      [ "logger", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a56d5c708c9587f2698cf1356946b24aa", null ]
+      [ "_logger", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#af9e1e1800311bb810bf045372c2a4ad6", null ]
     ] ],
     [ "version_check", "namespaceaas__http__client_1_1utilities_1_1version__check.html", [
       [ "check_for_update", "namespaceaas__http__client_1_1utilities_1_1version__check.html#a629a03b3302f572daafb9229fd06dd03", null ],
-      [ "logger", "namespaceaas__http__client_1_1utilities_1_1version__check.html#a054448a63919d08f3f788eca56abc3c2", null ]
+      [ "_logger", "namespaceaas__http__client_1_1utilities_1_1version__check.html#aee716bf647325a9409e97027cc3021df", null ]
     ] ]
 ];
