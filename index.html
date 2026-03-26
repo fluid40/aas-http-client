@@ -96,7 +96,10 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html">AAS server specification</a>, ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.</p>
 <p><b>Notes:</b></p>
 <blockquote class="doxtable">
-<p>&zwj;Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances. Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'. </p>
+<p>&zwj;Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances. </p>
+</blockquote>
+<blockquote class="doxtable">
+<p>&zwj;Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'. </p>
 </blockquote>
 <h1><a class="anchor" id="autotoc_md1"></a>
 &lt;/blockquote&gt;</h1>
@@ -120,7 +123,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li><a href="https://github.com/eclipse-basyx/basyx-java-sdk">https://github.com/eclipse-basyx/basyx-java-sdk</a></li>
 <li><a href="https://github.com/eclipse-basyx/basyx-python-sdk">https://github.com/eclipse-basyx/basyx-python-sdk</a></li>
 </ul>
-<p>Actual behavior depends on each server's implementation of the AAS Specification: <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm">https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm</a></p>
+<p>Actual behavior depends on each server's implementation of the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm">AAS Specification</a></p>
 <h1><a class="anchor" id="autotoc_md5"></a>
 🧰 Wrappers</h1>
 <p>Wrappers provide a higher-level interface on top of the raw HTTP client. Use them when you want to work with SDK objects instead of plain Python dictionaries returned by the REST API.</p>
