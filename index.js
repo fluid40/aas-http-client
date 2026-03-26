@@ -7,7 +7,9 @@ var index =
       [ "What the BaSyx Wrapper Adds", "index.html#autotoc_md6", null ]
     ] ],
     [ "🔧 Provided Utilities", "index.html#autotoc_md7", null ],
-    [ "Documentation", "index.html#autotoc_md9", null ],
-    [ "Resources", "index.html#autotoc_md10", null ],
-    [ "⚡ Quickstart", "index.html#autotoc_md12", null ]
+    [ "📚 Resources", "index.html#autotoc_md9", [
+      [ "Documentation", "index.html#autotoc_md10", null ],
+      [ "Release", "index.html#autotoc_md11", null ]
+    ] ],
+    [ "⚡ Quickstart", "index.html#autotoc_md13", null ]
 ];
