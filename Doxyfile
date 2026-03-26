@@ -15,10 +15,8 @@ INPUT                   = aas_http_client \
 
 RECURSIVE               = YES
 
-# Dateien erkennen (WICHTIG: keine kaputten *.py= Einträge!)
 FILE_PATTERNS           = *.py *.md
 
-# Python-Filter aktivieren
 FILTER_PATTERNS         = *.py=./doxypy-wrapper.sh
 PYTHON_DOCSTRING        = NO
 
@@ -51,7 +49,6 @@ HAVE_DOT                = YES
 DOT_IMAGE_FORMAT        = svg
 INTERACTIVE_SVG         = YES
 
-# Entferne WINDOWS-/Conda-Pfade!
 DOT_PATH                =
 DOT_FONTPATH            =
 
