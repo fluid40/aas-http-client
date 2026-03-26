@@ -11,7 +11,7 @@ from requests.auth import HTTPBasicAuth
 from aas_http_client.classes.Configuration.config_classes import OAuth
 from aas_http_client.utilities.http_helper import log_response
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class AuthMethod(Enum):
@@ -57,7 +57,7 @@ def get_token(o_auth_configuration: OAuth) -> TokenData | None:
         )
 
     if not token:
-        logger.error(f"Failed to receive token from endpoint '{o_auth_configuration.token_url}'")
+        _logger.error(f"Failed to receive token from endpoint '{o_auth_configuration.token_url}'")
         return None
 
     return token
@@ -103,32 +103,32 @@ def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasi
     """
     try:
         response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
-        logger.debug(f"Call REST API url '{response.url}'")
+        _logger.debug(f"Call REST API url '{response.url}'")
 
         if response.status_code != 200:
             log_response(response)
             return None
 
     except requests.exceptions.RequestException as e:
-        logger.error(f"Error call REST API: {e}")
+        _logger.error(f"Error call REST API: {e}")
         return None
 
     content = response.content.decode("utf-8")
 
     if not content:
-        logger.error("No content in token response")
+        _logger.error("No content in token response")
         return None
 
     data = json.loads(content)
 
     if not data:
-        logger.error("No data in token response")
+        _logger.error("No data in token response")
         return None
 
     access_token: str = data.get("access_token", "").strip()
     expires_in: int = int(data.get("expires_in", "0"))
     if not access_token or not expires_in:
-        logger.error("Invalid token data in response")
+        _logger.error("Invalid token data in response")
         return None
 
     token_type: str = data.get("token_type", "").strip()

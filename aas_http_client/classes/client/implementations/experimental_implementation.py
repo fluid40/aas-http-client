@@ -19,7 +19,7 @@ from aas_http_client.utilities.http_helper import (
     log_response,
 )
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class ExperimentalImplementation(BaseModel):
@@ -54,13 +54,13 @@ class ExperimentalImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(
+                _logger.warning(
                     f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
                 )
-                logger.debug(response.text)
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -68,7 +68,7 @@ class ExperimentalImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error calling REST API: {e}")
+            _logger.error(f"Error calling REST API: {e}")
             return None
 
         return response.content
@@ -83,7 +83,7 @@ class ExperimentalImplementation(BaseModel):
         :return: Attachment data as bytes or None if an error occurred
         """
         if file.exists() is False or not file.is_file():
-            logger.error(f"Attachment file '{file}' does not exist.")
+            _logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
         if not self._client.encoded_ids:
@@ -100,11 +100,11 @@ class ExperimentalImplementation(BaseModel):
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.post(url, files=files, timeout=self._client.time_out)
 
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -113,7 +113,7 @@ class ExperimentalImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -128,7 +128,7 @@ class ExperimentalImplementation(BaseModel):
         :return: Attachment data as bytes or None if an error occurred
         """
         if file.exists() is False or not file.is_file():
-            logger.error(f"Attachment file '{file}' does not exist.")
+            _logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
         if not self._client.encoded_ids:
@@ -145,11 +145,11 @@ class ExperimentalImplementation(BaseModel):
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.put(url, files=files, timeout=self._client.time_out)
 
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -158,7 +158,7 @@ class ExperimentalImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -180,10 +180,10 @@ class ExperimentalImplementation(BaseModel):
 
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
                 return False
 
             if response.status_code != STATUS_CODE_200:
@@ -191,7 +191,7 @@ class ExperimentalImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error calling REST API: {e}")
+            _logger.error(f"Error calling REST API: {e}")
             return False
 
         return True

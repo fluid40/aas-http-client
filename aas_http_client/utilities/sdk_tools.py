@@ -7,7 +7,7 @@ from typing import Any
 import basyx.aas.adapter.json
 from basyx.aas import model
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
@@ -35,15 +35,15 @@ def convert_to_object(content: dict) -> Any | None:
     :return: BaSyx SDK framework object or None
     """
     if not content or len(content) == 0:
-        logger.debug("Empty content provided for conversion to object.")
+        _logger.debug("Empty content provided for conversion to object.")
         return None
 
     try:
         dict_string = json.dumps(content)
         return json.loads(dict_string, cls=basyx.aas.adapter.json.json_deserialization.AASFromJsonDecoder)
     except Exception as e:
-        logger.error(f"Decoding error: {e}")
-        logger.error(f"In JSON: {content}")
+        _logger.error(f"Decoding error: {e}")
+        _logger.error(f"In JSON: {content}")
         return None
 
 
@@ -54,7 +54,7 @@ def convert_to_dict(object: Any) -> dict | None:
     :return: dictionary representation of the object or None
     """
     if not object:
-        logger.debug("Empty object provided for conversion to dictionary.")
+        _logger.debug("Empty object provided for conversion to dictionary.")
         return None
 
     try:
@@ -62,6 +62,6 @@ def convert_to_dict(object: Any) -> dict | None:
         model_dict = json.loads(data_string)
         return model_dict
     except Exception as e:
-        logger.error(f"Encoding error: {e}")
-        logger.error(f"In object: {object}")
+        _logger.error(f"Encoding error: {e}")
+        _logger.error(f"In object: {object}")
         return None

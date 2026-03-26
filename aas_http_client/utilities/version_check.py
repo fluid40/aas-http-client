@@ -5,7 +5,7 @@ import logging
 
 import requests
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 def check_for_update(package_name="aas-http-client"):
@@ -25,4 +25,4 @@ def check_for_update(package_name="aas-http-client"):
                 f"Use the following command to update the package: pip install --upgrade {package_name}"
             )
     except Exception as exc:
-        logger.exception(f"Exception occurred while checking for package update: {exc}")
+        _logger.exception(f"Exception occurred while checking for package update: {exc}")

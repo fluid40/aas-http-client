@@ -13,7 +13,7 @@ from basyx.aas import model
 
 from aas_http_client.utilities import sdk_tools
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 def create_unique_short_id(id_short: str) -> str:
@@ -52,7 +52,7 @@ def create_submodel_from_file(json_file: str = "") -> model.Submodel:
             raise TypeError("Loaded template JSON structure is not a Submodel.")
 
     except Exception as e:
-        logger.error(f"Error loading submodel template: {e}")
+        _logger.error(f"Error loading submodel template: {e}")
         raise e
 
     return submodel
