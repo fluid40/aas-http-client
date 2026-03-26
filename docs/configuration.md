@@ -2,17 +2,17 @@
 
 This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.
 
-## Table of Contents
+**Table of Contents:**
 
-- [Overview](#overview)
-- [Example Configuration File](#example-configuration-file)
-- [Configuration File Parameters](#configuration-file-parameters)
-- [Client Creation Methods](#client-creation-methods)
-- [Configuration Parameters](#configuration-parameters)
-- [Authentication Methods](#authentication-methods)
-- [Configuration Examples](#configuration-examples)
-- [Error Handling](#error-handling)
-- [Best Practices](#best-practices)
+- [🛠️ AAS HTTP Client Configuration Guide](#️-aas-http-client-configuration-guide)
+  - [Overview](#overview)
+  - [Example Configuration File](#example-configuration-file)
+  - [Client Creation Methods](#client-creation-methods)
+  - [Configuration Parameters](#configuration-parameters)
+  - [Authentication Methods](#authentication-methods)
+  - [Configuration Examples](#configuration-examples)
+  - [Error Handling](#error-handling)
+  - [Best Practices](#best-practices)
 
 ## Overview
 
