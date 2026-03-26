@@ -63,15 +63,17 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 
 ---
 
-## Documentation
+## 📚 Resources
+
+### Documentation
 
 🚀 [Getting Started](docs/getting_started.md)
 
 🛠️ [Configuration](docs/configuration.md)
 
-📝 [Changelog](CHANGELOG.md)
+### Release
 
-## Resources
+📝 [Changelog](CHANGELOG.md)
 
 🤖 [Releases](http://github.com/fluid40/aas-http-client/releases)
 
