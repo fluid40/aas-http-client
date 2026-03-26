@@ -1,18 +1,18 @@
-# 🛠️ AAS HTTP Client Configuration Guide
+# 🛠️ Configuration Guide
 
 This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.
 
-## Table of Contents
+**Table of Contents:**
 
-- [Overview](#overview)
-- [Example Configuration File](#example-configuration-file)
-- [Configuration File Parameters](#configuration-file-parameters)
-- [Client Creation Methods](#client-creation-methods)
-- [Configuration Parameters](#configuration-parameters)
-- [Authentication Methods](#authentication-methods)
-- [Configuration Examples](#configuration-examples)
-- [Error Handling](#error-handling)
-- [Best Practices](#best-practices)
+- [🛠️ Configuration Guide](#️-configuration-guide)
+  - [Overview](#overview)
+  - [Example Configuration File](#example-configuration-file)
+  - [Client Creation Methods](#client-creation-methods)
+  - [Configuration Parameters](#configuration-parameters)
+  - [Authentication Methods](#authentication-methods)
+  - [Configuration Examples](#configuration-examples)
+  - [Error Handling](#error-handling)
+  - [Best Practices](#best-practices)
 
 ## Overview
 
@@ -54,9 +54,11 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 ### Configuration File Parameters
 
+**Root Level Parameters:**
+
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| **Root Level Parameters** |
+
 | `BaseUrl` | `string` | Yes | - | Base URL of the AAS server including protocol and port |
 | `TimeOut` | `integer` | No | `200` | Maximum time in seconds to wait for API responses |
 | `ConnectionTimeOut` | `integer` | No | `60` | Maximum time in seconds to wait when establishing connection |
@@ -65,7 +67,12 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 | `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
 | `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
 | `EncodedIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
-| **Authentication Settings** |
+
+**Authentication Settings:**
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+
 | `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
 | `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
 | `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |

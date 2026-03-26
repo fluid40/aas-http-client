@@ -6,7 +6,7 @@ from basyx.aas import model
 
 from aas_http_client.utilities.sdk_tools import convert_to_object
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class PagingMetadata:
@@ -112,12 +112,12 @@ def create_shell_paging_data(content: dict) -> ShellPaginatedData | None:
 
     results: list = content.get("result", [])
     if not results or len(results) == 0:
-        logger.warning("No shells found on server.")
+        _logger.warning("No shells found on server.")
         return ShellPaginatedData(cursor="", results=[])
 
     for result in results:
         if not isinstance(result, dict):
-            logger.error(f"Invalid shell data: {result}")
+            _logger.error(f"Invalid shell data: {result}")
             return None
 
         aas = convert_to_object(result)
@@ -147,12 +147,12 @@ def create_submodel_paging_data(content: dict) -> SubmodelPaginatedData | None:
 
     results: list = content.get("result", [])
     if not results or len(results) == 0:
-        logger.warning("No shells found on server.")
+        _logger.warning("No shells found on server.")
         return SubmodelPaginatedData(cursor="", results=[])
 
     for result in results:
         if not isinstance(result, dict):
-            logger.error(f"Invalid shell data: {result}")
+            _logger.error(f"Invalid shell data: {result}")
             return None
 
         sm = convert_to_object(result)
@@ -182,12 +182,12 @@ def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginat
 
     results: list = content.get("result", [])
     if not results or len(results) == 0:
-        logger.warning("No shells found on server.")
+        _logger.warning("No shells found on server.")
         return SubmodelElementPaginatedData(cursor="", results=[])
 
     for result in results:
         if not isinstance(result, dict):
-            logger.error(f"Invalid shell data: {result}")
+            _logger.error(f"Invalid shell data: {result}")
             return None
 
         sme = convert_to_object(result)
@@ -217,12 +217,12 @@ def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginat
 
     results: list = content.get("result", [])
     if not results or len(results) == 0:
-        logger.warning("No shells found on server.")
+        _logger.warning("No shells found on server.")
         return SubmodelElementPaginatedData(cursor="", results=[])
 
     for result in results:
         if not isinstance(result, dict):
-            logger.error(f"Invalid shell data: {result}")
+            _logger.error(f"Invalid shell data: {result}")
             return None
 
         sme = convert_to_object(result)
@@ -252,12 +252,12 @@ def create_reference_paging_data(content: dict) -> ReferencePaginatedData | None
 
     results: list = content.get("result", [])
     if not results or len(results) == 0:
-        logger.warning("No shells found on server.")
+        _logger.warning("No shells found on server.")
         return ReferencePaginatedData(cursor="", results=[])
 
     for result in results:
         if not isinstance(result, dict):
-            logger.error(f"Invalid shell data: {result}")
+            _logger.error(f"Invalid shell data: {result}")
             return None
 
         reference = convert_to_object(result)

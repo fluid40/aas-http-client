@@ -21,7 +21,7 @@ from aas_http_client.utilities.http_helper import (
     log_response,
 )
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class ShellRepoImplementation(BaseModel):
@@ -55,11 +55,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -67,7 +67,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -90,11 +90,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.put(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code is not STATUS_CODE_204:
@@ -102,7 +102,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -123,11 +123,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -135,7 +135,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -156,11 +156,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -168,7 +168,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         return response.content
@@ -183,7 +183,7 @@ class ShellRepoImplementation(BaseModel):
         :return: True if the update was successful, False otherwise
         """
         if file.exists() is False or not file.is_file():
-            logger.error(f"Attachment file '{file}' does not exist.")
+            _logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
         if not self._client.encoded_ids:
@@ -202,11 +202,11 @@ class ShellRepoImplementation(BaseModel):
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.put(url, files=files, params=params, timeout=self._client.time_out)
 
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -215,7 +215,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -236,11 +236,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_200:
@@ -248,7 +248,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -285,14 +285,14 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out, params=params)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -311,14 +311,14 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -348,11 +348,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out, params=params)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -360,7 +360,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -383,11 +383,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_201:
@@ -395,7 +395,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -419,11 +419,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code not in (STATUS_CODE_204, STATUS_CODE_200):
@@ -431,7 +431,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -457,11 +457,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.put(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -469,7 +469,7 @@ class ShellRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -490,11 +490,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -502,7 +502,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         ref_dict_string = response.content.decode("utf-8")
@@ -526,11 +526,11 @@ class ShellRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -538,7 +538,7 @@ class ShellRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")

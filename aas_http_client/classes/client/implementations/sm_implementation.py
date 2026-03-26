@@ -19,7 +19,7 @@ from aas_http_client.utilities.http_helper import (
     log_response,
 )
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class SubmodelRepoImplementation(BaseModel):
@@ -61,11 +61,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -73,7 +73,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -96,11 +96,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.put(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -108,7 +108,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -129,11 +129,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -141,7 +141,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -173,11 +173,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -185,7 +185,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -214,11 +214,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.put(url, json=request_body, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -226,7 +226,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -259,11 +259,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_201:
@@ -271,7 +271,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -293,11 +293,11 @@ class SubmodelRepoImplementation(BaseModel):
         self._client.set_token()
         try:
             response = self._session.delete(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -305,7 +305,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -344,14 +344,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -370,14 +370,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -415,14 +415,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -445,14 +445,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_201:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -477,14 +477,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.post(url, json=request_body, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -507,14 +507,14 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -545,11 +545,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.patch(url, json=value, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -557,7 +557,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -586,11 +586,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -598,7 +598,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -626,11 +626,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.patch(url, json=request_body, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -638,7 +638,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True
@@ -664,11 +664,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.get(url, params=params, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -676,7 +676,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return None
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
         content = response.content.decode("utf-8")
@@ -700,11 +700,11 @@ class SubmodelRepoImplementation(BaseModel):
 
         try:
             response = self._session.patch(url, json=submodel_data, timeout=self._client.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
-                logger.debug(response.text)
+                _logger.warning(f"Submodel with id '{submodel_identifier}' not found.")
+                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -712,7 +712,7 @@ class SubmodelRepoImplementation(BaseModel):
                 return False
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error call REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return False
 
         return True

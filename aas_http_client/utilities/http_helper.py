@@ -5,7 +5,7 @@ import logging
 
 from requests.models import Response
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 STATUS_CODE_200 = 200
 STATUS_CODE_201 = 201
@@ -58,8 +58,8 @@ def log_response(response: Response, log_level: int = logging.ERROR):  # noqa: C
         if response.content and response.content != "b''":
             result_error_messages.append(str(response.content))
 
-    logger.log(log_level, f"Status code: {response.status_code}")
+    _logger.log(log_level, f"Status code: {response.status_code}")
     for result_error_message in result_error_messages:
-        logger.log(log_level, result_error_message)
+        _logger.log(log_level, result_error_message)
 
-    logger.debug(f"Full response content: {str(response.content)}")
+    _logger.debug(f"Full response content: {str(response.content)}")

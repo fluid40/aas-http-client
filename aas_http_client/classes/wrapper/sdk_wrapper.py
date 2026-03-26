@@ -24,7 +24,7 @@ from aas_http_client.classes.wrapper.pagination import (
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class IdEncoding(Enum):
@@ -162,13 +162,13 @@ class SdkWrapper:
         :return: Asset Administration Shells or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.shells.get_asset_administration_shell_by_id(aas_identifier)
 
         if not content:
-            logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
+            _logger.warning(f"No shell found with ID '{aas_identifier}' on server.")
             return None
 
         return _to_object(content)
@@ -182,13 +182,13 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         aas_data = _to_dict(aas)
 
         if aas_data is None:
-            logger.error(f"Failed to serialize Asset Administration Shell with ID '{aas_identifier}' to dictionary.")
+            _logger.error(f"Failed to serialize Asset Administration Shell with ID '{aas_identifier}' to dictionary.")
             return False
 
         return self._client.shells.put_asset_administration_shell_by_id(aas_identifier, aas_data)
@@ -201,7 +201,7 @@ class SdkWrapper:
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.shells.delete_asset_administration_shell_by_id(aas_identifier)
@@ -214,13 +214,13 @@ class SdkWrapper:
         :return: Attachment object with thumbnail content as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         byte_content = self._client.shells.get_thumbnail_aas_repository(aas_identifier)
 
         if not byte_content:
-            logger.warning(f"No thumbnail found for AAS with ID '{aas_identifier}' on server.")
+            _logger.warning(f"No thumbnail found for AAS with ID '{aas_identifier}' on server.")
             return None
 
         return Attachment(
@@ -239,7 +239,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.shells.put_thumbnail_aas_repository(aas_identifier, file_name, file)
@@ -252,7 +252,7 @@ class SdkWrapper:
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.shells.delete_thumbnail_aas_repository(aas_identifier)
@@ -270,7 +270,7 @@ class SdkWrapper:
         :return: List of paginated Asset Administration Shells or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.shells.get_all_asset_administration_shells(asset_ids, id_short, limit, cursor)
@@ -288,7 +288,7 @@ class SdkWrapper:
         :return: Asset Administration Shell or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         aas_data = _to_dict(aas)
@@ -311,7 +311,7 @@ class SdkWrapper:
         :return: List of paginated Submodel References or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         references_result = self._client.shells.get_all_submodel_references_aas_repository(aas_identifier, limit, cursor)
@@ -330,7 +330,7 @@ class SdkWrapper:
         :return: Reference Submodel object or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         ref_data = _to_dict(submodel_reference)
@@ -352,7 +352,7 @@ class SdkWrapper:
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.shells.delete_submodel_reference_by_id_aas_repository(aas_identifier, submodel_identifier)
@@ -369,7 +369,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         sm_data = _to_dict(submodel)
@@ -403,7 +403,7 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         if not self._client.shells:
-            logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Shell API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.shells.get_submodel_by_id_aas_repository(aas_identifier, submodel_identifier)
@@ -427,7 +427,7 @@ class SdkWrapper:
         :return: Submodel data or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_submodel_by_id(submodel_identifier, str(level), str(extent))
@@ -446,7 +446,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         sm_data = _to_dict(submodel)
@@ -464,7 +464,7 @@ class SdkWrapper:
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.submodels.delete_submodel_by_id(submodel_identifier)
@@ -482,7 +482,7 @@ class SdkWrapper:
         :return: Submodel element data or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path, str(level), str(extent))
@@ -505,7 +505,7 @@ class SdkWrapper:
         :return: True if the update was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         sme_data = _to_dict(submodel_element)
@@ -534,7 +534,7 @@ class SdkWrapper:
         :return: Submodel element object or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         sme_data = _to_dict(submodel_element)
@@ -561,7 +561,7 @@ class SdkWrapper:
         :return: True if the deletion was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.submodels.delete_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
@@ -587,7 +587,7 @@ class SdkWrapper:
         :return: List of Submodel or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_all_submodels(semantic_id, id_short, limit, cursor, str(level), str(extent))
@@ -605,7 +605,7 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         sm_data = _to_dict(submodel)
@@ -631,7 +631,7 @@ class SdkWrapper:
         :return: List of Submodel elements or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_all_submodel_elements_submodel_repository(submodel_identifier)
@@ -650,7 +650,7 @@ class SdkWrapper:
         :return: Submodel or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         sme_data = _to_dict(submodel_element)
@@ -676,7 +676,7 @@ class SdkWrapper:
         :return: Operation result or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.invoke_operation_submodel_repo(submodel_identifier, id_short_path, request_body, async_)
@@ -694,7 +694,7 @@ class SdkWrapper:
         :return: Submodel element value or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         return self._client.submodels.get_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, id_short_path)
@@ -709,7 +709,7 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.submodels.patch_submodel_element_by_path_value_only_submodel_repo(submodel_identifier, submodel_element_path, value)
@@ -724,7 +724,7 @@ class SdkWrapper:
         :return: Submodel value as dictionary or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_submodel_by_id_value_only(submodel_identifier, str(level), str(extent))
@@ -744,7 +744,7 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.submodels.patch_submodel_by_id_value_only(submodel_identifier, request_body, str(level))
@@ -758,7 +758,7 @@ class SdkWrapper:
         :return: Metadata attributes of the Submodel as dict or None if an error occurred
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         content = self._client.submodels.get_submodel_by_id_metadata(submodel_identifier, str(level))
@@ -778,7 +778,7 @@ class SdkWrapper:
         :return: True if the patch was successful, False otherwise
         """
         if not self._client.submodels:
-            logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Submodel API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         sm_data = _to_dict(submodel)
@@ -807,19 +807,19 @@ class SdkWrapper:
         :return: Attachment object with file content as bytes (octet-stream) or None if an error occurred
         """
         if not self._client.experimental:
-            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return None
 
         sme = self.get_submodel_element_by_path_submodel_repo(submodel_identifier, id_short_path)
 
         if not sme or not isinstance(sme, model.File):
-            logger.warning(f"No submodel element found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
+            _logger.warning(f"No submodel element found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
             return None
 
         byte_content = self._client.experimental.get_file_by_path_submodel_repo(submodel_identifier, id_short_path)
 
         if not byte_content:
-            logger.warning(f"No file found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
+            _logger.warning(f"No file found at path '{id_short_path}' in submodel '{submodel_identifier}' on server.")
             return None
 
         return Attachment(
@@ -838,7 +838,7 @@ class SdkWrapper:
         :return: Attachment data as bytes or None if an error occurred
         """
         if not self._client.experimental:
-            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.experimental.post_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
@@ -852,7 +852,7 @@ class SdkWrapper:
         :return: Attachment data as bytes or None if an error occurred
         """
         if not self._client.experimental:
-            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.experimental.put_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
@@ -865,7 +865,7 @@ class SdkWrapper:
         :return: True if deletion was successful, False otherwise
         """
         if not self._client.experimental:
-            logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
             return False
 
         return self._client.experimental.delete_file_by_path_submodel_repo(submodel_identifier, id_short_path)
@@ -910,7 +910,7 @@ def create_wrapper_by_url(
     :param encoded_ids: If enabled, all IDs used in API requests have to be base64-encoded
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
-    logger.info(f"Create AAS server http client from URL '{base_url}'.")
+    _logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, Any] = {}
     config_dict["BaseUrl"] = base_url
     config_dict["HttpProxy"] = http_proxy
@@ -943,7 +943,7 @@ def create_wrapper_by_dict(
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
-    logger.info("Create AAS server wrapper from dictionary.")
+    _logger.info("Create AAS server wrapper from dictionary.")
     config_string = json.dumps(configuration, indent=4)
     return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
@@ -959,13 +959,13 @@ def create_wrapper_by_config(
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
-    logger.info(f"Create AAS wrapper client from configuration file '{config_file}'.")
+    _logger.info(f"Create AAS wrapper client from configuration file '{config_file}'.")
     if not config_file.exists():
         config_string = "{}"
-        logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
+        _logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
-        logger.debug(f"Configuration file '{config_file}' found.")
+        _logger.debug(f"Configuration file '{config_file}' found.")
     return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
