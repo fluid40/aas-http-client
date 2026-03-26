@@ -95,14 +95,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://pypi.org/project/aas-http-client/"><img src="https://img.shields.io/pypi/v/aas-http-client.svg" alt="PyPI version" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/blob/dk/doxygen/LICENSE"><img src="https://img.shields.io/badge/license-MIT-%23f8a602?label=License&amp;labelColor=%23992b2e" alt="License: MIT" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&amp;cache-bust=1" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/doxygen.yml/badge.svg?branch=main&amp;cache-bust=1" alt="doxygen" style="pointer-events: none;" class="inline"/></a></p>
 <p>AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html">AAS server specification</a>, ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.</p>
 <p><b>Notes:</b></p>
-<blockquote class="doxtable">
-<p>&zwj;Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances. </p>
-</blockquote>
-<blockquote class="doxtable">
-<p>&zwj;Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'. </p>
-</blockquote>
-<h1><a class="anchor" id="autotoc_md1"></a>
-&lt;/blockquote&gt;</h1>
+<ul>
+<li>Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances.</li>
+<li>Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.</li>
+</ul>
+<hr  />
 <h1><a class="anchor" id="autotoc_md2"></a>
 🚀 Features</h1>
 <ul>
@@ -157,7 +154,7 @@ Documentation</h2>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Release</h2>
 <p>📝 Changelog</p>
-<p>🤖 <a href="http://github.com/fluid40/aas-http-client/releases">Releases</a></p>
+<p>🤖 <a href="http://github.com/fluid40/aas-http-client/releases">GitHub Releases</a></p>
 <p>📦 <a href="https://pypi.org/project/aas-http-client/">Pypi Packages</a></p>
 <p>📜 [MIT License](LICENSE)</p>
 <hr  />
@@ -165,17 +162,24 @@ Release</h2>
 ⚡ Quickstart</h1>
 <p>For a detailed introduction, please read Getting Started.</p>
 <div class="fragment"><div class="line">pip install aas-http-client</div>
-<div class="line">````</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
+Client</h2>
+<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client <span class="keyword">import</span> create_client_by_url</div>
 <div class="line"> </div>
-<div class="line">### Client</div>
-</div><!-- fragment --><p> python from <a class="el" href="namespaceaas__http__client.html">aas_http_client</a> import create_client_by_url</p>
-<p>client = create_client_by_url("http://localhost:8081")</p>
-<p>shells_paginated = client.shells.get_all_asset_administration_shells() print(shells_paginated.get("results", []) </p><div class="fragment"><div class="line">### BaSyx Python SDK Wrapper</div>
-</div><!-- fragment --><p> python from <a class="el" href="namespaceaas__http__client.html">aas_http_client</a> import create_wrapper_by_url from basyx.aas import model</p>
-<p>wrapper = create_wrapper_by_url("http://localhost:8081")</p>
-<p>shells = wrapper.wrapper.get_all_asset_administration_shells() print(shells)</p>
-<p>``` </p>
-</div></div><!-- PageDoc -->
+<div class="line">client = create_client_by_url(<span class="stringliteral">&quot;http://localhost:8081&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">shells_paginated = client.shells.get_all_asset_administration_shells()</div>
+<div class="line">print(shells_paginated.get(<span class="stringliteral">&quot;results&quot;</span>, [])</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
+BaSyx Python SDK Wrapper</h2>
+<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client <span class="keyword">import</span> create_wrapper_by_url</div>
+<div class="line"><span class="keyword">from</span> basyx.aas <span class="keyword">import</span> model</div>
+<div class="line"> </div>
+<div class="line">wrapper = create_wrapper_by_url(<span class="stringliteral">&quot;http://localhost:8081&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">shells = wrapper.wrapper.get_all_asset_administration_shells()</div>
+<div class="line">print(shells)</div>
+</div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

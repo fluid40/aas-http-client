@@ -54,9 +54,9 @@ var NAVTREEINDEX =
 [
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"namespaceaas__http__client_1_1utilities.html",
-"namespacetests_1_1test__wrapper.html#a44f5fde012c5e13d90206579011fe342",
-"test__wrapper_8py.html#a4ebbce0c140483641d9ef8bb2d250158"
+"namespaceaas__http__client.html",
+"namespacetests_1_1test__wrapper.html#a43eb0d2d1f8ed9e4669e639bf486106a",
+"test__wrapper_8py.html#a4e5386c03f554c67f323708f0ec4a486"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

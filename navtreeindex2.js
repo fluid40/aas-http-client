@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"namespaceaas__http__client.html":[1,0,1],
 "namespaceaas__http__client_1_1utilities.html":[1,0,1,0],
 "namespaceaas__http__client_1_1utilities_1_1encoder.html":[1,0,1,0,0],
 "namespaceaas__http__client_1_1utilities_1_1encoder.html#a4533d1f30e7037372cbdfb1aaa200a97":[1,0,1,0,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "namespacetests_1_1test__wrapper.html#a36176d6e70f6be4499534ed508ac7da0":[1,0,9,3,39],
 "namespacetests_1_1test__wrapper.html#a3a6e2d6ce4e92685bdb8a926c05ceda5":[1,0,9,3,34],
 "namespacetests_1_1test__wrapper.html#a405895fdb00467bfb5c01e799583420a":[1,0,9,3,17],
-"namespacetests_1_1test__wrapper.html#a4339702a661b01c54e075f955f6a1118":[1,0,9,3,6],
-"namespacetests_1_1test__wrapper.html#a43eb0d2d1f8ed9e4669e639bf486106a":[1,0,9,3,16]
+"namespacetests_1_1test__wrapper.html#a4339702a661b01c54e075f955f6a1118":[1,0,9,3,6]
 };
