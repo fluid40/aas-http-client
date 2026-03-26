@@ -39,5 +39,5 @@ var searchData=
   ['grant_5ftype_36',['grant_type',['../classconfig__classes_1_1OAuth.html#a05ffbaf12737eedaa8a74c6c30a81b5e',1,'config_classes::OAuth']]],
   ['green_37',['green',['../classlogging__handler_1_1ColorCodes.html#a59e0a9e0609e172fb4916ee7dccda481',1,'logging_handler::ColorCodes']]],
   ['grey_38',['grey',['../classlogging__handler_1_1ColorCodes.html#a06fd9412279159a01232b0d5f0e512e1',1,'logging_handler::ColorCodes']]],
-  ['guide_39',['🛠️ AAS HTTP Client Configuration Guide',['../md_docs_2configuration.html',1,'']]]
+  ['guide_39',['🛠️ Configuration Guide',['../md_docs_2configuration.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HTTP Client Documentation: 🛠️ AAS HTTP Client Configuration Guide</title>
+<title>HTTP Client Documentation: 🛠️ Configuration Guide</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,13 +89,13 @@ $(document).ready(function(){initNavTree('md_docs_2configuration.html',''); init
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">🛠️ AAS HTTP Client Configuration Guide</div></div>
+  <div class="headertitle"><div class="title">🛠️ Configuration Guide</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md24"></a> This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.</p>
 <p><b>Table of Contents:</b></p>
 <ul>
-<li>🛠️ AAS HTTP Client Configuration Guide<ul>
+<li>🛠️ Configuration Guide<ul>
 <li>Overview</li>
 <li>Example Configuration File</li>
 <li>Client Creation Methods</li>
@@ -145,7 +145,12 @@ Configuration Structure Overview</h2>
 </ul>
 <h2><a class="anchor" id="autotoc_md28"></a>
 Configuration File Parameters</h2>
-<p>| Parameter | Type | Required | Default | Description | |--------&mdash;|---&mdash;|-------&mdash;|------&mdash;|----------&mdash;| | <b>Root Level Parameters</b> | | <code>BaseUrl</code> | <code>string</code> | Yes | - | Base URL of the AAS server including protocol and port | | <code>TimeOut</code> | <code>integer</code> | No | <code>200</code> | Maximum time in seconds to wait for API responses | | <code>ConnectionTimeOut</code> | <code>integer</code> | No | <code>60</code> | Maximum time in seconds to wait when establishing connection | | <code>SslVerify</code> | <code>boolean</code> | No | <code>true</code> | Whether to verify SSL/TLS certificates for HTTPS requests | | <code>TrustEnv</code> | <code>boolean</code> | No | <code>true</code> | Whether to trust environment variables for proxy configuration | | <code>HttpProxy</code> | <code>string</code> | No | <code>null</code> | HTTP proxy server URL for non-encrypted connections | | <code>HttpsProxy</code> | <code>string</code> | No | <code>null</code> | HTTPS proxy server URL for encrypted connections | | <code>EncodedIds</code> | <code>boolean</code> | No | <code>true</code> | If enabled, all IDs used in API requests have to be base64-encoded | | <b>Authentication Settings</b> | | <code>AuthenticationSettings.BasicAuth.Username</code> | <code>string</code> | No | - | Username for HTTP Basic Authentication | | <code>AuthenticationSettings.OAuth.ClientId</code> | <code>string</code> | No | - | OAuth2 client identifier | | <code>AuthenticationSettings.OAuth.TokenUrl</code> | <code>string</code> | No | - | OAuth2 token endpoint URL | | <code>AuthenticationSettings.OAuth.GrantType</code> | <code>string</code> | No | - | OAuth2 grant type (<code>client_credentials</code> or <code>password</code>) |</p>
+<p><b>Root Level Parameters:</b></p>
+<p>| Parameter | Type | Required | Default | Description | |--------&mdash;|---&mdash;|-------&mdash;|------&mdash;|----------&mdash;|</p>
+<p>| <code>BaseUrl</code> | <code>string</code> | Yes | - | Base URL of the AAS server including protocol and port | | <code>TimeOut</code> | <code>integer</code> | No | <code>200</code> | Maximum time in seconds to wait for API responses | | <code>ConnectionTimeOut</code> | <code>integer</code> | No | <code>60</code> | Maximum time in seconds to wait when establishing connection | | <code>SslVerify</code> | <code>boolean</code> | No | <code>true</code> | Whether to verify SSL/TLS certificates for HTTPS requests | | <code>TrustEnv</code> | <code>boolean</code> | No | <code>true</code> | Whether to trust environment variables for proxy configuration | | <code>HttpProxy</code> | <code>string</code> | No | <code>null</code> | HTTP proxy server URL for non-encrypted connections | | <code>HttpsProxy</code> | <code>string</code> | No | <code>null</code> | HTTPS proxy server URL for encrypted connections | | <code>EncodedIds</code> | <code>boolean</code> | No | <code>true</code> | If enabled, all IDs used in API requests have to be base64-encoded |</p>
+<p><b>Authentication Settings:</b></p>
+<p>| Parameter | Type | Required | Default | Description | |--------&mdash;|---&mdash;|-------&mdash;|------&mdash;|----------&mdash;|</p>
+<p>| <code>AuthenticationSettings.BasicAuth.Username</code> | <code>string</code> | No | - | Username for HTTP Basic Authentication | | <code>AuthenticationSettings.OAuth.ClientId</code> | <code>string</code> | No | - | OAuth2 client identifier | | <code>AuthenticationSettings.OAuth.TokenUrl</code> | <code>string</code> | No | - | OAuth2 token endpoint URL | | <code>AuthenticationSettings.OAuth.GrantType</code> | <code>string</code> | No | - | OAuth2 grant type (<code>client_credentials</code> or <code>password</code>) |</p>
 <h2><a class="anchor" id="autotoc_md29"></a>
 Key Points</h2>
 <ol type="1">

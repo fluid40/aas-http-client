@@ -51,7 +51,7 @@ var NAVTREE =
       [ "[0.2.6] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md22", null ],
       [ "[0.2.5] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md23", null ]
     ] ],
-    [ "🛠️ AAS HTTP Client Configuration Guide", "md_docs_2configuration.html", [
+    [ "🛠️ Configuration Guide", "md_docs_2configuration.html", [
       [ "Overview", "md_docs_2configuration.html#autotoc_md25", null ],
       [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md26", [
         [ "Configuration Structure Overview", "md_docs_2configuration.html#autotoc_md27", null ],
