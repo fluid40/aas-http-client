@@ -35,7 +35,7 @@ var searchData=
   ['getting_5fstarted_2emd_32',['getting_started.md',['../getting__started_8md.html',1,'']]],
   ['global_5fshell_5fdescriptor_33',['global_shell_descriptor',['../namespacetests_1_1test__client__reg.html#ac10bdc6a2f50d627bc90a6f5fb666407',1,'tests::test_client_reg']]],
   ['global_5fsm_5fdescriptor_34',['global_sm_descriptor',['../namespacetests_1_1test__client__reg.html#a565d2b9e9b67a07f04d451f03d5b855a',1,'tests::test_client_reg']]],
-  ['grant_35',['4. OAuth2 Password Grant',['../md_docs_2configuration.html#autotoc_md44',1,'']]],
+  ['grant_35',['4. OAuth2 Password Grant',['../md_docs_2configuration.html#autotoc_md43',1,'']]],
   ['grant_5ftype_36',['grant_type',['../classconfig__classes_1_1OAuth.html#a05ffbaf12737eedaa8a74c6c30a81b5e',1,'config_classes::OAuth']]],
   ['green_37',['green',['../classlogging__handler_1_1ColorCodes.html#a59e0a9e0609e172fb4916ee7dccda481',1,'logging_handler::ColorCodes']]],
   ['grey_38',['grey',['../classlogging__handler_1_1ColorCodes.html#a06fd9412279159a01232b0d5f0e512e1',1,'logging_handler::ColorCodes']]],

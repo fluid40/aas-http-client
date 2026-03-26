@@ -20,6 +20,6 @@ var searchData=
   ['demo_5fprocess_2epy_17',['demo_process.py',['../demo__process_8py.html',1,'']]],
   ['dev_5fguide_2emd_18',['dev_guide.md',['../dev__guide_8md.html',1,'']]],
   ['developer_20quick_20start_19',['💻 Developer Quick start',['../md_docs_2dev__guide.html',1,'']]],
-  ['dictionary_20',['dictionary',['../md_docs_2getting__started.html#autotoc_md70',1,'📌 Create Client via dictionary'],['../md_docs_2getting__started.html#autotoc_md75',1,'📌 Create Wrapper via dictionary'],['../md_docs_2configuration.html#autotoc_md34',1,'2. Create Client by Dictionary']]],
+  ['dictionary_20',['dictionary',['../md_docs_2getting__started.html#autotoc_md69',1,'📌 Create Client via dictionary'],['../md_docs_2getting__started.html#autotoc_md74',1,'📌 Create Wrapper via dictionary'],['../md_docs_2configuration.html#autotoc_md33',1,'2. Create Client by Dictionary']]],
   ['dotnet_5fserver_5fports_21',['dotnet_server_ports',['../namespacetests_1_1test__client.html#a206f8e134164ed7671206ed47a2ba59b',1,'tests.test_client.DOTNET_SERVER_PORTS'],['../namespacetests_1_1test__wrapper.html#ad16bc76f46fb35cabc60e9d2e873f43f',1,'tests.test_wrapper.DOTNET_SERVER_PORTS']]]
 ];

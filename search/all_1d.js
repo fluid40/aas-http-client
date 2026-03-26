@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md93',1,'']]],
+  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md92',1,'']]],
   ['sdk_5ftools_2epy_1',['sdk_tools.py',['../sdk__tools_8py.html',1,'']]],
   ['sdk_5fwrapper_2',['sdk_wrapper',['../namespacesdk__wrapper.html',1,'']]],
   ['sdk_5fwrapper_2epy_3',['sdk_wrapper.py',['../sdk__wrapper_8py.html',1,'']]],
   ['sdkwrapper_4',['SdkWrapper',['../classsdk__wrapper_1_1SdkWrapper.html',1,'sdk_wrapper']]],
   ['search_5',['search',['../classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html#a5732239df0d35acf83339490b07211c5',1,'implementations::shell_registry_implementation::ShellRegistryImplementation']]],
-  ['security_6',['Security',['../md_docs_2configuration.html#autotoc_md54',1,'']]],
-  ['server_20configuration_7',['Server Configuration',['../md_docs_2getting__started.html#autotoc_md65',1,'']]],
-  ['servers_8',['🏗️ Supported Servers',['../index.html#autotoc_md84',1,'']]],
+  ['security_6',['Security',['../md_docs_2configuration.html#autotoc_md53',1,'']]],
+  ['server_20configuration_7',['Server Configuration',['../md_docs_2getting__started.html#autotoc_md64',1,'']]],
+  ['servers_8',['🏗️ Supported Servers',['../index.html#autotoc_md83',1,'']]],
   ['set_5fclient_5fsecret_9',['set_client_secret',['../classconfig__classes_1_1OAuth.html#aa74dfbc3532618d0e1ecc018b1682dcb',1,'config_classes::OAuth']]],
   ['set_5fencoded_5fids_10',['set_encoded_ids',['../classsdk__wrapper_1_1SdkWrapper.html#a84080d398337904c6304ceeddfb938f2',1,'sdk_wrapper::SdkWrapper']]],
   ['set_5flog_5ffile_11',['set_log_file',['../namespacelogging__handler.html#af54ea3464bfcad996795d1d3d7dc9b89',1,'logging_handler']]],
@@ -43,12 +43,12 @@ var searchData=
   ['status_5fcode_5f202_40',['STATUS_CODE_202',['../namespaceaas__http__client_1_1utilities_1_1http__helper.html#ad6647ca9d5a55680aeaa9c0c674a9d93',1,'aas_http_client::utilities::http_helper']]],
   ['status_5fcode_5f204_41',['STATUS_CODE_204',['../namespaceaas__http__client_1_1utilities_1_1http__helper.html#a3840f8f4373736fec49a23808e17a869',1,'aas_http_client::utilities::http_helper']]],
   ['status_5fcode_5f404_42',['STATUS_CODE_404',['../namespaceaas__http__client_1_1utilities_1_1http__helper.html#a057fe2803f86f550091f3c0af5f03800',1,'aas_http_client::utilities::http_helper']]],
-  ['structure_20overview_43',['Configuration Structure Overview',['../md_docs_2configuration.html#autotoc_md28',1,'']]],
+  ['structure_20overview_43',['Configuration Structure Overview',['../md_docs_2configuration.html#autotoc_md27',1,'']]],
   ['submodel_5fregistry_44',['submodel_registry',['../classaas__client_1_1AasHttpClient.html#adb01bb8ee00c35b69b75608044ac8918',1,'aas_client.AasHttpClient.submodel_registry'],['../classaas__client_1_1AasHttpClient.html#a092a0ba5ff0a37395bae954d6627419b',1,'aas_client.AasHttpClient.submodel_registry']]],
   ['submodelelementpaginateddata_45',['SubmodelElementPaginatedData',['../classpagination_1_1SubmodelElementPaginatedData.html',1,'pagination']]],
   ['submodelpaginateddata_46',['SubmodelPaginatedData',['../classpagination_1_1SubmodelPaginatedData.html',1,'pagination']]],
   ['submodelregistryimplementation_47',['SubmodelRegistryImplementation',['../classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html',1,'implementations::sm_registry_implementation']]],
   ['submodelrepoimplementation_48',['SubmodelRepoImplementation',['../classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html',1,'implementations::sm_implementation']]],
   ['submodels_49',['submodels',['../classaas__client_1_1AasHttpClient.html#abb127023b121aee01386be199f64624a',1,'aas_client.AasHttpClient.submodels'],['../classaas__client_1_1AasHttpClient.html#a58c56dc49938e9c8061b96133759ba97',1,'aas_client.AasHttpClient.submodels']]],
-  ['supported_20servers_50',['🏗️ Supported Servers',['../index.html#autotoc_md84',1,'']]]
+  ['supported_20servers_50',['🏗️ Supported Servers',['../index.html#autotoc_md83',1,'']]]
 ];
