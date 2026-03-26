@@ -1,7 +1,5 @@
-# Name des Workflows, der in der GitHub Actions UI angezeigt wird
 name: Build Doxygen
 
-# Trigger: Wann soll dieser Workflow ausgeführt werden?
 on:
   push:
     branches:
@@ -12,14 +10,11 @@ permissions:
   pages: write
   id-token: write
 
-# Jobs: Die Aufgaben, die ausgeführt werden sollen
 jobs:
   build-and-deploy:
     name: Publish Doxygen Pages
-    # Der Typ der Maschine, auf der der Job läuft
     runs-on: ubuntu-latest
 
-    # Die einzelnen Schritte des Jobs
     steps:
       # Schritt 1: Das Repository auschecken
       # Dieser Schritt lädt den Code deines Repositories auf die Runner-Maschine.
