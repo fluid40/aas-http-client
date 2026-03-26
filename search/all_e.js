@@ -18,6 +18,6 @@ var searchData=
   ['delete_5fthumbnail_5faas_5frepository_15',['delete_thumbnail_aas_repository',['../classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#a2a516ded991d2f15ca6b10998e79a7d5',1,'implementations.shell_implementation.ShellRepoImplementation.delete_thumbnail_aas_repository()'],['../classsdk__wrapper_1_1SdkWrapper.html#a51dc3cb722846ff393987c0edb822c62',1,'sdk_wrapper.SdkWrapper.delete_thumbnail_aas_repository()']]],
   ['dev_5fguide_2emd_16',['dev_guide.md',['../dev__guide_8md.html',1,'']]],
   ['developer_20quick_20start_17',['💻 Developer Quick start',['../md_docs_2dev__guide.html',1,'']]],
-  ['dictionary_18',['dictionary',['../md_docs_2getting__started.html#autotoc_md69',1,'📌 Create Client via dictionary'],['../md_docs_2getting__started.html#autotoc_md74',1,'📌 Create Wrapper via dictionary'],['../md_docs_2configuration.html#autotoc_md33',1,'2. Create Client by Dictionary']]],
+  ['dictionary_18',['dictionary',['../md_docs_2getting__started.html#autotoc_md70',1,'📌 Create Client via dictionary'],['../md_docs_2getting__started.html#autotoc_md75',1,'📌 Create Wrapper via dictionary'],['../md_docs_2configuration.html#autotoc_md34',1,'2. Create Client by Dictionary']]],
   ['dotnet_5fserver_5fports_19',['dotnet_server_ports',['../namespacetests_1_1test__client.html#a206f8e134164ed7671206ed47a2ba59b',1,'tests.test_client.DOTNET_SERVER_PORTS'],['../namespacetests_1_1test__wrapper.html#ad16bc76f46fb35cabc60e9d2e873f43f',1,'tests.test_wrapper.DOTNET_SERVER_PORTS']]]
 ];
