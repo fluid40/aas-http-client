@@ -32,8 +32,10 @@ jobs:
           echo "$CHANGED_FILES"
 
           if echo "$CHANGED_FILES" | grep -q '^pyproject\.toml$'; then
+            echo "pyproject.toml changed, marking as changed"
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
+            echo "pyproject.toml not changed, skipping release"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
