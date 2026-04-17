@@ -20,7 +20,7 @@ The AAS HTTP Client provides a convenient way to interact with AAS servers throu
 
 ## Example Configuration File
 
-Here's a complete example configuration file (`config.json`) that demonstrates all available options:
+Here's a complete example configuration file ( `config.json` ) that demonstrates all available options:
 
 ```json
 {
@@ -47,10 +47,10 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 ### Configuration Structure Overview
 
-- **Root Level**: Contains server connection settings and timeouts
-- **AuthenticationSettings**: Groups all authentication-related configurations
-  - **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
-  - **OAuth**: OAuth2 settings for token-based authentication
+* **Root Level**: Contains server connection settings and timeouts
+* **AuthenticationSettings**: Groups all authentication-related configurations
+  + **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
+  + **OAuth**: OAuth2 settings for token-based authentication
 
 ### Configuration File Parameters
 
@@ -58,7 +58,6 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-
 | `BaseUrl` | `string` | Yes | - | Base URL of the AAS server including protocol and port |
 | `TimeOut` | `integer` | No | `200` | Maximum time in seconds to wait for API responses |
 | `ConnectionTimeOut` | `integer` | No | `60` | Maximum time in seconds to wait when establishing connection |
@@ -72,11 +71,10 @@ Here's a complete example configuration file (`config.json`) that demonstrates a
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-
 | `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
 | `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
 | `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
-| `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type (`client_credentials` or `password`) |
+| `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type ( `client_credentials` or `password` ) |
 
 ### Key Points
 
@@ -168,12 +166,12 @@ client = create_client_by_config(
 
 | Parameter      | Type    | Default | Description                                 |
 |----------------|---------|---------|---------------------------------------------|
-| `base_url`     | `str`   | Required| Base URL of the AAS server                  |
-| `time_out`     | `int`   | `200`   | Timeout for HTTP requests (seconds)         |
+| `base_url` | `str` | Required| Base URL of the AAS server                  |
+| `time_out` | `int` | `200` | Timeout for HTTP requests (seconds)         |
 | `connection_time_out` | `int` | `60` | Connection timeout (seconds)                |
-| `ssl_verify`   | `bool`  | `True`  | Enable SSL certificate verification         |
-| `trust_env`    | `bool`  | `True`  | Trust environment variables for proxy       |
-| `encoded_ids`  | `bool`  | `True`  | Use base64 encoding for IDs in requests     |
+| `ssl_verify` | `bool` | `True` | Enable SSL certificate verification         |
+| `trust_env` | `bool` | `True` | Trust environment variables for proxy       |
+| `encoded_ids` | `bool` | `True` | Use base64 encoding for IDs in requests     |
 
 ### Proxy Configuration
 
@@ -359,11 +357,11 @@ shells = client.get_all_asset_administration_shells()
 ```
 
 Common error scenarios:
-- **Invalid URL**: Malformed base URL
-- **Connection timeout**: Server unreachable within timeout period
-- **Authentication failure**: Invalid credentials or token
-- **SSL verification failure**: Invalid certificates when `ssl_verify=True`
-- **Proxy issues**: Incorrect proxy configuration
+* **Invalid URL**: Malformed base URL
+* **Connection timeout**: Server unreachable within timeout period
+* **Authentication failure**: Invalid credentials or token
+* **SSL verification failure**: Invalid certificates when `ssl_verify=True`
+* **Proxy issues**: Incorrect proxy configuration
 
 ## Best Practices
 
