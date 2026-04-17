@@ -19,9 +19,19 @@ This guide explains how to configure and create an AAS (Asset Administration She
 ## Overview
 
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
-There are three ways to create a client: by passing parameters directly ( `create_client_by_url` ), by providing a configuration dictionary ( `create_client_by_dict` ), or by loading a JSON configuration file ( `create_client_by_config` ).
+There are three ways to create a client:
 
-Three authentication methods are supported: Basic Auth (username + password), Bearer Token, and OAuth2 ( `client_credentials` or `password` grant). Sensitive values like passwords, client secrets, and bearer tokens are always passed as function parameters — never stored in configuration files.
+* by passing parameters directly ( `create_client_by_url` )
+* by providing a configuration dictionary ( `create_client_by_dict` )
+* by loading a JSON configuration file ( `create_client_by_config` )
+
+Three authentication methods are supported:
+
+* Basic Auth (username + password)
+* Bearer Token
+* OAuth2 ( `client_credentials` or `password` grant)
+
+Sensitive values like passwords, client secrets, and bearer tokens are always passed as function parameters — never stored in configuration files.
 
 ## Configuration Structure Overview
 
@@ -36,23 +46,33 @@ Three authentication methods are supported: Basic Auth (username + password), Be
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `BaseUrl` | `string` | Yes | - | Base URL of the AAS server including protocol and port |
-| `TimeOut` | `integer` | No | `200` | Maximum time in seconds to wait for API responses |
-| `ConnectionTimeOut` | `integer` | No | `60` | Maximum time in seconds to wait when establishing connection |
-| `SslVerify` | `boolean` | No | `true` | Whether to verify SSL/TLS certificates for HTTPS requests |
-| `TrustEnv` | `boolean` | No | `true` | Whether to trust environment variables for proxy configuration |
-| `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
-| `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
-| `EncodedIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
+| `BaseUrl` | `string` | ✅ | - | Base URL of the AAS server including protocol and port |
+| `TimeOut` | `integer` | ❌ | `200` | Maximum time in seconds to wait for API responses |
+| `ConnectionTimeOut` | `integer` | ❌ | `60` | Maximum time in seconds to wait when establishing connection |
+| `SslVerify` | `boolean` | ❌ | `true` | Whether to verify SSL/TLS certificates for HTTPS requests |
+| `TrustEnv` | `boolean` | ❌ | `true` | Whether to trust environment variables for proxy configuration |
+| `HttpProxy` | `string` | ❌ | `null` | HTTP proxy server URL for non-encrypted connections |
+| `HttpsProxy` | `string` | ❌ | `null` | HTTPS proxy server URL for encrypted connections |
+| `EncodedIds` | `boolean` | ❌ | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
 
 **Authentication Settings:**
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
-| `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
-| `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
-| `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type ( `client_credentials` or `password` ) |
+| `AuthenticationSettings.BasicAuth.Username` | `string` | ❌ | - | Username for HTTP Basic Authentication |
+| `AuthenticationSettings.OAuth.ClientId` | `string` | ❌ | - | OAuth2 client identifier |
+| `AuthenticationSettings.OAuth.TokenUrl` | `string` | ❌ | - | OAuth2 token endpoint URL |
+| `AuthenticationSettings.OAuth.GrantType` | `string` | ❌ | - | OAuth2 grant type ( `client_credentials` or `password` ) |
+
+### Key Points
+
+1. **Authentication compatibility**:
+   - ✅ Only one authentication method should be configured at a time
+   - If multiple methods are accidentally configured, priority order is: Bearer Token → OAuth2 → Basic Authentication
+2. **Passwords and secrets** are provided separately via function parameters for security
+3. **Bearer tokens** are provided via function parameters, not configuration files
+4. **All settings are optional** except `BaseUrl`
+5. **Environment variables** can override proxy settings when `TrustEnv` is `true`
 
 ## Creation Methods
 
@@ -138,47 +158,6 @@ Here's a complete example configuration file ( `config.json` ) that demonstrates
     }
 }
 ```
-
-### Configuration Structure Overview
-
-* **Root Level**: Contains server connection settings and timeouts
-* **AuthenticationSettings**: Groups all authentication-related configurations
-  + **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
-  + **OAuth**: OAuth2 settings for token-based authentication
-
-### Configuration File Parameters
-
-**Root Level Parameters:**
-
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `BaseUrl` | `string` | Yes | - | Base URL of the AAS server including protocol and port |
-| `TimeOut` | `integer` | No | `200` | Maximum time in seconds to wait for API responses |
-| `ConnectionTimeOut` | `integer` | No | `60` | Maximum time in seconds to wait when establishing connection |
-| `SslVerify` | `boolean` | No | `true` | Whether to verify SSL/TLS certificates for HTTPS requests |
-| `TrustEnv` | `boolean` | No | `true` | Whether to trust environment variables for proxy configuration |
-| `HttpProxy` | `string` | No | `null` | HTTP proxy server URL for non-encrypted connections |
-| `HttpsProxy` | `string` | No | `null` | HTTPS proxy server URL for encrypted connections |
-| `EncodedIds` | `boolean` | No | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
-
-**Authentication Settings:**
-
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `AuthenticationSettings.BasicAuth.Username` | `string` | No | - | Username for HTTP Basic Authentication |
-| `AuthenticationSettings.OAuth.ClientId` | `string` | No | - | OAuth2 client identifier |
-| `AuthenticationSettings.OAuth.TokenUrl` | `string` | No | - | OAuth2 token endpoint URL |
-| `AuthenticationSettings.OAuth.GrantType` | `string` | No | - | OAuth2 grant type ( `client_credentials` or `password` ) |
-
-### Key Points
-
-1. **Authentication compatibility**:
-   - ✅ Only one authentication method should be configured at a time
-   - If multiple methods are accidentally configured, priority order is: Bearer Token → OAuth2 → Basic Authentication
-2. **Passwords and secrets** are provided separately via function parameters for security
-3. **Bearer tokens** are provided via function parameters, not configuration files
-4. **All settings are optional** except `BaseUrl`
-5. **Environment variables** can override proxy settings when `TrustEnv` is `true`
 
 ### Usage with Configuration File
 
