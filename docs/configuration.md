@@ -2,6 +2,16 @@
 
 This guide explains how to configure and create an AAS (Asset Administration Shell) HTTP client to communicate with AAS servers.
 
+**Table of Contents:**
+
+- [🛠️ Configuration Guide](#️-configuration-guide)
+  - [Configuration Parameters](#configuration-parameters)
+  - [Creation Methods](#creation-methods)
+  - [Authentication Methods](#authentication-methods)
+  - [Configuration Examples](#configuration-examples)
+  - [Error Handling](#error-handling)
+  - [Best Practices](#best-practices)
+
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
 There are three ways to create a client:
 
@@ -16,16 +26,6 @@ Three authentication methods are supported:
 * OAuth2 ( `client_credentials` or `password` grant)
 
 Sensitive values like passwords, client secrets, and bearer tokens are always passed as function parameters — never stored in configuration files.
-
-**Table of Contents:**
-
-- [🛠️ Configuration Guide](#️-configuration-guide)
-  - [Configuration Parameters](#configuration-parameters)
-  - [Creation Methods](#creation-methods)
-  - [Authentication Methods](#authentication-methods)
-  - [Configuration Examples](#configuration-examples)
-  - [Error Handling](#error-handling)
-  - [Best Practices](#best-practices)
 
 ## Configuration Parameters
 
