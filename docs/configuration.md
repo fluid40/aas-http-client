@@ -49,8 +49,6 @@ Sensitive values like passwords, client secrets, and bearer tokens are always pa
 | `HttpsProxy` | `string` | ❌ | `null` | HTTPS proxy server URL for encrypted connections |
 | `EncodedIds` | `boolean` | ❌ | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
 
----
-
 **Authentication Settings:**
 
 | Parameter | Type | Required | Default | Description |
@@ -90,8 +88,6 @@ client = create_client_by_url(
 )
 ```
 
----
-
 ### 2. Create by Dictionary
 
 Create a client using a configuration dictionary:
@@ -115,8 +111,6 @@ client = create_client_by_dict(
 )
 ```
 
----
-
 ### 3. Create by Configuration File
 
 Create a client using a JSON configuration file:
@@ -131,8 +125,6 @@ client = create_client_by_config(
     basic_auth_password="password123"
 )
 ```
-
----
 
 ### Example Configuration File
 
@@ -175,8 +167,6 @@ client = create_client_by_url(
 )
 ```
 
----
-
 ### 2. Bearer Token Authentication
 
 Use a pre-obtained bearer token (provided as function parameter, not in config file):
@@ -201,8 +191,6 @@ client = create_client_by_url(
 )
 ```
 
----
-
 ### 4. OAuth2 Password Grant
 
 Use OAuth2 password grant flow:
@@ -216,8 +204,6 @@ client = create_client_by_url(
 )
 ```
 
----
-
 ## Configuration Examples
 
 ### Minimal Configuration
@@ -227,8 +213,6 @@ client = create_client_by_url(
     "BaseUrl": "http://localhost:8080"
 }
 ```
-
----
 
 ### Basic Authentication Configuration
 
@@ -244,8 +228,6 @@ client = create_client_by_url(
     }
 }
 ```
-
----
 
 ### Bearer Token Authentication Example
 
@@ -268,8 +250,6 @@ client = create_client_by_dict(
 )
 ```
 
----
-
 ### OAuth2 Configuration
 
 ```json
@@ -288,8 +268,6 @@ client = create_client_by_dict(
 }
 ```
 
----
-
 ### Proxy Configuration
 
 ```json
@@ -305,8 +283,6 @@ client = create_client_by_dict(
     }
 }
 ```
-
----
 
 ### Production Environment Configuration
 
@@ -327,8 +303,6 @@ client = create_client_by_dict(
     }
 }
 ```
-
----
 
 ## Error Handling
 
@@ -401,33 +375,9 @@ client = create_client_by_url(
 2. **Implement retry logic** for transient failures
 3. **Log configuration issues** for debugging
 
-```python
-import logging
-from pathlib import Path
-
-logger = logging.getLogger(__name__)
-
-def create_production_client():
-    config_file = Path("config/production.json")
-
-    client = create_client_by_config(
-        config_file=config_file,
-        basic_auth_password=os.getenv("AAS_PASSWORD")
-    )
-
-    if client is None:
-        logger.error(f"Failed to create AAS client from {config_file}")
-        raise RuntimeError("AAS client initialization failed")
-
-    logger.info("AAS client created successfully")
-    return client
-```
-
 ### Performance
 
 1. **Reuse client instances** instead of creating new ones for each request
 2. **Set appropriate timeouts** to avoid hanging requests
 3. **Use connection pooling** for high-throughput scenarios
 4. **Monitor response times** and adjust timeouts accordingly
-
----
