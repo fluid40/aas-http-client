@@ -6,11 +6,8 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 - [🛠️ Configuration Guide](#️-configuration-guide)
   - [Overview](#overview)
-  - [Configuration Structure Overview](#configuration-structure-overview)
-  - [Creation Methods](#creation-methods)
-  - [Example Configuration File](#example-configuration-file)
-  - [Client Creation Methods](#client-creation-methods)
   - [Configuration Parameters](#configuration-parameters)
+  - [Creation Methods](#creation-methods)
   - [Authentication Methods](#authentication-methods)
   - [Configuration Examples](#configuration-examples)
   - [Error Handling](#error-handling)
@@ -33,14 +30,14 @@ Three authentication methods are supported:
 
 Sensitive values like passwords, client secrets, and bearer tokens are always passed as function parameters — never stored in configuration files.
 
-## Configuration Structure Overview
+## Configuration Parameters
 
 * **Root Level**: Contains server connection settings and timeouts
 * **AuthenticationSettings**: Groups all authentication-related configurations
   + **BasicAuth**: HTTP Basic Auth settings (username only, password provided separately)
   + **OAuth**: OAuth2 settings for token-based authentication
 
-### Configuration File Parameters
+### Parameters Overview
 
 **Root Level Parameters:**
 
@@ -76,7 +73,7 @@ Sensitive values like passwords, client secrets, and bearer tokens are always pa
 
 ## Creation Methods
 
-There are three ways to create an AAS HTTP client or an Wrapper:
+There are three ways to create an AAS HTTP client or wrapper. Wrapper creation follows the same pattern as client creation.
 
 ### 1. Create by URL
 
@@ -132,7 +129,7 @@ client = create_client_by_config(
 )
 ```
 
-## Example Configuration File
+### Example Configuration File
 
 Here's a complete example configuration file ( `config.json` ) that demonstrates all available options:
 
@@ -158,111 +155,6 @@ Here's a complete example configuration file ( `config.json` ) that demonstrates
     }
 }
 ```
-
-### Usage with Configuration File
-
-```python
-from pathlib import Path
-from aas_http_client.client import create_client_by_config
-
-# Load configuration and provide sensitive data separately
-config_file = Path("config.json")
-client = create_client_by_config(
-    config_file=config_file,
-    basic_auth_password="your-password",           # For Basic Auth
-    o_auth_client_secret="secret",                 # For OAuth2
-    bearer_auth_token="your-bearer-token"          # For Bearer Auth (not in config file)
-)
-```
-
-## Client Creation Methods
-
-There are three ways to create an AAS HTTP client:
-
-### 1. Create Client by URL
-
-Create a client by providing parameters directly:
-
-```python
-from aas_http_client.client import create_client_by_url
-
-client = create_client_by_url(
-    base_url="http://localhost:8080",
-    basic_auth_username="admin",
-    basic_auth_password="password123",
-    time_out=300,
-    ssl_verify=True
-)
-```
-
-### 2. Create Client by Dictionary
-
-Create a client using a configuration dictionary:
-
-```python
-from aas_http_client.client import create_client_by_dict
-
-config = {
-    "BaseUrl": "http://localhost:8080",
-    "TimeOut": 300,
-    "AuthenticationSettings": {
-        "BasicAuth": {
-            "Username": "admin"
-        }
-    }
-}
-
-client = create_client_by_dict(
-    configuration=config,
-    basic_auth_password="password123"
-)
-```
-
-### 3. Create Client by Configuration File
-
-Create a client using a JSON configuration file:
-
-```python
-from pathlib import Path
-from aas_http_client.client import create_client_by_config
-
-config_file = Path("config.json")
-client = create_client_by_config(
-    config_file=config_file,
-    basic_auth_password="password123"
-)
-```
-
-## Configuration Parameters
-
-### Basic Parameters
-
-| Parameter      | Type    | Default | Description                                 |
-|----------------|---------|---------|---------------------------------------------|
-| `base_url` | `str` | Required| Base URL of the AAS server                  |
-| `time_out` | `int` | `200` | Timeout for HTTP requests (seconds)         |
-| `connection_time_out` | `int` | `60` | Connection timeout (seconds)                |
-| `ssl_verify` | `bool` | `True` | Enable SSL certificate verification         |
-| `trust_env` | `bool` | `True` | Trust environment variables for proxy       |
-| `encoded_ids` | `bool` | `True` | Use base64 encoding for IDs in requests     |
-
-### Proxy Configuration
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `http_proxy` | `str` | `""` | HTTP proxy URL |
-| `https_proxy` | `str` | `""` | HTTPS proxy URL |
-
-### Authentication Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `basic_auth_username` | `str` | `""` | Username for basic authentication |
-| `basic_auth_password` | `str` | `""` | Password for basic authentication |
-| `o_auth_client_id` | `str` | `""` | Client ID for OAuth2 |
-| `o_auth_client_secret` | `str` | `""` | Client secret for OAuth2 |
-| `o_auth_token_url` | `str` | `""` | Token endpoint URL for OAuth2 |
-| `bearer_auth_token` | `str` | `""` | Bearer token for authentication (function parameter only) |
 
 ## Authentication Methods
 
@@ -430,6 +322,7 @@ shells = client.get_all_asset_administration_shells()
 ```
 
 Common error scenarios:
+
 * **Invalid URL**: Malformed base URL
 * **Connection timeout**: Server unreachable within timeout period
 * **Authentication failure**: Invalid credentials or token
@@ -481,8 +374,6 @@ client = create_client_by_url(
 }
 ```
 
-### Error Handling
-
 1. **Always check** if client creation was successful
 2. **Implement retry logic** for transient failures
 3. **Log configuration issues** for debugging
@@ -517,5 +408,3 @@ def create_production_client():
 4. **Monitor response times** and adjust timeouts accordingly
 
 ---
-
-For more information about using the client methods, see the [API Reference](API_REFERENCE.md).
