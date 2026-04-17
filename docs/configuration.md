@@ -49,6 +49,8 @@ Sensitive values like passwords, client secrets, and bearer tokens are always pa
 | `HttpsProxy` | `string` | ❌ | `null` | HTTPS proxy server URL for encrypted connections |
 | `EncodedIds` | `boolean` | ❌ | `true` | If enabled, all IDs used in API requests have to be base64-encoded |
 
+---
+
 **Authentication Settings:**
 
 | Parameter | Type | Required | Default | Description |
@@ -88,6 +90,8 @@ client = create_client_by_url(
 )
 ```
 
+---
+
 ### 2. Create by Dictionary
 
 Create a client using a configuration dictionary:
@@ -111,6 +115,8 @@ client = create_client_by_dict(
 )
 ```
 
+---
+
 ### 3. Create by Configuration File
 
 Create a client using a JSON configuration file:
@@ -125,6 +131,8 @@ client = create_client_by_config(
     basic_auth_password="password123"
 )
 ```
+
+---
 
 ### Example Configuration File
 
@@ -167,6 +175,8 @@ client = create_client_by_url(
 )
 ```
 
+---
+
 ### 2. Bearer Token Authentication
 
 Use a pre-obtained bearer token (provided as function parameter, not in config file):
@@ -191,6 +201,8 @@ client = create_client_by_url(
 )
 ```
 
+---
+
 ### 4. OAuth2 Password Grant
 
 Use OAuth2 password grant flow:
@@ -204,6 +216,8 @@ client = create_client_by_url(
 )
 ```
 
+---
+
 ## Configuration Examples
 
 ### Minimal Configuration
@@ -213,6 +227,8 @@ client = create_client_by_url(
     "BaseUrl": "http://localhost:8080"
 }
 ```
+
+---
 
 ### Basic Authentication Configuration
 
@@ -229,59 +245,7 @@ client = create_client_by_url(
 }
 ```
 
-### OAuth2 Configuration
-
-```json
-{
-    "BaseUrl": "https://aas-server.example.com",
-    "TimeOut": 300,
-    "ConnectionTimeOut": 120,
-    "SslVerify": true,
-    "AuthenticationSettings": {
-        "OAuth": {
-            "ClientId": "my-client-id",
-            "TokenUrl": "https://auth-server.example.com/oauth/token",
-            "GrantType": "client_credentials"
-        }
-    }
-}
-```
-
-### Proxy Configuration
-
-```json
-{
-    "BaseUrl": "https://aas-server.example.com",
-    "HttpProxy": "http://proxy.company.com:8080",
-    "HttpsProxy": "http://proxy.company.com:8080",
-    "TrustEnv": false,
-    "AuthenticationSettings": {
-        "BasicAuth": {
-            "Username": "admin"
-        }
-    }
-}
-```
-
-### Production Environment Configuration
-
-```json
-{
-    "BaseUrl": "https://production-aas.company.com",
-    "TimeOut": 600,
-    "ConnectionTimeOut": 300,
-    "SslVerify": true,
-    "TrustEnv": true,
-    "HttpsProxy": "http://corporate-proxy:8080",
-    "AuthenticationSettings": {
-        "OAuth": {
-            "ClientId": "production-client",
-            "TokenUrl": "https://auth.company.com/oauth2/token",
-            "GrantType": "client_credentials"
-        }
-    }
-}
-```
+---
 
 ### Bearer Token Authentication Example
 
@@ -303,6 +267,68 @@ client = create_client_by_dict(
     bearer_auth_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 )
 ```
+
+---
+
+### OAuth2 Configuration
+
+```json
+{
+    "BaseUrl": "https://aas-server.example.com",
+    "TimeOut": 300,
+    "ConnectionTimeOut": 120,
+    "SslVerify": true,
+    "AuthenticationSettings": {
+        "OAuth": {
+            "ClientId": "my-client-id",
+            "TokenUrl": "https://auth-server.example.com/oauth/token",
+            "GrantType": "client_credentials"
+        }
+    }
+}
+```
+
+---
+
+### Proxy Configuration
+
+```json
+{
+    "BaseUrl": "https://aas-server.example.com",
+    "HttpProxy": "http://proxy.company.com:8080",
+    "HttpsProxy": "http://proxy.company.com:8080",
+    "TrustEnv": false,
+    "AuthenticationSettings": {
+        "BasicAuth": {
+            "Username": "admin"
+        }
+    }
+}
+```
+
+---
+
+### Production Environment Configuration
+
+```json
+{
+    "BaseUrl": "https://production-aas.company.com",
+    "TimeOut": 600,
+    "ConnectionTimeOut": 300,
+    "SslVerify": true,
+    "TrustEnv": true,
+    "HttpsProxy": "http://corporate-proxy:8080",
+    "AuthenticationSettings": {
+        "OAuth": {
+            "ClientId": "production-client",
+            "TokenUrl": "https://auth.company.com/oauth2/token",
+            "GrantType": "client_credentials"
+        }
+    }
+}
+```
+
+---
 
 ## Error Handling
 
