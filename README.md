@@ -81,7 +81,7 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
-📜 [MIT License](LICENSE)
+📜 [MIT License](https://github.com/fluid40/aas-http-client/blob/main/LICENSE)
 
 ---
 

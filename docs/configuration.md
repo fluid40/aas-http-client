@@ -8,7 +8,6 @@ This guide explains how to configure and create an AAS (Asset Administration She
   - [Configuration Parameters](#configuration-parameters)
   - [Creation Methods](#creation-methods)
   - [Authentication Methods](#authentication-methods)
-  - [Configuration Examples](#configuration-examples)
   - [Error Handling](#error-handling)
   - [Best Practices](#best-practices)
 
@@ -202,70 +201,6 @@ client = create_client_by_url(
     o_auth_client_secret="password",
     o_auth_token_url="http://auth-server/oauth/token"
 )
-```
-
-## Configuration Examples
-
-### Minimal Configuration
-
-```json
-{
-    "BaseUrl": "http://localhost:8080"
-}
-```
-
-### Basic Authentication Configuration
-
-```json
-{
-    "BaseUrl": "https://aas-server.example.com",
-    "TimeOut": 300,
-    "SslVerify": true,
-    "AuthenticationSettings": {
-        "BasicAuth": {
-            "Username": "admin"
-        }
-    }
-}
-```
-
-### Bearer Token Authentication Example
-
-Bearer tokens are provided as function parameters, not in configuration files:
-
-```python
-from pathlib import Path
-from aas_http_client.client import create_client_by_config
-
-# Minimal config file for bearer token auth
-config = {
-    "BaseUrl": "https://aas-server.example.com",
-    "TimeOut": 300,
-    "SslVerify": true
-}
-
-client = create_client_by_dict(
-    configuration=config,
-    bearer_auth_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-)
-```
-
-### OAuth2 Configuration
-
-```json
-{
-    "BaseUrl": "https://aas-server.example.com",
-    "TimeOut": 300,
-    "ConnectionTimeOut": 120,
-    "SslVerify": true,
-    "AuthenticationSettings": {
-        "OAuth": {
-            "ClientId": "my-client-id",
-            "TokenUrl": "https://auth-server.example.com/oauth/token",
-            "GrantType": "client_credentials"
-        }
-    }
-}
 ```
 
 ## Error Handling
