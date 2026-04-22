@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md72',1,'']]],
+  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md71',1,'']]],
   ['sdk_5ftools_2epy_1',['sdk_tools.py',['../sdk__tools_8py.html',1,'']]],
   ['sdk_5fwrapper_2',['sdk_wrapper',['../namespacesdk__wrapper.html',1,'']]],
   ['sdk_5fwrapper_2epy_3',['sdk_wrapper.py',['../sdk__wrapper_8py.html',1,'']]],
