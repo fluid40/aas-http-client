@@ -1,0 +1,5 @@
+<map id="config_classes.BearerAuth.set_token" name="config_classes.BearerAuth.set_token">
+<area shape="rect" id="Node000001" title="Set the bearer token for the authentication." alt="" coords="293,5,511,45"/>
+<area shape="rect" id="Node000002" href="$classaas__client_1_1AasHttpClient.html#aa0ef4390c8e72c82ccad714d7820cbe6" title="Get the root endpoint of the AAS server API to test connectivity." alt="" coords="5,13,245,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,28,246,28,246,23,280,23"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="aas_client._create_client" name="aas_client._create_client">
+<area shape="rect" id="Node000001" title="Create and initialize an AAS HTTP client from configuration string." alt="" coords="5,5,145,45"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__client.html#a9826f8c0b1a6921e211fedfa4485f505" title="Test the connection to the AAS server API with retry logic." alt="" coords="193,5,344,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,23,179,23,179,28,146,28"/>
+</map>

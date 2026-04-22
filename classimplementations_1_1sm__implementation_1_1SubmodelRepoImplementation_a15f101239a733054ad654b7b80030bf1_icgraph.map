@@ -1,0 +1,5 @@
+<map id="implementations.sm_implementation.SubmodelRepoImplementation.get_submodel_element_by_path_submodel_repo" name="implementations.sm_implementation.SubmodelRepoImplementation.get_submodel_element_by_path_submodel_repo">
+<area shape="rect" id="Node000001" title="Returns a specific submodel element from the Submodel at a specified path." alt="" coords="331,5,580,75"/>
+<area shape="rect" id="Node000002" href="$classsdk__wrapper_1_1SdkWrapper.html#a63ecdb3e96b036fe7fef980ea05e5b82" title="Downloads file content from a specific submodel element from the Submodel at a specified path." alt="" coords="5,20,283,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="317,43,283,43,283,37,317,37"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,119,64,145"/>
+<area shape="rect" id="Node000001" href="$classimplementations_1_1authentication_1_1AuthMethod.html" title="Defines authentication methods." alt="" coords="112,5,347,45"/>
+<area shape="poly" id="edge11_Node000000_Node000001" title=" " alt="" coords="53,107,78,80,111,55,136,43,139,48,113,60,82,84,56,110"/>
+<area shape="rect" id="Node000002" href="$classsdk__wrapper_1_1AssetKind.html" title="Determines to which asset kind the resource is being serialized." alt="" coords="143,70,316,95"/>
+<area shape="poly" id="edge12_Node000000_Node000002" title=" " alt="" coords="76,115,111,104,159,93,160,98,113,109,78,120"/>
+<area shape="rect" id="Node000003" href="$classsdk__wrapper_1_1Extent.html" title="Determines to which extent the resource is being serialized." alt="" coords="154,119,305,145"/>
+<area shape="poly" id="edge13_Node000000_Node000003" title=" " alt="" coords="78,129,154,129,154,135,78,135"/>
+<area shape="rect" id="Node000004" href="$classsdk__wrapper_1_1IdEncoding.html" title="Determines the ID encoding mode for API requests." alt="" coords="140,169,319,194"/>
+<area shape="poly" id="edge14_Node000000_Node000004" title=" " alt="" coords="78,143,113,153,165,166,164,171,111,159,77,148"/>
+<area shape="rect" id="Node000005" href="$classsdk__wrapper_1_1Level.html" title="Determines the structural depth of the respective resource content." alt="" coords="158,218,301,243"/>
+<area shape="poly" id="edge15_Node000000_Node000005" title=" " alt="" coords="56,154,82,180,113,203,159,219,157,224,111,208,78,184,52,157"/>
+</map>

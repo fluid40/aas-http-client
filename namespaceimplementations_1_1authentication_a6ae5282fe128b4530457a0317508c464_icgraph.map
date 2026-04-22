@@ -1,0 +1,10 @@
+<map id="implementations.authentication._get_token_from_endpoint" name="implementations.authentication._get_token_from_endpoint">
+<area shape="rect" id="Node000001" title="Get token from a specific authentication service provider." alt="" coords="613,37,848,77"/>
+<area shape="rect" id="Node000002" href="$namespaceimplementations_1_1authentication.html#a63c9a610f0e734619ed4abdf7d50be29" title="Get token from a specific authentication service provider by basic authentication." alt="" coords="309,5,565,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="600,46,565,42,566,37,600,40"/>
+<area shape="rect" id="Node000004" href="$namespaceimplementations_1_1authentication.html#af808a9898e5713c43170bc07922af43e" title="Get token from a specific authentication service provider by username and password." alt="" coords="309,69,565,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="600,74,566,78,565,73,600,69"/>
+<area shape="rect" id="Node000003" href="$namespaceimplementations_1_1authentication.html#a2149b949d41e0f5ecded8ceefad37e85" title="Get token based on the provided OAuth configuration." alt="" coords="5,37,261,77"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="296,43,262,47,261,41,295,38"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="295,77,261,73,262,68,296,72"/>
+</map>
