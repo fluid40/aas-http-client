@@ -268,42 +268,6 @@ client = create_client_by_dict(
 }
 ```
 
-### Proxy Configuration
-
-```json
-{
-    "BaseUrl": "https://aas-server.example.com",
-    "HttpProxy": "http://proxy.company.com:8080",
-    "HttpsProxy": "http://proxy.company.com:8080",
-    "TrustEnv": false,
-    "AuthenticationSettings": {
-        "BasicAuth": {
-            "Username": "admin"
-        }
-    }
-}
-```
-
-### Production Environment Configuration
-
-```json
-{
-    "BaseUrl": "https://production-aas.company.com",
-    "TimeOut": 600,
-    "ConnectionTimeOut": 300,
-    "SslVerify": true,
-    "TrustEnv": true,
-    "HttpsProxy": "http://corporate-proxy:8080",
-    "AuthenticationSettings": {
-        "OAuth": {
-            "ClientId": "production-client",
-            "TokenUrl": "https://auth.company.com/oauth2/token",
-            "GrantType": "client_credentials"
-        }
-    }
-}
-```
-
 ## Error Handling
 
 The client creation methods return `None` if the configuration is invalid or the connection fails:
