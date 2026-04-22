@@ -2,9 +2,15 @@
 
 This guide will walk you through installing and using `aas-http-client` .
 
+* [🚀 Getting Started](#-getting-started)
+  + [Installation](#installation)
+  + [Usage](#usage)
+  + [Creation Methods](#creation-methods)
+  + [Notes](#notes)
+
 ---
 
-## 📦 Installation
+## Installation
 
 Install via pip:
 
@@ -160,10 +166,3 @@ wrapper = create_wrapper_by_dict(configuration_dict, basic_auth_password="")
 ```
 
 ---
-
-## ⚠️ Notes
-
-* When `ssl_verify` is set to `False`, SSL/TLS verification is disabled (⚠️ not recommended in production).
-* Default timeouts are intentionally high for development; adjust for production usage.
-* The client and wrappers support both **parameter-based** and **configuration file-based** setup.
-* For detailed configuration options, authentication methods, and examples, see the [Configuration Guide](configuration.md).

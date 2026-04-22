@@ -8,6 +8,7 @@ This guide explains how to configure and create an AAS (Asset Administration She
   - [Configuration Parameters](#configuration-parameters)
   - [Authentication Methods](#authentication-methods)
   - [Best Practices](#best-practices)
+  - [Notes](#notes)
 
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
 There are three ways to create a client:
@@ -198,3 +199,10 @@ client = aas_client.create_client_by_url(
 2. **Set appropriate timeouts** to avoid hanging requests
 3. **Use connection pooling** for high-throughput scenarios
 4. **Monitor response times** and adjust timeouts accordingly
+
+## Notes
+
+* When `ssl_verify` is set to `False`, SSL/TLS verification is disabled (⚠️ not recommended in production).
+* Default timeouts are intentionally high for development; adjust for production usage.
+* The client and wrappers support both **parameter-based** and **configuration file-based** setup.
+* For detailed configuration options, authentication methods, and examples, see the [Configuration Guide](configuration.md).
