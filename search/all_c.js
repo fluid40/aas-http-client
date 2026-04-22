@@ -4,7 +4,7 @@ var searchData=
   ['basic_20authentication_1',['1. Basic Authentication',['../md_docs_2configuration.html#autotoc_md31',1,'']]],
   ['basic_5fauth_2',['basic_auth',['../classimplementations_1_1authentication_1_1AuthMethod.html#a53140010e4e658df1daf089acb62018d',1,'implementations.authentication.AuthMethod.basic_auth'],['../classconfig__classes_1_1AuthenticationConfig.html#a881da314e59707ec985714f555c2c79a',1,'config_classes.AuthenticationConfig.basic_auth']]],
   ['basicauth_3',['BasicAuth',['../classconfig__classes_1_1BasicAuth.html',1,'config_classes']]],
-  ['basyx_20python_20sdk_20wrapper_4',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md69',1,'']]],
+  ['basyx_20python_20sdk_20wrapper_4',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md68',1,'']]],
   ['bearer_5',['bearer',['../classimplementations_1_1authentication_1_1AuthMethod.html#afb33fc0f1881dad8e875f29254c941f4',1,'implementations::authentication::AuthMethod']]],
   ['bearer_20token_20authentication_6',['2. Bearer Token Authentication',['../md_docs_2configuration.html#autotoc_md32',1,'']]],
   ['bearer_5fauth_7',['bearer_auth',['../classconfig__classes_1_1AuthenticationConfig.html#a43544f386892f98f9a181734f2d062d8',1,'config_classes::AuthenticationConfig']]],

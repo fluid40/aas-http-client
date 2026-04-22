@@ -87,7 +87,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md56", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md55", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -116,10 +116,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aas__client_8py.html",
-"classpagination_1_1PagingMetadata.html",
-"md_docs_2getting__started.html#autotoc_md46",
-"namespacetests_1_1test__wrapper.html#a0e9563fafc3a070af40d15fa8e7c40c0",
-"test__wrapper_8py.html#a24dbb582ffce609978b9023a9d66b0d4"
+"classpagination_1_1PagingMetadata.html#a4663008668b3091127ec82be7959d565",
+"md_docs_2getting__started.html#autotoc_md50",
+"namespacetests_1_1test__wrapper.html#a30c4320e750c6aac8f8317b62bd06666",
+"test__wrapper_8py.html#a43eb0d2d1f8ed9e4669e639bf486106a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
