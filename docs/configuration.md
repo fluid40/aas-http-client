@@ -4,12 +4,11 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 **Table of Contents:**
 
-* [🛠️ Configuration Guide](#️-configuration-guide)
-  + [Configuration Parameters](#configuration-parameters)
-  + [Creation Methods](#creation-methods)
-  + [Authentication Methods](#authentication-methods)
-  + [Error Handling](#error-handling)
-  + [Best Practices](#best-practices)
+- [🛠️ Configuration Guide](#️-configuration-guide)
+  - [Configuration Parameters](#configuration-parameters)
+  - [Creation Methods](#creation-methods)
+  - [Authentication Methods](#authentication-methods)
+  - [Best Practices](#best-practices)
 
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
 There are three ways to create a client:
@@ -76,9 +75,23 @@ There are three ways to create an AAS HTTP client or wrapper. Wrapper creation f
 Create a client by providing parameters directly:
 
 ```python
-from aas_http_client.client import create_client_by_url
+from aas_http_client.classes.client import aas_client
 
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
+    base_url="http://localhost:8080",
+    basic_auth_username="admin",
+    basic_auth_password="password123",
+    time_out=300,
+    ssl_verify=True
+)
+```
+
+Create a wrapper by providing parameters directly:
+
+```python
+from aas_http_client.classes.wrapper import sdk_wrapper
+
+wrapper = sdk_wrapper.create_wrapper_by_url(
     base_url="http://localhost:8080",
     basic_auth_username="admin",
     basic_auth_password="password123",
@@ -92,7 +105,7 @@ client = create_client_by_url(
 Create a client using a configuration dictionary:
 
 ```python
-from aas_http_client.client import create_client_by_dict
+from aas_http_client.classes.client import aas_client
 
 config = {
     "BaseUrl": "http://localhost:8080",
@@ -104,7 +117,7 @@ config = {
     }
 }
 
-client = create_client_by_dict(
+client = aas_client.create_client_by_dict(
     configuration=config,
     basic_auth_password="password123"
 )
@@ -116,10 +129,10 @@ Create a client using a JSON configuration file:
 
 ```python
 from pathlib import Path
-from aas_http_client.client import create_client_by_config
+from aas_http_client.classes.client import aas_client
 
 config_file = Path("config.json")
-client = create_client_by_config(
+client = aas_client.create_client_by_config(
     config_file=config_file,
     basic_auth_password="password123"
 )
@@ -159,7 +172,7 @@ Here's a complete example configuration file ( `config.json` ) that demonstrates
 Use username and password for HTTP Basic Authentication:
 
 ```python
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
     base_url="http://localhost:8080",
     basic_auth_username="admin",
     basic_auth_password="password123"
@@ -171,7 +184,7 @@ client = create_client_by_url(
 Use a pre-obtained bearer token (provided as function parameter, not in config file):
 
 ```python
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
     base_url="http://localhost:8080",
     bearer_auth_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 )
@@ -182,7 +195,7 @@ client = create_client_by_url(
 Use OAuth2 client credentials flow:
 
 ```python
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
     base_url="http://localhost:8080",
     o_auth_client_id="my-client-id",
     o_auth_client_secret="my-client-secret",
@@ -195,7 +208,7 @@ client = create_client_by_url(
 Use OAuth2 password grant flow:
 
 ```python
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
     base_url="http://localhost:8080",
     o_auth_client_id="username",
     o_auth_client_secret="password",
@@ -216,7 +229,7 @@ client = create_client_by_url(
 ```python
 import os
 
-client = create_client_by_url(
+client = aas_client.create_client_by_url(
     base_url=os.getenv("AAS_SERVER_URL"),
     basic_auth_username=os.getenv("AAS_USERNAME"),
     basic_auth_password=os.getenv("AAS_PASSWORD"),
