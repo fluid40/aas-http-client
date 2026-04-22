@@ -55,45 +55,40 @@ var NAVTREE =
     [ "🛠️ Configuration Guide", "md_docs_2configuration.html", [
       [ "Configuration Parameters", "md_docs_2configuration.html#autotoc_md26", [
         [ "Parameters Overview", "md_docs_2configuration.html#autotoc_md27", null ],
-        [ "Key Points", "md_docs_2configuration.html#autotoc_md28", null ]
+        [ "Key Points", "md_docs_2configuration.html#autotoc_md28", null ],
+        [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md29", null ]
       ] ],
-      [ "Creation Methods", "md_docs_2configuration.html#autotoc_md29", [
-        [ "1. Create by URL", "md_docs_2configuration.html#autotoc_md30", null ],
-        [ "2. Create by Dictionary", "md_docs_2configuration.html#autotoc_md31", null ],
-        [ "3. Create by Configuration File", "md_docs_2configuration.html#autotoc_md32", null ],
-        [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md33", null ]
+      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md30", [
+        [ "1. Basic Authentication", "md_docs_2configuration.html#autotoc_md31", null ],
+        [ "2. Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md32", null ],
+        [ "3. OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md33", null ],
+        [ "4. OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md34", null ]
       ] ],
-      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md34", [
-        [ "1. Basic Authentication", "md_docs_2configuration.html#autotoc_md35", null ],
-        [ "2. Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md36", null ],
-        [ "3. OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md37", null ],
-        [ "4. OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md38", null ]
-      ] ],
-      [ "Best Practices", "md_docs_2configuration.html#autotoc_md39", [
-        [ "Security", "md_docs_2configuration.html#autotoc_md40", null ],
-        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md41", null ],
-        [ "Performance", "md_docs_2configuration.html#autotoc_md42", null ]
+      [ "Best Practices", "md_docs_2configuration.html#autotoc_md35", [
+        [ "Security", "md_docs_2configuration.html#autotoc_md36", null ],
+        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md37", null ],
+        [ "Performance", "md_docs_2configuration.html#autotoc_md38", null ]
       ] ]
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
-      [ "📦 Installation", "md_docs_2getting__started.html#autotoc_md45", null ],
-      [ "Usage", "md_docs_2getting__started.html#autotoc_md47", [
-        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md48", null ],
-        [ "Client", "md_docs_2getting__started.html#autotoc_md50", [
-          [ "📌 Create Client from Configuration File", "md_docs_2getting__started.html#autotoc_md51", null ],
-          [ "📌 Create Client via Parameters", "md_docs_2getting__started.html#autotoc_md52", null ],
-          [ "📌 Create Client via dictionary", "md_docs_2getting__started.html#autotoc_md53", null ]
-        ] ],
-        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md55", [
-          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md56", null ],
-          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md57", null ],
-          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md58", null ]
+      [ "📦 Installation", "md_docs_2getting__started.html#autotoc_md41", null ],
+      [ "Usage", "md_docs_2getting__started.html#autotoc_md43", [
+        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md44", null ]
+      ] ],
+      [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md46", [
+        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md47", null ],
+        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md48", null ],
+        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md49", null ],
+        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md51", [
+          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md52", null ],
+          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md53", null ],
+          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md54", null ]
         ] ]
       ] ],
-      [ "⚠️ Notes", "md_docs_2getting__started.html#autotoc_md60", null ]
+      [ "⚠️ Notes", "md_docs_2getting__started.html#autotoc_md56", null ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md62", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md58", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -123,9 +118,9 @@ var NAVTREEINDEX =
 [
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"md_docs_2configuration.html#autotoc_md40",
-"namespacetests_1_1test__client__reg.html#af2f01eee53b4f0901b83266203ac7f4b",
-"test__utils_8py.html#ae4da5ad808323b1c1fd07ed18425ef38"
+"md_docs_2getting__started.html#autotoc_md41",
+"namespacetests_1_1test__utils.html#a289e173c3fdbcbc913cebdfeb3fc8028",
+"test__wrapper_8py.html#a0e38b841c361787c5b59bb6af7ede000"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

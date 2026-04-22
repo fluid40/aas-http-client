@@ -97,7 +97,6 @@ $(document).ready(function(){initNavTree('md_docs_2configuration.html',''); init
 <ul>
 <li>🛠️ Configuration Guide<ul>
 <li>Configuration Parameters</li>
-<li>Creation Methods</li>
 <li>Authentication Methods</li>
 <li>Best Practices</li>
 </ul>
@@ -175,68 +174,9 @@ Key Points</h2>
 <li><b>All settings are optional</b> except <code>BaseUrl</code></li>
 <li><b>Environment variables</b> can override proxy settings when <code>TrustEnv</code> is <code>true</code></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md29"></a>
-Creation Methods</h1>
-<p>There are three ways to create an AAS HTTP client or wrapper. Wrapper creation follows the same pattern as client creation.</p>
-<h2><a class="anchor" id="autotoc_md30"></a>
-1. Create by URL</h2>
-<p>Create a client by providing parameters directly:</p>
-<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
-<div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
-<div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
-<div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
-<div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span>,</div>
-<div class="line">    time_out=300,</div>
-<div class="line">    ssl_verify=<span class="keyword">True</span></div>
-<div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a95b4eeba2847cffd970449c30123e8a9"><div class="ttname"><a href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a></div><div class="ttdeci">AasHttpClient|None create_client_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00322">aas_client.py:337</a></div></div>
-</div><!-- fragment --><p>Create a wrapper by providing parameters directly:</p>
-<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
-<div class="line"> </div>
-<div class="line">wrapper = <a class="code hl_function" href="namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774">sdk_wrapper.create_wrapper_by_url</a>(</div>
-<div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
-<div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
-<div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span>,</div>
-<div class="line">    time_out=300,</div>
-<div class="line">    ssl_verify=<span class="keyword">True</span></div>
-<div class="line">)</div>
-<div class="ttc" id="anamespacesdk__wrapper_html_af1a9de558e9060cb1729a08c83789774"><div class="ttname"><a href="namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774">sdk_wrapper.create_wrapper_by_url</a></div><div class="ttdeci">SdkWrapper|None create_wrapper_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a wrapper for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00900">sdk_wrapper.py:915</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
-2. Create by Dictionary</h2>
-<p>Create a client using a configuration dictionary:</p>
-<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
-<div class="line"> </div>
-<div class="line">config = {</div>
-<div class="line">    <span class="stringliteral">&quot;BaseUrl&quot;</span>: <span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;TimeOut&quot;</span>: 300,</div>
-<div class="line">    <span class="stringliteral">&quot;AuthenticationSettings&quot;</span>: {</div>
-<div class="line">        <span class="stringliteral">&quot;BasicAuth&quot;</span>: {</div>
-<div class="line">            <span class="stringliteral">&quot;Username&quot;</span>: <span class="stringliteral">&quot;admin&quot;</span></div>
-<div class="line">        }</div>
-<div class="line">    }</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a9966411a03351a09573c5f61fcc8cb24">aas_client.create_client_by_dict</a>(</div>
-<div class="line">    configuration=config,</div>
-<div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
-<div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a9966411a03351a09573c5f61fcc8cb24"><div class="ttname"><a href="namespaceaas__client.html#a9966411a03351a09573c5f61fcc8cb24">aas_client.create_client_by_dict</a></div><div class="ttdeci">AasHttpClient|None create_client_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given configuration.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00368">aas_client.py:370</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
-3. Create by Configuration File</h2>
-<p>Create a client using a JSON configuration file:</p>
-<div class="fragment"><div class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
-<div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
-<div class="line"> </div>
-<div class="line">config_file = Path(<span class="stringliteral">&quot;config.json&quot;</span>)</div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d">aas_client.create_client_by_config</a>(</div>
-<div class="line">    config_file=config_file,</div>
-<div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
-<div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a8e64b76f1c501c689af07112f596326d"><div class="ttname"><a href="namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d">aas_client.create_client_by_config</a></div><div class="ttdeci">AasHttpClient|None create_client_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00385">aas_client.py:387</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Example Configuration File</h2>
-<p>Here's a complete example configuration file ( <code>config.json</code> ) that demonstrates all available options:</p>
+<p>Here's a complete example configuration file ( <code>config.json</code> ) used by the <code>create_client_by_config</code> method that demonstrates all available options:</p>
 <div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;BaseUrl&quot;: &quot;https://aas-server.example.com&quot;,</div>
 <div class="line">    &quot;TimeOut&quot;: 300,</div>
@@ -257,9 +197,9 @@ Example Configuration File</h2>
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md30"></a>
 Authentication Methods</h1>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 1. Basic Authentication</h2>
 <p>Use username and password for HTTP Basic Authentication:</p>
 <div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
@@ -267,14 +207,15 @@ Authentication Methods</h1>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+<div class="ttc" id="anamespaceaas__client_html_a95b4eeba2847cffd970449c30123e8a9"><div class="ttname"><a href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a></div><div class="ttdeci">AasHttpClient|None create_client_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00322">aas_client.py:337</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
 2. Bearer Token Authentication</h2>
 <p>Use a pre-obtained bearer token (provided as function parameter, not in config file):</p>
 <div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
 3. OAuth2 Client Credentials</h2>
 <p>Use OAuth2 client credentials flow:</p>
 <div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
@@ -283,7 +224,7 @@ Authentication Methods</h1>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;my-client-secret&quot;</span>,</div>
 <div class="line">    o_auth_token_url=<span class="stringliteral">&quot;http://auth-server/oauth/token&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md38"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 4. OAuth2 Password Grant</h2>
 <p>Use OAuth2 password grant flow:</p>
 <div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
@@ -292,9 +233,9 @@ Authentication Methods</h1>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;password&quot;</span>,</div>
 <div class="line">    o_auth_token_url=<span class="stringliteral">&quot;http://auth-server/oauth/token&quot;</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md35"></a>
 Best Practices</h1>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 Security</h2>
 <ol type="1">
 <li><b>Never hardcode credentials</b> in your source code</li>
@@ -311,7 +252,7 @@ Security</h2>
 <div class="line">    basic_auth_password=os.getenv(<span class="stringliteral">&quot;AAS_PASSWORD&quot;</span>),</div>
 <div class="line">    ssl_verify=<span class="keyword">True</span></div>
 <div class="line">)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md41"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
 Configuration Management</h2>
 <ol type="1">
 <li><b>Use configuration files</b> for different environments</li>
@@ -338,7 +279,7 @@ Configuration Management</h2>
 <li><b>Implement retry logic</b> for transient failures</li>
 <li><b>Log configuration issues</b> for debugging</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Performance</h2>
 <ol type="1">
 <li><b>Reuse client instances</b> instead of creating new ones for each request</li>
