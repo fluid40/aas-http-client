@@ -4,12 +4,12 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 **Table of Contents:**
 
-- [🛠️ Configuration Guide](#️-configuration-guide)
-  - [Configuration Parameters](#configuration-parameters)
-  - [Creation Methods](#creation-methods)
-  - [Authentication Methods](#authentication-methods)
-  - [Error Handling](#error-handling)
-  - [Best Practices](#best-practices)
+* [🛠️ Configuration Guide](#️-configuration-guide)
+  + [Configuration Parameters](#configuration-parameters)
+  + [Creation Methods](#creation-methods)
+  + [Authentication Methods](#authentication-methods)
+  + [Error Handling](#error-handling)
+  + [Best Practices](#best-practices)
 
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
 There are three ways to create a client:
@@ -202,28 +202,6 @@ client = create_client_by_url(
     o_auth_token_url="http://auth-server/oauth/token"
 )
 ```
-
-## Error Handling
-
-The client creation methods return `None` if the configuration is invalid or the connection fails:
-
-```python
-client = create_client_by_url(base_url="http://invalid-url")
-if client is None:
-    print("Failed to create client - check configuration and connectivity")
-    exit(1)
-
-# Client is ready to use
-shells = client.get_all_asset_administration_shells()
-```
-
-Common error scenarios:
-
-* **Invalid URL**: Malformed base URL
-* **Connection timeout**: Server unreachable within timeout period
-* **Authentication failure**: Invalid credentials or token
-* **SSL verification failure**: Invalid certificates when `ssl_verify=True`
-* **Proxy issues**: Incorrect proxy configuration
 
 ## Best Practices
 
