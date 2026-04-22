@@ -74,21 +74,20 @@ var NAVTREE =
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
       [ "Installation", "md_docs_2getting__started.html#autotoc_md42", null ],
       [ "Usage", "md_docs_2getting__started.html#autotoc_md44", [
-        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md45", null ]
-      ] ],
-      [ "Client Creation Methods", "md_docs_2getting__started.html#autotoc_md47", [
-        [ "1. Create Client by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
-        [ "2. Create Client by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
-        [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ]
-      ] ],
-      [ "Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md52", [
-        [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md53", null ],
-        [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md54", null ],
-        [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md55", null ]
+        [ "Client Creation Methods", "md_docs_2getting__started.html#autotoc_md46", [
+          [ "1. Create Client by URL", "md_docs_2getting__started.html#autotoc_md47", null ],
+          [ "2. Create Client by Dictionary", "md_docs_2getting__started.html#autotoc_md48", null ],
+          [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md49", null ]
+        ] ],
+        [ "Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md50", [
+          [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md51", null ],
+          [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md52", null ],
+          [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md53", null ]
+        ] ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md58", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md56", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -119,8 +118,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
 "md_docs_2getting__started.html#autotoc_md42",
-"namespacetests_1_1test__utils.html#adb72ad8319d53435b67e119ad05de6ee",
-"test__wrapper_8py.html#a0e9563fafc3a070af40d15fa8e7c40c0"
+"namespacetests_1_1test__utils.html#ae4da5ad808323b1c1fd07ed18425ef38",
+"test__wrapper_8py.html#a0f9a5aef20fe357ad54554677df9afce"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
