@@ -54,7 +54,7 @@ Currently available wrappers:
 
 * [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
-What the BaSyx Wrapper Adds
+What the BaSyx Wrapper Adds:
 
 * Accepts and returns `basyx.aas.model` objects for common AAS and submodel operations
 * Reuses the same connection and authentication settings as the base HTTP client
