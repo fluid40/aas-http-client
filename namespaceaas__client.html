@@ -91,7 +91,8 @@ $(document).ready(function(){initNavTree('namespaceaas__client.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">aas_client Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -113,8 +114,79 @@ Functions</h2></td></tr>
 <tr class="memitem:a8e64b76f1c501c689af07112f596326d" id="r_a8e64b76f1c501c689af07112f596326d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a>|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d">create_client_by_config</a> (Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</td></tr>
 <tr class="memdesc:a8e64b76f1c501c689af07112f596326d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a HTTP client for a AAS server connection from a given configuration file.  <br /></td></tr>
 <tr class="separator:a8e64b76f1c501c689af07112f596326d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14db0efc6fd936124f6354f0f378fdd9" id="r_a14db0efc6fd936124f6354f0f378fdd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a>|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#a14db0efc6fd936124f6354f0f378fdd9">_create_client</a> (str config_string, str basic_auth_password, str o_auth_client_secret, str bearer_auth_token)</td></tr>
+<tr class="memdesc:a14db0efc6fd936124f6354f0f378fdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize an AAS HTTP client from configuration string.  <br /></td></tr>
+<tr class="separator:a14db0efc6fd936124f6354f0f378fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a94942ed40b4b81617476432b93086bce" id="r_a94942ed40b4b81617476432b93086bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#a94942ed40b4b81617476432b93086bce">_logger</a></td></tr>
+<tr class="separator:a94942ed40b4b81617476432b93086bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a14db0efc6fd936124f6354f0f378fdd9" name="a14db0efc6fd936124f6354f0f378fdd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14db0efc6fd936124f6354f0f378fdd9">&#9670;&#160;</a></span>_create_client()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a> | None aas_client._create_client </td>
+          <td>(</td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>config_string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>basic_auth_password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>o_auth_client_secret</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>bearer_auth_token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create and initialize an AAS HTTP client from configuration string. </p>
+<p>This internal method validates the configuration, sets authentication credentials, initializes the client, and tests the connection to the AAS server.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_string</td><td>JSON configuration string containing AAS server settings </td></tr>
+    <tr><td class="paramname">basic_auth_password</td><td>Password for basic authentication, defaults to "" </td></tr>
+    <tr><td class="paramname">o_auth_client_secret</td><td>Client secret for OAuth authentication, defaults to "" </td></tr>
+    <tr><td class="paramname">bearer_auth_token</td><td>Bearer token for authentication, defaults to "" </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An initialized and connected <a class="el" href="classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API.">AasHttpClient</a> instance or None if connection fails :raises ValidationError: If the configuration string is invalid :raises TimeoutError: If connection to the server times out </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00418">418</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
+
+</div>
+</div>
 <a id="a8e64b76f1c501c689af07112f596326d" name="a8e64b76f1c501c689af07112f596326d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e64b76f1c501c689af07112f596326d">&#9670;&#160;</a></span>create_client_by_config()</h2>
 
@@ -344,6 +416,31 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API.">AasHttpClient</a> initialized with the provided parameters or None if connection fails </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00325">325</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a94942ed40b4b81617476432b93086bce" name="a94942ed40b4b81617476432b93086bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94942ed40b4b81617476432b93086bce">&#9670;&#160;</a></span>_logger</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">aas_client._logger</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00035">35</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
 
 </div>
 </div>
