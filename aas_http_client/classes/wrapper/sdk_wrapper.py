@@ -9,7 +9,7 @@ from typing import Any
 import puremagic
 from basyx.aas import model
 
-from aas_http_client.classes.client.aas_client import AasHttpClient, _create_client
+from aas_http_client.classes.client.aas_client import AasHttpClient, __create_client
 from aas_http_client.classes.wrapper.attachment import Attachment
 from aas_http_client.classes.wrapper.pagination import (
     ReferencePaginatedData,
@@ -115,7 +115,7 @@ class SdkWrapper:
         :param o_auth_client_secret: Client secret for OAuth authentication, defaults to "".
         :param bearer_auth_token: Bearer token for authentication, defaults to "".
         """
-        client = _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+        client = __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")

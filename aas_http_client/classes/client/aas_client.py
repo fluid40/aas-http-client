@@ -369,7 +369,7 @@ def create_client_by_dict(
     logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
 
-    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_client_by_config(
@@ -392,10 +392,10 @@ def create_client_by_config(
         config_string = config_file.read_text(encoding="utf-8")
         logger.debug(f"Configuration  file '{config_file}' found.")
 
-    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def _create_client(config_string: str, basic_auth_password: str, o_auth_client_secret: str, bearer_auth_token: str) -> AasHttpClient | None:
+def __create_client(config_string: str, basic_auth_password: str, o_auth_client_secret: str, bearer_auth_token: str) -> AasHttpClient | None:
     """Create and initialize an AAS HTTP client from configuration string.
 
     This internal method validates the configuration, sets authentication credentials,
@@ -431,7 +431,7 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
     client.initialize()
 
     # test the connection to the REST API
-    connected = _connect_to_api(client)
+    connected = __connect_to_api(client)
 
     if not connected:
         return None
@@ -439,7 +439,7 @@ def _create_client(config_string: str, basic_auth_password: str, o_auth_client_s
     return client
 
 
-def _connect_to_api(client: AasHttpClient) -> bool:
+def __connect_to_api(client: AasHttpClient) -> bool:
     """Test the connection to the AAS server API with retry logic.
 
     This internal method attempts to establish a connection to the AAS server by calling
