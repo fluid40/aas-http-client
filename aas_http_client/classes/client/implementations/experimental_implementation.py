@@ -196,7 +196,7 @@ class ExperimentalImplementation(BaseModel):
 
         return True
 
-    def _post_multipart(self, url, files):
+    def __post_multipart(self, url, files) -> requests.Response:
         headers = dict(self._session.headers)
         headers.pop("Content-Type", None)
         return self._session.post(url, headers=headers, files=files)

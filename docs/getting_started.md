@@ -153,5 +153,3 @@ client = sdk_wrapper.create_wrapper_by_config(
     basic_auth_password="password123"
 )
 ```
-
----

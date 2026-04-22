@@ -29,7 +29,7 @@ from aas_http_client.utilities.http_helper import (
     STATUS_CODE_204,
 )
 
-logger = logging.getLogger(__name__)
+__logger = logging.getLogger(__name__)
 
 
 class AasHttpClient(BaseModel):
@@ -97,23 +97,23 @@ class AasHttpClient(BaseModel):
         """Handles the authentication method based on the provided settings."""
         if self.auth_settings.o_auth.is_active():
             self._auth_method = AuthMethod.o_auth
-            logger.info(
+            __logger.info(
                 f"Authentication method: OAuth | '{self.auth_settings.o_auth.client_id}' | '{self.auth_settings.o_auth.token_url}' | '{self.auth_settings.o_auth.grant_type}'"
             )
 
         elif self.auth_settings.basic_auth.is_active():
             self._auth_method = AuthMethod.basic_auth
-            logger.info(f"Authentication method: Basic Auth | '{self.auth_settings.basic_auth.username}'")
+            __logger.info(f"Authentication method: Basic Auth | '{self.auth_settings.basic_auth.username}'")
             self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
 
         elif self.auth_settings.bearer_auth.is_active():
             self._auth_method = AuthMethod.bearer
-            logger.info("Authentication method: Bearer Token")
+            __logger.info("Authentication method: Bearer Token")
             self._session.headers.update({"Authorization": f"Bearer {self.auth_settings.bearer_auth.get_token()}"})
 
         else:
             self._auth_method = AuthMethod.No
-            logger.info("Authentication method: No Authentication")
+            __logger.info("Authentication method: No Authentication")
 
     def get_root(self) -> dict | None:
         """Get the root endpoint of the AAS server API to test connectivity.
@@ -125,7 +125,7 @@ class AasHttpClient(BaseModel):
         :return: Response data as a dictionary containing shell information, or None if an error occurred
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         urls: list[str] = []
@@ -137,17 +137,17 @@ class AasHttpClient(BaseModel):
         self.set_token()
 
         for url in urls:
-            logger.debug(f"Testing connectivity with URL: {url}")
+            __logger.debug(f"Testing connectivity with URL: {url}")
             try:
                 response = self._session.get(url, timeout=10)
-                logger.debug(f"Call REST API url '{response.url}'")
+                __logger.debug(f"Call REST API url '{response.url}'")
 
                 if response.status_code == STATUS_CODE_200:
                     content = response.content.decode("utf-8")
                     return json.loads(content)
 
             except requests.exceptions.RequestException as e:
-                logger.error(f"Error call REST API: {e}")
+                __logger.error(f"Error call REST API: {e}")
 
         return None
 
@@ -157,7 +157,7 @@ class AasHttpClient(BaseModel):
         :return: The access token if set, otherwise None
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         if self._auth_method != AuthMethod.o_auth:
@@ -187,19 +187,19 @@ class AasHttpClient(BaseModel):
         :return: The base URL of the AAS server.
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         try:
             response = self._session.get(end_point_url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            __logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_200:
                 content = response.content.decode("utf-8")
                 return json.loads(content)
 
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Error call REST API: {e}")
+            __logger.debug(f"Error call REST API: {e}")
 
         return None
 
@@ -211,19 +211,19 @@ class AasHttpClient(BaseModel):
         :return: The base URL of the AAS server.
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         try:
             response = self._session.put(end_point_url, json=request_body, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            __logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
                 content = response.content.decode("utf-8")
                 return json.loads(content)
 
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Error call REST API: {e}")
+            __logger.debug(f"Error call REST API: {e}")
 
         return None
 
@@ -235,19 +235,19 @@ class AasHttpClient(BaseModel):
         :return: The base URL of the AAS server.
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         try:
             response = self._session.post(end_point_url, json=request_body, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            __logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_201, STATUS_CODE_200, STATUS_CODE_202):
                 content = response.content.decode("utf-8")
                 return json.loads(content)
 
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Error call REST API: {e}")
+            __logger.debug(f"Error call REST API: {e}")
 
         return None
 
@@ -259,19 +259,19 @@ class AasHttpClient(BaseModel):
         :return: The base URL of the AAS server.
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         try:
             response = self._session.patch(end_point_url, json=request_body, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            __logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
                 content = response.content.decode("utf-8")
                 return json.loads(content)
 
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Error call REST API: {e}")
+            __logger.debug(f"Error call REST API: {e}")
 
         return None
 
@@ -282,19 +282,19 @@ class AasHttpClient(BaseModel):
         :return: The base URL of the AAS server.
         """
         if not self._session:
-            logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
+            __logger.error("HTTP session is not initialized. Call 'initialize()' method before making API calls.")
             return None
 
         try:
             response = self._session.delete(end_point_url, timeout=self.time_out)
-            logger.debug(f"Call REST API url '{response.url}'")
+            __logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204, STATUS_CODE_202):
                 content = response.content.decode("utf-8")
                 return json.loads(content)
 
         except requests.exceptions.RequestException as e:
-            logger.debug(f"Error call REST API: {e}")
+            __logger.debug(f"Error call REST API: {e}")
 
         return None
 
@@ -333,7 +333,7 @@ def create_client_by_url(  # noqa: PLR0913
     :param encoded_ids: If enabled, all IDs used in API requests have to be base64-encoded
     :return: An instance of AasHttpClient initialized with the provided parameters or None if connection fails
     """
-    logger.info(f"Create AAS server http client from URL '{base_url}'.")
+    __logger.info(f"Create AAS server http client from URL '{base_url}'.")
     config_dict: dict[str, Any] = {}
     config_dict["BaseUrl"] = base_url
     config_dict["HttpProxy"] = http_proxy
@@ -366,7 +366,7 @@ def create_client_by_dict(
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
-    logger.info("Create AAS server http client from dictionary.")
+    __logger.info("Create AAS server http client from dictionary.")
     config_string = json.dumps(configuration, indent=4)
 
     return __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
@@ -384,13 +384,13 @@ def create_client_by_config(
     :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
     config_file = config_file.resolve()
-    logger.info(f"Create AAS server http client from configuration file '{config_file}'.")
+    __logger.info(f"Create AAS server http client from configuration file '{config_file}'.")
     if not config_file.exists():
         config_string = "{}"
-        logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
+        __logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
-        logger.debug(f"Configuration  file '{config_file}' found.")
+        __logger.debug(f"Configuration  file '{config_file}' found.")
 
     return __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
@@ -418,15 +418,15 @@ def __create_client(config_string: str, basic_auth_password: str, o_auth_client_
     client.auth_settings.o_auth.set_client_secret(o_auth_client_secret)
     client.auth_settings.bearer_auth.set_token(bearer_auth_token)
 
-    logger.info("Using server configuration:")
-    logger.info(f"BaseUrl: '{client.base_url}'")
-    logger.info(f"TimeOut: '{client.time_out}'")
-    logger.info(f"HttpsProxy: '{client.https_proxy}'")
-    logger.info(f"HttpProxy: '{client.http_proxy}'")
-    logger.info(f"ConnectionTimeOut: '{client.connection_time_out}'.")
-    logger.info(f"SSLVerify: '{client.ssl_verify}'.")
-    logger.info(f"TrustEnv: '{client.trust_env}'.")
-    logger.info(f"EncodedIds: '{client.encoded_ids}'.")
+    __logger.info("Using server configuration:")
+    __logger.info(f"BaseUrl: '{client.base_url}'")
+    __logger.info(f"TimeOut: '{client.time_out}'")
+    __logger.info(f"HttpsProxy: '{client.https_proxy}'")
+    __logger.info(f"HttpProxy: '{client.http_proxy}'")
+    __logger.info(f"ConnectionTimeOut: '{client.connection_time_out}'.")
+    __logger.info(f"SSLVerify: '{client.ssl_verify}'.")
+    __logger.info(f"TrustEnv: '{client.trust_env}'.")
+    __logger.info(f"EncodedIds: '{client.encoded_ids}'.")
 
     client.initialize()
 
@@ -451,16 +451,16 @@ def __connect_to_api(client: AasHttpClient) -> bool:
     :raises TimeoutError: If connection attempts fail for the entire timeout duration
     """
     start_time = time.time()
-    logger.info(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
+    __logger.info(f"Try to connect to REST API '{client.base_url}' for {client.connection_time_out} seconds.")
     counter: int = 0
     while True:
         try:
             root = client.get_root()
             if root:
-                logger.info(f"Connected to server API at '{client.base_url}' successfully.")
+                __logger.info(f"Connected to server API at '{client.base_url}' successfully.")
                 return True
 
-            logger.error(f"Connection attempt to '{client.base_url}' failed.")
+            __logger.error(f"Connection attempt to '{client.base_url}' failed.")
 
         except requests.exceptions.ConnectionError:
             pass
@@ -468,5 +468,5 @@ def __connect_to_api(client: AasHttpClient) -> bool:
             raise TimeoutError(f"Connection to server API timed out after {client.connection_time_out} seconds.")
 
         counter += 1
-        logger.warning(f"Retrying connection (attempt: {counter}).")
+        __logger.warning(f"Retrying connection (attempt: {counter}).")
         time.sleep(1)
