@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('md_docs_2configuration.html',''); init
 <li>Configuration Parameters</li>
 <li>Authentication Methods</li>
 <li>Best Practices</li>
+<li>Notes</li>
 </ul>
 </li>
 </ul>
@@ -285,8 +286,16 @@ Performance</h2>
 <li><b>Reuse client instances</b> instead of creating new ones for each request</li>
 <li><b>Set appropriate timeouts</b> to avoid hanging requests</li>
 <li><b>Use connection pooling</b> for high-throughput scenarios</li>
-<li><b>Monitor response times</b> and adjust timeouts accordingly </li>
+<li><b>Monitor response times</b> and adjust timeouts accordingly</li>
 </ol>
+<h1><a class="anchor" id="autotoc_md39"></a>
+Notes</h1>
+<ul>
+<li>When <code>ssl_verify</code> is set to <code>False</code>, SSL/TLS verification is disabled (⚠️ not recommended in production).</li>
+<li>Default timeouts are intentionally high for development; adjust for production usage.</li>
+<li>The client and wrappers support both <b>parameter-based</b> and <b>configuration file-based</b> setup.</li>
+<li>For detailed configuration options, authentication methods, and examples, see the <a class="el" href="md_docs_2configuration.html">Configuration Guide</a>. </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

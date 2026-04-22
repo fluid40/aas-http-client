@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['⚠️_20notes_0',['⚠️ Notes',['../md_docs_2getting__started.html#autotoc_md56',1,'']]]
+  ['⚡_20quickstart_0',['⚡ Quickstart',['../index.html#autotoc_md70',1,'']]]
 ];

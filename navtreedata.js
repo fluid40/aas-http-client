@@ -68,24 +68,24 @@ var NAVTREE =
         [ "Security", "md_docs_2configuration.html#autotoc_md36", null ],
         [ "Configuration Management", "md_docs_2configuration.html#autotoc_md37", null ],
         [ "Performance", "md_docs_2configuration.html#autotoc_md38", null ]
-      ] ]
+      ] ],
+      [ "Notes", "md_docs_2configuration.html#autotoc_md39", null ]
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
-      [ "📦 Installation", "md_docs_2getting__started.html#autotoc_md41", null ],
-      [ "Usage", "md_docs_2getting__started.html#autotoc_md43", [
-        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md44", null ]
+      [ "Installation", "md_docs_2getting__started.html#autotoc_md42", null ],
+      [ "Usage", "md_docs_2getting__started.html#autotoc_md44", [
+        [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md45", null ]
       ] ],
-      [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md46", [
-        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md47", null ],
-        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md48", null ],
-        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md49", null ],
-        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md51", [
-          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md52", null ],
-          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md53", null ],
-          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md54", null ]
+      [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md47", [
+        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
+        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
+        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ],
+        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md52", [
+          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md53", null ],
+          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md54", null ],
+          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md55", null ]
         ] ]
-      ] ],
-      [ "⚠️ Notes", "md_docs_2getting__started.html#autotoc_md56", null ]
+      ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
       [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md58", null ]
@@ -118,7 +118,7 @@ var NAVTREEINDEX =
 [
 "aas__client_8py.html",
 "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"md_docs_2getting__started.html#autotoc_md41",
+"md_docs_2getting__started.html",
 "namespacetests_1_1test__utils.html#a289e173c3fdbcbc913cebdfeb3fc8028",
 "test__wrapper_8py.html#a0e38b841c361787c5b59bb6af7ede000"
 ];

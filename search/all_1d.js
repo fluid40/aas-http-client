@@ -7,7 +7,7 @@ var searchData=
   ['sdkwrapper_4',['SdkWrapper',['../classsdk__wrapper_1_1SdkWrapper.html',1,'sdk_wrapper']]],
   ['search_5',['search',['../classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html#a5732239df0d35acf83339490b07211c5',1,'implementations::shell_registry_implementation::ShellRegistryImplementation']]],
   ['security_6',['Security',['../md_docs_2configuration.html#autotoc_md36',1,'']]],
-  ['server_20configuration_7',['Server Configuration',['../md_docs_2getting__started.html#autotoc_md44',1,'']]],
+  ['server_20configuration_7',['Server Configuration',['../md_docs_2getting__started.html#autotoc_md45',1,'']]],
   ['servers_8',['🏗️ Supported Servers',['../index.html#autotoc_md63',1,'']]],
   ['set_5fclient_5fsecret_9',['set_client_secret',['../classconfig__classes_1_1OAuth.html#aa74dfbc3532618d0e1ecc018b1682dcb',1,'config_classes::OAuth']]],
   ['set_5fencoded_5fids_10',['set_encoded_ids',['../classsdk__wrapper_1_1SdkWrapper.html#a84080d398337904c6304ceeddfb938f2',1,'sdk_wrapper::SdkWrapper']]],

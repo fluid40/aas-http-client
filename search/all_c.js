@@ -11,7 +11,7 @@ var searchData=
   ['bearer_5fauth_8',['bearer_auth',['../classconfig__classes_1_1AuthenticationConfig.html#a43544f386892f98f9a181734f2d062d8',1,'config_classes::AuthenticationConfig']]],
   ['bearerauth_9',['BearerAuth',['../classconfig__classes_1_1BearerAuth.html',1,'config_classes']]],
   ['best_20practices_10',['Best Practices',['../md_docs_2configuration.html#autotoc_md35',1,'']]],
-  ['by_20configuration_20file_11',['3. Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md49',1,'']]],
-  ['by_20dictionary_12',['2. Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md48',1,'']]],
-  ['by_20url_13',['1. Create by URL',['../md_docs_2getting__started.html#autotoc_md47',1,'']]]
+  ['by_20configuration_20file_11',['3. Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md50',1,'']]],
+  ['by_20dictionary_12',['2. Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md49',1,'']]],
+  ['by_20url_13',['1. Create by URL',['../md_docs_2getting__started.html#autotoc_md48',1,'']]]
 ];
