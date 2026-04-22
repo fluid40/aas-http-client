@@ -1,7 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1":[6,0,3,5,0,0],
-"classpagination_1_1PagingMetadata.html":[5,0,5,0],
 "classpagination_1_1PagingMetadata.html":[6,0,4,0],
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d":[6,0,4,0,1],
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d":[5,0,5,0,1],
@@ -133,8 +131,8 @@ var NAVTREEINDEX1 =
 "classsdk__wrapper_1_1SdkWrapper.html#ac09a19d610f018c925c21b5f3cb02c78":[5,0,6,4,30],
 "classsdk__wrapper_1_1SdkWrapper.html#ac46444f5c551dd8624e2f3d43db0dbf0":[6,0,5,4,29],
 "classsdk__wrapper_1_1SdkWrapper.html#ac46444f5c551dd8624e2f3d43db0dbf0":[5,0,6,4,29],
-"classsdk__wrapper_1_1SdkWrapper.html#ac8546a4ac76d1fbc876cdc61440cba81":[5,0,6,4,33],
 "classsdk__wrapper_1_1SdkWrapper.html#ac8546a4ac76d1fbc876cdc61440cba81":[6,0,5,4,33],
+"classsdk__wrapper_1_1SdkWrapper.html#ac8546a4ac76d1fbc876cdc61440cba81":[5,0,6,4,33],
 "classsdk__wrapper_1_1SdkWrapper.html#ad2a9eb743101731380d9fa956c069ea2":[6,0,5,4,20],
 "classsdk__wrapper_1_1SdkWrapper.html#ad2a9eb743101731380d9fa956c069ea2":[5,0,6,4,20],
 "classsdk__wrapper_1_1SdkWrapper.html#adb0932bd4ff47eb747e6fbfdfba41d2a":[6,0,5,4,2],
@@ -143,8 +141,8 @@ var NAVTREEINDEX1 =
 "classsdk__wrapper_1_1SdkWrapper.html#add2e29ad274904a487c94aa33a9a550c":[6,0,5,4,19],
 "classsdk__wrapper_1_1SdkWrapper.html#ae228f8c1e708727c17e00c61357844dd":[5,0,6,4,8],
 "classsdk__wrapper_1_1SdkWrapper.html#ae228f8c1e708727c17e00c61357844dd":[6,0,5,4,8],
-"classsdk__wrapper_1_1SdkWrapper.html#ae9e1a335d0c0239718987e4778b075b8":[6,0,5,4,3],
 "classsdk__wrapper_1_1SdkWrapper.html#ae9e1a335d0c0239718987e4778b075b8":[5,0,6,4,3],
+"classsdk__wrapper_1_1SdkWrapper.html#ae9e1a335d0c0239718987e4778b075b8":[6,0,5,4,3],
 "classsdk__wrapper_1_1SdkWrapper.html#af39f22e5f260bee320827be5faaacd55":[5,0,6,4,10],
 "classsdk__wrapper_1_1SdkWrapper.html#af39f22e5f260bee320827be5faaacd55":[6,0,5,4,10],
 "classsdk__wrapper_1_1SdkWrapper.html#af5033839626ed87e3e2b69aec822fb91":[5,0,6,4,4],
@@ -168,8 +166,8 @@ var NAVTREEINDEX1 =
 "experimental__implementation_8py.html#aa5e18208fc251816398298aa01fcafce":[7,0,0,0,0,0,2,1],
 "experimental__implementation_8py_source.html":[7,0,0,0,0,0,2],
 "files.html":[7,0],
-"functions.html":[6,3,0,0],
 "functions.html":[6,3,0],
+"functions.html":[6,3,0,0],
 "functions_a.html":[6,3,0,1],
 "functions_b.html":[6,3,0,2],
 "functions_c.html":[6,3,0,3],
@@ -249,5 +247,7 @@ var NAVTREEINDEX1 =
 "md_docs_2configuration.html#autotoc_md37":[2,2,1],
 "md_docs_2configuration.html#autotoc_md38":[2,2,2],
 "md_docs_2configuration.html#autotoc_md39":[2,3],
-"md_docs_2getting__started.html":[3]
+"md_docs_2getting__started.html":[3],
+"md_docs_2getting__started.html#autotoc_md42":[3,0],
+"md_docs_2getting__started.html#autotoc_md44":[3,1]
 };

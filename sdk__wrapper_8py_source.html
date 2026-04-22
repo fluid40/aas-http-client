@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('sdk__wrapper_8py_source.html',''); ini
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">import</span> puremagic</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">from</span> basyx.aas <span class="keyword">import</span> model</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> AasHttpClient, _create_client</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> AasHttpClient, __create_client</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">from</span> aas_http_client.classes.wrapper.attachment <span class="keyword">import</span> Attachment</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">from</span> aas_http_client.classes.wrapper.pagination <span class="keyword">import</span> (</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    ReferencePaginatedData,</div>
@@ -231,7 +231,7 @@ $(document).ready(function(){initNavTree('sdk__wrapper_8py_source.html',''); ini
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="stringliteral">        :param o_auth_client_secret: Client secret for OAuth authentication, defaults to &quot;&quot;.</span></div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="stringliteral">        :param bearer_auth_token: Bearer token for authentication, defaults to &quot;&quot;.</span></div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        client = _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        client = __create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="foldopen" id="foldopen00120" data-start="" data-end="">
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classsdk__wrapper_1_1SdkWrapper.html#ab0688be269a615f0c73f96e3a7d7f8c4">  120</a></span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> client:</div>

@@ -116,10 +116,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aas__client_8py.html",
-"classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#ae5aaa417299a24266a6f5f6e4885f0b1",
-"md_docs_2getting__started.html#autotoc_md42",
-"namespacetests_1_1test__utils.html#ae4da5ad808323b1c1fd07ed18425ef38",
-"test__wrapper_8py.html#a0f9a5aef20fe357ad54554677df9afce"
+"classpagination_1_1PagingMetadata.html",
+"md_docs_2getting__started.html#autotoc_md46",
+"namespacetests_1_1test__wrapper.html#a0e9563fafc3a070af40d15fa8e7c40c0",
+"test__wrapper_8py.html#a24dbb582ffce609978b9023a9d66b0d4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
