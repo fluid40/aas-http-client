@@ -10,7 +10,7 @@ var searchData=
   ['bearer_5fauth_7',['bearer_auth',['../classconfig__classes_1_1AuthenticationConfig.html#a43544f386892f98f9a181734f2d062d8',1,'config_classes::AuthenticationConfig']]],
   ['bearerauth_8',['BearerAuth',['../classconfig__classes_1_1BearerAuth.html',1,'config_classes']]],
   ['best_20practices_9',['Best Practices',['../md_docs_2configuration.html#autotoc_md35',1,'']]],
-  ['by_20configuration_20file_10',['3. Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md50',1,'']]],
-  ['by_20dictionary_11',['2. Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md49',1,'']]],
-  ['by_20url_12',['1. Create by URL',['../md_docs_2getting__started.html#autotoc_md48',1,'']]]
+  ['by_20configuration_20file_10',['by configuration file',['../md_docs_2getting__started.html#autotoc_md50',1,'3. Create Client by Configuration File'],['../md_docs_2getting__started.html#autotoc_md55',1,'3. Create Wrapper by Configuration File']]],
+  ['by_20dictionary_11',['by dictionary',['../md_docs_2getting__started.html#autotoc_md49',1,'2. Create Client by Dictionary'],['../md_docs_2getting__started.html#autotoc_md54',1,'2. Create Wrapper by Dictionary']]],
+  ['by_20url_12',['by url',['../md_docs_2getting__started.html#autotoc_md48',1,'1. Create Client by URL'],['../md_docs_2getting__started.html#autotoc_md53',1,'1. Create Wrapper by URL']]]
 ];

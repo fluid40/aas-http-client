@@ -76,15 +76,15 @@ var NAVTREE =
       [ "Usage", "md_docs_2getting__started.html#autotoc_md44", [
         [ "Server Configuration", "md_docs_2getting__started.html#autotoc_md45", null ]
       ] ],
-      [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md47", [
-        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
-        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
-        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ],
-        [ "Wrapper", "md_docs_2getting__started.html#autotoc_md52", [
-          [ "📌 Create Wrapper from Configuration File", "md_docs_2getting__started.html#autotoc_md53", null ],
-          [ "📌 Create Wrapper via Parameters", "md_docs_2getting__started.html#autotoc_md54", null ],
-          [ "📌 Create Wrapper via dictionary", "md_docs_2getting__started.html#autotoc_md55", null ]
-        ] ]
+      [ "Client Creation Methods", "md_docs_2getting__started.html#autotoc_md47", [
+        [ "1. Create Client by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
+        [ "2. Create Client by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
+        [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ]
+      ] ],
+      [ "Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md52", [
+        [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md53", null ],
+        [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md54", null ],
+        [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md55", null ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
