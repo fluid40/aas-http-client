@@ -6,7 +6,6 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 - [🛠️ Configuration Guide](#️-configuration-guide)
   - [Configuration Parameters](#configuration-parameters)
-  - [Creation Methods](#creation-methods)
   - [Authentication Methods](#authentication-methods)
   - [Best Practices](#best-practices)
 
@@ -66,81 +65,9 @@ Sensitive values like passwords, client secrets, and bearer tokens are always pa
 4. **All settings are optional** except `BaseUrl`
 5. **Environment variables** can override proxy settings when `TrustEnv` is `true`
 
-## Creation Methods
-
-There are three ways to create an AAS HTTP client or wrapper. Wrapper creation follows the same pattern as client creation.
-
-### 1. Create by URL
-
-Create a client by providing parameters directly:
-
-```python
-from aas_http_client.classes.client import aas_client
-
-client = aas_client.create_client_by_url(
-    base_url="http://localhost:8080",
-    basic_auth_username="admin",
-    basic_auth_password="password123",
-    time_out=300,
-    ssl_verify=True
-)
-```
-
-Create a wrapper by providing parameters directly:
-
-```python
-from aas_http_client.classes.wrapper import sdk_wrapper
-
-wrapper = sdk_wrapper.create_wrapper_by_url(
-    base_url="http://localhost:8080",
-    basic_auth_username="admin",
-    basic_auth_password="password123",
-    time_out=300,
-    ssl_verify=True
-)
-```
-
-### 2. Create by Dictionary
-
-Create a client using a configuration dictionary:
-
-```python
-from aas_http_client.classes.client import aas_client
-
-config = {
-    "BaseUrl": "http://localhost:8080",
-    "TimeOut": 300,
-    "AuthenticationSettings": {
-        "BasicAuth": {
-            "Username": "admin"
-        }
-    }
-}
-
-client = aas_client.create_client_by_dict(
-    configuration=config,
-    basic_auth_password="password123"
-)
-```
-
-### 3. Create by Configuration File
-
-Create a client using a JSON configuration file:
-
-```python
-from pathlib import Path
-from aas_http_client.classes.client import aas_client
-
-config_file = Path("config.json")
-client = aas_client.create_client_by_config(
-    config_file=config_file,
-    basic_auth_password="password123"
-)
-```
-
 ### Example Configuration File
 
-Here's a complete example configuration file ( `config.json` ) that demonstrates all available options:
+Here's a complete example configuration file ( `config.json` ) used by the `create_client_by_config` method that demonstrates all available options:
 
 ```json
 {
