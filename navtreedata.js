@@ -76,14 +76,11 @@ var NAVTREE =
       [ "Client / Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md44", [
         [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
         [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
-        [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ],
-        [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
-        [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
-        [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ]
+        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md52", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md49", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -114,8 +111,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d",
 "md_docs_2getting__started.html#autotoc_md47",
-"namespacetests_1_1test__wrapper.html#a2188fac618ce1dcd182d246d2cad5375",
-"test__wrapper_8py.html#a336e02dfe2c25b4b1ce0dfa5d9104ed3"
+"namespacetests_1_1test__wrapper.html#a302de4b417db5d5d904c85f9e14f8fca",
+"test__wrapper_8py.html#a405895fdb00467bfb5c01e799583420a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
