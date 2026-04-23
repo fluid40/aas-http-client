@@ -110,7 +110,18 @@ var NAVTREE =
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md72", null ]
+      [ "Quick checklist", "md_docs_2troubleshooting.html#autotoc_md72", null ],
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md73", null ],
+      [ "HTTP 401 or 403 (authentication or authorization)", "md_docs_2troubleshooting.html#autotoc_md74", null ],
+      [ "HTTP 404 (resource not found)", "md_docs_2troubleshooting.html#autotoc_md75", null ],
+      [ "Empty list responses", "md_docs_2troubleshooting.html#autotoc_md76", null ],
+      [ "Timeouts or connection errors", "md_docs_2troubleshooting.html#autotoc_md77", null ],
+      [ "SSL and proxy issues", "md_docs_2troubleshooting.html#autotoc_md78", null ],
+      [ "Pagination issues", "md_docs_2troubleshooting.html#autotoc_md79", null ],
+      [ "Wrapper vs client endpoint availability", "md_docs_2troubleshooting.html#autotoc_md80", null ],
+      [ "Experimental endpoint issues", "md_docs_2troubleshooting.html#autotoc_md81", null ],
+      [ "Generic endpoint helper issues", "md_docs_2troubleshooting.html#autotoc_md82", null ],
+      [ "Debug logging", "md_docs_2troubleshooting.html#autotoc_md83", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -141,8 +152,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d",
 "md_docs_2getting__started.html#autotoc_md47",
-"namespacetests_1_1test__client__reg.html#ad1075e7e857b30abdb46401c8e2ad893",
-"test__client__reg_8py.html#afb465263d5c9eea61115f1261548879f"
+"namespacetests_1_1test__client__reg.html#a9e154a07a112223a6092e2bc2fc1f9c0",
+"test__client__reg_8py.html#ab4f8ddf37fbf8426f6aab90d4b4b3987"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

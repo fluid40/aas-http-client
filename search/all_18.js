@@ -8,6 +8,8 @@ var searchData=
   ['one_20shell_20descriptor_20by_20id_5',['Example: Fetch one shell descriptor by ID',['../md_docs_2getting__started.html#autotoc_md59',1,'']]],
   ['one_20submodel_20by_20id_20wrapper_6',['Example: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md56',1,'']]],
   ['one_20submodel_20descriptor_20by_20id_7',['Example: Fetch one submodel descriptor by ID',['../md_docs_2getting__started.html#autotoc_md63',1,'']]],
-  ['or_20replace_20file_20content_20client_8',['Example: Upload or replace file content (client)',['../md_docs_2getting__started.html#autotoc_md67',1,'']]],
-  ['overview_9',['Parameters Overview',['../md_docs_2configuration.html#autotoc_md28',1,'']]]
+  ['or_20403_20authentication_20or_20authorization_8',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md74',1,'']]],
+  ['or_20connection_20errors_9',['Timeouts or connection errors',['../md_docs_2troubleshooting.html#autotoc_md77',1,'']]],
+  ['or_20replace_20file_20content_20client_10',['Example: Upload or replace file content (client)',['../md_docs_2getting__started.html#autotoc_md67',1,'']]],
+  ['overview_11',['Parameters Overview',['../md_docs_2configuration.html#autotoc_md28',1,'']]]
 ];

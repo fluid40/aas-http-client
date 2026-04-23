@@ -95,27 +95,268 @@ $(document).ready(function(){initNavTree('md_docs_2troubleshooting.html',''); in
 <div class="textblock"><p><a class="anchor" id="autotoc_md71"></a> This chapter helps you quickly diagnose and resolve the most common issues when working with the AAS HTTP Client. Start with the scenario that matches your problem, verify the listed checks step by step, and then retry your request. Most problems are caused by configuration, connectivity, authentication, or endpoint mismatches.</p>
 <ul>
 <li>👨‍⚕️ Troubleshooting<ul>
+<li>Quick checklist</li>
 <li>Client creation</li>
+<li>HTTP 401 or 403 (authentication or authorization)</li>
+<li>HTTP 404 (resource not found)</li>
+<li>Empty list responses</li>
+<li>Timeouts or connection errors</li>
+<li>SSL and proxy issues</li>
+<li>Pagination issues</li>
+<li>Wrapper vs client endpoint availability</li>
+<li>Experimental endpoint issues</li>
+<li>Generic endpoint helper issues</li>
+<li>Debug logging</li>
 </ul>
 </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md72"></a>
+Quick checklist</h1>
+<p>Before deep debugging, verify these basics:</p>
+<ul>
+<li>The base URL is correct and reachable (protocol, host, port, and path).</li>
+<li>Credentials/tokens are valid and belong to a user with required permissions.</li>
+<li><code>encoded_ids</code> matches your server/API expectation.</li>
+<li>You are calling the correct endpoint group:<ul>
+<li><code>client.shells</code></li>
+<li><code>client.submodels</code></li>
+<li><code>client.shell_registry</code></li>
+<li><code>client.submodel_registry</code></li>
+<li><code>client.experimental</code></li>
+</ul>
+</li>
+<li>Timeouts are high enough for your server/network.</li>
+<li>SSL/proxy settings match your environment.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md73"></a>
 Client creation</h1>
 <p>The client creation methods return <code>None</code> if the configuration is invalid or the connection fails:</p>
-<div class="fragment"><div class="line">client = create_client_by_url(base_url=<span class="stringliteral">&quot;http://invalid-url&quot;</span>)</div>
+<div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
+<div class="line"> </div>
+<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a">aas_client.create_by_url</a>(base_url=<span class="stringliteral">&quot;http://invalid-url&quot;</span>)</div>
 <div class="line"><span class="keywordflow">if</span> client <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
 <div class="line">    print(<span class="stringliteral">&quot;Failed to create client - check configuration and connectivity&quot;</span>)</div>
 <div class="line">    exit(1)</div>
 <div class="line"> </div>
 <div class="line"><span class="comment"># Client is ready to use</span></div>
-<div class="line">shells = client.get_all_asset_administration_shells()</div>
+<div class="line">shells = client.shells.get_all_asset_administration_shells()</div>
+<div class="ttc" id="anamespaceaas__client_html_a6738a5df68cc02a8e541f45cd5b8184a"><div class="ttname"><a href="namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a">aas_client.create_by_url</a></div><div class="ttdeci">AasHttpClient|None create_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00325">aas_client.py:340</a></div></div>
 </div><!-- fragment --><p>Common error scenarios:</p>
 <ul>
 <li><b>Invalid URL</b>: Malformed base URL</li>
 <li><b>Connection timeout</b>: Server unreachable within timeout period</li>
 <li><b>Authentication failure</b>: Invalid credentials or token</li>
 <li><b>SSL verification failure</b>: Invalid certificates when <code>ssl_verify=True</code></li>
-<li><b>Proxy issues</b>: Incorrect proxy configuration </li>
+<li><b>Proxy issues</b>: Incorrect proxy configuration</li>
+</ul>
+<p>Recommended checks:</p>
+<ul>
+<li>Test connectivity immediately after creation:</li>
+</ul>
+<div class="fragment"><div class="line"><span class="keywordflow">if</span> client.get_root() <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">    print(<span class="stringliteral">&quot;Root endpoint check failed&quot;</span>)</div>
+</div><!-- fragment --><ul>
+<li>If this fails, verify network reachability and URL correctness first.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md74"></a>
+HTTP 401 or 403 (authentication or authorization)</h1>
+<p>Symptoms:</p>
+<ul>
+<li>Read/write operations return <code>None</code> or <code>False</code>.</li>
+<li>Server logs show unauthorized or forbidden errors.</li>
+</ul>
+<p>Typical causes:</p>
+<ul>
+<li>Wrong username/password or bearer token.</li>
+<li>OAuth client configuration invalid (client id, secret, token URL, grant).</li>
+<li>User lacks permission for the targeted endpoint.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Basic auth:<ul>
+<li>Username and password are correct.</li>
+</ul>
+</li>
+<li>Bearer auth:<ul>
+<li>Token is valid and not expired.</li>
+</ul>
+</li>
+<li>OAuth:<ul>
+<li>Token endpoint reachable.</li>
+<li>Client credentials and grant configuration are correct.</li>
+</ul>
+</li>
+<li>Endpoint access policy on the server side.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md75"></a>
+HTTP 404 (resource not found)</h1>
+<p>Symptoms:</p>
+<ul>
+<li>Methods like <code>get_*_by_id(...)</code> return <code>None</code>.</li>
+<li>Delete/update operations return <code>False</code>.</li>
+</ul>
+<p>Typical causes:</p>
+<ul>
+<li>Wrong ID.</li>
+<li>Wrong endpoint group (for example shell vs shell descriptor registry).</li>
+<li><code>encoded_ids</code> mismatch.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Verify the resource exists by listing first.</li>
+<li>Confirm you use the correct API group:<ul>
+<li>Repository resources: <code>client.shells</code>, <code>client.submodels</code></li>
+<li>Registry descriptors: <code>client.shell_registry</code>, <code>client.submodel_registry</code></li>
+</ul>
+</li>
+<li>Re-check ID encoding mode and input value format.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md76"></a>
+Empty list responses</h1>
+<p>Symptoms:</p>
+<ul>
+<li>Result is not <code>None</code>, but <code>result</code> is empty.</li>
+</ul>
+<p>Typical causes:</p>
+<ul>
+<li>Repository/registry is actually empty.</li>
+<li>Pagination cursor already points past available items.</li>
+<li>Filters (if used) are too restrictive.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Start with small clean call:</li>
+</ul>
+<div class="fragment"><div class="line">result = client.submodels.get_all_submodels(limit=10)</div>
+<div class="line">print(result.get(<span class="stringliteral">&quot;result&quot;</span>, []) <span class="keywordflow">if</span> result <span class="keywordflow">else</span> <span class="keywordtype">None</span>)</div>
+</div><!-- fragment --><ul>
+<li>Retry without filters and without a cursor.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md77"></a>
+Timeouts or connection errors</h1>
+<p>Symptoms:</p>
+<ul>
+<li>Client creation returns <code>None</code>.</li>
+<li>Requests intermittently return <code>None</code>.</li>
+</ul>
+<p>Typical causes:</p>
+<ul>
+<li>Service not reachable or unstable.</li>
+<li>Timeout values too low.</li>
+<li>Container/network routing issue.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Increase <code>time_out</code> and <code>connection_time_out</code>.</li>
+<li>Verify host/port reachability from the runtime environment.</li>
+<li>Retry with reduced load and check server resource usage.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md78"></a>
+SSL and proxy issues</h1>
+<p>Symptoms:</p>
+<ul>
+<li>SSL handshake/certificate failures.</li>
+<li>Connection failures only in corporate/proxied environments.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>SSL:<ul>
+<li>Use valid certificates.</li>
+<li>For local debugging only, temporarily set <code>ssl_verify=False</code>.</li>
+</ul>
+</li>
+<li>Proxy:<ul>
+<li>Configure <code>http_proxy</code> and <code>https_proxy</code> correctly.</li>
+<li>If environment proxy variables interfere, control <code>trust_env</code> explicitly.</li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md79"></a>
+Pagination issues</h1>
+<p>Symptoms:</p>
+<ul>
+<li>You only see first page of results.</li>
+<li>Iteration misses entries.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Use <code>limit</code> and then continue with returned cursor.</li>
+<li>Stop when no further cursor or no new items are returned.</li>
+</ul>
+<p>Basic pattern:</p>
+<div class="fragment"><div class="line">cursor = <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line">all_items = []</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
+<div class="line">    page = client.shells.get_all_asset_administration_shells(limit=100, cursor=cursor)</div>
+<div class="line">    <span class="keywordflow">if</span> page <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">        <span class="keywordflow">break</span></div>
+<div class="line"> </div>
+<div class="line">    items = page.get(<span class="stringliteral">&quot;result&quot;</span>, [])</div>
+<div class="line">    all_items.extend(items)</div>
+<div class="line"> </div>
+<div class="line">    paging = page.get(<span class="stringliteral">&quot;paging_metadata&quot;</span>, {})</div>
+<div class="line">    cursor = paging.get(<span class="stringliteral">&quot;cursor&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line">    <span class="keywordflow">if</span> <span class="keywordflow">not</span> cursor:</div>
+<div class="line">        <span class="keywordflow">break</span></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md80"></a>
+Wrapper vs client endpoint availability</h1>
+<p>Symptoms:</p>
+<ul>
+<li>You cannot find a method on <code>wrapper</code> that exists on <code>client</code>.</li>
+</ul>
+<p>Key point:</p>
+<ul>
+<li>Registry endpoints are currently not exposed on <code>wrapper</code>.</li>
+<li>Use <code>client.shell_registry</code> and <code>client.submodel_registry</code> for descriptor APIs.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md81"></a>
+Experimental endpoint issues</h1>
+<p>Symptoms:</p>
+<ul>
+<li>Experimental attachment methods return <code>None</code> or <code>False</code>.</li>
+</ul>
+<p>Typical causes:</p>
+<ul>
+<li>Server does not support the experimental attachment endpoints.</li>
+<li>Target submodel element is not a <code>File</code> element.</li>
+<li>Attachment file path is invalid.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Confirm server capability for <code>/attachment</code> endpoints.</li>
+<li>Validate <code>id_short_path</code> points to an existing <code>File</code> element.</li>
+<li>Ensure local file exists before upload calls.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md82"></a>
+Generic endpoint helper issues</h1>
+<p>Symptoms:</p>
+<ul>
+<li><code>get_endpoint(...)</code> returns <code>None</code>.</li>
+<li>Write helpers return error payloads instead of <code>None</code>.</li>
+</ul>
+<p>Key behavior:</p>
+<ul>
+<li><code>get_endpoint</code> returns parsed JSON only for HTTP 200.</li>
+<li><code>put_endpoint</code>, <code>post_endpoint</code>, <code>patch_endpoint</code>, <code>delete_endpoint</code> return <code>None</code> on success and parsed JSON on non-success.</li>
+</ul>
+<p>What to check:</p>
+<ul>
+<li>Ensure URL points to the expected endpoint.</li>
+<li>Confirm server returns JSON response for the call path.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md83"></a>
+Debug logging</h1>
+<p>If an issue is unclear, enable debug logs and inspect request URLs and status handling:</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> logging</div>
+<div class="line"> </div>
+<div class="line">logging.basicConfig(level=logging.DEBUG)</div>
+</div><!-- fragment --><p>Then retry the failing operation and inspect:</p>
+<ul>
+<li>Called endpoint URL</li>
+<li>HTTP status behavior</li>
+<li>Authentication flow messages</li>
+<li>ID and path values used in requests </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
