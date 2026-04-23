@@ -21,6 +21,8 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
   - [🔧 Provided Utilities](#-provided-utilities)
   - [📚 Resources](#-resources)
   - [⚡ Quickstart](#-quickstart)
+    - [Client](#client)
+    - [BaSyx Python SDK Wrapper](#basyx-python-sdk-wrapper)
 
 ---
 
@@ -96,23 +98,22 @@ pip install aas-http-client
 ### Client
 
 ```python
-from aas_http_client import create_client_by_url
+from aas_http_client.classes.client import aas_client
 
-client = create_client_by_url("http://localhost:8081")
+client = aas_client.create_by_url(base_url="http://localhost:8081")
 
 shells_paginated = client.shells.get_all_asset_administration_shells()
-print(shells_paginated.get("results", [])
+print(shells_paginated.get("results", []))
 ```
 
 ### BaSyx Python SDK Wrapper
 
 ```python
-from aas_http_client import create_wrapper_by_url
-from basyx.aas import model
+from aas_http_client.classes.wrapper import sdk_wrapper
 
-wrapper = create_wrapper_by_url("http://localhost:8081")
+wrapper = sdk_wrapper.create_by_url(base_url="http://localhost:8081")
 
-shells = wrapper.wrapper.get_all_asset_administration_shells()
+shells = wrapper.get_all_asset_administration_shells()
 print(shells)
 
 ```
