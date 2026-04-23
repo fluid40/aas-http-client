@@ -11,6 +11,7 @@ var searchData=
   ['best_20practices_8',['Best Practices',['../md_docs_2configuration.html#autotoc_md36',1,'']]],
   ['by_20configuration_20file_9',['Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md49',1,'']]],
   ['by_20dictionary_10',['Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md48',1,'']]],
-  ['by_20id_20wrapper_11',['by id wrapper',['../md_docs_2getting__started.html#autotoc_md52',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md55',1,'Example: Fetch one submodel by ID (wrapper)']]],
-  ['by_20url_12',['Create by URL',['../md_docs_2getting__started.html#autotoc_md47',1,'']]]
+  ['by_20id_11',['by id',['../md_docs_2getting__started.html#autotoc_md58',1,'Example: Fetch one shell descriptor by ID'],['../md_docs_2getting__started.html#autotoc_md62',1,'Example: Fetch one submodel descriptor by ID']]],
+  ['by_20id_20wrapper_12',['by id wrapper',['../md_docs_2getting__started.html#autotoc_md52',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md55',1,'Example: Fetch one submodel by ID (wrapper)']]],
+  ['by_20url_13',['Create by URL',['../md_docs_2getting__started.html#autotoc_md47',1,'']]]
 ];
