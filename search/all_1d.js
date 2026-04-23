@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md66',1,'']]],
+  ['sdk_20wrapper_0',['BaSyx Python SDK Wrapper',['../index.html#autotoc_md65',1,'']]],
   ['sdk_5ftools_2epy_1',['sdk_tools.py',['../sdk__tools_8py.html',1,'']]],
   ['sdk_5fwrapper_2',['sdk_wrapper',['../namespacesdk__wrapper.html',1,'']]],
   ['sdk_5fwrapper_2epy_3',['sdk_wrapper.py',['../sdk__wrapper_8py.html',1,'']]],
   ['sdkwrapper_4',['SdkWrapper',['../classsdk__wrapper_1_1SdkWrapper.html',1,'sdk_wrapper']]],
   ['search_5',['search',['../classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html#a5732239df0d35acf83339490b07211c5',1,'implementations::shell_registry_implementation::ShellRegistryImplementation']]],
   ['security_6',['Security',['../md_docs_2configuration.html#autotoc_md36',1,'']]],
-  ['servers_7',['🏗️ Supported Servers',['../index.html#autotoc_md58',1,'']]],
+  ['servers_7',['🏗️ Supported Servers',['../index.html#autotoc_md57',1,'']]],
   ['set_5fclient_5fsecret_8',['set_client_secret',['../classconfig__classes_1_1OAuth.html#aa74dfbc3532618d0e1ecc018b1682dcb',1,'config_classes::OAuth']]],
   ['set_5fencoded_5fids_9',['set_encoded_ids',['../classsdk__wrapper_1_1SdkWrapper.html#a84080d398337904c6304ceeddfb938f2',1,'sdk_wrapper::SdkWrapper']]],
   ['set_5fpassword_10',['set_password',['../classconfig__classes_1_1BasicAuth.html#a0b9b5c2b3974cffcbf0e9fe846a9c0f8',1,'config_classes::BasicAuth']]],
@@ -46,5 +46,5 @@ var searchData=
   ['submodelregistryimplementation_43',['SubmodelRegistryImplementation',['../classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html',1,'implementations::sm_registry_implementation']]],
   ['submodelrepoimplementation_44',['SubmodelRepoImplementation',['../classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html',1,'implementations::sm_implementation']]],
   ['submodels_45',['submodels',['../classaas__client_1_1AasHttpClient.html#a58c56dc49938e9c8061b96133759ba97',1,'aas_client.AasHttpClient.submodels'],['../classaas__client_1_1AasHttpClient.html#abb127023b121aee01386be199f64624a',1,'aas_client.AasHttpClient.submodels']]],
-  ['supported_20servers_46',['🏗️ Supported Servers',['../index.html#autotoc_md58',1,'']]]
+  ['supported_20servers_46',['🏗️ Supported Servers',['../index.html#autotoc_md57',1,'']]]
 ];

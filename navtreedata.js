@@ -73,19 +73,17 @@ var NAVTREE =
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
       [ "Installation", "md_docs_2getting__started.html#autotoc_md42", null ],
-      [ "Client Creation Methods", "md_docs_2getting__started.html#autotoc_md44", [
-        [ "1. Create Client by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
-        [ "2. Create Client by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
-        [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ]
-      ] ],
-      [ "Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md48", [
-        [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md49", null ],
-        [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md50", null ],
-        [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md51", null ]
+      [ "Client / Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md44", [
+        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
+        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
+        [ "3. Create Client by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ],
+        [ "1. Create Wrapper by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
+        [ "2. Create Wrapper by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
+        [ "3. Create Wrapper by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md53", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md52", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -116,8 +114,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d",
 "md_docs_2getting__started.html#autotoc_md47",
-"namespacetests_1_1test__wrapper.html#a204b3ecc2664b1446a1798c20e58ffa1",
-"test__wrapper_8py.html#a30c4320e750c6aac8f8317b62bd06666"
+"namespacetests_1_1test__wrapper.html#a2188fac618ce1dcd182d246d2cad5375",
+"test__wrapper_8py.html#a336e02dfe2c25b4b1ce0dfa5d9104ed3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

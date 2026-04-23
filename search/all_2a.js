@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🧰_20wrappers_0',['🧰 Wrappers',['../index.html#autotoc_md59',1,'']]]
+  ['🧰_20wrappers_0',['🧰 Wrappers',['../index.html#autotoc_md58',1,'']]]
 ];
