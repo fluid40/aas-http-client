@@ -102,38 +102,36 @@ $(document).ready(function(){initNavTree('aas__http__client_2____init_____8py_so
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">import</span> importlib.metadata</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timezone</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> AasHttpClient, create_by_config, create_by_dict, create_by_url</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> aas_http_client.classes.wrapper.sdk_wrapper <span class="keyword">import</span> SdkWrapper, create_by_config, create_by_dict, create_by_url</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a> <span class="keyword">import</span> encoder, model_builder, sdk_tools</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1version__check.html">aas_http_client.utilities.version_check</a> <span class="keyword">import</span> check_for_update</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>__copyright__ = f<span class="stringliteral">&quot;Copyright (C) {datetime.now(tz=timezone.utc).year} :em engineering methods AG. All rights reserved.&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>__author__ = <span class="stringliteral">&quot;Daniel Klein&quot;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    __license__ = <span class="stringliteral">&quot;MIT&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    __version__ = importlib.metadata.version(__name__)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordflow">except</span> importlib.metadata.PackageNotFoundError:</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    __version__ = <span class="stringliteral">&quot;0.0.0-dev&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>__project__ = <span class="stringliteral">&quot;aas-http-client&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>__package__ = <span class="stringliteral">&quot;aas-http-client&quot;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>check_for_update()</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> AasHttpClient</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">from</span> aas_http_client.classes.wrapper.sdk_wrapper <span class="keyword">import</span> SdkWrapper</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a> <span class="keyword">import</span> encoder, model_builder, sdk_tools</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1version__check.html">aas_http_client.utilities.version_check</a> <span class="keyword">import</span> check_for_update</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>__copyright__ = f<span class="stringliteral">&quot;Copyright (C) {datetime.now(tz=timezone.utc).year} :em engineering methods AG. All rights reserved.&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>__author__ = <span class="stringliteral">&quot;Daniel Klein&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    __license__ = <span class="stringliteral">&quot;MIT&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    __version__ = importlib.metadata.version(__name__)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keywordflow">except</span> importlib.metadata.PackageNotFoundError:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    __version__ = <span class="stringliteral">&quot;0.0.0-dev&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>__project__ = <span class="stringliteral">&quot;aas-http-client&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>__package__ = <span class="stringliteral">&quot;aas-http-client&quot;</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>__all__ = [</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="stringliteral">&quot;AasHttpClient&quot;</span>,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="stringliteral">&quot;SdkWrapper&quot;</span>,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="stringliteral">&quot;create_by_config&quot;</span>,</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="stringliteral">&quot;create_by_dict&quot;</span>,</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="stringliteral">&quot;create_by_url&quot;</span>,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="stringliteral">&quot;create_by_config&quot;</span>,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="stringliteral">&quot;create_by_dict&quot;</span>,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="stringliteral">&quot;create_by_url&quot;</span>,</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="stringliteral">&quot;encoder&quot;</span>,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="stringliteral">&quot;model_builder&quot;</span>,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="stringliteral">&quot;sdk_tools&quot;</span>,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>]</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>check_for_update()</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>__all__ = [</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="stringliteral">&quot;AasHttpClient&quot;</span>,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="stringliteral">&quot;SdkWrapper&quot;</span>,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="stringliteral">&quot;aas_client&quot;</span>,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="stringliteral">&quot;encoder&quot;</span>,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="stringliteral">&quot;model_builder&quot;</span>,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="stringliteral">&quot;sdk_tools&quot;</span>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="stringliteral">&quot;sdk_wrapper&quot;</span>,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>]</div>
 <div class="ttc" id="anamespaceaas__http__client_1_1utilities_1_1version__check_html"><div class="ttname"><a href="namespaceaas__http__client_1_1utilities_1_1version__check.html">aas_http_client.utilities.version_check</a></div><div class="ttdef"><b>Definition</b> <a href="version__check_8py_source.html#l00001">version_check.py:1</a></div></div>
 <div class="ttc" id="anamespaceaas__http__client_1_1utilities_html"><div class="ttname"><a href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a></div><div class="ttdef"><b>Definition</b> <a href="aas__http__client_2utilities_2____init_____8py_source.html#l00001">__init__.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
