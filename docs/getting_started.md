@@ -51,11 +51,13 @@ Most important notes before calling endpoint methods:
     - `client.shell_registry` -> Shell descriptor registry endpoints
     - `client.submodel_registry` -> Submodel descriptor registry endpoints
     - `client.experimental` -> Experimental attachment endpoints
-* For the wrapper, all endpoint implementations are available directly on `wrapper` (SDK object responses).
+* For the wrapper, most endpoint implementations are available directly on `wrapper` (SDK object responses). Registry endpoints are currently not exposed on `wrapper`.
 * `encoded_ids` behavior:
     - Keep `encoded_ids` aligned with your server expectations.
-    - If `encoded_ids` is enabled (default), pass decoded IDs (for example: `urn:example:submodel:001`) and let the client encode where required.
-    - If `encoded_ids` is disabled, IDs are still encoded internally for endpoints that require encoded path segments.
+    - If `encoded_ids` is enabled (default), pass encoded IDs for endpoint path parameters when required by the API/server.
+    - Example (encoded mode): `submodel_identifier="dXJuOmV4YW1wbGU6c3VibW9kZWw6MDAx"`.
+    - If `encoded_ids` is disabled, the client encodes IDs internally for endpoints that require encoded path segments.
+    - Example (decoded mode): `submodel_identifier="urn:example:submodel:001"`.
     - Inconsistent `encoded_ids` settings are a common reason for `404` responses.
 * Pagination:
     - List endpoints commonly support `limit` and `cursor`.
@@ -287,8 +289,7 @@ Most important points:
 For the full list of available methods and signatures, see:
 
 * [Client Shell Registry Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html)
-*  [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
-*
+* [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
 
 #### Example: List shell descriptors
 
