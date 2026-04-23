@@ -1,17 +1,22 @@
 # 🚀 Getting Started
 
-This guide will walk you through installing and using `aas-http-client` .
+This guide will walk you through installing and using `aas-http-client`.
 
 - [🚀 Getting Started](#-getting-started)
   - [Installation](#installation)
-  - [Client / Wrapper Creation Methods](#client--wrapper-creation-methods)
-    - [1. Create by URL](#1-create-by-url)
-    - [2. Create by Dictionary](#2-create-by-dictionary)
-    - [3. Create by Configuration File](#3-create-by-configuration-file)
+  - [Creation Methods](#creation-methods)
+    - [Create by URL](#create-by-url)
+    - [Create by Dictionary](#create-by-dictionary)
+    - [Create by Configuration File](#create-by-configuration-file)
 
 ---
 
 ## Installation
+
+Prerequisites:
+
+- Python 3.10 or newer
+- Access to an AAS server endpoint
 
 Install via pip:
 
@@ -23,22 +28,27 @@ For detailed configuration options, authentication methods and examples, see the
 
 ---
 
-## Client / Wrapper Creation Methods
+## Creation Methods
 
 There are three ways to create an AAS HTTP client or wrapper.
+Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case.
 
-### 1. Create by URL
+For production usage, avoid hardcoding secrets in source code. Load credentials from environment variables or a secret manager.
+
+### Create by URL
 
 Create a client or wrapper by providing parameters directly using `create_by_url`:
 
 ```python
+import os
+
 from aas_http_client.classes.client import aas_client
 from aas_http_client.classes.wrapper import sdk_wrapper
 
 client = aas_client.create_by_url(
     base_url="http://localhost:8080",
     basic_auth_username="admin",
-    basic_auth_password="password123",
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", ""),
     time_out=300,
     ssl_verify=True
 )
@@ -46,17 +56,28 @@ client = aas_client.create_by_url(
 wrapper = sdk_wrapper.create_by_url(
     base_url="http://localhost:8080",
     basic_auth_username="admin",
-    basic_auth_password="password123",
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", ""),
     time_out=300,
     ssl_verify=True
 )
+
+if client is None:
+    raise RuntimeError("Client creation failed")
+
+if wrapper is None:
+    raise RuntimeError("Wrapper creation failed")
+
+print("Client connectivity:", client.get_root() is not None)
+print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-### 2. Create by Dictionary
+### Create by Dictionary
 
 Create a client or wrapper using a configuration dictionary with `create_by_dict`:
 
 ```python
+import os
+
 from aas_http_client.classes.client import aas_client
 from aas_http_client.classes.wrapper import sdk_wrapper
 
@@ -72,20 +93,31 @@ config = {
 
 client = aas_client.create_by_dict(
     configuration=config,
-    basic_auth_password="password123"
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", "")
 )
 
 wrapper = sdk_wrapper.create_by_dict(
     configuration=config,
-    basic_auth_password="password123"
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", "")
 )
+
+if client is None:
+    raise RuntimeError("Client creation failed")
+
+if wrapper is None:
+    raise RuntimeError("Wrapper creation failed")
+
+print("Client connectivity:", client.get_root() is not None)
+print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-### 3. Create by Configuration File
+### Create by Configuration File
 
 Create a client or wrapper using a JSON configuration file with `create_by_config`:
 
 ```python
+import os
+
 from pathlib import Path
 from aas_http_client.classes.client import aas_client
 from aas_http_client.classes.wrapper import sdk_wrapper
@@ -93,11 +125,20 @@ from aas_http_client.classes.wrapper import sdk_wrapper
 config_file = Path("config.json")
 client = aas_client.create_by_config(
     config_file=config_file,
-    basic_auth_password="password123"
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", "")
 )
 
 wrapper = sdk_wrapper.create_by_config(
     config_file=config_file,
-    basic_auth_password="password123"
+    basic_auth_password=os.getenv("AAS_BASIC_AUTH_PASSWORD", "")
 )
+
+if client is None:
+    raise RuntimeError("Client creation failed")
+
+if wrapper is None:
+    raise RuntimeError("Wrapper creation failed")
+
+print("Client connectivity:", client.get_root() is not None)
+print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
