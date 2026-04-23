@@ -335,6 +335,7 @@ jobs:
   build-doxygen-pages:
     name: Publish Doxygen Pages
     runs-on: ubuntu-latest
+    needs: publish-pypi-package
 
     steps:
       # Schritt 1: Das Repository auschecken
