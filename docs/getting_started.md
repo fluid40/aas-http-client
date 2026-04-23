@@ -5,12 +5,14 @@ This guide will walk you through installing and using `aas-http-client` .
 - [🚀 Getting Started](#-getting-started)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Notes](#notes)
     - [Creation Methods](#creation-methods)
     - [/Shell/ Endpoints](#shell-endpoints)
     - [/Submodel/ Endpoints](#submodel-endpoints)
     - [/shell-descriptors/ Endpoints](#shell-descriptors-endpoints)
     - [/submodel-descriptors/ Endpoints](#submodel-descriptors-endpoints)
     - [Experimental Endpoint Implementations](#experimental-endpoint-implementations)
+    - [Generic Endpoint Implementations](#generic-endpoint-implementations)
 
 ---
 
@@ -32,6 +34,42 @@ For detailed configuration options, authentication methods and examples, see the
 ---
 
 ## Usage
+
+This chapter provides a practical, end-to-end overview of working with `aas-http-client` after installation.
+It starts with client and wrapper creation patterns, then walks through the most relevant repository and registry endpoint groups, including experimental attachment endpoints.
+Use the sections below as quick-start references and adapt the examples to your server setup, authentication mode, and ID encoding configuration.
+
+### Notes
+
+Most important notes before calling endpoint methods:
+
+* Logical groups map to attributes on the client instance:
+    - `client.shells` -> Shell repository endpoints
+    - `client.submodels` -> Submodel repository endpoints
+    - `client.shell_registry` -> Shell descriptor registry endpoints
+    - `client.submodel_registry` -> Submodel descriptor registry endpoints
+    - `client.experimental` -> Experimental attachment endpoints
+* For the wrapper all endpoint implementation are directly on `wrapper` (SDK object responses).
+* `encoded_ids` behavior:
+    - Keep `encoded_ids` aligned with your server expectations.
+    - If `encoded_ids` is enabled (default), pass decoded IDs (for example: `urn:example:submodel:001`) and let the client encode where required.
+    - If `encoded_ids` is disabled, IDs are still encoded internally for endpoints that require encoded path segments.
+    - Inconsistent `encoded_ids` settings are a common reason for `404` responses.
+* Pagination:
+    - List endpoints commonly support `limit` and `cursor`.
+    - Start with a sensible `limit` (for example: `10` or `100`), then continue with the returned cursor until no more results are available.
+    - For client responses, read elements from `result` (for example: `response.get("result", [])`).
+* Return value conventions:
+    - Read operations return `dict`, SDK objects, or `None` on failure/not found.
+    - Write/delete operations usually return `bool` (`True` on success, `False` on failure).
+    - Always handle `None` and `False` explicitly in production code.
+* Wrapper vs client:
+    - Use `client.*` for raw dictionary responses and full registry coverage.
+    - Use `wrapper.*` for SDK object-oriented handling.
+    - Registry endpoints are currently not exposed on wrapper (use `client.shell_registry` and `client.submodel_registry`).
+* Experimental endpoints:
+    - Attachment endpoints are experimental and may vary by server implementation.
+    - Prefer feature checks or graceful fallbacks when targeting multiple server products/versions.
 
 ### Creation Methods
 
@@ -313,7 +351,6 @@ Most important points:
 * Submodel descriptor endpoints are available via `client.submodel_registry`.
 * Registry endpoints currently are not exposed on `wrapper`.
 * List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
-* Depending on server settings, IDs may need Base64 URL-safe encoding. Keep `encoded_ids` consistent with your server setup.
 
 #### Example: List submodel descriptors
 
@@ -444,3 +481,53 @@ if not updated:
 
 print("Attachment upload/update successful")
 ```
+
+### Generic Endpoint Implementations
+
+This section covers the low-level generic endpoint helpers on `AasHttpClient` .
+
+Most important points:
+
+* Generic endpoint helpers are available on `client` only (not on `wrapper`).
+* They allow direct HTTP calls to arbitrary endpoint URLs when no specialized helper exists.
+
+#### Example: Generic GET call
+
+```python
+# Assumes `client` was created successfully in one of the sections above.
+url = f"{client.base_url}/description"
+result = client.get_endpoint(url)
+
+if result is None:
+    print("GET request failed or returned non-200")
+else:
+    print("Service description keys:", list(result.keys()))
+```
+
+#### Example: Generic POST/PUT/PATCH/DELETE calls
+
+```python
+# Assumes `client` was created successfully in one of the sections above.
+url = f"{client.base_url}/some-custom-endpoint"
+payload = {"example": "value"}
+
+post_error = client.post_endpoint(url, payload)
+if post_error is not None:
+    print("POST returned non-success:", post_error)
+
+put_error = client.put_endpoint(url, payload)
+if put_error is not None:
+    print("PUT returned non-success:", put_error)
+
+patch_error = client.patch_endpoint(url, {"example": "updated"})
+if patch_error is not None:
+    print("PATCH returned non-success:", patch_error)
+
+delete_error = client.delete_endpoint(url)
+if delete_error is not None:
+    print("DELETE returned non-success:", delete_error)
+```
+
+For the full list of available methods and signatures, see the API reference:
+
+* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
