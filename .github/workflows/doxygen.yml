@@ -11,6 +11,36 @@ permissions:
   id-token: write
 
 jobs:
+  detect-project-changes:
+    name: Check for new version
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Check if pyproject.toml changed
+        id: check
+        run: |
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            CHANGED_FILES="$(git diff --name-only HEAD^ HEAD)"
+          else
+            echo "No parent commit found, using full file list"
+            CHANGED_FILES="$(git ls-files)"
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -q '^pyproject\.toml$'; then
+            echo "pyproject.toml changed, marking as changed"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pyproject.toml not changed, skipping release"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-and-deploy:
     name: Publish Doxygen Pages
     runs-on: ubuntu-latest
@@ -42,17 +72,6 @@ jobs:
       # Doxygen liest die Doxyfile-Konfiguration und generiert die HTML-Dateien.
       - name: Build Doxygen Documentation
         run: doxygen Doxyfile
-
-      - name: Debug – list generated files
-        run: ls -R .
-
-      - name: Debug – Python modules recognized?
-        run: |
-          echo "Python files found:"
-          find aas_http_client -type f -name "*.py"
-
-      - name: Debug – What did Doxygen generate?
-        run: ls -R doc/html
 
       # Schritt 5: Die generierte Dokumentation auf GitHub Pages veröffentlichen
       # Dieser Schritt nimmt den Inhalt des 'docs'-Ordners (wie im Doxyfile definiert)

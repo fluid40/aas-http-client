@@ -237,7 +237,7 @@ jobs:
       ]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -253,7 +253,7 @@ jobs:
         run: python -m build
 
       - name: Upload package as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pypi-dist
           path: dist/*
@@ -270,12 +270,12 @@ jobs:
     needs: publish-pypi-package
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Download package artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: pypi-dist
           path: dist

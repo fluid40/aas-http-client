@@ -1,4 +1,3 @@
-
 # AAS HTTP Client
 
 [![PyPI version](https://img.shields.io/pypi/v/aas-http-client.svg)](https://pypi.org/project/aas-http-client/)
@@ -10,8 +9,8 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
 
 **Notes:**
 
-- Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances.
-- Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
+* Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances.
+* Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
 
 **Table of Contents:**
 
@@ -22,18 +21,20 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
   - [🔧 Provided Utilities](#-provided-utilities)
   - [📚 Resources](#-resources)
   - [⚡ Quickstart](#-quickstart)
+    - [Client](#client)
+    - [Wrapper](#wrapper)
 
 ---
 
 ## 🚀 Features
 
-- ✅ Easy REST communication with AAS-compliant servers
-- ✅ Support for Registry, AAS, and Submodel Repository endpoints
-- ✅ Optional wrapper for the Eclipse BaSyx Python SDK
-- ✅ Built-in authentication (Bearer, OAuth, Basic)
-- ✅ Pagination support
-- ✅ Utility modules (encoding, model builder, SDK tools)
-- ✅ Tested with multiple AAS server implementations
+* ✅ Easy REST communication with AAS-compliant servers
+* ✅ Support for Registry, AAS, and Submodel Repository endpoints
+* ✅ Optional wrapper for the Eclipse BaSyx Python SDK
+* ✅ Built-in authentication (Bearer, OAuth, Basic)
+* ✅ Pagination support
+* ✅ Utility modules (encoding, model builder, SDK tools)
+* ✅ Tested with multiple AAS server implementations
 
 ---
 
@@ -41,9 +42,9 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
 
 The client has been tested with:
 
-- <https://github.com/fluid40/basyx-dotnet>
-- <https://github.com/eclipse-basyx/basyx-java-sdk>
-- <https://github.com/eclipse-basyx/basyx-python-sdk>
+* <https://github.com/fluid40/basyx-dotnet>
+* <https://github.com/eclipse-basyx/basyx-java-sdk>
+* <https://github.com/eclipse-basyx/basyx-python-sdk>
 
 Actual behavior depends on each server's implementation of the [AAS Specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm)
 
@@ -53,22 +54,22 @@ Wrappers provide a higher-level interface on top of the raw HTTP client. Use the
 
 Currently available wrappers:
 
-- [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
+* [Eclipse BaSyx Python SDK](https://github.com/eclipse-basyx/basyx-python-sdk)
 
-### What the BaSyx Wrapper Adds
+What the BaSyx Wrapper Adds:
 
-- Accepts and returns `basyx.aas.model` objects for common AAS and submodel operations
-- Reuses the same connection and authentication settings as the base HTTP client
-- Supports wrapper creation from a URL, a Python dictionary, or a configuration file
-- Keeps low-level client access available through `wrapper.get_client()` when needed
+* Accepts and returns `basyx.aas.model` objects for common AAS and submodel operations
+* Reuses the same connection and authentication settings as the base HTTP client
+* Supports wrapper creation from a URL, a Python dictionary, or a configuration file
+* Keeps low-level client access available through `wrapper.get_client()` when needed
 
 ## 🔧 Provided Utilities
 
 The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import 'aas_http_client.utilities'):
 
-- **encoder**: base64 encoding and decoding
-- **sdk_tools**: e.g. Framework object serialization and deserialization, basic submodel operations
-- **model_builder*: creation of some basic AAS model elements
+* **encoder**: base64 encoding and decoding
+* **sdk_tools**: e.g. Framework object serialization and deserialization, basic submodel operations
+* **model_builder**: creation of some basic AAS model elements
 
 ---
 
@@ -82,7 +83,7 @@ The AAS HTTP Client package also include some utility functions for for recurrin
 
 📦 [Pypi Packages](https://pypi.org/project/aas-http-client/)
 
-📜 [MIT License](LICENSE)
+📜 [MIT License](https://github.com/fluid40/aas-http-client/blob/main/LICENSE)
 
 ---
 
@@ -97,23 +98,22 @@ pip install aas-http-client
 ### Client
 
 ```python
-from aas_http_client import create_client_by_url
+from aas_http_client.classes.client import aas_client
 
-client = create_client_by_url("http://localhost:8081")
+client = aas_client.create_by_url(base_url="http://localhost:8081")
 
 shells_paginated = client.shells.get_all_asset_administration_shells()
-print(shells_paginated.get("results", [])
+print(shells_paginated.get("results", []))
 ```
 
-### BaSyx Python SDK Wrapper
+### Wrapper
 
 ```python
-from aas_http_client import create_wrapper_by_url
-from basyx.aas import model
+from aas_http_client.classes.wrapper import sdk_wrapper
 
-wrapper = create_wrapper_by_url("http://localhost:8081")
+wrapper = sdk_wrapper.create_by_url(base_url="http://localhost:8081")
 
-shells = wrapper.wrapper.get_all_asset_administration_shells()
+shells = wrapper.get_all_asset_administration_shells()
 print(shells)
 
 ```

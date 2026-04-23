@@ -76,7 +76,7 @@ def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout
 
     auth = HTTPBasicAuth(username, password)
 
-    return _get_token_from_endpoint(endpoint, data, auth, timeout)
+    return __get_token_from_endpoint(endpoint, data, auth, timeout)
 
 
 def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> TokenData | None:
@@ -90,10 +90,10 @@ def get_token_by_password(endpoint: str, username: str, password: str, timeout=2
     """
     data = {"grant_type": "password", "username": username, "password": password}
 
-    return _get_token_from_endpoint(endpoint, data, None, timeout)
+    return __get_token_from_endpoint(endpoint, data, None, timeout)
 
 
-def _get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> TokenData | None:
+def __get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> TokenData | None:
     """Get token from a specific authentication service provider.
 
     :param endpoint: Get token endpoint for the authentication service provider

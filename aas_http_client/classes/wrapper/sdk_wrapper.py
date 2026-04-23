@@ -876,7 +876,7 @@ class SdkWrapper:
 # region wrapper
 
 
-def create_wrapper_by_url(
+def create_by_url(
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
@@ -929,10 +929,10 @@ def create_wrapper_by_url(
         },
     }
 
-    return create_wrapper_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return create_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_wrapper_by_dict(
+def create_by_dict(
     configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from the given configuration.
@@ -948,7 +948,7 @@ def create_wrapper_by_dict(
     return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_wrapper_by_config(
+def create_by_config(
     config_file: Path, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> SdkWrapper | None:
     """Create a wrapper for a AAS server connection from a given configuration file.

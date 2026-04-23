@@ -3,7 +3,7 @@
 # -------------------------------------------------------------
 
 DOXYFILE_ENCODING       = UTF-8
-PROJECT_NAME            = "HTTP Client Documentation"
+PROJECT_NAME            = "AAS HTTP Client Documentation"
 OUTPUT_DIRECTORY        = ./doc
 
 # -------------------------------------------------------------
