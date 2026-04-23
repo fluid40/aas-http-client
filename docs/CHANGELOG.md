@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.0.6] - 2026-04-23
+
+- ✨Feat: Harmonize create function names for consistency across client and wrapper modules: `create_by_url`, `create_by_dict` and `create_by_config`
+
 ## [1.0.4] - 2026-03-26
 
 - 📝Doc: Add [GitHub Pages](https://fluid40.github.io/aas-http-client) for documentation
