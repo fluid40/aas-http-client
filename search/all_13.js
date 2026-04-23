@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['id_20wrapper_0',['id wrapper',['../md_docs_2getting__started.html#autotoc_md50',1,'Example 2: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md53',1,'Example 2: Fetch one submodel by ID (wrapper)']]],
+  ['id_20wrapper_0',['id wrapper',['../md_docs_2getting__started.html#autotoc_md51',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md54',1,'Example: Fetch one submodel by ID (wrapper)']]],
   ['idencoding_1',['IdEncoding',['../classsdk__wrapper_1_1IdEncoding.html',1,'sdk_wrapper']]],
   ['implementations_2',['implementations',['../namespaceimplementations.html',1,'']]],
   ['implementations_3a_3aauthentication_3',['authentication',['../namespaceimplementations_1_1authentication.html',1,'implementations']]],

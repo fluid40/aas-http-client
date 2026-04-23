@@ -9,8 +9,8 @@ var searchData=
   ['bearer_5fauth_6',['bearer_auth',['../classconfig__classes_1_1AuthenticationConfig.html#a43544f386892f98f9a181734f2d062d8',1,'config_classes::AuthenticationConfig']]],
   ['bearerauth_7',['BearerAuth',['../classconfig__classes_1_1BearerAuth.html',1,'config_classes']]],
   ['best_20practices_8',['Best Practices',['../md_docs_2configuration.html#autotoc_md35',1,'']]],
-  ['by_20configuration_20file_9',['Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md47',1,'']]],
-  ['by_20dictionary_10',['Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md46',1,'']]],
-  ['by_20id_20wrapper_11',['by id wrapper',['../md_docs_2getting__started.html#autotoc_md50',1,'Example 2: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md53',1,'Example 2: Fetch one submodel by ID (wrapper)']]],
-  ['by_20url_12',['Create by URL',['../md_docs_2getting__started.html#autotoc_md45',1,'']]]
+  ['by_20configuration_20file_9',['Create by Configuration File',['../md_docs_2getting__started.html#autotoc_md48',1,'']]],
+  ['by_20dictionary_10',['Create by Dictionary',['../md_docs_2getting__started.html#autotoc_md47',1,'']]],
+  ['by_20id_20wrapper_11',['by id wrapper',['../md_docs_2getting__started.html#autotoc_md51',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md54',1,'Example: Fetch one submodel by ID (wrapper)']]],
+  ['by_20url_12',['Create by URL',['../md_docs_2getting__started.html#autotoc_md46',1,'']]]
 ];
