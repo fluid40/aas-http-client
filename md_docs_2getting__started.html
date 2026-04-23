@@ -285,6 +285,11 @@ Create by Configuration File</h3>
 <li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when iterating through larger result sets.</li>
 <li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
 </ul>
+<p>For the full list of available methods and signatures, see:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html">Client Shell Implementation API reference</a></li>
+<li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
+</ul>
 <h3><a class="anchor" id="autotoc_md52"></a>
 Example: List Asset Administration Shells (client)</h3>
 <div class="fragment"><div class="line"><span class="comment"># Assumes `client` was created successfully in one of the sections above.</span></div>
@@ -305,11 +310,7 @@ Example: Fetch one shell by ID (wrapper)</h3>
 <div class="line">    print(<span class="stringliteral">&quot;Shell not found or request failed&quot;</span>)</div>
 <div class="line"><span class="keywordflow">else</span>:</div>
 <div class="line">    print(<span class="stringliteral">&quot;Found shell with id:&quot;</span>, aas.id)</div>
-</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
-<ul>
-<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md54"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md54"></a>
 /Submodel/ Endpoints</h2>
 <p>This section shows how to work with common Submodel repository operations after client or wrapper creation.</p>
 <p>Most important points:</p>
@@ -318,6 +319,11 @@ Example: Fetch one shell by ID (wrapper)</h3>
 <li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when retrieving larger result sets.</li>
 <li><code>level</code> and <code>extent</code> can be used to control response depth and blob behavior.</li>
 <li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
+</ul>
+<p>For the full list of available methods and signatures, see:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html">Client Submodel Implementation API reference</a></li>
+<li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md55"></a>
 Example: List Submodels (client)</h3>
@@ -339,11 +345,7 @@ Example: Fetch one submodel by ID (wrapper)</h3>
 <div class="line">    print(<span class="stringliteral">&quot;Submodel not found or request failed&quot;</span>)</div>
 <div class="line"><span class="keywordflow">else</span>:</div>
 <div class="line">    print(<span class="stringliteral">&quot;Found submodel with id:&quot;</span>, submodel.id)</div>
-</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
-<ul>
-<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md57"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md57"></a>
 /shell-descriptors/ Endpoints</h2>
 <p>This section shows how to work with Asset Administration Shell registry endpoints.</p>
 <p>Most important points:</p>
@@ -352,6 +354,12 @@ Example: Fetch one submodel by ID (wrapper)</h3>
 <li>Registry endpoints currently are not exposed on <code>wrapper</code>.</li>
 <li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when iterating through larger result sets.</li>
 <li>Depending on server settings, IDs may need Base64 URL-safe encoding. Keep <code>encoded_ids</code> consistent with your server setup.</li>
+</ul>
+<p>For the full list of available methods and signatures, see:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html">Client Shell Registry Implementation API reference</a></li>
+<li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
+<li></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md58"></a>
 Example: List shell descriptors</h3>
@@ -403,11 +411,7 @@ Example: Register a shell descriptor</h3>
 <div class="line">    <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;Failed to create shell descriptor&quot;</span>)</div>
 <div class="line"> </div>
 <div class="line">print(<span class="stringliteral">&quot;Registered descriptor:&quot;</span>, created.get(<span class="stringliteral">&quot;id&quot;</span>))</div>
-</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
-<ul>
-<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md61"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md61"></a>
 /submodel-descriptors/ Endpoints</h2>
 <p>This section shows how to work with Submodel registry endpoints.</p>
 <p>Most important points:</p>
@@ -415,6 +419,11 @@ Example: Register a shell descriptor</h3>
 <li>Submodel descriptor endpoints are available via <code>client.submodel_registry</code>.</li>
 <li>Registry endpoints currently are not exposed on <code>wrapper</code>.</li>
 <li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when iterating through larger result sets.</li>
+</ul>
+<p>For the full list of available methods and signatures, see:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html">Client Submodel Registry Implementation API reference</a></li>
+<li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md62"></a>
 Example: List submodel descriptors</h3>
@@ -473,17 +482,18 @@ Example: Register a submodel descriptor</h3>
 <div class="line">    <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;Failed to create submodel descriptor&quot;</span>)</div>
 <div class="line"> </div>
 <div class="line">print(<span class="stringliteral">&quot;Registered descriptor:&quot;</span>, created.get(<span class="stringliteral">&quot;id&quot;</span>))</div>
-</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
-<ul>
-<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md65"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md65"></a>
 Experimental Endpoint Implementations</h2>
 <p>This section shows the experimental attachment endpoints for file content on Submodel File elements.</p>
 <p>Most important points:</p>
 <ul>
 <li>Experimental endpoints are available via <code>client.experimental</code> and via wrapper methods prefixed with <code>experimental_</code>.</li>
 <li>Experimental endpoints may not be supported by every server implementation.</li>
+</ul>
+<p>For the full list of available methods and signatures, see:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html">Client Experimental Implementation API reference</a></li>
+<li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md66"></a>
 Example: Download file content (wrapper)</h3>
@@ -569,9 +579,9 @@ Example: Generic POST/PUT/PATCH/DELETE calls</h3>
 <div class="line">delete_error = client.delete_endpoint(url)</div>
 <div class="line"><span class="keywordflow">if</span> delete_error <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
 <div class="line">    print(<span class="stringliteral">&quot;DELETE returned non-success:&quot;</span>, delete_error)</div>
-</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
+</div><!-- fragment --><p>For the full list of available methods and signatures, see:</p>
 <ul>
-<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a> </li>
+<li><a href="https://fluid40.github.io/aas-http-client/">Client API Reference</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
