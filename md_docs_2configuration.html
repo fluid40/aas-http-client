@@ -203,23 +203,22 @@ Authentication Methods</h1>
 <h2><a class="anchor" id="autotoc_md31"></a>
 1. Basic Authentication</h2>
 <p>Use username and password for HTTP Basic Authentication:</p>
-<div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a95b4eeba2847cffd970449c30123e8a9"><div class="ttname"><a href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a></div><div class="ttdeci">AasHttpClient|None create_client_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00325">aas_client.py:340</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
 2. Bearer Token Authentication</h2>
 <p>Use a pre-obtained bearer token (provided as function parameter, not in config file):</p>
-<div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span></div>
 <div class="line">)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
 3. OAuth2 Client Credentials</h2>
 <p>Use OAuth2 client credentials flow:</p>
-<div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    o_auth_client_id=<span class="stringliteral">&quot;my-client-id&quot;</span>,</div>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;my-client-secret&quot;</span>,</div>
@@ -228,7 +227,7 @@ Authentication Methods</h1>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 4. OAuth2 Password Grant</h2>
 <p>Use OAuth2 password grant flow:</p>
-<div class="fragment"><div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    o_auth_client_id=<span class="stringliteral">&quot;username&quot;</span>,</div>
 <div class="line">    o_auth_client_secret=<span class="stringliteral">&quot;password&quot;</span>,</div>
@@ -247,7 +246,7 @@ Security</h2>
 </ol>
 <div class="fragment"><div class="line"><span class="keyword">import</span> os</div>
 <div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=os.getenv(<span class="stringliteral">&quot;AAS_SERVER_URL&quot;</span>),</div>
 <div class="line">    basic_auth_username=os.getenv(<span class="stringliteral">&quot;AAS_USERNAME&quot;</span>),</div>
 <div class="line">    basic_auth_password=os.getenv(<span class="stringliteral">&quot;AAS_PASSWORD&quot;</span>),</div>

@@ -123,25 +123,23 @@ Client / Wrapper Creation Methods</h1>
 <p>Create a client / wrapper by providing parameters directly using <code>create_client_by_url</code> / :</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
 <div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a>(</div>
+<div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span>,</div>
 <div class="line">    time_out=300,</div>
 <div class="line">    ssl_verify=<span class="keyword">True</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a95b4eeba2847cffd970449c30123e8a9"><div class="ttname"><a href="namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9">aas_client.create_client_by_url</a></div><div class="ttdeci">AasHttpClient|None create_client_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00325">aas_client.py:340</a></div></div>
 </div><!-- fragment --><p>Create a wrapper by providing parameters directly using <code>create_wrapper_by_url</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
 <div class="line"> </div>
-<div class="line">wrapper = <a class="code hl_function" href="namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774">sdk_wrapper.create_wrapper_by_url</a>(</div>
+<div class="line">wrapper = sdk_wrapper.create_wrapper_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span>,</div>
 <div class="line">    time_out=300,</div>
 <div class="line">    ssl_verify=<span class="keyword">True</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespacesdk__wrapper_html_af1a9de558e9060cb1729a08c83789774"><div class="ttname"><a href="namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774">sdk_wrapper.create_wrapper_by_url</a></div><div class="ttdeci">SdkWrapper|None create_wrapper_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a wrapper for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00900">sdk_wrapper.py:915</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md46"></a>
 2. Create by Dictionary</h2>
 <p>Create a client using a configuration dictionary with <code>create_client_by_dict</code>:</p>
@@ -157,11 +155,10 @@ Client / Wrapper Creation Methods</h1>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a9966411a03351a09573c5f61fcc8cb24">aas_client.create_client_by_dict</a>(</div>
+<div class="line">client = aas_client.create_client_by_dict(</div>
 <div class="line">    configuration=config,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a9966411a03351a09573c5f61fcc8cb24"><div class="ttname"><a href="namespaceaas__client.html#a9966411a03351a09573c5f61fcc8cb24">aas_client.create_client_by_dict</a></div><div class="ttdeci">AasHttpClient|None create_client_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given configuration.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00371">aas_client.py:373</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md47"></a>
 3. Create Client by Configuration File</h2>
 <p>Create a client using a JSON configuration file with <code>create_client_by_config</code>:</p>
@@ -169,17 +166,16 @@ Client / Wrapper Creation Methods</h1>
 <div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
 <div class="line"> </div>
 <div class="line">config_file = Path(<span class="stringliteral">&quot;config.json&quot;</span>)</div>
-<div class="line">client = <a class="code hl_function" href="namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d">aas_client.create_client_by_config</a>(</div>
+<div class="line">client = aas_client.create_client_by_config(</div>
 <div class="line">    config_file=config_file,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespaceaas__client_html_a8e64b76f1c501c689af07112f596326d"><div class="ttname"><a href="namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d">aas_client.create_client_by_config</a></div><div class="ttdeci">AasHttpClient|None create_client_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00388">aas_client.py:390</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md48"></a>
 1. Create Wrapper by URL</h2>
 <p>Create a wrapper by providing parameters directly using <code>create_wrapper_by_url</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
 <div class="line"> </div>
-<div class="line">wrapper = <a class="code hl_function" href="namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774">sdk_wrapper.create_wrapper_by_url</a>(</div>
+<div class="line">wrapper = sdk_wrapper.create_wrapper_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    basic_auth_username=<span class="stringliteral">&quot;admin&quot;</span>,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span>,</div>
@@ -201,11 +197,10 @@ Client / Wrapper Creation Methods</h1>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line">client = <a class="code hl_function" href="namespacesdk__wrapper.html#a0183a9ad705f6139a5c27cbb43309b2c">sdk_wrapper.create_wrapper_by_dict</a>(</div>
+<div class="line">client = sdk_wrapper.create_wrapper_by_dict(</div>
 <div class="line">    configuration=config,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespacesdk__wrapper_html_a0183a9ad705f6139a5c27cbb43309b2c"><div class="ttname"><a href="namespacesdk__wrapper.html#a0183a9ad705f6139a5c27cbb43309b2c">sdk_wrapper.create_wrapper_by_dict</a></div><div class="ttdeci">SdkWrapper|None create_wrapper_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a wrapper for a AAS server connection from the given configuration.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00946">sdk_wrapper.py:948</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md50"></a>
 3. Create Wrapper by Configuration File</h2>
 <p>Create a wrapper using a JSON configuration file with <code>create_wrapper_by_config</code>:</p>
@@ -213,11 +208,10 @@ Client / Wrapper Creation Methods</h1>
 <div class="line"><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
 <div class="line"> </div>
 <div class="line">config_file = Path(<span class="stringliteral">&quot;config.json&quot;</span>)</div>
-<div class="line">client = <a class="code hl_function" href="namespacesdk__wrapper.html#a6fd18b14847fe4c4bf8825068089012b">sdk_wrapper.create_wrapper_by_config</a>(</div>
+<div class="line">client = sdk_wrapper.create_wrapper_by_config(</div>
 <div class="line">    config_file=config_file,</div>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="anamespacesdk__wrapper_html_a6fd18b14847fe4c4bf8825068089012b"><div class="ttname"><a href="namespacesdk__wrapper.html#a6fd18b14847fe4c4bf8825068089012b">sdk_wrapper.create_wrapper_by_config</a></div><div class="ttdeci">SdkWrapper|None create_wrapper_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a wrapper for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00962">sdk_wrapper.py:964</a></div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

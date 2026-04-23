@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <a href="test__client_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__client.html">    1</a></span><span class="keyword">from</span> multiprocessing.sharedctypes <span class="keyword">import</span> Value</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> pytest</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> aas_http_client.classes.client.aas_client <span class="keyword">import</span> create_by_config, AasHttpClient, create_by_dict, create_by_url</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">from</span> basyx.aas <span class="keyword">import</span> model</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">import</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1model__builder.html">aas_http_client.utilities.model_builder</a> <span class="keyword">as</span> model_builder</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">import</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html">aas_http_client.utilities.sdk_tools</a> <span class="keyword">as</span> sdk_tools</div>
@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> file.exists():</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">raise</span> FileNotFoundError(f<span class="stringliteral">&quot;Configuration file {file} does not exist.&quot;</span>)</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        client = create_client_by_config(file)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        client = create_by_config(file)</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">if</span> client <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;Failed to create client from configuration file.&quot;</span>)</div>
@@ -229,7 +229,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <div class="foldopen" id="foldopen00114" data-start="" data-end="">
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__client.html#a4947828b13ec91772833c945816457ab">  114</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacetests_1_1test__client.html#a4947828b13ec91772833c945816457ab">test_000a_create_client_by_url</a>(client: AasHttpClient):</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    base_url: str = client.base_url</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    new_client = create_client_by_url(base_url=base_url)</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    new_client = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
 </div>
@@ -241,7 +241,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="stringliteral">&quot;BaseUrl&quot;</span>: base_url</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    new_client = create_client_by_dict(configuration=config_dict)</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    new_client = create_by_dict(configuration=config_dict)</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 </div>
@@ -1212,7 +1212,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>    <span class="keyword">assert</span> list_elements[0].get(<span class="stringliteral">&quot;value&quot;</span>, <span class="stringliteral">&quot;&quot;</span>) == property.value</div>
 <div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span> </div>
 <div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>    base_url: str = client.base_url</div>
-<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>    new_client = create_client_by_url(base_url=base_url)</div>
+<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>    new_client = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>    <span class="keyword">assert</span> new_client.submodels <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span> </div>
@@ -1228,7 +1228,7 @@ $(document).ready(function(){initNavTree('test__client_8py_source.html',''); ini
 <div class="foldopen" id="foldopen01035" data-start="" data-end="">
 <div class="line"><a id="l01035" name="l01035"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__client.html#af3e20571b93220fc30e5d9271bb8c723"> 1035</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacetests_1_1test__client.html#af3e20571b93220fc30e5d9271bb8c723">test_020b_encoded_ids</a>(client: AasHttpClient):</div>
 <div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>    base_url: str = client.base_url</div>
-<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>    new_client = create_client_by_url(base_url=base_url)</div>
+<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>    new_client = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>    <span class="keyword">assert</span> new_client.shells <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span> </div>

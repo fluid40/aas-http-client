@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <a href="test__wrapper_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__wrapper.html">    1</a></span><span class="keyword">from</span> http <span class="keyword">import</span> client</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> pytest</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> aas_http_client.classes.wrapper.sdk_wrapper <span class="keyword">import</span> IdEncoding, Level, create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> aas_http_client.classes.wrapper.sdk_wrapper <span class="keyword">import</span> IdEncoding, Level, create_by_config, SdkWrapper, create_by_dict, create_by_url</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">from</span> basyx.aas <span class="keyword">import</span> model</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">import</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1model__builder.html">aas_http_client.utilities.model_builder</a> <span class="keyword">as</span> model_builder</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">import</span> <a class="code hl_namespace" href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html">aas_http_client.utilities.sdk_tools</a> <span class="keyword">as</span> sdk_tools</div>
@@ -136,7 +136,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> file.exists():</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            <span class="keywordflow">raise</span> FileNotFoundError(f<span class="stringliteral">&quot;Configuration file {file} does not exist.&quot;</span>)</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        wrapper = create_wrapper_by_config(file, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        wrapper = create_by_config(file, basic_auth_password=<span class="stringliteral">&quot;&quot;</span>)</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        rand = random.randint(0, 10)</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">if</span> (rand % 2) == 0:</div>
@@ -206,7 +206,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="foldopen" id="foldopen00093" data-start="" data-end="">
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__wrapper.html#a4339702a661b01c54e075f955f6a1118">   93</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacetests_1_1test__wrapper.html#a4339702a661b01c54e075f955f6a1118">test_000a_create_wrapper_by_url</a>(wrapper: SdkWrapper):</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    base_url: str = wrapper.base_url</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    new_client: SdkWrapper = create_wrapper_by_url(base_url=base_url)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    new_client: SdkWrapper = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
 </div>
@@ -218,7 +218,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="stringliteral">&quot;BaseUrl&quot;</span>: base_url</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    new_client: SdkWrapper = create_wrapper_by_dict(configuration=config_dict)</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    new_client: SdkWrapper = create_by_dict(configuration=config_dict)</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keyword">assert</span> new_client <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 </div>
@@ -1032,7 +1032,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>    <span class="keyword">assert</span> list(list_elements)[0].value == property.value</div>
 <div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span> </div>
 <div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>    base_url: str = wrapper.base_url</div>
-<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>    new_wrapper = create_wrapper_by_url(base_url=base_url)</div>
+<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>    new_wrapper = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>    <span class="keyword">assert</span> new_wrapper <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span> </div>
 <div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>    sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)</div>
@@ -1047,7 +1047,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="foldopen" id="foldopen00854" data-start="" data-end="">
 <div class="line"><a id="l00854" name="l00854"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__wrapper.html#a4c4a499ca0465779a5ec1be0e2a6140b">  854</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacetests_1_1test__wrapper.html#a4c4a499ca0465779a5ec1be0e2a6140b">test_020a_encoded_ids</a>(wrapper: SdkWrapper):</div>
 <div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>    base_url: str = wrapper.base_url</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>    new_wrapper: SdkWrapper = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>    <span class="keyword">assert</span> new_wrapper <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span> </div>
 <div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>    sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)</div>
@@ -1062,7 +1062,7 @@ $(document).ready(function(){initNavTree('test__wrapper_8py_source.html',''); in
 <div class="foldopen" id="foldopen00867" data-start="" data-end="">
 <div class="line"><a id="l00867" name="l00867"></a><span class="lineno"><a class="line" href="namespacetests_1_1test__wrapper.html#a5906e83126b92e688282b15ed71d1d4e">  867</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacetests_1_1test__wrapper.html#a5906e83126b92e688282b15ed71d1d4e">test_020b_encoded_ids</a>(wrapper: SdkWrapper):</div>
 <div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>    base_url: str = wrapper.base_url</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)</div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>    new_wrapper: SdkWrapper = create_by_url(base_url=base_url)</div>
 <div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>    <span class="keyword">assert</span> new_wrapper <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span> </div>
 <div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>    sm = new_wrapper.get_asset_administration_shell_by_id(SHELL_ID)</div>

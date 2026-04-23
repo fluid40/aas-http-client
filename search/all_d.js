@@ -39,9 +39,9 @@ var searchData=
   ['create_5fbase_5fsubmodel_36',['create_base_submodel',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb195f7cf9d24644eb1b58e1bcc2431c',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fbase_5fsubmodel_5felement_5fcollection_37',['create_base_submodel_element_collection',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a8878e299b0e20105e41580f9b53e3717',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fbase_5fsubmodel_5felement_5fproperty_38',['create_base_submodel_element_property',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a2c1f3586593d1dcc14c85914b0f65be4',1,'aas_http_client::utilities::model_builder']]],
-  ['create_5fclient_5fby_5fconfig_39',['create_client_by_config',['../namespaceaas__client.html#a8e64b76f1c501c689af07112f596326d',1,'aas_client']]],
-  ['create_5fclient_5fby_5fdict_40',['create_client_by_dict',['../namespaceaas__client.html#a9966411a03351a09573c5f61fcc8cb24',1,'aas_client']]],
-  ['create_5fclient_5fby_5furl_41',['create_client_by_url',['../namespaceaas__client.html#a95b4eeba2847cffd970449c30123e8a9',1,'aas_client']]],
+  ['create_5fby_5fconfig_39',['create_by_config',['../namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75',1,'sdk_wrapper.create_by_config()'],['../namespaceaas__client.html#a0a95311c332397c732062cffc7652fae',1,'aas_client.create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)']]],
+  ['create_5fby_5fdict_40',['create_by_dict',['../namespaceaas__client.html#a6a6000a51f0b24d55ad315db11aa89a9',1,'aas_client.create_by_dict()'],['../namespacesdk__wrapper.html#a5c796d9d83ba61c5be975ed4012b94e7',1,'sdk_wrapper.create_by_dict()']]],
+  ['create_5fby_5furl_41',['create_by_url',['../namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a',1,'aas_client.create_by_url()'],['../namespacesdk__wrapper.html#a476dfe3158e88434dfc873364e70b84a',1,'sdk_wrapper.create_by_url()']]],
   ['create_5freference_42',['create_reference',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e',1,'aas_http_client::utilities::model_builder']]],
   ['create_5freference_5fpaging_5fdata_43',['create_reference_paging_data',['../namespacepagination.html#a7ff9c6f134bee93ec9d7a9c3de087a9d',1,'pagination']]],
   ['create_5fshell_5fdescriptor_5fpaging_5fdata_44',['create_shell_descriptor_paging_data',['../namespacepagination.html#a8f90f66f0d830c7d0912b2a4a189a3d0',1,'pagination']]],
@@ -50,11 +50,8 @@ var searchData=
   ['create_5fsubmodel_5ffrom_5ffile_47',['create_submodel_from_file',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fsubmodel_5fpaging_5fdata_48',['create_submodel_paging_data',['../namespacepagination.html#a7caff926cf8fe890e04e9e61e451f882',1,'pagination']]],
   ['create_5funique_5fshort_5fid_49',['create_unique_short_id',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853',1,'aas_http_client::utilities::model_builder']]],
-  ['create_5fwrapper_5fby_5fconfig_50',['create_wrapper_by_config',['../namespacesdk__wrapper.html#a6fd18b14847fe4c4bf8825068089012b',1,'sdk_wrapper']]],
-  ['create_5fwrapper_5fby_5fdict_51',['create_wrapper_by_dict',['../namespacesdk__wrapper.html#a0183a9ad705f6139a5c27cbb43309b2c',1,'sdk_wrapper']]],
-  ['create_5fwrapper_5fby_5furl_52',['create_wrapper_by_url',['../namespacesdk__wrapper.html#af1a9de558e9060cb1729a08c83789774',1,'sdk_wrapper']]],
-  ['creation_53',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md52',1,'']]],
-  ['creation_20methods_54',['Client / Wrapper Creation Methods',['../md_docs_2getting__started.html#autotoc_md44',1,'']]],
-  ['credentials_55',['3. OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
-  ['cursor_56',['cursor',['../classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d',1,'pagination.PagingMetadata.cursor'],['../classpagination_1_1PagingMetadata.html#ac46efaf46a92cefbe28110421058fba6',1,'pagination.PagingMetadata.cursor']]]
+  ['creation_50',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md52',1,'']]],
+  ['creation_20methods_51',['Client / Wrapper Creation Methods',['../md_docs_2getting__started.html#autotoc_md44',1,'']]],
+  ['credentials_52',['3. OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
+  ['cursor_53',['cursor',['../classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d',1,'pagination.PagingMetadata.cursor'],['../classpagination_1_1PagingMetadata.html#ac46efaf46a92cefbe28110421058fba6',1,'pagination.PagingMetadata.cursor']]]
 ];
