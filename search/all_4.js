@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['4_202025_2012_2001_0',['[0.5.4] - 2025-12-01',['../md_docs_2CHANGELOG.html#autotoc_md22',1,'']]],
-  ['4_202026_2001_2020_1',['[0.9.4] - 2026-01-20',['../md_docs_2CHANGELOG.html#autotoc_md6',1,'']]],
-  ['4_202026_2003_2026_2',['[1.0.4] - 2026-03-26',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
-  ['4_20oauth2_20password_20grant_3',['4. OAuth2 Password Grant',['../md_docs_2configuration.html#autotoc_md34',1,'']]]
+  ['5_202025_2008_2018_0',['[0.2.5] - 2025-08-18',['../md_docs_2CHANGELOG.html#autotoc_md24',1,'']]],
+  ['5_202026_2001_2006_1',['[0.7.5] - 2026-01-06',['../md_docs_2CHANGELOG.html#autotoc_md13',1,'']]],
+  ['5_202026_2001_2008_2',['[0.8.5] - 2026-01-08',['../md_docs_2CHANGELOG.html#autotoc_md10',1,'']]],
+  ['5_202026_2002_2003_3',['[0.9.5] - 2026-02-03',['../md_docs_2CHANGELOG.html#autotoc_md5',1,'']]],
+  ['5_204_202025_2012_2001_4',['[0.5.4] - 2025-12-01',['../md_docs_2CHANGELOG.html#autotoc_md22',1,'']]],
+  ['5_205_202025_2012_2001_5',['[0.5.5] - 2025-12-01',['../md_docs_2CHANGELOG.html#autotoc_md21',1,'']]],
+  ['5_206_202025_2012_2001_6',['[0.5.6] - 2025-12-01',['../md_docs_2CHANGELOG.html#autotoc_md20',1,'']]]
 ];

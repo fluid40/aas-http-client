@@ -96,10 +96,26 @@ $(document).ready(function(){initNavTree('md_docs_2configuration.html',''); init
 <p><b>Table of Contents:</b></p>
 <ul>
 <li>🛠️ Configuration Guide<ul>
-<li>Configuration Parameters</li>
-<li>Authentication Methods</li>
-<li>Best Practices</li>
+<li>Configuration Parameters<ul>
+<li>Parameters Overview</li>
+<li>Key Points</li>
+<li>Example Configuration File</li>
+</ul>
+</li>
+<li>Authentication Methods<ul>
+<li>Basic Authentication</li>
+<li>Bearer Token Authentication</li>
+<li>OAuth2 Client Credentials</li>
+<li>OAuth2 Password Grant</li>
+</ul>
+</li>
+<li>Best Practices<ul>
+<li>Security</li>
+<li>Configuration Management</li>
+<li>Performance</li>
 <li>Notes</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -201,7 +217,7 @@ Example Configuration File</h2>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md30"></a>
 Authentication Methods</h1>
 <h2><a class="anchor" id="autotoc_md31"></a>
-1. Basic Authentication</h2>
+Basic Authentication</h2>
 <p>Use username and password for HTTP Basic Authentication:</p>
 <div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
@@ -209,14 +225,14 @@ Authentication Methods</h1>
 <div class="line">    basic_auth_password=<span class="stringliteral">&quot;password123&quot;</span></div>
 <div class="line">)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
-2. Bearer Token Authentication</h2>
+Bearer Token Authentication</h2>
 <p>Use a pre-obtained bearer token (provided as function parameter, not in config file):</p>
 <div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
 <div class="line">    bearer_auth_token=<span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span></div>
 <div class="line">)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
-3. OAuth2 Client Credentials</h2>
+OAuth2 Client Credentials</h2>
 <p>Use OAuth2 client credentials flow:</p>
 <div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
@@ -225,7 +241,7 @@ Authentication Methods</h1>
 <div class="line">    o_auth_token_url=<span class="stringliteral">&quot;http://auth-server/oauth/token&quot;</span></div>
 <div class="line">)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
-4. OAuth2 Password Grant</h2>
+OAuth2 Password Grant</h2>
 <p>Use OAuth2 password grant flow:</p>
 <div class="fragment"><div class="line">client = aas_client.create_client_by_url(</div>
 <div class="line">    base_url=<span class="stringliteral">&quot;http://localhost:8080&quot;</span>,</div>
@@ -287,8 +303,8 @@ Performance</h2>
 <li><b>Use connection pooling</b> for high-throughput scenarios</li>
 <li><b>Monitor response times</b> and adjust timeouts accordingly</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md39"></a>
-Notes</h1>
+<h2><a class="anchor" id="autotoc_md39"></a>
+Notes</h2>
 <ul>
 <li>When <code>ssl_verify</code> is set to <code>False</code>, SSL/TLS verification is disabled (⚠️ not recommended in production).</li>
 <li>Default timeouts are intentionally high for development; adjust for production usage.</li>

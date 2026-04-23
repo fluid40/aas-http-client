@@ -59,17 +59,17 @@ var NAVTREE =
         [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md29", null ]
       ] ],
       [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md30", [
-        [ "1. Basic Authentication", "md_docs_2configuration.html#autotoc_md31", null ],
-        [ "2. Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md32", null ],
-        [ "3. OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md33", null ],
-        [ "4. OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md34", null ]
+        [ "Basic Authentication", "md_docs_2configuration.html#autotoc_md31", null ],
+        [ "Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md32", null ],
+        [ "OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md33", null ],
+        [ "OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md34", null ]
       ] ],
       [ "Best Practices", "md_docs_2configuration.html#autotoc_md35", [
         [ "Security", "md_docs_2configuration.html#autotoc_md36", null ],
         [ "Configuration Management", "md_docs_2configuration.html#autotoc_md37", null ],
-        [ "Performance", "md_docs_2configuration.html#autotoc_md38", null ]
-      ] ],
-      [ "Notes", "md_docs_2configuration.html#autotoc_md39", null ]
+        [ "Performance", "md_docs_2configuration.html#autotoc_md38", null ],
+        [ "Notes", "md_docs_2configuration.html#autotoc_md39", null ]
+      ] ]
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
       [ "Installation", "md_docs_2getting__started.html#autotoc_md42", null ],

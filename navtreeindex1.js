@@ -244,7 +244,7 @@ var NAVTREEINDEX1 =
 "md_docs_2configuration.html#autotoc_md36":[2,2,0],
 "md_docs_2configuration.html#autotoc_md37":[2,2,1],
 "md_docs_2configuration.html#autotoc_md38":[2,2,2],
-"md_docs_2configuration.html#autotoc_md39":[2,3],
+"md_docs_2configuration.html#autotoc_md39":[2,2,3],
 "md_docs_2getting__started.html":[3],
 "md_docs_2getting__started.html#autotoc_md42":[3,0],
 "md_docs_2getting__started.html#autotoc_md44":[3,1],

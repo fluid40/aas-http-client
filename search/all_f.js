@@ -1,21 +1,8 @@
 var searchData=
 [
-  ['encode_5fbase_5f64_0',['encode_base_64',['../namespaceaas__http__client_1_1utilities_1_1encoder.html#aec495f12ca2bd0c25c749226dae20750',1,'aas_http_client::utilities::encoder']]],
-  ['encoded_1',['encoded',['../classsdk__wrapper_1_1IdEncoding.html#adadbc85bf342bf00682b4110f6c38ab6',1,'sdk_wrapper::IdEncoding']]],
-  ['encoded_5fids_2',['encoded_ids',['../classaas__client_1_1AasHttpClient.html#a9656b067c7dbaa35b24437ef920f303f',1,'aas_client::AasHttpClient']]],
-  ['encoder_2epy_3',['encoder.py',['../encoder_8py.html',1,'']]],
-  ['endpoints_4',['endpoints',['../md_docs_2getting__started.html#autotoc_md49',1,'*/Shell/* Endpoints'],['../md_docs_2getting__started.html#autotoc_md52',1,'*/Submodel/* Endpoints']]],
-  ['example_20configuration_20file_5',['Example Configuration File',['../md_docs_2configuration.html#autotoc_md29',1,'']]],
-  ['example_3a_20fetch_20one_20shell_20by_20id_20wrapper_6',['Example: Fetch one shell by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md51',1,'']]],
-  ['example_3a_20fetch_20one_20submodel_20by_20id_20wrapper_7',['Example: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md54',1,'']]],
-  ['example_3a_20list_20asset_20administration_20shells_20client_8',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md50',1,'']]],
-  ['example_3a_20list_20submodels_20client_9',['Example: List Submodels (client)',['../md_docs_2getting__started.html#autotoc_md53',1,'']]],
-  ['experimental_10',['experimental',['../classaas__client_1_1AasHttpClient.html#a4b5ccef09be07ba21248ec7b0f7100d1',1,'aas_client.AasHttpClient.experimental'],['../classaas__client_1_1AasHttpClient.html#a89a1b82936c87aa78032f113b11b9311',1,'aas_client.AasHttpClient.experimental']]],
-  ['experimental_5fdelete_5ffile_5fby_5fpath_5fsubmodel_5frepo_11',['experimental_delete_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a1914750962d70c1ac916290093f2cde5',1,'sdk_wrapper::SdkWrapper']]],
-  ['experimental_5fget_5ffile_5fby_5fpath_5fsubmodel_5frepo_12',['experimental_get_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a63ecdb3e96b036fe7fef980ea05e5b82',1,'sdk_wrapper::SdkWrapper']]],
-  ['experimental_5fimplementation_2epy_13',['experimental_implementation.py',['../experimental__implementation_8py.html',1,'']]],
-  ['experimental_5fpost_5ffile_5fby_5fpath_5fsubmodel_5frepo_14',['experimental_post_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#ae228f8c1e708727c17e00c61357844dd',1,'sdk_wrapper::SdkWrapper']]],
-  ['experimental_5fput_5ffile_5fby_5fpath_5fsubmodel_5frepo_15',['experimental_put_file_by_path_submodel_repo',['../classsdk__wrapper_1_1SdkWrapper.html#a095d667aead790adf3aae802c1cc1152',1,'sdk_wrapper::SdkWrapper']]],
-  ['experimentalimplementation_16',['ExperimentalImplementation',['../classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html',1,'implementations::experimental_implementation']]],
-  ['extent_17',['Extent',['../classsdk__wrapper_1_1Extent.html',1,'sdk_wrapper']]]
+  ['features_0',['🚀 Features',['../index.html#autotoc_md59',1,'']]],
+  ['fetch_20one_20shell_20by_20id_20wrapper_1',['Example: Fetch one shell by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md51',1,'']]],
+  ['fetch_20one_20submodel_20by_20id_20wrapper_2',['Example: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md54',1,'']]],
+  ['file_3',['file',['../md_docs_2getting__started.html#autotoc_md48',1,'Create by Configuration File'],['../md_docs_2configuration.html#autotoc_md29',1,'Example Configuration File']]],
+  ['filename_4',['filename',['../classattachment_1_1Attachment.html#a932099d9956d531c52103a5f4dcc4325',1,'attachment::Attachment']]]
 ];
