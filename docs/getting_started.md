@@ -4,16 +4,17 @@ This guide will walk you through installing and using `aas-http-client`.
 
 - [🚀 Getting Started](#-getting-started)
   - [Installation](#installation)
-  - [Creation Methods](#creation-methods)
-    - [Create by URL](#create-by-url)
-    - [Create by Dictionary](#create-by-dictionary)
-    - [Create by Configuration File](#create-by-configuration-file)
-  - [Use Shell Endpoints](#use-shell-endpoints)
-    - [Example 1: List Asset Administration Shells (client)](#example-1-list-asset-administration-shells-client)
-    - [Example 2: Fetch one shell by ID (wrapper)](#example-2-fetch-one-shell-by-id-wrapper)
-  - [Use Submodel Endpoints](#use-submodel-endpoints)
-    - [Example 1: List Submodels (client)](#example-1-list-submodels-client)
-    - [Example 2: Fetch one submodel by ID (wrapper)](#example-2-fetch-one-submodel-by-id-wrapper)
+  - [Usage](#usage)
+    - [Creation Methods](#creation-methods)
+      - [Create by URL](#create-by-url)
+      - [Create by Dictionary](#create-by-dictionary)
+      - [Create by Configuration File](#create-by-configuration-file)
+    - [*/Shell/* Endpoints](#shell-endpoints)
+      - [Example: List Asset Administration Shells (client)](#example-list-asset-administration-shells-client)
+      - [Example: Fetch one shell by ID (wrapper)](#example-fetch-one-shell-by-id-wrapper)
+    - [*/Submodel/* Endpoints](#submodel-endpoints)
+      - [Example: List Submodels (client)](#example-list-submodels-client)
+      - [Example: Fetch one submodel by ID (wrapper)](#example-fetch-one-submodel-by-id-wrapper)
 
 ---
 
@@ -34,7 +35,9 @@ For detailed configuration options, authentication methods and examples, see the
 
 ---
 
-## Creation Methods
+## Usage
+
+### Creation Methods
 
 There are three ways to create an AAS HTTP client or wrapper.
 Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case.
@@ -42,7 +45,7 @@ Creation methods can return `None` if the configuration is invalid or the connec
 
 For production usage, avoid hardcoding secrets in source code. Load credentials from environment variables or a secret manager.
 
-### Create by URL
+#### Create by URL
 
 Create a client or wrapper by providing parameters directly using `create_by_url`:
 
@@ -78,7 +81,7 @@ print("Client connectivity:", client.get_root() is not None)
 print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-### Create by Dictionary
+#### Create by Dictionary
 
 Create a client or wrapper using a configuration dictionary with `create_by_dict`:
 
@@ -118,7 +121,7 @@ print("Client connectivity:", client.get_root() is not None)
 print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-### Create by Configuration File
+#### Create by Configuration File
 
 Create a client or wrapper using a JSON configuration file with `create_by_config`:
 
@@ -150,7 +153,7 @@ print("Client connectivity:", client.get_root() is not None)
 print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-## Use Shell Endpoints
+### */Shell/* Endpoints
 
 This section shows how to work with the most common Shell repository operations after client or wrapper creation.
 
@@ -160,7 +163,7 @@ Most important points:
 - List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
 - Always handle `None` results to detect connectivity, authorization, or server-side issues.
 
-### Example 1: List Asset Administration Shells (client)
+#### Example: List Asset Administration Shells (client)
 
 ```python
 # Assumes `client` was created successfully in one of the sections above.
@@ -173,7 +176,7 @@ shells = result.get("result", [])
 print(f"Received {len(shells)} shell(s)")
 ```
 
-### Example 2: Fetch one shell by ID (wrapper)
+#### Example: Fetch one shell by ID (wrapper)
 
 ```python
 # Assumes `wrapper` was created successfully in one of the sections above.
@@ -190,7 +193,7 @@ For the full list of available methods and signatures, see the API reference:
 
 - [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
 
-## Use Submodel Endpoints
+### */Submodel/* Endpoints
 
 This section shows how to work with common Submodel repository operations after client or wrapper creation.
 
@@ -201,7 +204,7 @@ Most important points:
 - `level` and `extent` can be used to control response depth and blob behavior.
 - Always handle `None` results to detect connectivity, authorization, or server-side issues.
 
-### Example 1: List Submodels (client)
+#### Example: List Submodels (client)
 
 ```python
 # Assumes `client` was created successfully in one of the sections above.
@@ -214,7 +217,7 @@ submodels = result.get("result", [])
 print(f"Received {len(submodels)} submodel(s)")
 ```
 
-### Example 2: Fetch one submodel by ID (wrapper)
+#### Example: Fetch one submodel by ID (wrapper)
 
 ```python
 # Assumes `wrapper` was created successfully in one of the sections above.
