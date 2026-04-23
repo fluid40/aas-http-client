@@ -79,11 +79,11 @@ var NAVTREE =
           [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md47", null ],
           [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md48", null ]
         ] ],
-        [ "*/Shell/* Endpoints", "md_docs_2getting__started.html#autotoc_md49", [
+        [ "/Shell/ Endpoints", "md_docs_2getting__started.html#autotoc_md49", [
           [ "Example: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md50", null ],
           [ "Example: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md51", null ]
         ] ],
-        [ "*/Submodel/* Endpoints", "md_docs_2getting__started.html#autotoc_md52", [
+        [ "/Submodel/ Endpoints", "md_docs_2getting__started.html#autotoc_md52", [
           [ "Example: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md53", null ],
           [ "Example: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md54", null ]
         ] ]

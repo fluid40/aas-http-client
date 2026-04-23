@@ -4,7 +4,7 @@ var searchData=
   ['encoded_1',['encoded',['../classsdk__wrapper_1_1IdEncoding.html#adadbc85bf342bf00682b4110f6c38ab6',1,'sdk_wrapper::IdEncoding']]],
   ['encoded_5fids_2',['encoded_ids',['../classaas__client_1_1AasHttpClient.html#a9656b067c7dbaa35b24437ef920f303f',1,'aas_client::AasHttpClient']]],
   ['encoder_2epy_3',['encoder.py',['../encoder_8py.html',1,'']]],
-  ['endpoints_4',['endpoints',['../md_docs_2getting__started.html#autotoc_md49',1,'*/Shell/* Endpoints'],['../md_docs_2getting__started.html#autotoc_md52',1,'*/Submodel/* Endpoints']]],
+  ['endpoints_4',['endpoints',['../md_docs_2getting__started.html#autotoc_md49',1,'/Shell/ Endpoints'],['../md_docs_2getting__started.html#autotoc_md52',1,'/Submodel/ Endpoints']]],
   ['example_20configuration_20file_5',['Example Configuration File',['../md_docs_2configuration.html#autotoc_md29',1,'']]],
   ['example_3a_20fetch_20one_20shell_20by_20id_20wrapper_6',['Example: Fetch one shell by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md51',1,'']]],
   ['example_3a_20fetch_20one_20submodel_20by_20id_20wrapper_7',['Example: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md54',1,'']]],
