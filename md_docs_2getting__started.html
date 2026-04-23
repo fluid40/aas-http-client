@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('md_docs_2getting__started.html',''); i
   <div class="headertitle"><div class="title">🚀 Getting Started</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md40"></a> This guide will walk you through installing and using <code>aas-http-client</code>.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md41"></a> This guide will walk you through installing and using <code>aas-http-client</code>.</p>
 <ul>
 <li>🚀 Getting Started<ul>
 <li>Installation</li>
@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('md_docs_2getting__started.html',''); i
 </li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Installation</h1>
 <p>Prerequisites:</p>
 <ul>
@@ -117,13 +117,13 @@ Installation</h1>
 <div class="fragment"><div class="line">pip install aas-http-client</div>
 </div><!-- fragment --><p>For detailed configuration options, authentication methods and examples, see the <a class="el" href="md_docs_2configuration.html">Configuration Guide</a>.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Usage</h1>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Creation Methods</h2>
 <p>There are three ways to create an AAS HTTP client or wrapper. Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case. Creation methods can return <code>None</code> if the configuration is invalid or the connection fails.</p>
 <p>For production usage, avoid hardcoding secrets in source code. Load credentials from environment variables or a secret manager.</p>
-<h3><a class="anchor" id="autotoc_md46"></a>
+<h3><a class="anchor" id="autotoc_md47"></a>
 Create by URL</h3>
 <p>Create a client or wrapper by providing parameters directly using <code>create_by_url</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">import</span> os</div>
@@ -157,7 +157,7 @@ Create by URL</h3>
 <div class="line">print(<span class="stringliteral">&quot;Wrapper connectivity:&quot;</span>, wrapper.get_client().get_root() <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>)</div>
 <div class="ttc" id="anamespaceaas__client_html_a6738a5df68cc02a8e541f45cd5b8184a"><div class="ttname"><a href="namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a">aas_client.create_by_url</a></div><div class="ttdeci">AasHttpClient|None create_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00325">aas_client.py:340</a></div></div>
 <div class="ttc" id="anamespacesdk__wrapper_html_a476dfe3158e88434dfc873364e70b84a"><div class="ttname"><a href="namespacesdk__wrapper.html#a476dfe3158e88434dfc873364e70b84a">sdk_wrapper.create_by_url</a></div><div class="ttdeci">SdkWrapper|None create_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a wrapper for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00900">sdk_wrapper.py:915</a></div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md47"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md48"></a>
 Create by Dictionary</h3>
 <p>Create a client or wrapper using a configuration dictionary with <code>create_by_dict</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">import</span> os</div>
@@ -195,7 +195,7 @@ Create by Dictionary</h3>
 <div class="line">print(<span class="stringliteral">&quot;Wrapper connectivity:&quot;</span>, wrapper.get_client().get_root() <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>)</div>
 <div class="ttc" id="anamespaceaas__client_html_a6a6000a51f0b24d55ad315db11aa89a9"><div class="ttname"><a href="namespaceaas__client.html#a6a6000a51f0b24d55ad315db11aa89a9">aas_client.create_by_dict</a></div><div class="ttdeci">AasHttpClient|None create_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given configuration.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00371">aas_client.py:373</a></div></div>
 <div class="ttc" id="anamespacesdk__wrapper_html_a5c796d9d83ba61c5be975ed4012b94e7"><div class="ttname"><a href="namespacesdk__wrapper.html#a5c796d9d83ba61c5be975ed4012b94e7">sdk_wrapper.create_by_dict</a></div><div class="ttdeci">SdkWrapper|None create_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a wrapper for a AAS server connection from the given configuration.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00946">sdk_wrapper.py:948</a></div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md49"></a>
 Create by Configuration File</h3>
 <p>Create a client or wrapper using a JSON configuration file with <code>create_by_config</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">import</span> os</div>
@@ -225,7 +225,7 @@ Create by Configuration File</h3>
 <div class="line">print(<span class="stringliteral">&quot;Wrapper connectivity:&quot;</span>, wrapper.get_client().get_root() <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>)</div>
 <div class="ttc" id="anamespaceaas__client_html_a0a95311c332397c732062cffc7652fae"><div class="ttname"><a href="namespaceaas__client.html#a0a95311c332397c732062cffc7652fae">aas_client.create_by_config</a></div><div class="ttdeci">AasHttpClient|None create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00388">aas_client.py:390</a></div></div>
 <div class="ttc" id="anamespacesdk__wrapper_html_ac1c77e3ade4f54d5fb2c5200fc1f3f75"><div class="ttname"><a href="namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75">sdk_wrapper.create_by_config</a></div><div class="ttdeci">SdkWrapper|None create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a wrapper for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00962">sdk_wrapper.py:964</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md49"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md50"></a>
 /Shell/ Endpoints</h2>
 <p>This section shows how to work with the most common Shell repository operations after client or wrapper creation.</p>
 <p>Most important points:</p>
@@ -234,7 +234,7 @@ Create by Configuration File</h3>
 <li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when iterating through larger result sets.</li>
 <li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md50"></a>
+<h3><a class="anchor" id="autotoc_md51"></a>
 Example: List Asset Administration Shells (client)</h3>
 <div class="fragment"><div class="line"><span class="comment"># Assumes `client` was created successfully in one of the sections above.</span></div>
 <div class="line">result = client.shells.get_all_asset_administration_shells(limit=10)</div>
@@ -244,7 +244,7 @@ Example: List Asset Administration Shells (client)</h3>
 <div class="line"> </div>
 <div class="line">shells = result.get(<span class="stringliteral">&quot;result&quot;</span>, [])</div>
 <div class="line">print(f<span class="stringliteral">&quot;Received {len(shells)} shell(s)&quot;</span>)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md51"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md52"></a>
 Example: Fetch one shell by ID (wrapper)</h3>
 <div class="fragment"><div class="line"><span class="comment"># Assumes `wrapper` was created successfully in one of the sections above.</span></div>
 <div class="line">aas_id = <span class="stringliteral">&quot;urn:example:aas:001&quot;</span></div>
@@ -258,7 +258,7 @@ Example: Fetch one shell by ID (wrapper)</h3>
 <ul>
 <li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md53"></a>
 /Submodel/ Endpoints</h2>
 <p>This section shows how to work with common Submodel repository operations after client or wrapper creation.</p>
 <p>Most important points:</p>
@@ -268,7 +268,7 @@ Example: Fetch one shell by ID (wrapper)</h3>
 <li><code>level</code> and <code>extent</code> can be used to control response depth and blob behavior.</li>
 <li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md53"></a>
+<h3><a class="anchor" id="autotoc_md54"></a>
 Example: List Submodels (client)</h3>
 <div class="fragment"><div class="line"><span class="comment"># Assumes `client` was created successfully in one of the sections above.</span></div>
 <div class="line">result = client.submodels.get_all_submodels(limit=10)</div>
@@ -278,7 +278,7 @@ Example: List Submodels (client)</h3>
 <div class="line"> </div>
 <div class="line">submodels = result.get(<span class="stringliteral">&quot;result&quot;</span>, [])</div>
 <div class="line">print(f<span class="stringliteral">&quot;Received {len(submodels)} submodel(s)&quot;</span>)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md54"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md55"></a>
 Example: Fetch one submodel by ID (wrapper)</h3>
 <div class="fragment"><div class="line"><span class="comment"># Assumes `wrapper` was created successfully in one of the sections above.</span></div>
 <div class="line">submodel_id = <span class="stringliteral">&quot;urn:example:submodel:001&quot;</span></div>
