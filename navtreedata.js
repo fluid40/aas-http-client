@@ -75,37 +75,42 @@ var NAVTREE =
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
       [ "Installation", "md_docs_2getting__started.html#autotoc_md43", null ],
       [ "Usage", "md_docs_2getting__started.html#autotoc_md45", [
-        [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md46", [
-          [ "Create by URL", "md_docs_2getting__started.html#autotoc_md47", null ],
-          [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md48", null ],
-          [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md49", null ]
+        [ "Notes", "md_docs_2getting__started.html#autotoc_md46", null ],
+        [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md47", [
+          [ "Create by URL", "md_docs_2getting__started.html#autotoc_md48", null ],
+          [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md49", null ],
+          [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md50", null ]
         ] ],
-        [ "/Shell/ Endpoints", "md_docs_2getting__started.html#autotoc_md50", [
-          [ "Example: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md51", null ],
-          [ "Example: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md52", null ]
+        [ "/Shell/ Endpoints", "md_docs_2getting__started.html#autotoc_md51", [
+          [ "Example: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md52", null ],
+          [ "Example: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md53", null ]
         ] ],
-        [ "/Submodel/ Endpoints", "md_docs_2getting__started.html#autotoc_md53", [
-          [ "Example: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md54", null ],
-          [ "Example: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md55", null ]
+        [ "/Submodel/ Endpoints", "md_docs_2getting__started.html#autotoc_md54", [
+          [ "Example: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md55", null ],
+          [ "Example: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md56", null ]
         ] ],
-        [ "/shell-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md56", [
-          [ "Example: List shell descriptors", "md_docs_2getting__started.html#autotoc_md57", null ],
-          [ "Example: Fetch one shell descriptor by ID", "md_docs_2getting__started.html#autotoc_md58", null ],
-          [ "Example: Register a shell descriptor", "md_docs_2getting__started.html#autotoc_md59", null ]
+        [ "/shell-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md57", [
+          [ "Example: List shell descriptors", "md_docs_2getting__started.html#autotoc_md58", null ],
+          [ "Example: Fetch one shell descriptor by ID", "md_docs_2getting__started.html#autotoc_md59", null ],
+          [ "Example: Register a shell descriptor", "md_docs_2getting__started.html#autotoc_md60", null ]
         ] ],
-        [ "/submodel-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md60", [
-          [ "Example: List submodel descriptors", "md_docs_2getting__started.html#autotoc_md61", null ],
-          [ "Example: Fetch one submodel descriptor by ID", "md_docs_2getting__started.html#autotoc_md62", null ],
-          [ "Example: Register a submodel descriptor", "md_docs_2getting__started.html#autotoc_md63", null ]
+        [ "/submodel-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md61", [
+          [ "Example: List submodel descriptors", "md_docs_2getting__started.html#autotoc_md62", null ],
+          [ "Example: Fetch one submodel descriptor by ID", "md_docs_2getting__started.html#autotoc_md63", null ],
+          [ "Example: Register a submodel descriptor", "md_docs_2getting__started.html#autotoc_md64", null ]
         ] ],
-        [ "Experimental Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md64", [
-          [ "Example: Download file content (wrapper)", "md_docs_2getting__started.html#autotoc_md65", null ],
-          [ "Example: Upload or replace file content (client)", "md_docs_2getting__started.html#autotoc_md66", null ]
+        [ "Experimental Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md65", [
+          [ "Example: Download file content (wrapper)", "md_docs_2getting__started.html#autotoc_md66", null ],
+          [ "Example: Upload or replace file content (client)", "md_docs_2getting__started.html#autotoc_md67", null ]
+        ] ],
+        [ "Generic Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md68", [
+          [ "Example: Generic GET call", "md_docs_2getting__started.html#autotoc_md69", null ],
+          [ "Example: Generic POST/PUT/PATCH/DELETE calls", "md_docs_2getting__started.html#autotoc_md70", null ]
         ] ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md68", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md72", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -136,8 +141,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d",
 "md_docs_2getting__started.html#autotoc_md47",
-"namespacetests_1_1test__client__reg.html#aea094a74ce548a803c26d4d9fdbb1b63",
-"test__utils_8py.html#a289e173c3fdbcbc913cebdfeb3fc8028"
+"namespacetests_1_1test__client__reg.html#ad1075e7e857b30abdb46401c8e2ad893",
+"test__client__reg_8py.html#afb465263d5c9eea61115f1261548879f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

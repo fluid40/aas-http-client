@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['a_20shell_20descriptor_0',['Example: Register a shell descriptor',['../md_docs_2getting__started.html#autotoc_md59',1,'']]],
-  ['a_20submodel_20descriptor_1',['Example: Register a submodel descriptor',['../md_docs_2getting__started.html#autotoc_md63',1,'']]],
+  ['a_20shell_20descriptor_0',['Example: Register a shell descriptor',['../md_docs_2getting__started.html#autotoc_md60',1,'']]],
+  ['a_20submodel_20descriptor_1',['Example: Register a submodel descriptor',['../md_docs_2getting__started.html#autotoc_md64',1,'']]],
   ['aas_20http_20client_2',['AAS HTTP Client',['../index.html',1,'']]],
   ['aas_5fclient_3',['aas_client',['../namespaceaas__client.html',1,'']]],
   ['aas_5fclient_2epy_4',['aas_client.py',['../aas__client_8py.html',1,'']]],
@@ -14,9 +14,9 @@ var searchData=
   ['aas_5fhttp_5fclient_3a_3autilities_3a_3aversion_5fcheck_11',['version_check',['../namespaceaas__http__client_1_1utilities_1_1version__check.html',1,'aas_http_client::utilities']]],
   ['aashttpclient_12',['AasHttpClient',['../classaas__client_1_1AasHttpClient.html',1,'aas_client']]],
   ['add_5fsubmodel_5fto_5faas_13',['add_submodel_to_aas',['../namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a460a93ff1a5007dd317bcbb6da74f483',1,'aas_http_client::utilities::sdk_tools']]],
-  ['administration_20shells_20client_14',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md51',1,'']]],
+  ['administration_20shells_20client_14',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md52',1,'']]],
   ['aimc_5fsm_5fid_15',['aimc_sm_id',['../namespacetests_1_1test__wrapper.html#af97e1c888ddcb3557e5b509971bbaca8',1,'tests.test_wrapper.AIMC_SM_ID'],['../namespacetests_1_1test__client.html#a821f67be6a77681a2cc255d0f50cd172',1,'tests.test_client.AIMC_SM_ID']]],
-  ['asset_20administration_20shells_20client_16',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md51',1,'']]],
+  ['asset_20administration_20shells_20client_16',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md52',1,'']]],
   ['assetkind_17',['AssetKind',['../classsdk__wrapper_1_1AssetKind.html',1,'sdk_wrapper']]],
   ['attachment_18',['attachment',['../namespaceattachment.html',1,'attachment'],['../classattachment_1_1Attachment.html',1,'attachment.Attachment']]],
   ['attachment_2epy_19',['attachment.py',['../attachment_8py.html',1,'']]],

@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['id_0',['id',['../md_docs_2getting__started.html#autotoc_md58',1,'Example: Fetch one shell descriptor by ID'],['../md_docs_2getting__started.html#autotoc_md62',1,'Example: Fetch one submodel descriptor by ID']]],
-  ['id_20wrapper_1',['id wrapper',['../md_docs_2getting__started.html#autotoc_md52',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md55',1,'Example: Fetch one submodel by ID (wrapper)']]],
+  ['id_0',['id',['../md_docs_2getting__started.html#autotoc_md59',1,'Example: Fetch one shell descriptor by ID'],['../md_docs_2getting__started.html#autotoc_md63',1,'Example: Fetch one submodel descriptor by ID']]],
+  ['id_20wrapper_1',['id wrapper',['../md_docs_2getting__started.html#autotoc_md53',1,'Example: Fetch one shell by ID (wrapper)'],['../md_docs_2getting__started.html#autotoc_md56',1,'Example: Fetch one submodel by ID (wrapper)']]],
   ['idencoding_2',['IdEncoding',['../classsdk__wrapper_1_1IdEncoding.html',1,'sdk_wrapper']]],
-  ['implementations_3',['implementations',['../md_docs_2getting__started.html#autotoc_md64',1,'Experimental Endpoint Implementations'],['../namespaceimplementations.html',1,'implementations']]],
+  ['implementations_3',['implementations',['../md_docs_2getting__started.html#autotoc_md65',1,'Experimental Endpoint Implementations'],['../md_docs_2getting__started.html#autotoc_md68',1,'Generic Endpoint Implementations'],['../namespaceimplementations.html',1,'implementations']]],
   ['implementations_3a_3aauthentication_4',['authentication',['../namespaceimplementations_1_1authentication.html',1,'implementations']]],
   ['implementations_3a_3aexperimental_5fimplementation_5',['experimental_implementation',['../namespaceimplementations_1_1experimental__implementation.html',1,'implementations']]],
   ['implementations_3a_3ashell_5fimplementation_6',['shell_implementation',['../namespaceimplementations_1_1shell__implementation.html',1,'implementations']]],
