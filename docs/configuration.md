@@ -6,9 +6,19 @@ This guide explains how to configure and create an AAS (Asset Administration She
 
 - [🛠️ Configuration Guide](#️-configuration-guide)
   - [Configuration Parameters](#configuration-parameters)
+    - [Parameters Overview](#parameters-overview)
+    - [Key Points](#key-points)
+    - [Example Configuration File](#example-configuration-file)
   - [Authentication Methods](#authentication-methods)
+    - [Basic Authentication](#basic-authentication)
+    - [Bearer Token Authentication](#bearer-token-authentication)
+    - [OAuth2 Client Credentials](#oauth2-client-credentials)
+    - [OAuth2 Password Grant](#oauth2-password-grant)
   - [Best Practices](#best-practices)
-  - [Notes](#notes)
+    - [Security](#security)
+    - [Configuration Management](#configuration-management)
+    - [Performance](#performance)
+    - [Notes](#notes)
 
 The AAS HTTP Client allows you to interact with Asset Administration Shell (AAS) servers via HTTP/REST APIs. The client connects to an AAS server using a configurable base URL, with adjustable timeout settings, SSL/TLS certificate verification, and optional HTTP/HTTPS proxy support.
 There are three ways to create a client:
@@ -95,7 +105,7 @@ Here's a complete example configuration file ( `config.json` ) used by the `crea
 
 ## Authentication Methods
 
-### 1. Basic Authentication
+### Basic Authentication
 
 Use username and password for HTTP Basic Authentication:
 
@@ -107,7 +117,7 @@ client = aas_client.create_client_by_url(
 )
 ```
 
-### 2. Bearer Token Authentication
+### Bearer Token Authentication
 
 Use a pre-obtained bearer token (provided as function parameter, not in config file):
 
@@ -118,7 +128,7 @@ client = aas_client.create_client_by_url(
 )
 ```
 
-### 3. OAuth2 Client Credentials
+### OAuth2 Client Credentials
 
 Use OAuth2 client credentials flow:
 
@@ -131,7 +141,7 @@ client = aas_client.create_client_by_url(
 )
 ```
 
-### 4. OAuth2 Password Grant
+### OAuth2 Password Grant
 
 Use OAuth2 password grant flow:
 
@@ -200,7 +210,7 @@ client = aas_client.create_client_by_url(
 3. **Use connection pooling** for high-throughput scenarios
 4. **Monitor response times** and adjust timeouts accordingly
 
-## Notes
+### Notes
 
 * When `ssl_verify` is set to `False`, SSL/TLS verification is disabled (⚠️ not recommended in production).
 * Default timeouts are intentionally high for development; adjust for production usage.

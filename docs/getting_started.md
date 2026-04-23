@@ -6,15 +6,8 @@ This guide will walk you through installing and using `aas-http-client`.
   - [Installation](#installation)
   - [Usage](#usage)
     - [Creation Methods](#creation-methods)
-      - [Create by URL](#create-by-url)
-      - [Create by Dictionary](#create-by-dictionary)
-      - [Create by Configuration File](#create-by-configuration-file)
     - [*/Shell/* Endpoints](#shell-endpoints)
-      - [Example: List Asset Administration Shells (client)](#example-list-asset-administration-shells-client)
-      - [Example: Fetch one shell by ID (wrapper)](#example-fetch-one-shell-by-id-wrapper)
     - [*/Submodel/* Endpoints](#submodel-endpoints)
-      - [Example: List Submodels (client)](#example-list-submodels-client)
-      - [Example: Fetch one submodel by ID (wrapper)](#example-fetch-one-submodel-by-id-wrapper)
 
 ---
 

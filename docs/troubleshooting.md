@@ -1,4 +1,7 @@
 # 👨‍⚕️ Troubleshooting
+
+This chapter helps you quickly diagnose and resolve the most common issues when working with the AAS HTTP Client. Start with the scenario that matches your problem, verify the listed checks step by step, and then retry your request. Most problems are caused by configuration, connectivity, authentication, or endpoint mismatches.
+
 - [👨‍⚕️ Troubleshooting](#️-troubleshooting)
   - [Client creation](#client-creation)
 
