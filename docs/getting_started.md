@@ -8,6 +8,12 @@ This guide will walk you through installing and using `aas-http-client`.
     - [Create by URL](#create-by-url)
     - [Create by Dictionary](#create-by-dictionary)
     - [Create by Configuration File](#create-by-configuration-file)
+  - [Use Shell Endpoints](#use-shell-endpoints)
+    - [Example 1: List Asset Administration Shells (client)](#example-1-list-asset-administration-shells-client)
+    - [Example 2: Fetch one shell by ID (wrapper)](#example-2-fetch-one-shell-by-id-wrapper)
+  - [Use Submodel Endpoints](#use-submodel-endpoints)
+    - [Example 1: List Submodels (client)](#example-1-list-submodels-client)
+    - [Example 2: Fetch one submodel by ID (wrapper)](#example-2-fetch-one-submodel-by-id-wrapper)
 
 ---
 
@@ -32,6 +38,7 @@ For detailed configuration options, authentication methods and examples, see the
 
 There are three ways to create an AAS HTTP client or wrapper.
 Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case.
+Creation methods can return `None` if the configuration is invalid or the connection fails.
 
 For production usage, avoid hardcoding secrets in source code. Load credentials from environment variables or a secret manager.
 
@@ -142,3 +149,84 @@ if wrapper is None:
 print("Client connectivity:", client.get_root() is not None)
 print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
+
+## Use Shell Endpoints
+
+This section shows how to work with the most common Shell repository operations after client or wrapper creation.
+
+Most important points:
+
+- Shell endpoints are available via `client.shells` (dictionary responses) or directly on `wrapper` (SDK object responses).
+- List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
+- Always handle `None` results to detect connectivity, authorization, or server-side issues.
+
+### Example 1: List Asset Administration Shells (client)
+
+```python
+# Assumes `client` was created successfully in one of the sections above.
+result = client.shells.get_all_asset_administration_shells(limit=10)
+
+if result is None:
+    raise RuntimeError("Failed to fetch shells")
+
+shells = result.get("result", [])
+print(f"Received {len(shells)} shell(s)")
+```
+
+### Example 2: Fetch one shell by ID (wrapper)
+
+```python
+# Assumes `wrapper` was created successfully in one of the sections above.
+aas_id = "urn:example:aas:001"
+aas = wrapper.get_asset_administration_shell_by_id(aas_id)
+
+if aas is None:
+    print("Shell not found or request failed")
+else:
+    print("Found shell with id:", aas.id)
+```
+
+For the full list of available methods and signatures, see the API reference:
+
+- [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
+
+## Use Submodel Endpoints
+
+This section shows how to work with common Submodel repository operations after client or wrapper creation.
+
+Most important points:
+
+- Submodel endpoints are available via `client.submodels` (dictionary responses) or directly on `wrapper` (SDK object responses).
+- List endpoints are paginated. Use `limit` and `cursor` when retrieving larger result sets.
+- `level` and `extent` can be used to control response depth and blob behavior.
+- Always handle `None` results to detect connectivity, authorization, or server-side issues.
+
+### Example 1: List Submodels (client)
+
+```python
+# Assumes `client` was created successfully in one of the sections above.
+result = client.submodels.get_all_submodels(limit=10)
+
+if result is None:
+    raise RuntimeError("Failed to fetch submodels")
+
+submodels = result.get("result", [])
+print(f"Received {len(submodels)} submodel(s)")
+```
+
+### Example 2: Fetch one submodel by ID (wrapper)
+
+```python
+# Assumes `wrapper` was created successfully in one of the sections above.
+submodel_id = "urn:example:submodel:001"
+submodel = wrapper.get_submodel_by_id(submodel_id)
+
+if submodel is None:
+    print("Submodel not found or request failed")
+else:
+    print("Found submodel with id:", submodel.id)
+```
+
+For the full list of available methods and signatures, see the API reference:
+
+- [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
