@@ -23,5 +23,7 @@ var searchData=
   ['2026_2002_2003_20',['[0.9.5] - 2026-02-03',['../md_docs_2CHANGELOG.html#autotoc_md5',1,'']]],
   ['2026_2002_2017_21',['2026 02 17',['../md_docs_2CHANGELOG.html#autotoc_md4',1,'[0.9.6] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md3',1,'[0.9.7] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md2',1,'[1.0.0] - 2026-02-17']]],
   ['2026_2003_2026_22',['[1.0.4] - 2026-03-26',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
-  ['26_23',['[1.0.4] - 2026-03-26',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]]
+  ['26_23',['[1.0.4] - 2026-03-26',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
+  ['2_3a_20fetch_20one_20shell_20by_20id_20wrapper_24',['Example 2: Fetch one shell by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md50',1,'']]],
+  ['2_3a_20fetch_20one_20submodel_20by_20id_20wrapper_25',['Example 2: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md53',1,'']]]
 ];

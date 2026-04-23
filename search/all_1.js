@@ -14,5 +14,7 @@ var searchData=
   ['12_2018_11',['12 18',['../md_docs_2CHANGELOG.html#autotoc_md16',1,'[0.7.0] - 2025-12-18'],['../md_docs_2CHANGELOG.html#autotoc_md15',1,'[0.7.1] - 2025-12-18']]],
   ['16_12',['[0.9.2] - 2026-01-16',['../md_docs_2CHANGELOG.html#autotoc_md7',1,'']]],
   ['17_13',['17',['../md_docs_2CHANGELOG.html#autotoc_md17',1,'[0.6.2] - 2025-12-17'],['../md_docs_2CHANGELOG.html#autotoc_md4',1,'[0.9.6] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md3',1,'[0.9.7] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md2',1,'[1.0.0] - 2026-02-17']]],
-  ['18_14',['18',['../md_docs_2CHANGELOG.html#autotoc_md24',1,'[0.2.5] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md23',1,'[0.2.6] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md16',1,'[0.7.0] - 2025-12-18'],['../md_docs_2CHANGELOG.html#autotoc_md15',1,'[0.7.1] - 2025-12-18']]]
+  ['18_14',['18',['../md_docs_2CHANGELOG.html#autotoc_md24',1,'[0.2.5] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md23',1,'[0.2.6] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md16',1,'[0.7.0] - 2025-12-18'],['../md_docs_2CHANGELOG.html#autotoc_md15',1,'[0.7.1] - 2025-12-18']]],
+  ['1_3a_20list_20asset_20administration_20shells_20client_15',['Example 1: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md49',1,'']]],
+  ['1_3a_20list_20submodels_20client_16',['Example 1: List Submodels (client)',['../md_docs_2getting__started.html#autotoc_md52',1,'']]]
 ];

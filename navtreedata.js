@@ -77,10 +77,18 @@ var NAVTREE =
         [ "Create by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
         [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
         [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ]
+      ] ],
+      [ "Use Shell Endpoints", "md_docs_2getting__started.html#autotoc_md48", [
+        [ "Example 1: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md49", null ],
+        [ "Example 2: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md50", null ]
+      ] ],
+      [ "Use Submodel Endpoints", "md_docs_2getting__started.html#autotoc_md51", [
+        [ "Example 1: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md52", null ],
+        [ "Example 2: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md53", null ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md49", null ]
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md55", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -111,8 +119,8 @@ var NAVTREEINDEX =
 "aas__client_8py.html",
 "classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d",
 "md_docs_2getting__started.html#autotoc_md47",
-"namespacetests_1_1test__wrapper.html#a302de4b417db5d5d904c85f9e14f8fca",
-"test__wrapper_8py.html#a405895fdb00467bfb5c01e799583420a"
+"namespacetests_1_1test__wrapper.html#a0f9a5aef20fe357ad54554677df9afce",
+"test__wrapper_8py.html#a3009195a0d1e61a68688c9b30a80199a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

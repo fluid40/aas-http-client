@@ -3,8 +3,8 @@ var searchData=
   ['changelog_0',['📝 Changelog',['../md_docs_2CHANGELOG.html',1,'']]],
   ['changelog_2emd_1',['CHANGELOG.md',['../CHANGELOG_8md.html',1,'']]],
   ['check_5ffor_5fupdate_2',['check_for_update',['../namespaceaas__http__client_1_1utilities_1_1version__check.html#a629a03b3302f572daafb9229fd06dd03',1,'aas_http_client::utilities::version_check']]],
-  ['client_3',['client',['../index.html',1,'AAS HTTP Client'],['../index.html#autotoc_md61',1,'Client'],['../namespacetests_1_1test__client.html#a61600eeebc6084a71137048a04376765',1,'tests.test_client.client()'],['../namespacetests_1_1test__client__reg.html#a283d9fad14aad3eb62a7af07635eb447',1,'tests.test_client_reg.client()']]],
-  ['client_20creation_4',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md49',1,'']]],
+  ['client_3',['client',['../index.html',1,'AAS HTTP Client'],['../index.html#autotoc_md67',1,'Client'],['../namespacetests_1_1test__client.html#a61600eeebc6084a71137048a04376765',1,'tests.test_client.client()'],['../namespacetests_1_1test__client__reg.html#a283d9fad14aad3eb62a7af07635eb447',1,'tests.test_client_reg.client()'],['../md_docs_2getting__started.html#autotoc_md49',1,'Example 1: List Asset Administration Shells (client)'],['../md_docs_2getting__started.html#autotoc_md52',1,'Example 1: List Submodels (client)']]],
+  ['client_20creation_4',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md55',1,'']]],
   ['client_20credentials_5',['3. OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
   ['client_5faas_5freg_6',['client_aas_reg',['../namespacetests_1_1test__client__reg.html#a9e154a07a112223a6092e2bc2fc1f9c0',1,'tests::test_client_reg']]],
   ['client_5fid_7',['client_id',['../classconfig__classes_1_1OAuth.html#ae5b3859127ca9e0daffbb3c8477dea38',1,'config_classes::OAuth']]],
@@ -34,8 +34,8 @@ var searchData=
   ['create_5fbase_5fsubmodel_31',['create_base_submodel',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb195f7cf9d24644eb1b58e1bcc2431c',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fbase_5fsubmodel_5felement_5fcollection_32',['create_base_submodel_element_collection',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a8878e299b0e20105e41580f9b53e3717',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fbase_5fsubmodel_5felement_5fproperty_33',['create_base_submodel_element_property',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a2c1f3586593d1dcc14c85914b0f65be4',1,'aas_http_client::utilities::model_builder']]],
-  ['create_5fby_5fconfig_34',['create_by_config',['../namespaceaas__client.html#a0a95311c332397c732062cffc7652fae',1,'aas_client.create_by_config()'],['../namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75',1,'sdk_wrapper.create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)']]],
-  ['create_5fby_5fdict_35',['create_by_dict',['../namespacesdk__wrapper.html#a5c796d9d83ba61c5be975ed4012b94e7',1,'sdk_wrapper.create_by_dict()'],['../namespaceaas__client.html#a6a6000a51f0b24d55ad315db11aa89a9',1,'aas_client.create_by_dict()']]],
+  ['create_5fby_5fconfig_34',['create_by_config',['../namespaceaas__client.html#a0a95311c332397c732062cffc7652fae',1,'aas_client.create_by_config()'],['../namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75',1,'sdk_wrapper.create_by_config()']]],
+  ['create_5fby_5fdict_35',['create_by_dict',['../namespaceaas__client.html#a6a6000a51f0b24d55ad315db11aa89a9',1,'aas_client.create_by_dict()'],['../namespacesdk__wrapper.html#a5c796d9d83ba61c5be975ed4012b94e7',1,'sdk_wrapper.create_by_dict(dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)']]],
   ['create_5fby_5furl_36',['create_by_url',['../namespacesdk__wrapper.html#a476dfe3158e88434dfc873364e70b84a',1,'sdk_wrapper.create_by_url()'],['../namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a',1,'aas_client.create_by_url()']]],
   ['create_5freference_37',['create_reference',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e',1,'aas_http_client::utilities::model_builder']]],
   ['create_5freference_5fpaging_5fdata_38',['create_reference_paging_data',['../namespacepagination.html#a7ff9c6f134bee93ec9d7a9c3de087a9d',1,'pagination']]],
@@ -45,8 +45,8 @@ var searchData=
   ['create_5fsubmodel_5ffrom_5ffile_42',['create_submodel_from_file',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f',1,'aas_http_client::utilities::model_builder']]],
   ['create_5fsubmodel_5fpaging_5fdata_43',['create_submodel_paging_data',['../namespacepagination.html#a7caff926cf8fe890e04e9e61e451f882',1,'pagination']]],
   ['create_5funique_5fshort_5fid_44',['create_unique_short_id',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853',1,'aas_http_client::utilities::model_builder']]],
-  ['creation_45',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md49',1,'']]],
+  ['creation_45',['Client creation',['../md_docs_2troubleshooting.html#autotoc_md55',1,'']]],
   ['creation_20methods_46',['Creation Methods',['../md_docs_2getting__started.html#autotoc_md44',1,'']]],
   ['credentials_47',['3. OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md33',1,'']]],
-  ['cursor_48',['cursor',['../classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d',1,'pagination.PagingMetadata.cursor'],['../classpagination_1_1PagingMetadata.html#ac46efaf46a92cefbe28110421058fba6',1,'pagination.PagingMetadata.cursor']]]
+  ['cursor_48',['cursor',['../classpagination_1_1PagingMetadata.html#ac46efaf46a92cefbe28110421058fba6',1,'pagination.PagingMetadata.cursor'],['../classpagination_1_1PagingMetadata.html#a04b1e4c655a8bdc5d68963725aa0d33d',1,'pagination.PagingMetadata.cursor']]]
 ];

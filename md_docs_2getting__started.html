@@ -102,6 +102,16 @@ $(document).ready(function(){initNavTree('md_docs_2getting__started.html',''); i
 <li>Create by Configuration File</li>
 </ul>
 </li>
+<li>Use Shell Endpoints<ul>
+<li>Example 1: List Asset Administration Shells (client)</li>
+<li>Example 2: Fetch one shell by ID (wrapper)</li>
+</ul>
+</li>
+<li>Use Submodel Endpoints<ul>
+<li>Example 1: List Submodels (client)</li>
+<li>Example 2: Fetch one submodel by ID (wrapper)</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -119,7 +129,7 @@ Installation</h1>
 <hr  />
 <h1><a class="anchor" id="autotoc_md44"></a>
 Creation Methods</h1>
-<p>There are three ways to create an AAS HTTP client or wrapper. Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case.</p>
+<p>There are three ways to create an AAS HTTP client or wrapper. Use either a client (dictionary-based API) or a wrapper (SDK object-based API), depending on your use case. Creation methods can return <code>None</code> if the configuration is invalid or the connection fails.</p>
 <p>For production usage, avoid hardcoding secrets in source code. Load credentials from environment variables or a secret manager.</p>
 <h2><a class="anchor" id="autotoc_md45"></a>
 Create by URL</h2>
@@ -223,7 +233,74 @@ Create by Configuration File</h2>
 <div class="line">print(<span class="stringliteral">&quot;Wrapper connectivity:&quot;</span>, wrapper.get_client().get_root() <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>)</div>
 <div class="ttc" id="anamespaceaas__client_html_a0a95311c332397c732062cffc7652fae"><div class="ttname"><a href="namespaceaas__client.html#a0a95311c332397c732062cffc7652fae">aas_client.create_by_config</a></div><div class="ttdeci">AasHttpClient|None create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00388">aas_client.py:390</a></div></div>
 <div class="ttc" id="anamespacesdk__wrapper_html_ac1c77e3ade4f54d5fb2c5200fc1f3f75"><div class="ttname"><a href="namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75">sdk_wrapper.create_by_config</a></div><div class="ttdeci">SdkWrapper|None create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</div><div class="ttdoc">Create a wrapper for a AAS server connection from a given configuration file.</div><div class="ttdef"><b>Definition</b> <a href="sdk__wrapper_8py_source.html#l00962">sdk_wrapper.py:964</a></div></div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md48"></a>
+Use Shell Endpoints</h1>
+<p>This section shows how to work with the most common Shell repository operations after client or wrapper creation.</p>
+<p>Most important points:</p>
+<ul>
+<li>Shell endpoints are available via <code>client.shells</code> (dictionary responses) or directly on <code>wrapper</code> (SDK object responses).</li>
+<li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when iterating through larger result sets.</li>
+<li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md49"></a>
+Example 1: List Asset Administration Shells (client)</h2>
+<div class="fragment"><div class="line"><span class="comment"># Assumes `client` was created successfully in one of the sections above.</span></div>
+<div class="line">result = client.shells.get_all_asset_administration_shells(limit=10)</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> result <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">    <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;Failed to fetch shells&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">shells = result.get(<span class="stringliteral">&quot;result&quot;</span>, [])</div>
+<div class="line">print(f<span class="stringliteral">&quot;Received {len(shells)} shell(s)&quot;</span>)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md50"></a>
+Example 2: Fetch one shell by ID (wrapper)</h2>
+<div class="fragment"><div class="line"><span class="comment"># Assumes `wrapper` was created successfully in one of the sections above.</span></div>
+<div class="line">aas_id = <span class="stringliteral">&quot;urn:example:aas:001&quot;</span></div>
+<div class="line">aas = wrapper.get_asset_administration_shell_by_id(aas_id)</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> aas <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">    print(<span class="stringliteral">&quot;Shell not found or request failed&quot;</span>)</div>
+<div class="line"><span class="keywordflow">else</span>:</div>
+<div class="line">    print(<span class="stringliteral">&quot;Found shell with id:&quot;</span>, aas.id)</div>
+</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a></li>
+</ul>
+<h1><a class="anchor" id="autotoc_md51"></a>
+Use Submodel Endpoints</h1>
+<p>This section shows how to work with common Submodel repository operations after client or wrapper creation.</p>
+<p>Most important points:</p>
+<ul>
+<li>Submodel endpoints are available via <code>client.submodels</code> (dictionary responses) or directly on <code>wrapper</code> (SDK object responses).</li>
+<li>List endpoints are paginated. Use <code>limit</code> and <code>cursor</code> when retrieving larger result sets.</li>
+<li><code>level</code> and <code>extent</code> can be used to control response depth and blob behavior.</li>
+<li>Always handle <code>None</code> results to detect connectivity, authorization, or server-side issues.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md52"></a>
+Example 1: List Submodels (client)</h2>
+<div class="fragment"><div class="line"><span class="comment"># Assumes `client` was created successfully in one of the sections above.</span></div>
+<div class="line">result = client.submodels.get_all_submodels(limit=10)</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> result <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">    <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;Failed to fetch submodels&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">submodels = result.get(<span class="stringliteral">&quot;result&quot;</span>, [])</div>
+<div class="line">print(f<span class="stringliteral">&quot;Received {len(submodels)} submodel(s)&quot;</span>)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md53"></a>
+Example 2: Fetch one submodel by ID (wrapper)</h2>
+<div class="fragment"><div class="line"><span class="comment"># Assumes `wrapper` was created successfully in one of the sections above.</span></div>
+<div class="line">submodel_id = <span class="stringliteral">&quot;urn:example:submodel:001&quot;</span></div>
+<div class="line">submodel = wrapper.get_submodel_by_id(submodel_id)</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> submodel <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line">    print(<span class="stringliteral">&quot;Submodel not found or request failed&quot;</span>)</div>
+<div class="line"><span class="keywordflow">else</span>:</div>
+<div class="line">    print(<span class="stringliteral">&quot;Found submodel with id:&quot;</span>, submodel.id)</div>
+</div><!-- fragment --><p>For the full list of available methods and signatures, see the API reference:</p>
+<ul>
+<li><a href="https://fluid40.github.io/aas-http-client/">AAS HTTP Client API Reference</a> </li>
+</ul>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
