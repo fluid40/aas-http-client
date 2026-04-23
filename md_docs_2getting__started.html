@@ -125,6 +125,7 @@ Installation</h1>
 <h1><a class="anchor" id="autotoc_md45"></a>
 Usage</h1>
 <p>This chapter provides a practical, end-to-end overview of working with <code>aas-http-client</code> after installation. It starts with client and wrapper creation patterns, then walks through the most relevant repository and registry endpoint groups, including experimental attachment endpoints. Use the sections below as quick-start references and adapt the examples to your server setup, authentication mode, and ID encoding configuration.</p>
+<p>For a complete list and detailed descriptions of all functions, see the API <a href="https://fluid40.github.io/aas-http-client/namespaces.html">reference</a>.</p>
 <h2><a class="anchor" id="autotoc_md46"></a>
 Notes</h2>
 <p>Most important notes before calling endpoint methods:</p>
@@ -137,7 +138,7 @@ Notes</h2>
 <li><code>client.experimental</code> -&gt; Experimental attachment endpoints</li>
 </ul>
 </li>
-<li>For the wrapper all endpoint implementation are directly on <code>wrapper</code> (SDK object responses).</li>
+<li>For the wrapper, all endpoint implementations are available directly on <code>wrapper</code> (SDK object responses).</li>
 <li><code>encoded_ids</code> behavior:<ul>
 <li>Keep <code>encoded_ids</code> aligned with your server expectations.</li>
 <li>If <code>encoded_ids</code> is enabled (default), pass decoded IDs (for example: <code>urn:example:submodel:001</code>) and let the client encode where required.</li>
