@@ -138,11 +138,13 @@ Notes</h2>
 <li><code>client.experimental</code> -&gt; Experimental attachment endpoints</li>
 </ul>
 </li>
-<li>For the wrapper, all endpoint implementations are available directly on <code>wrapper</code> (SDK object responses).</li>
+<li>For the wrapper, most endpoint implementations are available directly on <code>wrapper</code> (SDK object responses). Registry endpoints are currently not exposed on <code>wrapper</code>.</li>
 <li><code>encoded_ids</code> behavior:<ul>
 <li>Keep <code>encoded_ids</code> aligned with your server expectations.</li>
-<li>If <code>encoded_ids</code> is enabled (default), pass decoded IDs (for example: <code>urn:example:submodel:001</code>) and let the client encode where required.</li>
-<li>If <code>encoded_ids</code> is disabled, IDs are still encoded internally for endpoints that require encoded path segments.</li>
+<li>If <code>encoded_ids</code> is enabled (default), pass encoded IDs for endpoint path parameters when required by the API/server.</li>
+<li>Example (encoded mode): <code>submodel_identifier="dXJuOmV4YW1wbGU6c3VibW9kZWw6MDAx"</code>.</li>
+<li>If <code>encoded_ids</code> is disabled, the client encodes IDs internally for endpoints that require encoded path segments.</li>
+<li>Example (decoded mode): <code>submodel_identifier="urn:example:submodel:001"</code>.</li>
 <li>Inconsistent <code>encoded_ids</code> settings are a common reason for <code>404</code> responses.</li>
 </ul>
 </li>
@@ -359,7 +361,6 @@ Example: Fetch one submodel by ID (wrapper)</h3>
 <ul>
 <li><a href="https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html">Client Shell Registry Implementation API reference</a></li>
 <li><a href="https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html">Wrapper API reference</a></li>
-<li></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md58"></a>
 Example: List shell descriptors</h3>
