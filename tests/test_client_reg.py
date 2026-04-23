@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient
+from aas_http_client.classes.client.aas_client import create_by_config, AasHttpClient
 from basyx.aas import model
 from aas_http_client.utilities import encoder, sdk_tools, model_builder
 import logging
@@ -26,7 +26,7 @@ shared_sm_descriptor: dict = {}
 def client() -> AasHttpClient:
     try:
         initialize_logging()
-        client = create_client_by_config(Path(CONFIG_FILE_ENV))
+        client = create_by_config(Path(CONFIG_FILE_ENV))
 
         rand = random.randint(0, 10)
         if (rand % 2) == 0:
@@ -45,7 +45,7 @@ def client() -> AasHttpClient:
 def client_aas_reg(client: AasHttpClient) -> AasHttpClient:
     try:
         initialize_logging()
-        reg_client = create_client_by_config(Path(CONFIG_FILE_AAS_REG_ENV))
+        reg_client = create_by_config(Path(CONFIG_FILE_AAS_REG_ENV))
         reg_client.encoded_ids = client.encoded_ids
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")
@@ -60,7 +60,7 @@ def client_aas_reg(client: AasHttpClient) -> AasHttpClient:
 def client_sm_reg(client: AasHttpClient) -> AasHttpClient:
     try:
         initialize_logging()
-        reg_client = create_client_by_config(Path(CONFIG_FILE_SM_REG_ENV))
+        reg_client = create_by_config(Path(CONFIG_FILE_SM_REG_ENV))
         reg_client.encoded_ids = client.encoded_ids
     except Exception as e:
         raise RuntimeError("Unable to connect to server.")

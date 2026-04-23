@@ -1,7 +1,7 @@
 from http import client
 import pytest
 from pathlib import Path
-from aas_http_client.classes.wrapper.sdk_wrapper import IdEncoding, Level, create_wrapper_by_config, SdkWrapper, create_wrapper_by_dict, create_wrapper_by_url
+from aas_http_client.classes.wrapper.sdk_wrapper import IdEncoding, Level, create_by_config, SdkWrapper, create_by_dict, create_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
@@ -36,7 +36,7 @@ def wrapper(request) -> SdkWrapper:
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
 
-        wrapper = create_wrapper_by_config(file, basic_auth_password="")
+        wrapper = create_by_config(file, basic_auth_password="")
 
         rand = random.randint(0, 10)
         if (rand % 2) == 0:
@@ -92,7 +92,7 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 
 def test_000a_create_wrapper_by_url(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
-    new_client: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    new_client: SdkWrapper = create_by_url(base_url=base_url)
     assert new_client is not None
 
 def test_000b_create_wrapper_by_dict(wrapper: SdkWrapper):
@@ -102,7 +102,7 @@ def test_000b_create_wrapper_by_dict(wrapper: SdkWrapper):
         "BaseUrl": base_url
     }
 
-    new_client: SdkWrapper = create_wrapper_by_dict(configuration=config_dict)
+    new_client: SdkWrapper = create_by_dict(configuration=config_dict)
     assert new_client is not None
 
 def test_000c_get_client(wrapper: SdkWrapper):
@@ -840,7 +840,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper):
     assert list(list_elements)[0].value == property.value
 
     base_url: str = wrapper.base_url
-    new_wrapper = create_wrapper_by_url(base_url=base_url)
+    new_wrapper = create_by_url(base_url=base_url)
     assert new_wrapper is not None
 
     sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)
@@ -853,7 +853,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(wrapper: SdkWrapper):
 
 def test_020a_encoded_ids(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
-    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    new_wrapper: SdkWrapper = create_by_url(base_url=base_url)
     assert new_wrapper is not None
 
     sm = new_wrapper.get_submodel_by_id(AIMC_SM_ID)
@@ -866,7 +866,7 @@ def test_020a_encoded_ids(wrapper: SdkWrapper):
 
 def test_020b_encoded_ids(wrapper: SdkWrapper):
     base_url: str = wrapper.base_url
-    new_wrapper: SdkWrapper = create_wrapper_by_url(base_url=base_url)
+    new_wrapper: SdkWrapper = create_by_url(base_url=base_url)
     assert new_wrapper is not None
 
     sm = new_wrapper.get_asset_administration_shell_by_id(SHELL_ID)

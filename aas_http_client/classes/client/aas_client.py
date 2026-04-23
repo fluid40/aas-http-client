@@ -299,7 +299,7 @@ class AasHttpClient(BaseModel):
         return None
 
 
-def create_client_by_url(  # noqa: PLR0913
+def create_by_url(  # noqa: PLR0913
     base_url: str,
     basic_auth_username: str = "",
     basic_auth_password: str = "",
@@ -352,10 +352,10 @@ def create_client_by_url(  # noqa: PLR0913
         },
     }
 
-    return create_client_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return create_by_dict(config_dict, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_client_by_dict(
+def create_by_dict(
     configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from the given configuration.
@@ -372,7 +372,7 @@ def create_client_by_dict(
     return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def create_client_by_config(
+def create_by_config(
     config_file: Path, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""
 ) -> AasHttpClient | None:
     """Create a HTTP client for a AAS server connection from a given configuration file.

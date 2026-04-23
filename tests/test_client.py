@@ -1,7 +1,7 @@
 from multiprocessing.sharedctypes import Value
 import pytest
 from pathlib import Path
-from aas_http_client.classes.client.aas_client import create_client_by_config, AasHttpClient, create_client_by_dict, create_client_by_url
+from aas_http_client.classes.client.aas_client import create_by_config, AasHttpClient, create_by_dict, create_by_url
 from basyx.aas import model
 import aas_http_client.utilities.model_builder as model_builder
 import aas_http_client.utilities.sdk_tools as sdk_tools
@@ -43,7 +43,7 @@ def client(request) -> AasHttpClient:
         if not file.exists():
             raise FileNotFoundError(f"Configuration file {file} does not exist.")
 
-        client = create_client_by_config(file)
+        client = create_by_config(file)
 
         if client is None:
             raise RuntimeError("Failed to create client from configuration file.")
@@ -113,7 +113,7 @@ def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
 
 def test_000a_create_client_by_url(client: AasHttpClient):
     base_url: str = client.base_url
-    new_client = create_client_by_url(base_url=base_url)
+    new_client = create_by_url(base_url=base_url)
     assert new_client is not None
 
 def test_000b_create_client_by_dict(client: AasHttpClient):
@@ -123,7 +123,7 @@ def test_000b_create_client_by_dict(client: AasHttpClient):
         "BaseUrl": base_url
     }
 
-    new_client = create_client_by_dict(configuration=config_dict)
+    new_client = create_by_dict(configuration=config_dict)
     assert new_client is not None
 
 def test_001a_connect(client: AasHttpClient):
@@ -1020,7 +1020,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
     assert list_elements[0].get("value", "") == property.value
 
     base_url: str = client.base_url
-    new_client = create_client_by_url(base_url=base_url)
+    new_client = create_by_url(base_url=base_url)
     assert new_client is not None
     assert new_client.submodels is not None
 
@@ -1034,7 +1034,7 @@ def test_019b_post_submodel_element_by_path_submodel_repo(client: AasHttpClient)
 
 def test_020b_encoded_ids(client: AasHttpClient):
     base_url: str = client.base_url
-    new_client = create_client_by_url(base_url=base_url)
+    new_client = create_by_url(base_url=base_url)
     assert new_client is not None
     assert new_client.shells is not None
 

@@ -17,16 +17,16 @@ def start() -> None:
     """Start the demo process."""
 
     # create a submodel element
-    wrapper = sdk_wrapper.create_wrapper_by_url(base_url="http://javaaasserver:8075", encoded_ids=False)
+    wrapper = sdk_wrapper.create_by_url(base_url="http://javaaasserver:8075", encoded_ids=False)
     client = wrapper.get_client()
     # client = aas_client.create_client_by_url(base_url="http://pythonaasserver:80/", encoded_ids=False)
-    client_shell_reg = aas_client.create_client_by_url(base_url="http://aas-registry:8080", encoded_ids=False)
+    client_shell_reg = aas_client.create_by_url(base_url="http://aas-registry:8080", encoded_ids=False)
 
     sm = model_builder.create_base_submodel("TestSubmodel", "TestSM")
     shell = model_builder.create_base_aas("TestAAS", "TestAAS")
     sdk_tools.add_submodel_to_aas(shell, sm)
 
-    iqstrcut = aas_client.create_client_by_url(
+    iqstrcut = aas_client.create_by_url(
         base_url="https://aurora-fluid40-rt.iqstruct-engineering.de/aas-env/",
         o_auth_client_id="fluid40",
         o_auth_client_secret="LdFB4jRrMMkgcVWgFkOVdDVDXtQ5os8w",
