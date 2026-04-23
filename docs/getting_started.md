@@ -6,8 +6,8 @@ This guide will walk you through installing and using `aas-http-client`.
   - [Installation](#installation)
   - [Usage](#usage)
     - [Creation Methods](#creation-methods)
-    - [*/Shell/* Endpoints](#shell-endpoints)
-    - [*/Submodel/* Endpoints](#submodel-endpoints)
+    - [/Shell/ Endpoints](#shell-endpoints)
+    - [/Submodel/ Endpoints](#submodel-endpoints)
 
 ---
 
@@ -146,7 +146,7 @@ print("Client connectivity:", client.get_root() is not None)
 print("Wrapper connectivity:", wrapper.get_client().get_root() is not None)
 ```
 
-### */Shell/* Endpoints
+### /Shell/ Endpoints
 
 This section shows how to work with the most common Shell repository operations after client or wrapper creation.
 
@@ -186,7 +186,7 @@ For the full list of available methods and signatures, see the API reference:
 
 - [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
 
-### */Submodel/* Endpoints
+### /Submodel/ Endpoints
 
 This section shows how to work with common Submodel repository operations after client or wrapper creation.
 
