@@ -73,10 +73,10 @@ var NAVTREE =
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
       [ "Installation", "md_docs_2getting__started.html#autotoc_md42", null ],
-      [ "Client / Wrapper Creation Methods", "md_docs_2getting__started.html#autotoc_md44", [
-        [ "1. Create by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
-        [ "2. Create by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
-        [ "3. Create by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ]
+      [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md44", [
+        [ "Create by URL", "md_docs_2getting__started.html#autotoc_md45", null ],
+        [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md46", null ],
+        [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md47", null ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
