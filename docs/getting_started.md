@@ -4,7 +4,14 @@ This guide will walk you through installing and using `aas-http-client` .
 
 - [🚀 Getting Started](#-getting-started)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Client Creation Methods](#client-creation-methods)
+    - [1. Create Client by URL](#1-create-client-by-url)
+    - [2. Create Client by Dictionary](#2-create-client-by-dictionary)
+    - [3. Create Client by Configuration File](#3-create-client-by-configuration-file)
+  - [Wrapper Creation Methods](#wrapper-creation-methods)
+    - [1. Create Wrapper by URL](#1-create-wrapper-by-url)
+    - [2. Create Wrapper by Dictionary](#2-create-wrapper-by-dictionary)
+    - [3. Create Wrapper by Configuration File](#3-create-wrapper-by-configuration-file)
 
 ---
 
@@ -16,19 +23,15 @@ Install via pip:
 pip install aas-http-client
 ```
 
----
-
-## Usage
-
 For detailed configuration options and examples, see the [Configuration Guide](configuration.md).
 
 ---
 
-### Client Creation Methods
+## Client Creation Methods
 
 There are three ways to create an AAS HTTP client or wrapper.
 
-#### 1. Create Client by URL
+### 1. Create Client by URL
 
 Create a client by providing parameters directly:
 
@@ -58,7 +61,7 @@ wrapper = sdk_wrapper.create_wrapper_by_url(
 )
 ```
 
-#### 2. Create Client by Dictionary
+### 2. Create Client by Dictionary
 
 Create a client using a configuration dictionary:
 
@@ -81,7 +84,7 @@ client = aas_client.create_client_by_dict(
 )
 ```
 
-#### 3. Create Client by Configuration File
+### 3. Create Client by Configuration File
 
 Create a client using a JSON configuration file:
 
@@ -96,11 +99,11 @@ client = aas_client.create_client_by_config(
 )
 ```
 
-### Wrapper Creation Methods
+## Wrapper Creation Methods
 
 Wrapper creation follows the same pattern as client creation.
 
-#### 1. Create Wrapper by URL
+### 1. Create Wrapper by URL
 
 Create a wrapper by providing parameters directly:
 
@@ -116,7 +119,7 @@ wrapper = sdk_wrapper.create_wrapper_by_url(
 )
 ```
 
-#### 2. Create Wrapper by Dictionary
+### 2. Create Wrapper by Dictionary
 
 Create a wrapper using a configuration dictionary:
 
@@ -139,7 +142,7 @@ client = sdk_wrapper.create_wrapper_by_dict(
 )
 ```
 
-#### 3. Create Wrapper by Configuration File
+### 3. Create Wrapper by Configuration File
 
 Create a wrapper using a JSON configuration file:
 
