@@ -39,6 +39,8 @@ This chapter provides a practical, end-to-end overview of working with `aas-http
 It starts with client and wrapper creation patterns, then walks through the most relevant repository and registry endpoint groups, including experimental attachment endpoints.
 Use the sections below as quick-start references and adapt the examples to your server setup, authentication mode, and ID encoding configuration.
 
+For a complete list and detailed descriptions of all functions, see the API [reference](https://fluid40.github.io/aas-http-client/namespaces.html).
+
 ### Notes
 
 Most important notes before calling endpoint methods:
@@ -49,7 +51,7 @@ Most important notes before calling endpoint methods:
     - `client.shell_registry` -> Shell descriptor registry endpoints
     - `client.submodel_registry` -> Submodel descriptor registry endpoints
     - `client.experimental` -> Experimental attachment endpoints
-* For the wrapper all endpoint implementation are directly on `wrapper` (SDK object responses).
+* For the wrapper, all endpoint implementations are available directly on `wrapper` (SDK object responses).
 * `encoded_ids` behavior:
     - Keep `encoded_ids` aligned with your server expectations.
     - If `encoded_ids` is enabled (default), pass decoded IDs (for example: `urn:example:submodel:001`) and let the client encode where required.
