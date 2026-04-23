@@ -199,6 +199,12 @@ Most important points:
 * List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
 * Always handle `None` results to detect connectivity, authorization, or server-side issues.
 
+For the full list of available methods and signatures, see:
+
+* [Client Shell Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html)
+
+* [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
+
 #### Example: List Asset Administration Shells (client)
 
 ```python
@@ -225,10 +231,6 @@ else:
     print("Found shell with id:", aas.id)
 ```
 
-For the full list of available methods and signatures, see the API reference:
-
-* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
-
 ### /Submodel/ Endpoints
 
 This section shows how to work with common Submodel repository operations after client or wrapper creation.
@@ -239,6 +241,11 @@ Most important points:
 * List endpoints are paginated. Use `limit` and `cursor` when retrieving larger result sets.
 * `level` and `extent` can be used to control response depth and blob behavior.
 * Always handle `None` results to detect connectivity, authorization, or server-side issues.
+
+For the full list of available methods and signatures, see:
+
+* [Client Submodel Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html)
+* [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
 
 #### Example: List Submodels (client)
 
@@ -266,10 +273,6 @@ else:
     print("Found submodel with id:", submodel.id)
 ```
 
-For the full list of available methods and signatures, see the API reference:
-
-* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
-
 ### /shell-descriptors/ Endpoints
 
 This section shows how to work with Asset Administration Shell registry endpoints.
@@ -280,6 +283,12 @@ Most important points:
 * Registry endpoints currently are not exposed on `wrapper`.
 * List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
 * Depending on server settings, IDs may need Base64 URL-safe encoding. Keep `encoded_ids` consistent with your server setup.
+
+For the full list of available methods and signatures, see:
+
+* [Client Shell Registry Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1shell__registry__implementation_1_1ShellRegistryImplementation.html)
+*  [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
+*
 
 #### Example: List shell descriptors
 
@@ -340,10 +349,6 @@ if created is None:
 print("Registered descriptor:", created.get("id"))
 ```
 
-For the full list of available methods and signatures, see the API reference:
-
-* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
-
 ### /submodel-descriptors/ Endpoints
 
 This section shows how to work with Submodel registry endpoints.
@@ -353,6 +358,11 @@ Most important points:
 * Submodel descriptor endpoints are available via `client.submodel_registry`.
 * Registry endpoints currently are not exposed on `wrapper`.
 * List endpoints are paginated. Use `limit` and `cursor` when iterating through larger result sets.
+
+For the full list of available methods and signatures, see:
+
+* [Client Submodel Registry Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html)
+* [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
 
 #### Example: List submodel descriptors
 
@@ -420,10 +430,6 @@ if created is None:
 print("Registered descriptor:", created.get("id"))
 ```
 
-For the full list of available methods and signatures, see the API reference:
-
-* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
-
 ### Experimental Endpoint Implementations
 
 This section shows the experimental attachment endpoints for file content on Submodel File elements.
@@ -432,6 +438,11 @@ Most important points:
 
 * Experimental endpoints are available via `client.experimental` and via wrapper methods prefixed with `experimental_`.
 * Experimental endpoints may not be supported by every server implementation.
+
+For the full list of available methods and signatures, see:
+
+* [Client Experimental Implementation API reference](https://fluid40.github.io/aas-http-client/classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html)
+* [Wrapper API reference](https://fluid40.github.io/aas-http-client/classsdk__wrapper_1_1SdkWrapper.html)
 
 #### Example: Download file content (wrapper)
 
@@ -530,6 +541,6 @@ if delete_error is not None:
     print("DELETE returned non-success:", delete_error)
 ```
 
-For the full list of available methods and signatures, see the API reference:
+For the full list of available methods and signatures, see:
 
-* [AAS HTTP Client API Reference](https://fluid40.github.io/aas-http-client/)
+* [Client API Reference](https://fluid40.github.io/aas-http-client/)
