@@ -92,12 +92,12 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
   <div class="headertitle"><div class="title">AAS HTTP Client </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://pypi.org/project/aas-http-client/"><img src="https://img.shields.io/pypi/v/aas-http-client.svg" alt="PyPI version" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/blob/dk/doxygen/LICENSE"><img src="https://img.shields.io/badge/license-MIT-%23f8a602?label=License&amp;labelColor=%23992b2e" alt="License: MIT" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&amp;cache-bust=1" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/doxygen.yml/badge.svg?branch=main&amp;cache-bust=1" alt="doxygen" style="pointer-events: none;" class="inline"/></a></p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://pypi.org/project/aas-http-client/"><img src="https://img.shields.io/pypi/v/aas-http-client.svg" alt="PyPI version" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/blob/dk/doxygen/LICENSE"><img src="https://img.shields.io/badge/license-MIT-%23f8a602?label=License&amp;labelColor=%23992b2e" alt="License: MIT" class="inline"/></a> <a href="https://github.com/fluid40/aas-http-client/actions"><img src="https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&amp;cache-bust=1" alt="CI" style="pointer-events: none;" class="inline"/></a></p>
 <p>AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html">AAS server specification</a>, ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.</p>
 <p><b>Notes:</b></p>
 <ul>
 <li>Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances.</li>
-<li>Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.</li>
+<li>From version 1.0.0 the client includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.</li>
 </ul>
 <p><b>Table of Contents:</b></p>
 <ul>
@@ -153,12 +153,13 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </ul>
 <h1><a class="anchor" id="autotoc_md90"></a>
 🔧 Provided Utilities</h1>
-<p>The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import '<a class="el" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a>'):</p>
+<p>The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import <code><a class="el" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a></code> ):</p>
 <ul>
 <li><b>encoder</b>: base64 encoding and decoding</li>
 <li><b>sdk_tools</b>: e.g. Framework object serialization and deserialization, basic submodel operations</li>
 <li><b>model_builder</b>: creation of some basic AAS model elements</li>
 </ul>
+<p>See <a href="https://fluid40.github.io/aas-http-client/namespaceaas__http__client_1_1utilities.html">Utilities API Reference</a></p>
 <hr  />
 <h1><a class="anchor" id="autotoc_md92"></a>
 📚 Resources</h1>
