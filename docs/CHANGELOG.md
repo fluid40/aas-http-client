@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.0.7] - 2026-04-23
+## [1.0.8] - 2026-04-24
 
 * ✨Feat: Harmonize create function names for consistency across client and wrapper modules: `create_by_url`,  `create_by_dict` and `create_by_config`
 
