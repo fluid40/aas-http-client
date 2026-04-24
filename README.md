@@ -9,7 +9,7 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
 **Notes:**
 
 * Each client instance communicates with exactly one AAS server (1-to-1 mapping). For multiple servers, create multiple instances.
-* Version 1.0.0 includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
+* From version 1.0.0 the client includes implementations for all endpoints from BaSxy Java SDK 'aas-registry', 'submodel-registry' and 'aas-environment'.
 
 **Table of Contents:**
 
