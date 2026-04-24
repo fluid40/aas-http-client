@@ -65,11 +65,13 @@ What the BaSyx Wrapper Adds:
 
 ## 🔧 Provided Utilities
 
-The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import 'aas_http_client.utilities'):
+The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import `aas_http_client.utilities` ):
 
 * **encoder**: base64 encoding and decoding
 * **sdk_tools**: e.g. Framework object serialization and deserialization, basic submodel operations
 * **model_builder**: creation of some basic AAS model elements
+
+See [Utilities API Reference](https://fluid40.github.io/aas-http-client/namespaceaas__http__client_1_1utilities.html)
 
 ---
 
