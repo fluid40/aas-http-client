@@ -20,8 +20,6 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
   - [🔧 Provided Utilities](#-provided-utilities)
   - [📚 Resources](#-resources)
   - [⚡ Quickstart](#-quickstart)
-    - [Client](#client)
-    - [Wrapper](#wrapper)
 
 ---
 
