@@ -73,8 +73,9 @@ def create_base_submodel_element_property(
     if not display_name:
         display_name = id_short if id_short else ""
 
-    display_name_text = {"en": f"{display_name}"}
-    sme.display_name = model.MultiLanguageNameType(display_name_text)
+    if display_name:
+        display_name_text = {"en": f"{display_name}"}
+        sme.display_name = model.MultiLanguageNameType(display_name_text)
 
     return sme
 
@@ -119,7 +120,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
     sm.description = model.MultiLanguageTextType(description_text)
 
     if not display_name:
-        display_name = id_short
+        display_name = id_short if id_short else identifier
 
     display_name_text = {"en": f"{display_name}"}
     sm.display_name = model.MultiLanguageNameType(display_name_text)
@@ -154,7 +155,7 @@ def create_base_aas(
     aas.description = model.MultiLanguageTextType(description_text)
 
     if not display_name:
-        display_name = id_short
+        display_name = id_short if id_short else identifier
 
     display_name_text = {"en": f"{display_name}"}
     aas.display_name = model.MultiLanguageNameType(display_name_text)
