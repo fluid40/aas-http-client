@@ -1,12 +1,16 @@
 # 📝 Changelog
 
+## [1.0.9] - 2026-04-24
+
+* 🚀Improvement: Enable model builder to get empty display names and empty descriptions.
+
 ## [1.0.8] - 2026-04-24
 
-* ✨Feat: Harmonize create function names for consistency across client and wrapper modules: `create_by_url`,  `create_by_dict` and `create_by_config`
+* ✨Feat: Harmonize create function names for consistency across client and wrapper modules: `create_by_url`,  `create_by_dict` and `create_by_config`.
 
 ## [1.0.4] - 2026-03-26
 
-* 📝Doc: Add [GitHub Pages](https://fluid40.github.io/aas-http-client) for documentation
+* 📝Doc: Add [GitHub Pages](https://fluid40.github.io/aas-http-client) for documentation.
 
 ## [1.0.0] - 2026-02-17
 
