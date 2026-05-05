@@ -64,14 +64,9 @@ def create_base_submodel_element_property(
     """Create a basic SubmodelElement of type Property."""
     sme = model.Property(id_short=id_short, value_type=type, value=value)
 
-    if not description:
-        description = f"This is the submodel element with ID short '{id_short}'"
-
-    description_text = {"en": f"{description}"}
-    sme.description = model.MultiLanguageTextType(description_text)
-
-    if not display_name and id_short:
-        display_name = id_short
+    if description:
+        description_text = {"en": f"{description}"}
+        sme.description = model.MultiLanguageTextType(description_text)
 
     if display_name:
         display_name_text = {"en": f"{display_name}"}
@@ -86,14 +81,9 @@ def create_base_submodel_element_collection(
     """Create a basic SubmodelElement of type SubmodelElementCollection."""
     sme = model.SubmodelElementCollection(id_short=id_short, value=value)
 
-    if not description:
-        description = f"This is the submodel element with ID short '{id_short}'"
-
-    description_text = {"en": f"{description}"}
-    sme.description = model.MultiLanguageTextType(description_text)
-
-    if not display_name:
-        display_name = id_short
+    if description:
+        description_text = {"en": f"{description}"}
+        sme.description = model.MultiLanguageTextType(description_text)
 
     if display_name:
         display_name_text = {"en": f"{display_name}"}
@@ -114,14 +104,9 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
     sm = model.Submodel(identifier)
     sm.id_short = id_short
 
-    if not description:
-        description = f"This is the submodel with ID short '{id_short}'"
-
-    description_text = {"en": f"{description}"}
-    sm.description = model.MultiLanguageTextType(description_text)
-
-    if not display_name:
-        display_name = id_short
+    if description:
+        description_text = {"en": f"{description}"}
+        sm.description = model.MultiLanguageTextType(description_text)
 
     if display_name:
         display_name_text = {"en": f"{display_name}"}
@@ -131,7 +116,7 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
 
 
 def create_base_aas(
-    identifier: str, id_short: str, global_asset_identifier: str = "", display_name: str = "", description: str = ""
+    identifier: str, id_short: str, global_asset_identifier: str, display_name: str = "", description: str = ""
 ) -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
@@ -150,14 +135,9 @@ def create_base_aas(
     aas = model.AssetAdministrationShell(id_=identifier, asset_information=asset_info)
     aas.id_short = id_short
 
-    if not description:
-        description = f"This is the asset administration shell with ID short '{id_short}'"
-
-    description_text = {"en": f"{description}"}
-    aas.description = model.MultiLanguageTextType(description_text)
-
-    if not display_name:
-        display_name = id_short
+    if description:
+        description_text = {"en": f"{description}"}
+        aas.description = model.MultiLanguageTextType(description_text)
 
     if display_name:
         display_name_text = {"en": f"{display_name}"}

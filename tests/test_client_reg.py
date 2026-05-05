@@ -74,12 +74,12 @@ def client_sm_reg(client: AasHttpClient) -> AasHttpClient:
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
     # create a Submodel
-    return model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests")
+    return model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests", display_name="Submodel HTTP Client Unit Tests", description="This is a sample Submodel created for unit testing of the AAS HTTP Client.")
 
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests", global_asset_identifier=SHELL_ID, display_name="AAS HTTP Client Unit Tests", description="This is a sample AAS created for unit testing of the AAS HTTP Client.")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
