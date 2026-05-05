@@ -56,34 +56,34 @@ def wrapper(request) -> SdkWrapper:
 @pytest.fixture(scope="module")
 def shared_sme_string() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_property("sme_property_string", model.datatypes.String, "Sample String Value")
+    return model_builder.create_base_submodel_element_property("sme_property_string", model.datatypes.String, "Sample String Value", description="This is a sample string property for unit testing.", display_name="Sample String Property")
 
 @pytest.fixture(scope="module")
 def shared_sme_bool() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_property("sme_property_bool", model.datatypes.Boolean, True)
+    return model_builder.create_base_submodel_element_property("sme_property_bool", model.datatypes.Boolean, True, description="This is a sample boolean property for unit testing.", display_name="Sample Boolean Property"    )
 
 @pytest.fixture(scope="module")
 def shared_sme_int() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_property("sme_property_int", model.datatypes.Integer, 262)
+    return model_builder.create_base_submodel_element_property("sme_property_int", model.datatypes.Integer, 262, description="This is a sample integer property for unit testing.", display_name="Sample Integer Property")
 
 @pytest.fixture(scope="module")
 def shared_sme_float() -> model.Property:
     # create a Submodel
-    return model_builder.create_base_submodel_element_property("sme_property_float", model.datatypes.Float, 262.3)
+    return model_builder.create_base_submodel_element_property("sme_property_float", model.datatypes.Float, 262.3, description="This is a sample float property for unit testing.", display_name="Sample Float Property")
 
 @pytest.fixture(scope="module")
 def shared_sm() -> model.Submodel:
     # create a Submodel
-    submodel = model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests")
+    submodel = model_builder.create_base_submodel(identifier=SM_ID, id_short="sm_http_client_unit_tests", display_name="Submodel HTTP Client Unit Tests", description="This is a sample Submodel created for unit testing of the AAS HTTP Client.")
     submodel.category = "Unit Test"
     return submodel
 
 @pytest.fixture(scope="module")
 def shared_aas(shared_sm: model.Submodel) -> model.AssetAdministrationShell:
     # create an AAS
-    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests")
+    aas = model_builder.create_base_aas(identifier=SHELL_ID, id_short="aas_http_client_unit_tests", global_asset_identifier=SHELL_ID, display_name="AAS HTTP Client Unit Tests", description="This is a sample AAS created for unit testing of the AAS HTTP Client.")
 
     # add Submodel to AAS
     sdk_tools.add_submodel_to_aas(aas, shared_sm)
