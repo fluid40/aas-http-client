@@ -1,6 +1,10 @@
 # 📝 Changelog
 
-## [1.0.9] - 2026-05-25
+## [1.0.10] - 2026-05-08
+
+* 🚀Improvement: Enhance submodel management with validation in add/remove functions and add unit tests
+
+## [1.0.9] - 2026-04-25
 
 * 🚀Improvement: Enable model builder to get empty display names and empty descriptions.
 
