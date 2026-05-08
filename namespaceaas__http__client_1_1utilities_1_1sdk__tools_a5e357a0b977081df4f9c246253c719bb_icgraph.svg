@@ -31,7 +31,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a460a93ff1a5007dd317bcbb6da74f483" target="_top" xlink:title="Add a given Submodel correctly to a provided AssetAdministrationShell.">
+<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a88b11b7a886583c6733bed61392bd277" target="_top" xlink:title="Add a given Submodel correctly to a provided AssetAdministrationShell.">
 <polygon fill="white" stroke="#666666" points="174.5,-78 16.5,-78 16.5,-48 174.5,-48 174.5,-78"/>
 <text text-anchor="start" x="24.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">aas_http_client.utilities.sdk</text>
 <text text-anchor="middle" x="95.5" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">_tools.add_submodel_to_aas</text>
@@ -50,7 +50,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac77b1cf83f9f739c5812866ff393db37" target="_top" xlink:title="Remove a given Submodel correctly from a provided AssetAdministrationShell.">
+<g id="a_Node000003"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a2300f94ef68f17c2d88ec65ff907d5b3" target="_top" xlink:title="Remove a given Submodel correctly from a provided AssetAdministrationShell.">
 <polygon fill="white" stroke="#666666" points="191,-30 0,-30 0,0 191,0 191,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">aas_http_client.utilities.sdk</text>
 <text text-anchor="middle" x="95.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">_tools.remove_submodel_from_aas</text>

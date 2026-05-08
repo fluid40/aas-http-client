@@ -1,7 +1,7 @@
 <map id="aas_http_client.utilities.sdk_tools.get_submodel_ids" name="aas_http_client.utilities.sdk_tools.get_submodel_ids">
 <area shape="rect" id="Node000001" title="Get all IDs from the submodels referenced in the given AAS." alt="" coords="308,37,509,77"/>
-<area shape="rect" id="Node000002" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a460a93ff1a5007dd317bcbb6da74f483" title="Add a given Submodel correctly to a provided AssetAdministrationShell." alt="" coords="27,5,238,45"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a88b11b7a886583c6733bed61392bd277" title="Add a given Submodel correctly to a provided AssetAdministrationShell." alt="" coords="27,5,238,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,47,238,40,239,35,295,41"/>
-<area shape="rect" id="Node000003" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac77b1cf83f9f739c5812866ff393db37" title="Remove a given Submodel correctly from a provided AssetAdministrationShell." alt="" coords="5,69,260,109"/>
+<area shape="rect" id="Node000003" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a2300f94ef68f17c2d88ec65ff907d5b3" title="Remove a given Submodel correctly from a provided AssetAdministrationShell." alt="" coords="5,69,260,109"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="295,73,261,77,260,72,294,68"/>
 </map>
