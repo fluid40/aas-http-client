@@ -40,7 +40,7 @@ jobs:
           fi
 
   client-aas-env-tests:
-    name: Client AAS Env Tests
+    name: Client Env Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -101,7 +101,7 @@ jobs:
         run: docker compose -f .github/docker-compose-env.yaml down
 
   wrapper-aas-env-tests:
-    name: Wrapper AAS Env Tests
+    name: Wrapper Env Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -162,7 +162,7 @@ jobs:
         run: docker compose -f .github/docker-compose-env.yaml down
 
   client-registry-tests:
-    name: Client AAS Registry Tests
+    name: Client Registry Tests
     runs-on: ubuntu-latest
 
     steps:
