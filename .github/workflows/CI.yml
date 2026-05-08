@@ -224,6 +224,28 @@ jobs:
       - name: Tear down
         run: docker compose -f .github/docker-compose-reg.yaml down
 
+  utility-tests:
+    name: Utility Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run utility tests
+        run: pytest -v tests/test_utils.py tests/test_sdk_tools.py
+
   publish-pypi-package:
     name: Publish PyPI Package
     if: github.ref == 'refs/heads/main' && needs.detect-project-changes.outputs.changed == 'true'
