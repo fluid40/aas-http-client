@@ -256,6 +256,7 @@ jobs:
         wrapper-aas-env-tests,
         client-registry-tests,
         detect-project-changes,
+        utility-tests,
       ]
 
     steps:
