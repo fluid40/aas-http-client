@@ -1,0 +1,5 @@
+<map id="aas_http_client.utilities.sdk_tools.add_submodel_to_aas" name="aas_http_client.utilities.sdk_tools.add_submodel_to_aas">
+<area shape="rect" id="Node000001" title="Add a given Submodel correctly to a provided AssetAdministrationShell." alt="" coords="5,5,216,45"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a5e357a0b977081df4f9c246253c719bb" title="Get all IDs from the submodels referenced in the given AAS." alt="" coords="264,5,465,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,23,250,23,250,28,216,28"/>
+</map>

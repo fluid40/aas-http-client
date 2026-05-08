@@ -1,0 +1,5 @@
+<map id="aas_http_client.utilities.sdk_tools.remove_submodel_from_aas" name="aas_http_client.utilities.sdk_tools.remove_submodel_from_aas">
+<area shape="rect" id="Node000001" title="Remove a given Submodel correctly from a provided AssetAdministrationShell." alt="" coords="5,5,260,45"/>
+<area shape="rect" id="Node000002" href="$namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a5e357a0b977081df4f9c246253c719bb" title="Get all IDs from the submodels referenced in the given AAS." alt="" coords="308,5,509,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,23,294,23,294,28,260,28"/>
+</map>

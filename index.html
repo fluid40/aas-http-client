@@ -112,7 +112,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md87"></a>
+<h1><a class="anchor" id="autotoc_md88"></a>
 🚀 Features</h1>
 <ul>
 <li>✅ Easy REST communication with AAS-compliant servers</li>
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li>✅ Tested with multiple AAS server implementations</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md89"></a>
+<h1><a class="anchor" id="autotoc_md90"></a>
 🏗️ Supported Servers</h1>
 <p>The client has been tested with:</p>
 <ul>
@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li><a href="https://github.com/eclipse-basyx/basyx-python-sdk">https://github.com/eclipse-basyx/basyx-python-sdk</a></li>
 </ul>
 <p>Actual behavior depends on each server's implementation of the <a href="https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.htm">AAS Specification</a></p>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md91"></a>
 🧰 Wrappers</h1>
 <p>Wrappers provide a higher-level interface on top of the raw HTTP client. Use them when you want to work with SDK objects instead of plain Python dictionaries returned by the REST API.</p>
 <p>Currently available wrappers:</p>
@@ -147,7 +147,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li>Supports wrapper creation from a URL, a Python dictionary, or a configuration file</li>
 <li>Keeps low-level client access available through <code>wrapper.get_client()</code> when needed</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md91"></a>
+<h1><a class="anchor" id="autotoc_md92"></a>
 🔧 Provided Utilities</h1>
 <p>The AAS HTTP Client package also include some utility functions for for recurring tasks (provided by import <code><a class="el" href="namespaceaas__http__client_1_1utilities.html">aas_http_client.utilities</a></code> ):</p>
 <ul>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </ul>
 <p>See <a href="https://fluid40.github.io/aas-http-client/namespaceaas__http__client_1_1utilities.html">Utilities API Reference</a></p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md93"></a>
+<h1><a class="anchor" id="autotoc_md94"></a>
 📚 Resources</h1>
 <p>📘 <a href="https://fluid40.github.io/aas-http-client/">Documentation</a></p>
 <p>📝 <a class="el" href="md_docs_2CHANGELOG.html">Changelog</a></p>
@@ -165,11 +165,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>📦 <a href="https://pypi.org/project/aas-http-client/">Pypi Packages</a></p>
 <p>📜 <a href="https://github.com/fluid40/aas-http-client/blob/main/LICENSE">MIT License</a></p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md95"></a>
+<h1><a class="anchor" id="autotoc_md96"></a>
 ⚡ Quickstart</h1>
 <p>For a detailed introduction, please read <a class="el" href="md_docs_2getting__started.html">Getting Started</a>.</p>
 <div class="fragment"><div class="line">pip install aas-http-client</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md96"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md97"></a>
 Client</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
 <div class="line"> </div>
@@ -178,7 +178,7 @@ Client</h2>
 <div class="line">shells_paginated = client.shells.get_all_asset_administration_shells()</div>
 <div class="line">print(shells_paginated.get(<span class="stringliteral">&quot;results&quot;</span>, []))</div>
 <div class="ttc" id="anamespaceaas__client_html_a6738a5df68cc02a8e541f45cd5b8184a"><div class="ttname"><a href="namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a">aas_client.create_by_url</a></div><div class="ttdeci">AasHttpClient|None create_by_url(str base_url, str basic_auth_username=&quot;&quot;, str basic_auth_password=&quot;&quot;, str o_auth_client_id=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str o_auth_token_url=&quot;&quot;, str bearer_auth_token=&quot;&quot;, str http_proxy=&quot;&quot;, str https_proxy=&quot;&quot;, int time_out=200, int connection_time_out=60, bool ssl_verify=True, bool trust_env=True, bool encoded_ids=True)</div><div class="ttdoc">Create a HTTP client for a AAS server connection from the given parameters.</div><div class="ttdef"><b>Definition</b> <a href="aas__client_8py_source.html#l00325">aas_client.py:340</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md97"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md98"></a>
 Wrapper</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.wrapper <span class="keyword">import</span> sdk_wrapper</div>
 <div class="line"> </div>

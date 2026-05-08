@@ -28,6 +28,7 @@ var namespaceaas__http__client_1_1utilities =
       [ "add_submodel_to_aas", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a460a93ff1a5007dd317bcbb6da74f483", null ],
       [ "convert_to_dict", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ae3fbd69ec3204b964afcebc0c1f1b350", null ],
       [ "convert_to_object", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac66dd6f5e46c7cc6602fd6f9098c3ee5", null ],
+      [ "get_submodel_ids", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a5e357a0b977081df4f9c246253c719bb", null ],
       [ "remove_submodel_from_aas", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#ac77b1cf83f9f739c5812866ff393db37", null ],
       [ "_logger", "namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#af9e1e1800311bb810bf045372c2a4ad6", null ]
     ] ],

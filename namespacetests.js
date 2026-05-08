@@ -126,6 +126,17 @@ var namespacetests =
       [ "SHELL_ID", "namespacetests_1_1test__client__reg.html#afb465263d5c9eea61115f1261548879f", null ],
       [ "SM_ID", "namespacetests_1_1test__client__reg.html#a782cd077264ec29e646019488165a403", null ]
     ] ],
+    [ "test_sdk_tools", "namespacetests_1_1test__sdk__tools.html", [
+      [ "shared_aas", "namespacetests_1_1test__sdk__tools.html#af73db1de9514c062958c8cf157b80090", null ],
+      [ "shared_sm", "namespacetests_1_1test__sdk__tools.html#a1886c5814fef867f3ebce58d45e38199", null ],
+      [ "shared_sm_temp", "namespacetests_1_1test__sdk__tools.html#a35be1035552711a4d6afb7eedfce729d", null ],
+      [ "test_001a_add_sm_to_shell", "namespacetests_1_1test__sdk__tools.html#a5741451c2cb9383ce64649e8c356a471", null ],
+      [ "test_001b_add_sm_to_shell", "namespacetests_1_1test__sdk__tools.html#ac0d810a66f081f5e1fff46fa48dbf18f", null ],
+      [ "test_002a_remove_sm_from_shell", "namespacetests_1_1test__sdk__tools.html#af6c62249b9e12644558d5f1e9fc3378e", null ],
+      [ "test_002b_remove_sm_from_shell", "namespacetests_1_1test__sdk__tools.html#afc52182095e926bbe9a5476905d63845", null ],
+      [ "SHELL_ID", "namespacetests_1_1test__sdk__tools.html#a2e6ce14f123c4b0b4c289274af240fcc", null ],
+      [ "SM_ID", "namespacetests_1_1test__sdk__tools.html#a284646f9350307e38855bb629d8570e2", null ]
+    ] ],
     [ "test_utils", "namespacetests_1_1test__utils.html", [
       [ "test_001a_decode_base_64", "namespacetests_1_1test__utils.html#a18c187e0d9ff84e5b7ba15cae1dd1d16", null ],
       [ "test_001b_decode_base_64", "namespacetests_1_1test__utils.html#adb72ad8319d53435b67e119ad05de6ee", null ],
