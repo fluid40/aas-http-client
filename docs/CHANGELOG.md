@@ -1,8 +1,8 @@
 # 📝 Changelog
 
-## [1.0.10] - 2026-05-08
+## [1.0.11] - 2026-05-08
 
-* 🚀Improvement: Enhance submodel management with validation in add/remove functions and add unit tests
+* 🚀Improvement: Enhance submodel management with validation in add/remove functions and add return success status
 
 ## [1.0.9] - 2026-04-25
 
