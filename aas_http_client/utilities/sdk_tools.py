@@ -10,12 +10,34 @@ from basyx.aas import model
 _logger = logging.getLogger(__name__)
 
 
+def get_submodel_ids(shell: model.AssetAdministrationShell) -> list[str]:
+    """Get all IDs from the submodels referenced in the given AAS.
+
+    :param shell: The Asset Administration Shell to extract submodel IDs from.
+    :return: A list of submodel IDs referenced in the AAS.
+    """
+    submodel_ids = []
+    for submodel in shell.submodel:
+        if len(submodel.key) < 1 or submodel.key[0].type != model.KeyTypes.SUBMODEL:
+            _logger.warning(f"Submodel reference {submodel} does not start with SUBMODEL key type.")
+            continue
+
+        submodel_ids.append(submodel.key[0].value)
+
+    return submodel_ids
+
+
 def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
     """Add a given Submodel correctly to a provided AssetAdministrationShell.
 
     :param aas: provided AssetAdministrationShell to which the Submodel should be added
     :param submodel: given Submodel to add
     """
+    existing_submodel_ids = get_submodel_ids(aas)
+    if submodel.id in existing_submodel_ids:
+        _logger.warning(f"Submodel with ID {submodel.id} is already referenced in the AAS. Skipping addition.")
+        return
+
     aas.submodel.add(model.ModelReference.from_referable(submodel))
 
 
@@ -25,6 +47,11 @@ def remove_submodel_from_aas(aas: model.AssetAdministrationShell, submodel: mode
     :param aas: provided AssetAdministrationShell from which the Submodel should be removed
     :param submodel: given Submodel to remove
     """
+    existing_submodel_ids = get_submodel_ids(aas)
+    if submodel.id not in existing_submodel_ids:
+        _logger.warning(f"Submodel with ID {submodel.id} is not referenced in the AAS. Skipping removal.")
+        return
+
     aas.submodel.remove(model.ModelReference.from_referable(submodel))
 
 
