@@ -26,7 +26,8 @@ def shared_aas() -> model.AssetAdministrationShell:
 def test_001a_add_sm_to_shell(shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     assert len(shared_aas.submodel) == 0
 
-    sdk_tools.add_submodel_to_aas(shared_aas, shared_sm)
+    result = sdk_tools.add_submodel_to_aas(shared_aas, shared_sm)
+    assert result is True
     assert len(shared_aas.submodel) == 1
 
     assert shared_sm.id in sdk_tools.get_submodel_ids(shared_aas)
@@ -35,17 +36,20 @@ def test_001a_add_sm_to_shell(shared_aas: model.AssetAdministrationShell, shared
 def test_001b_add_sm_to_shell(shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     assert len(shared_aas.submodel) == 1
 
-    sdk_tools.add_submodel_to_aas(shared_aas, shared_sm)
+    result = sdk_tools.add_submodel_to_aas(shared_aas, shared_sm)
+    assert result is False
     assert len(shared_aas.submodel) == 1
 
 def test_002a_remove_sm_from_shell(shared_aas: model.AssetAdministrationShell, shared_sm_temp: model.Submodel):
     assert len(shared_aas.submodel) == 1
 
-    sdk_tools.remove_submodel_from_aas(shared_aas, shared_sm_temp)
+    result = sdk_tools.remove_submodel_from_aas(shared_aas, shared_sm_temp)
+    assert result is False
     assert len(shared_aas.submodel) == 1
 
 def test_002b_remove_sm_from_shell(shared_aas: model.AssetAdministrationShell, shared_sm: model.Submodel):
     assert len(shared_aas.submodel) == 1
 
-    sdk_tools.remove_submodel_from_aas(shared_aas, shared_sm)
+    result = sdk_tools.remove_submodel_from_aas(shared_aas, shared_sm)
+    assert result is True
     assert len(shared_aas.submodel) == 0
