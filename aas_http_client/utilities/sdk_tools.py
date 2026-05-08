@@ -27,32 +27,36 @@ def get_submodel_ids(shell: model.AssetAdministrationShell) -> list[str]:
     return submodel_ids
 
 
-def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
+def add_submodel_to_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> bool:
     """Add a given Submodel correctly to a provided AssetAdministrationShell.
 
     :param aas: provided AssetAdministrationShell to which the Submodel should be added
     :param submodel: given Submodel to add
+    :return: True if the Submodel was added, False if it was already referenced
     """
     existing_submodel_ids = get_submodel_ids(aas)
     if submodel.id in existing_submodel_ids:
         _logger.warning(f"Submodel with ID {submodel.id} is already referenced in the AAS. Skipping addition.")
-        return
+        return False
 
     aas.submodel.add(model.ModelReference.from_referable(submodel))
+    return True
 
 
-def remove_submodel_from_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> None:
+def remove_submodel_from_aas(aas: model.AssetAdministrationShell, submodel: model.Submodel) -> bool:
     """Remove a given Submodel correctly from a provided AssetAdministrationShell.
 
     :param aas: provided AssetAdministrationShell from which the Submodel should be removed
     :param submodel: given Submodel to remove
+    :return: True if the Submodel was removed, False if it was not referenced
     """
     existing_submodel_ids = get_submodel_ids(aas)
     if submodel.id not in existing_submodel_ids:
         _logger.warning(f"Submodel with ID {submodel.id} is not referenced in the AAS. Skipping removal.")
-        return
+        return False
 
     aas.submodel.remove(model.ModelReference.from_referable(submodel))
+    return True
 
 
 def convert_to_object(content: dict) -> Any | None:
