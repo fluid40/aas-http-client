@@ -109,3 +109,10 @@
 ## [0.2.5] - 2025-08-18
 
 * ♻️Refactor: The names of the functions have been adapted to correspond to the operation names in the specification.
+
+* ✨Feat        - Feature
+* 🐛Fix         - Bugfix
+* 📝Doc         - Documentation
+* ♻️Refactor    - Refactor
+* 🧹Chore       - Chore
+* 🚀Improvement - Improvement
