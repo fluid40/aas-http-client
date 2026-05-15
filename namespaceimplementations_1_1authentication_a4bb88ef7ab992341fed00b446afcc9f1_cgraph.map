@@ -1,0 +1,7 @@
+<map id="implementations.authentication.get_token" name="implementations.authentication.get_token">
+<area shape="rect" id="Node000001" title="Get token based on the provided OAuth configuration." alt="" coords="5,37,261,77"/>
+<area shape="rect" id="Node000002" href="$namespaceimplementations_1_1authentication.html#a5419670e80319efccc72b1e0f10c0e3a" title="Get token from a specific authentication service provider by basic authentication." alt="" coords="309,5,565,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="261,41,296,38,296,43,262,47"/>
+<area shape="rect" id="Node000003" href="$namespaceimplementations_1_1authentication.html#a131b28d5730c1935756a2bef17c200cc" title="Get token from a specific authentication service provider by username and password." alt="" coords="309,69,565,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,68,296,72,296,77,261,73"/>
+</map>
