@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.0.12] - 2026-05-15
+
+* 🚀Improvement: Add SSL verification option to token retrieval methods
+
 ## [1.0.11] - 2026-05-08
 
 * 🚀Improvement: Enhance submodel management with validation in add/remove functions and add return success status
