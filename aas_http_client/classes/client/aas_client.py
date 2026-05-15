@@ -169,7 +169,7 @@ class AasHttpClient(BaseModel):
             return self._cached_token.access_token
 
         # Obtain new token
-        token_data = get_token(self.auth_settings.o_auth)
+        token_data = get_token(self.auth_settings.o_auth, self.ssl_verify)
 
         if token_data and token_data.access_token:
             # Cache the token data

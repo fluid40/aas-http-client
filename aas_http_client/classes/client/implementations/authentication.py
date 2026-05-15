@@ -36,10 +36,11 @@ class TokenData:
         self.token_expiry: float = token_expiry
 
 
-def get_token(o_auth_configuration: OAuth) -> TokenData | None:
+def get_token(o_auth_configuration: OAuth, ssl_verify: bool) -> TokenData | None:
     """Get token based on the provided OAuth configuration.
 
     :param auth_configuration: Authentication configuration
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :return: Access token or None if an error occurred
     """
     if o_auth_configuration.grant_type == "password":
@@ -47,6 +48,7 @@ def get_token(o_auth_configuration: OAuth) -> TokenData | None:
             o_auth_configuration.token_url,
             o_auth_configuration.client_id,
             o_auth_configuration.get_client_secret(),
+            ssl_verify=ssl_verify,
         )
 
     elif o_auth_configuration.is_active() and o_auth_configuration.grant_type == "client_credentials":
@@ -54,6 +56,7 @@ def get_token(o_auth_configuration: OAuth) -> TokenData | None:
             o_auth_configuration.token_url,
             o_auth_configuration.client_id,
             o_auth_configuration.get_client_secret(),
+            ssl_verify=ssl_verify,
         )
 
     if not token:
@@ -63,46 +66,51 @@ def get_token(o_auth_configuration: OAuth) -> TokenData | None:
     return token
 
 
-def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200) -> TokenData | None:
+def get_token_by_basic_auth(endpoint: str, username: str, password: str, timeout=200, ssl_verify=True) -> TokenData | None:
     """Get token from a specific authentication service provider by basic authentication.
 
     :param endpoint: Get token endpoint for the authentication service provider
     :param username: Username for the authentication service provider
     :param password: Password for the authentication service provider
     :param timeout: Timeout for the API calls, defaults to 200
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :return: Access token or None if an error occurred
     """
     data = {"grant_type": "client_credentials"}
 
     auth = HTTPBasicAuth(username, password)
 
-    return __get_token_from_endpoint(endpoint, data, auth, timeout)
+    return __get_token_from_endpoint(endpoint, data, auth, timeout, ssl_verify)
 
 
-def get_token_by_password(endpoint: str, username: str, password: str, timeout=200) -> TokenData | None:
+def get_token_by_password(endpoint: str, username: str, password: str, timeout=200, ssl_verify=True) -> TokenData | None:
     """Get token from a specific authentication service provider by username and password.
 
     :param endpoint: Get token endpoint for the authentication service provider
     :param username: Username for the authentication service provider
     :param password: Password for the authentication service provider
     :param timeout: Timeout for the API calls, defaults to 200
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :return: Access token or None if an error occurred
     """
     data = {"grant_type": "password", "username": username, "password": password}
 
-    return __get_token_from_endpoint(endpoint, data, None, timeout)
+    return __get_token_from_endpoint(endpoint, data, None, timeout, ssl_verify)
 
 
-def __get_token_from_endpoint(endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200) -> TokenData | None:
+def __get_token_from_endpoint(
+    endpoint: str, data: dict[str, str], auth: HTTPBasicAuth | None = None, timeout: int = 200, ssl_verify: bool = True
+) -> TokenData | None:
     """Get token from a specific authentication service provider.
 
     :param endpoint: Get token endpoint for the authentication service provider
     :param data: Data for the authentication service provider
     :param timeout: Timeout for the API calls, defaults to 200
+    :param ssl_verify: Whether to verify SSL certificates, defaults to True
     :return: Access token or None if an error occurred
     """
     try:
-        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout)
+        response = requests.post(endpoint, auth=auth, data=data, timeout=timeout, verify=ssl_verify)
         _logger.debug(f"Call REST API url '{response.url}'")
 
         if response.status_code != 200:
