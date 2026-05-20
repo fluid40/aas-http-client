@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.0.13] - 2026-05-20
+
+* ✨Feat: add stream upload method for thumbnail to shell.
+
 ## [1.0.12] - 2026-05-15
 
 * 🚀Improvement: Add SSL verification option to token retrieval methods
