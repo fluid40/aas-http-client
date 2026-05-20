@@ -193,7 +193,9 @@ class ShellRepoImplementation(BaseModel):
         return self.put_thumbnail_aas_repository_stream(aas_identifier, file_name, file_octet_stream, mime_type or "application/octet-stream")
 
     # PUT /shells/{aasIdentifier}/asset-information/thumbnail
-    def put_thumbnail_aas_repository_stream(self, aas_identifier: str, file_name: str, file_octet_stream: Any, mime_type: str) -> bool:
+    def put_thumbnail_aas_repository_stream(
+        self, aas_identifier: str, file_name: str, file_octet_stream: Any, mime_type: str = "application/octet-stream"
+    ) -> bool:
         """Creates or updates the thumbnail of the Asset Administration Shell.
 
         :param aas_identifier: The Asset Administration Shells unique id
@@ -216,8 +218,6 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            mime_type = mime_type or "application/octet-stream"
-
             files: dict[str, tuple[str, Any, str]] = {"file": (file_name, file_octet_stream, mime_type)}
             response = self._session.put(url, files=files, params=params, timeout=self._client.time_out)
 
