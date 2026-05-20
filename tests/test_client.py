@@ -1179,6 +1179,8 @@ def test_025_get_thumbnail_aas_repository(client: AasHttpClient):
     result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert result is None
 
+
+
 def test_026_put_thumbnail_aas_repository(client: AasHttpClient):
     if client.shells is None:
         pytest.skip("Shells API is not available in this client")
@@ -1234,6 +1236,40 @@ def test_028_delete_thumbnail_aas_repository(client: AasHttpClient):
 
     result = client.shells.delete_thumbnail_aas_repository(shell_id)
     assert result is True
+
+    get_result = client.shells.get_thumbnail_aas_repository(shell_id)
+    assert get_result is None
+
+def test_028a_put_thumbnail_aas_repository_stream(client: AasHttpClient):
+    if client.shells is None:
+        pytest.skip("Shells API is not available in this client")
+
+    parsed = urlparse(client.base_url)
+    if parsed.port in PYTHON_SERVER_PORTS:
+        # NOTE: python server implementation differs
+        return
+
+    shell_id = SHELL_ID
+
+    if client.encoded_ids:
+        shell_id = encoder.encode_base_64(SHELL_ID)
+
+    filename = "Pen_Machine.png"
+    file = Path(f"./tests/test_data/{filename}").resolve()
+
+    with file.open("rb") as f:
+        file_octet_stream = f.read()
+
+    result = client.shells.put_thumbnail_aas_repository_stream(shell_id, file.name, file_octet_stream, "image/png")
+    assert result is True
+
+    get_result = client.shells.get_thumbnail_aas_repository(shell_id)
+    assert get_result is not None
+    assert len(get_result) > 0
+    assert get_result.startswith(b"\x89PNG\r\n\x1a\n")
+
+    delete_result = client.shells.delete_thumbnail_aas_repository(shell_id)
+    assert delete_result is True
 
     get_result = client.shells.get_thumbnail_aas_repository(shell_id)
     assert get_result is None
