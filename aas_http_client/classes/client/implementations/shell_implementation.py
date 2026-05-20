@@ -173,7 +173,6 @@ class ShellRepoImplementation(BaseModel):
 
         return response.content
 
-    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
     def put_thumbnail_aas_repository(self, aas_identifier: str, file_name: str, file: Path) -> bool:
         """Creates or updates the thumbnail of the Asset Administration Shell.
 
@@ -186,6 +185,27 @@ class ShellRepoImplementation(BaseModel):
             _logger.error(f"Attachment file '{file}' does not exist.")
             return False
 
+        mime_type, _ = mimetypes.guess_type(file)
+
+        with file.open("rb") as f:
+            file_octet_stream = f.read()
+
+        return self.put_thumbnail_aas_repository_stream(aas_identifier, file_name, file_octet_stream, mime_type or "application/octet-stream")
+
+    # PUT /shells/{aasIdentifier}/asset-information/thumbnail
+    def put_thumbnail_aas_repository_stream(self, aas_identifier: str, file_name: str, file_octet_stream: Any, mime_type: str) -> bool:
+        """Creates or updates the thumbnail of the Asset Administration Shell.
+
+        :param aas_identifier: The Asset Administration Shells unique id
+        :param file_name: The name of the thumbnail file
+        :param file_octet_stream: The octet stream of the thumbnail file
+        :param mime_type: The MIME type of the thumbnail file (e.g., "image/png")
+        :return: True if the update was successful, False otherwise
+        """
+        if file_name is None or file_name == "" or file_octet_stream is None or mime_type is None or mime_type == "":
+            _logger.error(f"Attachment file '{file_name}' does not exist.")
+            return False
+
         if not self._client.encoded_ids:
             aas_identifier = encode_base_64(aas_identifier)
 
@@ -196,11 +216,10 @@ class ShellRepoImplementation(BaseModel):
         self._client.set_token()
 
         try:
-            mime_type, _ = mimetypes.guess_type(file)
+            mime_type = mime_type or "application/octet-stream"
 
-            with file.open("rb") as f:
-                files = {"file": (file.name, f, mime_type or "application/octet-stream")}
-                response = self._session.put(url, files=files, params=params, timeout=self._client.time_out)
+            files: dict[str, tuple[str, Any, str]] = {"file": (file_name, file_octet_stream, mime_type)}
+            response = self._session.put(url, files=files, params=params, timeout=self._client.time_out)
 
             _logger.debug(f"Call REST API url '{response.url}'")
 
