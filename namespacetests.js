@@ -57,6 +57,7 @@ var namespacetests =
       [ "test_026_put_thumbnail_aas_repository", "namespacetests_1_1test__client.html#a3d06802d99c6a80668015f0ec32f3b8b", null ],
       [ "test_027_get_thumbnail_aas_repository", "namespacetests_1_1test__client.html#a8dadc49db4eb5af7bb1edfd9fdd9e6af", null ],
       [ "test_028_delete_thumbnail_aas_repository", "namespacetests_1_1test__client.html#af39fa16eec481dc4ef81ef0046debd42", null ],
+      [ "test_028a_put_thumbnail_aas_repository_stream", "namespacetests_1_1test__client.html#a0c5ceb0606d8c34af5b1ab7727b5f1c0", null ],
       [ "test_029_get_all_submodel_references_aas_repository", "namespacetests_1_1test__client.html#a3c2ed1ec04827e369a4950546b5b373c", null ],
       [ "test_030_post_submodel_reference_aas_repository", "namespacetests_1_1test__client.html#ac3227241ec2de06503af9d7f0465bd8c", null ],
       [ "test_031_delete_submodel_reference_by_id_aas_repository", "namespacetests_1_1test__client.html#ac1a54da958a8847c261c1f6e266324fd", null ],
