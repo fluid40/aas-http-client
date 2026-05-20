@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.0.13] - 2026-05-20
+## [1.0.14] - 2026-05-20
 
 * ✨Feat: add stream upload method for thumbnail to shell.
 
