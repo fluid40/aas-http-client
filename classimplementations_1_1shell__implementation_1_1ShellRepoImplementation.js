@@ -15,6 +15,6 @@ var classimplementations_1_1shell__implementation_1_1ShellRepoImplementation =
     [ "put_asset_administration_shell_by_id", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#ad7811baad85e5ba500396e471223fa2e", null ],
     [ "put_submodel_by_id_aas_repository", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#a991504184d92fb28e9f06cb30d9c3809", null ],
     [ "put_thumbnail_aas_repository", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#adab39cb8d056268df5f276c5fe1c823a", null ],
-    [ "put_thumbnail_aas_repository_stream", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#af92a7bc9b789daa516bdf35b4e7c24bc", null ],
+    [ "put_thumbnail_aas_repository_stream", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#ac734ffbf8116745a9ce790fdfbef9d8d", null ],
     [ "_client", "classimplementations_1_1shell__implementation_1_1ShellRepoImplementation.html#af3d4bc3f25447c06bcb276a2347b529c", null ]
 ];
