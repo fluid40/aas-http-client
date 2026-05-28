@@ -1,8 +1,12 @@
 # 📝 Changelog
 
+## [1.1.0] - 2026-05-28
+
+* 🚀Improvement: Update basyx-python-sdk version to 2.0.1.
+
 ## [1.0.14] - 2026-05-20
 
-* ✨Feat: add stream upload method for thumbnail to shell.
+* ✨Feat: Add stream upload method for thumbnail to shell.
 
 ## [1.0.12] - 2026-05-15
 
