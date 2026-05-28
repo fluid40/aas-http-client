@@ -15,9 +15,9 @@ PYTHON_SERVER_PORTS = [5080, 80]
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
-CONFIG_FILE_ENV = "./tests/server_configs/test_java_server_config.yml"
-CONFIG_FILE_AAS_REG_ENV = "./tests/server_configs/test_aas_reg_server_config.yml"
-CONFIG_FILE_SM_REG_ENV = "./tests/server_configs/test_sm_reg_server_config.yml"
+CONFIG_FILE_ENV = "./tests/server_configs/test_java_server_config.json"
+CONFIG_FILE_AAS_REG_ENV = "./tests/server_configs/test_aas_reg_server_config.json"
+CONFIG_FILE_SM_REG_ENV = "./tests/server_configs/test_sm_reg_server_config.json"
 
 shared_shell_descriptor: dict = {}
 shared_sm_descriptor: dict = {}
