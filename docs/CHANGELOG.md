@@ -1,8 +1,8 @@
 # 📝 Changelog
 
-## [1.0.15] - 2026-05-28
+## [1.1.0] - 2026-05-28
 
-* 🚀Improvement: Update basyx-python-sdk version to 2.0.1.
+* 🚀Improvement: Update external packages to newest versions.
 
 ## [1.0.14] - 2026-05-20
 
