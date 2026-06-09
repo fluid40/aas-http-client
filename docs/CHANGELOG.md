@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.1.1] - 2026-06-09
+
+* 🚀Improvement: Expose authentication method in client.
+
 ## [1.1.0] - 2026-05-28
 
 * 🚀Improvement: Update external packages to newest versions.

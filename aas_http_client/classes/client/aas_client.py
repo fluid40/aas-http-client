@@ -86,6 +86,13 @@ class AasHttpClient(BaseModel):
         self.submodel_registry = SubmodelRegistryImplementation(self)
         self.experimental = ExperimentalImplementation(self)
 
+    def get_auth_method(self) -> AuthMethod:
+        """Get the authentication method used by the client.
+
+        :return: The authentication method used by the client
+        """
+        return self._auth_method
+
     def get_session(self) -> Session | None:
         """Get the HTTP session used by the client.
 

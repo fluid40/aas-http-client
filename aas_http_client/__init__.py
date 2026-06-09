@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 
 from aas_http_client.classes.client import aas_client
 from aas_http_client.classes.client.aas_client import AasHttpClient
+from aas_http_client.classes.client.implementations.authentication import AuthMethod
+from aas_http_client.classes.Configuration.config_classes import BasicAuth, BearerAuth, OAuth
 from aas_http_client.classes.wrapper import sdk_wrapper
 from aas_http_client.classes.wrapper.sdk_wrapper import SdkWrapper
 from aas_http_client.utilities import encoder, model_builder, sdk_tools
@@ -26,6 +28,10 @@ check_for_update()
 
 __all__ = [
     "AasHttpClient",
+    "AuthMethod",
+    "BasicAuth",
+    "BearerAuth",
+    "OAuth",
     "SdkWrapper",
     "aas_client",
     "encoder",
