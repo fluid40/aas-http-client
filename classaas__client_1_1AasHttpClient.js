@@ -2,6 +2,7 @@ var classaas__client_1_1AasHttpClient =
 [
     [ "_handle_auth_method", "classaas__client_1_1AasHttpClient.html#a3c4fd48be7e2d6f7532fbabd1d80083b", null ],
     [ "delete_endpoint", "classaas__client_1_1AasHttpClient.html#a6ef2d2074c4199ac25b4f2139c16e0cd", null ],
+    [ "get_auth_method", "classaas__client_1_1AasHttpClient.html#ac9ceb22e69ce4c750c1b66cf0a8652ba", null ],
     [ "get_endpoint", "classaas__client_1_1AasHttpClient.html#ada66cef63cd6e1b293bc44ab052241d1", null ],
     [ "get_root", "classaas__client_1_1AasHttpClient.html#aa0ef4390c8e72c82ccad714d7820cbe6", null ],
     [ "get_session", "classaas__client_1_1AasHttpClient.html#a3900799665bd638304247a41f6c0e5b8", null ],
