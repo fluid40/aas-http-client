@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.1.2] - 2026-06-11
+
+* 🚀Improvement: Improved logging in client creation.
+
 ## [1.1.1] - 2026-06-09
 
 * 🚀Improvement: Expose authentication method in client.
