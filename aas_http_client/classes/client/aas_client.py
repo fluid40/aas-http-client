@@ -104,23 +104,23 @@ class AasHttpClient(BaseModel):
         """Handles the authentication method based on the provided settings."""
         if self.auth_settings.o_auth.is_active():
             self._auth_method = AuthMethod.o_auth
-            _logger.info(
+            _logger.debug(
                 f"Authentication method: OAuth | '{self.auth_settings.o_auth.client_id}' | '{self.auth_settings.o_auth.token_url}' | '{self.auth_settings.o_auth.grant_type}'"
             )
 
         elif self.auth_settings.basic_auth.is_active():
             self._auth_method = AuthMethod.basic_auth
-            _logger.info(f"Authentication method: Basic Auth | '{self.auth_settings.basic_auth.username}'")
+            _logger.debug(f"Authentication method: Basic Auth | '{self.auth_settings.basic_auth.username}'")
             self._session.auth = HTTPBasicAuth(self.auth_settings.basic_auth.username, self.auth_settings.basic_auth.get_password())
 
         elif self.auth_settings.bearer_auth.is_active():
             self._auth_method = AuthMethod.bearer
-            _logger.info("Authentication method: Bearer Token")
+            _logger.debug("Authentication method: Bearer Token")
             self._session.headers.update({"Authorization": f"Bearer {self.auth_settings.bearer_auth.get_token()}"})
 
         else:
             self._auth_method = AuthMethod.No
-            _logger.info("Authentication method: No Authentication")
+            _logger.debug("Authentication method: No Authentication")
 
     def get_root(self) -> dict | None:
         """Get the root endpoint of the AAS server API to test connectivity.
