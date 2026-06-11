@@ -1,15 +1,7 @@
 var searchData=
 [
-  ['o_5fauth_0',['o_auth',['../classimplementations_1_1authentication_1_1AuthMethod.html#afb2bfbe3f79b2262cd03cabe183ed430',1,'implementations.authentication.AuthMethod.o_auth'],['../classconfig__classes_1_1AuthenticationConfig.html#a7bac770790ce81b18255690da55713c6',1,'config_classes.AuthenticationConfig.o_auth']]],
-  ['oauth_1',['OAuth',['../classconfig__classes_1_1OAuth.html',1,'config_classes']]],
-  ['oauth2_20client_20credentials_2',['OAuth2 Client Credentials',['../md_docs_2configuration.html#autotoc_md41',1,'']]],
-  ['oauth2_20password_20grant_3',['OAuth2 Password Grant',['../md_docs_2configuration.html#autotoc_md42',1,'']]],
-  ['one_20shell_20by_20id_20wrapper_4',['Example: Fetch one shell by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md60',1,'']]],
-  ['one_20shell_20descriptor_20by_20id_5',['Example: Fetch one shell descriptor by ID',['../md_docs_2getting__started.html#autotoc_md66',1,'']]],
-  ['one_20submodel_20by_20id_20wrapper_6',['Example: Fetch one submodel by ID (wrapper)',['../md_docs_2getting__started.html#autotoc_md63',1,'']]],
-  ['one_20submodel_20descriptor_20by_20id_7',['Example: Fetch one submodel descriptor by ID',['../md_docs_2getting__started.html#autotoc_md70',1,'']]],
-  ['or_20403_20authentication_20or_20authorization_8',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md81',1,'']]],
-  ['or_20connection_20errors_9',['Timeouts or connection errors',['../md_docs_2troubleshooting.html#autotoc_md84',1,'']]],
-  ['or_20replace_20file_20content_20client_10',['Example: Upload or replace file content (client)',['../md_docs_2getting__started.html#autotoc_md74',1,'']]],
-  ['overview_11',['Parameters Overview',['../md_docs_2configuration.html#autotoc_md35',1,'']]]
+  ['no_0',['No',['../classimplementations_1_1authentication_1_1AuthMethod.html#a1c115fd66e6c279174787c6766503c7b',1,'implementations::authentication::AuthMethod']]],
+  ['not_20found_1',['HTTP 404 (resource not found)',['../md_docs_2troubleshooting.html#autotoc_md82',1,'']]],
+  ['not_5fapplicable_2',['not_applicable',['../classsdk__wrapper_1_1AssetKind.html#aa7c49fa6c1ff4f55a20e44beeb99d3d4',1,'sdk_wrapper::AssetKind']]],
+  ['notes_3',['notes',['../md_docs_2configuration.html#autotoc_md47',1,'Notes'],['../md_docs_2getting__started.html#autotoc_md53',1,'Notes']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🏗️_20supported_20servers_0',['🏗️ Supported Servers',['../index.html#autotoc_md95',1,'']]]
+  ['⚡_20quickstart_0',['⚡ Quickstart',['../index.html#autotoc_md101',1,'']]]
 ];
