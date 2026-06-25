@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.1.4] - 2026-06-11
+
+* 🚀Improvement: Improved configuration model validation in creation of the client and the wrapper
+
 ## [1.1.3] - 2026-06-11
 
 * 🚀Improvement: Improved logging in client creation.
