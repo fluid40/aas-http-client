@@ -107,15 +107,15 @@ class SdkWrapper:
     _client: AasHttpClient
     base_url: str = ""
 
-    def __init__(self, config_string: str, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""):
+    def __init__(self, configuration: dict, basic_auth_password: str = "", o_auth_client_secret: str = "", bearer_auth_token: str = ""):
         """Initializes the wrapper with the given configuration.
 
-        :param config_string: Configuration string for the BaSyx server connection.
+        :param configuration: Dictionary containing the BaSyx server connection settings.
         :param basic_auth_password: Password for the BaSyx server interface client, defaults to "".
         :param o_auth_client_secret: Client secret for OAuth authentication, defaults to "".
         :param bearer_auth_token: Bearer token for authentication, defaults to "".
         """
-        client = _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+        client = _create_client(configuration, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
         if not client:
             raise ValueError("Failed to create AAS HTTP client with the provided configuration.")
@@ -944,8 +944,7 @@ def create_by_dict(
     :return: An instance of SdkWrapper initialized with the provided parameters or None if initialization fails
     """
     _logger.debug("Create AAS server wrapper from dictionary.")
-    config_string = json.dumps(configuration, indent=4)
-    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return SdkWrapper(configuration, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_by_config(
@@ -961,12 +960,17 @@ def create_by_config(
     """
     _logger.debug(f"Create AAS wrapper client from configuration file '{config_file}'.")
     if not config_file.exists():
-        config_string = "{}"
+        configuration = {}
         _logger.warning(f"Configuration file '{config_file}' not found. Using default config.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
+        try:
+            configuration = json.loads(config_string)
+        except json.JSONDecodeError as e:
+            _logger.error(f"Configuration file '{config_file}' is not a valid JSON file: {e}")
+            return None
         _logger.debug(f"Configuration file '{config_file}' found.")
-    return SdkWrapper(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return SdkWrapper(configuration, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 # endregion

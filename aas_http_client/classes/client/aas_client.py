@@ -374,9 +374,8 @@ def create_by_dict(
     :return: An instance of AasHttpClient initialized with the provided parameters or None if validation fails
     """
     _logger.info("Create AAS server http client from dictionary.")
-    config_string = json.dumps(configuration, indent=4)
 
-    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return _create_client(configuration, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
 def create_by_config(
@@ -393,31 +392,36 @@ def create_by_config(
     config_file = config_file.resolve()
     _logger.info(f"Create AAS server http client from configuration file '{config_file}'.")
     if not config_file.exists():
-        config_string = "{}"
+        configuration = {}
         _logger.warning(f"Configuration file '{config_file}' not found. Using default configuration.")
     else:
         config_string = config_file.read_text(encoding="utf-8")
+        try:
+            configuration = json.loads(config_string)
+        except json.JSONDecodeError as e:
+            _logger.error(f"Configuration file '{config_file}' is not a valid JSON file: {e}")
+            return None
         _logger.debug(f"Configuration  file '{config_file}' found.")
 
-    return _create_client(config_string, basic_auth_password, o_auth_client_secret, bearer_auth_token)
+    return _create_client(configuration, basic_auth_password, o_auth_client_secret, bearer_auth_token)
 
 
-def _create_client(config_string: str, basic_auth_password: str, o_auth_client_secret: str, bearer_auth_token: str) -> AasHttpClient | None:
-    """Create and initialize an AAS HTTP client from configuration string.
+def _create_client(config_dict: dict, basic_auth_password: str, o_auth_client_secret: str, bearer_auth_token: str) -> AasHttpClient | None:
+    """Create and initialize an AAS HTTP client from configuration dictionary.
 
     This internal method validates the configuration, sets authentication credentials,
     initializes the client, and tests the connection to the AAS server.
 
-    :param config_string: JSON configuration string containing AAS server settings
+    :param config_dict: Dictionary containing AAS server settings
     :param basic_auth_password: Password for basic authentication, defaults to ""
     :param o_auth_client_secret: Client secret for OAuth authentication, defaults to ""
     :param bearer_auth_token: Bearer token for authentication, defaults to ""
     :return: An initialized and connected AasHttpClient instance or None if connection fails
-    :raises ValidationError: If the configuration string is invalid
+    :raises ValidationError: If the configuration dictionary is invalid
     :raises TimeoutError: If connection to the server times out
     """
     try:
-        client = AasHttpClient.model_validate_json(config_string)
+        client = AasHttpClient.model_validate(config_dict)
     except ValidationError as ve:
         raise ValidationError(f"Invalid BaSyx server configuration file: {ve}") from ve
 
