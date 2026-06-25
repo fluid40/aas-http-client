@@ -114,9 +114,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0a95311c332397c732062cffc7652fae" id="r_a0a95311c332397c732062cffc7652fae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a>|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#a0a95311c332397c732062cffc7652fae">create_by_config</a> (Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</td></tr>
 <tr class="memdesc:a0a95311c332397c732062cffc7652fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a HTTP client for a AAS server connection from a given configuration file.  <br /></td></tr>
 <tr class="separator:a0a95311c332397c732062cffc7652fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14db0efc6fd936124f6354f0f378fdd9" id="r_a14db0efc6fd936124f6354f0f378fdd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a>|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#a14db0efc6fd936124f6354f0f378fdd9">_create_client</a> (str config_string, str basic_auth_password, str o_auth_client_secret, str bearer_auth_token)</td></tr>
-<tr class="memdesc:a14db0efc6fd936124f6354f0f378fdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize an AAS HTTP client from configuration string.  <br /></td></tr>
-<tr class="separator:a14db0efc6fd936124f6354f0f378fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa00ceadd1c30820ec57ae46b9edd35ac" id="r_aa00ceadd1c30820ec57ae46b9edd35ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a>|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaas__client.html#aa00ceadd1c30820ec57ae46b9edd35ac">_create_client</a> (dict config_dict, str basic_auth_password, str o_auth_client_secret, str bearer_auth_token)</td></tr>
+<tr class="memdesc:aa00ceadd1c30820ec57ae46b9edd35ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize an AAS HTTP client from configuration dictionary.  <br /></td></tr>
+<tr class="separator:aa00ceadd1c30820ec57ae46b9edd35ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -124,8 +124,8 @@ Variables</h2></td></tr>
 <tr class="separator:a94942ed40b4b81617476432b93086bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a14db0efc6fd936124f6354f0f378fdd9" name="a14db0efc6fd936124f6354f0f378fdd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14db0efc6fd936124f6354f0f378fdd9">&#9670;&#160;</a></span>_create_client()</h2>
+<a id="aa00ceadd1c30820ec57ae46b9edd35ac" name="aa00ceadd1c30820ec57ae46b9edd35ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa00ceadd1c30820ec57ae46b9edd35ac">&#9670;&#160;</a></span>_create_client()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,8 +136,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname"> <a class="el" href="classaas__client_1_1AasHttpClient.html">AasHttpClient</a> | None aas_client._create_client </td>
           <td>(</td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>config_string</em>, </td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>config_dict</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -170,20 +170,20 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create and initialize an AAS HTTP client from configuration string. </p>
+<p>Create and initialize an AAS HTTP client from configuration dictionary. </p>
 <p>This internal method validates the configuration, sets authentication credentials, initializes the client, and tests the connection to the AAS server.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config_string</td><td>JSON configuration string containing AAS server settings </td></tr>
+    <tr><td class="paramname">config_dict</td><td>Dictionary containing AAS server settings </td></tr>
     <tr><td class="paramname">basic_auth_password</td><td>Password for basic authentication, defaults to "" </td></tr>
     <tr><td class="paramname">o_auth_client_secret</td><td>Client secret for OAuth authentication, defaults to "" </td></tr>
     <tr><td class="paramname">bearer_auth_token</td><td>Bearer token for authentication, defaults to "" </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An initialized and connected <a class="el" href="classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API.">AasHttpClient</a> instance or None if connection fails :raises ValidationError: If the configuration string is invalid :raises TimeoutError: If connection to the server times out </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An initialized and connected <a class="el" href="classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API.">AasHttpClient</a> instance or None if connection fails :raises ValidationError: If the configuration dictionary is invalid :raises TimeoutError: If connection to the server times out </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00425">425</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00429">429</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
 
 </div>
 </div>
@@ -237,7 +237,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="classaas__client_1_1AasHttpClient.html" title="Represents a AasHttpClient to communicate with a REST API.">AasHttpClient</a> initialized with the provided parameters or None if validation fails </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00395">395</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="aas__client_8py_source.html#l00394">394</a> of file <a class="el" href="aas__client_8py_source.html">aas_client.py</a>.</p>
 
 </div>
 </div>

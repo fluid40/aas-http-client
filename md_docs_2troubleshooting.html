@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('md_docs_2troubleshooting.html',''); in
   <div class="headertitle"><div class="title">👨‍⚕️ Troubleshooting</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md78"></a> This chapter helps you quickly diagnose and resolve the most common issues when working with the AAS HTTP Client. Start with the scenario that matches your problem, verify the listed checks step by step, and then retry your request. Most problems are caused by configuration, connectivity, authentication, or endpoint mismatches.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md79"></a> This chapter helps you quickly diagnose and resolve the most common issues when working with the AAS HTTP Client. Start with the scenario that matches your problem, verify the listed checks step by step, and then retry your request. Most problems are caused by configuration, connectivity, authentication, or endpoint mismatches.</p>
 <ul>
 <li>👨‍⚕️ Troubleshooting<ul>
 <li>Quick checklist</li>
@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('md_docs_2troubleshooting.html',''); in
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md79"></a>
+<h1><a class="anchor" id="autotoc_md80"></a>
 Quick checklist</h1>
 <p>Before deep debugging, verify these basics:</p>
 <ul>
@@ -128,7 +128,7 @@ Quick checklist</h1>
 <li>Timeouts are high enough for your server/network.</li>
 <li>SSL/proxy settings match your environment.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md80"></a>
+<h1><a class="anchor" id="autotoc_md81"></a>
 Client creation</h1>
 <p>The client creation methods return <code>None</code> if the configuration is invalid or the connection fails:</p>
 <div class="fragment"><div class="line"><span class="keyword">from</span> aas_http_client.classes.client <span class="keyword">import</span> aas_client</div>
@@ -158,7 +158,7 @@ Client creation</h1>
 </div><!-- fragment --><ul>
 <li>If this fails, verify network reachability and URL correctness first.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md81"></a>
+<h1><a class="anchor" id="autotoc_md82"></a>
 HTTP 401 or 403 (authentication or authorization)</h1>
 <p>Symptoms:</p>
 <ul>
@@ -188,7 +188,7 @@ HTTP 401 or 403 (authentication or authorization)</h1>
 </li>
 <li>Endpoint access policy on the server side.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md82"></a>
+<h1><a class="anchor" id="autotoc_md83"></a>
 HTTP 404 (resource not found)</h1>
 <p>Symptoms:</p>
 <ul>
@@ -211,7 +211,7 @@ HTTP 404 (resource not found)</h1>
 </li>
 <li>Re-check ID encoding mode and input value format.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md83"></a>
+<h1><a class="anchor" id="autotoc_md84"></a>
 Empty list responses</h1>
 <p>Symptoms:</p>
 <ul>
@@ -232,7 +232,7 @@ Empty list responses</h1>
 </div><!-- fragment --><ul>
 <li>Retry without filters and without a cursor.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="autotoc_md85"></a>
 Timeouts or connection errors</h1>
 <p>Symptoms:</p>
 <ul>
@@ -251,7 +251,7 @@ Timeouts or connection errors</h1>
 <li>Verify host/port reachability from the runtime environment.</li>
 <li>Retry with reduced load and check server resource usage.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md85"></a>
+<h1><a class="anchor" id="autotoc_md86"></a>
 SSL and proxy issues</h1>
 <p>Symptoms:</p>
 <ul>
@@ -271,7 +271,7 @@ SSL and proxy issues</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md86"></a>
+<h1><a class="anchor" id="autotoc_md87"></a>
 Pagination issues</h1>
 <p>Symptoms:</p>
 <ul>
@@ -299,7 +299,7 @@ Pagination issues</h1>
 <div class="line">    cursor = paging.get(<span class="stringliteral">&quot;cursor&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
 <div class="line">    <span class="keywordflow">if</span> <span class="keywordflow">not</span> cursor:</div>
 <div class="line">        <span class="keywordflow">break</span></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md87"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md88"></a>
 Wrapper vs client endpoint availability</h1>
 <p>Symptoms:</p>
 <ul>
@@ -310,7 +310,7 @@ Wrapper vs client endpoint availability</h1>
 <li>Registry endpoints are currently not exposed on <code>wrapper</code>.</li>
 <li>Use <code>client.shell_registry</code> and <code>client.submodel_registry</code> for descriptor APIs.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md88"></a>
+<h1><a class="anchor" id="autotoc_md89"></a>
 Experimental endpoint issues</h1>
 <p>Symptoms:</p>
 <ul>
@@ -328,7 +328,7 @@ Experimental endpoint issues</h1>
 <li>Validate <code>id_short_path</code> points to an existing <code>File</code> element.</li>
 <li>Ensure local file exists before upload calls.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md89"></a>
+<h1><a class="anchor" id="autotoc_md90"></a>
 Generic endpoint helper issues</h1>
 <p>Symptoms:</p>
 <ul>
@@ -345,7 +345,7 @@ Generic endpoint helper issues</h1>
 <li>Ensure URL points to the expected endpoint.</li>
 <li>Confirm server returns JSON response for the call path.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md91"></a>
 Debug logging</h1>
 <p>If an issue is unclear, enable debug logs and inspect request URLs and status handling:</p>
 <div class="fragment"><div class="line"><span class="keyword">import</span> logging</div>

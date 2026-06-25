@@ -110,9 +110,9 @@ Collaboration diagram for sdk_wrapper.SdkWrapper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab0688be269a615f0c73f96e3a7d7f8c4" id="r_ab0688be269a615f0c73f96e3a7d7f8c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsdk__wrapper_1_1SdkWrapper.html#ab0688be269a615f0c73f96e3a7d7f8c4">__init__</a> (self, str config_string, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</td></tr>
-<tr class="memdesc:ab0688be269a615f0c73f96e3a7d7f8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the wrapper with the given configuration.  <br /></td></tr>
-<tr class="separator:ab0688be269a615f0c73f96e3a7d7f8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808123d463b0a4c240a850ea51c11203" id="r_a808123d463b0a4c240a850ea51c11203"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsdk__wrapper_1_1SdkWrapper.html#a808123d463b0a4c240a850ea51c11203">__init__</a> (self, dict configuration, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)</td></tr>
+<tr class="memdesc:a808123d463b0a4c240a850ea51c11203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the wrapper with the given configuration.  <br /></td></tr>
+<tr class="separator:a808123d463b0a4c240a850ea51c11203"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84080d398337904c6304ceeddfb938f2" id="r_a84080d398337904c6304ceeddfb938f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsdk__wrapper_1_1SdkWrapper.html#a84080d398337904c6304ceeddfb938f2">set_encoded_ids</a> (self, <a class="el" href="classsdk__wrapper_1_1IdEncoding.html">IdEncoding</a> encoded_ids)</td></tr>
 <tr class="memdesc:a84080d398337904c6304ceeddfb938f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets whether to use encoded IDs for API requests.  <br /></td></tr>
 <tr class="separator:a84080d398337904c6304ceeddfb938f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -256,8 +256,8 @@ Static Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="sdk__wrapper_8py_source.html#l00108">108</a> of file <a class="el" href="sdk__wrapper_8py_source.html">sdk_wrapper.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab0688be269a615f0c73f96e3a7d7f8c4" name="ab0688be269a615f0c73f96e3a7d7f8c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0688be269a615f0c73f96e3a7d7f8c4">&#9670;&#160;</a></span>__init__()</h2>
+<a id="a808123d463b0a4c240a850ea51c11203" name="a808123d463b0a4c240a850ea51c11203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a808123d463b0a4c240a850ea51c11203">&#9670;&#160;</a></span>__init__()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,8 +271,8 @@ Static Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>config_string</em>, </td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>configuration</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -303,7 +303,7 @@ Static Protected Attributes</h2></td></tr>
 <p>Initializes the wrapper with the given configuration. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config_string</td><td>Configuration string for the BaSyx server connection. </td></tr>
+    <tr><td class="paramname">configuration</td><td>Dictionary containing the BaSyx server connection settings. </td></tr>
     <tr><td class="paramname">basic_auth_password</td><td>Password for the BaSyx server interface client, defaults to "". </td></tr>
     <tr><td class="paramname">o_auth_client_secret</td><td>Client secret for OAuth authentication, defaults to "". </td></tr>
     <tr><td class="paramname">bearer_auth_token</td><td>Bearer token for authentication, defaults to "". </td></tr>
