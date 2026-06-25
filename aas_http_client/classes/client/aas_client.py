@@ -145,6 +145,8 @@ class AasHttpClient(BaseModel):
 
         self.set_token()
 
+        error_messages: dict[int, str] = {}
+
         for url in urls:
             _logger.debug(f"Testing connectivity with URL: {url}")
             try:
@@ -155,10 +157,14 @@ class AasHttpClient(BaseModel):
                     content = response.content.decode("utf-8")
                     return json.loads(content)
 
+                if response.status_code not in (STATUS_CODE_200, STATUS_CODE_201, STATUS_CODE_204):
+                    content = response.content.decode("utf-8")
+                    error_messages.update({response.status_code: content})
+
             except requests.exceptions.RequestException as e:
                 _logger.error(f"Error call REST API: {e}")
 
-        return None
+        raise ConnectionError(f"Failed to connect to AAS server API. Error messages: {error_messages}")
 
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.

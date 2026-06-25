@@ -1,6 +1,10 @@
 # 📝 Changelog
 
-## [1.1.6] - 2026-06-11
+## [1.1.7] - 2026-06-25
+
+* 🚀Improvement: Improved error handling if connection to server could not be established
+
+## [1.1.6] - 2026-06-25
 
 * 🚀Improvement: Improved configuration model validation in creation of the client and the wrapper and allow using alias and internal name
 
