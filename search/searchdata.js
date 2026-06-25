@@ -5,7 +5,7 @@ var indexSectionsWithContent =
   2: "acipst",
   3: "_aceghmprstv",
   4: "_acdegilprstw",
-  5: "_abcdefghijlnoprstuw",
+  5: "_abcdefghijlmnoprstuw",
   6: "acghst👨📝🚀🛠"
 };
 
