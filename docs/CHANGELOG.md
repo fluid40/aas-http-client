@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.1.7] - 2026-06-25
+## [1.1.8] - 2026-06-25
 
 * 🚀Improvement: Improved error handling if connection to server could not be established
 
