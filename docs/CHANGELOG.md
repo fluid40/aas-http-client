@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.1.5] - 2026-06-11
+## [1.1.6] - 2026-06-11
 
 * 🚀Improvement: Improved configuration model validation in creation of the client and the wrapper and allow using alias and internal name
 

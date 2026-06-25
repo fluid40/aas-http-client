@@ -1,0 +1,18 @@
+{
+	"base_url": "http://localhost:8075/",
+	"https_proxy": null,
+	"http_proxy": null,
+	"time_out": 20,
+	"connection_time_out": 10,
+	"ssl_verify": true,
+	"trust_env": true,
+	"encoded_ids": false,
+	"authentication_settings": {
+		"basic_authentication": {
+
+		},
+		"service_provider_authentication": {
+
+		}
+	}
+}
