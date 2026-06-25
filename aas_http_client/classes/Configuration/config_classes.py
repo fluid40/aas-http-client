@@ -1,6 +1,6 @@
 """Basic Authentication Configuration."""
 
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 
 class BearerAuth(BaseModel):
@@ -39,6 +39,8 @@ class BasicAuth(BaseModel):
     :param BaseModel: Pydantic BaseModel for data validation.
     """
 
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+
     username: str = Field(default="", alias="Username", description="Username for the basic authentication.")
     _password: str = PrivateAttr(default="")
 
@@ -69,6 +71,8 @@ class OAuth(BaseModel):
 
     :param BaseModel: Pydantic BaseModel for data validation.
     """
+
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
 
     token_url: str = Field(default="", alias="TokenUrl", description="Endpoint URL for the token request.")
     client_id: str = Field(default="", alias="ClientId", description="Client identifier for authentication.")
@@ -106,6 +110,8 @@ class AuthenticationConfig(BaseModel):
 
     param BaseModel: Pydantic BaseModel for data validation.
     """
+
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
 
     basic_auth: BasicAuth = Field(default_factory=BasicAuth, alias="BasicAuth", description="Basic authentication configuration.")
     o_auth: OAuth = Field(

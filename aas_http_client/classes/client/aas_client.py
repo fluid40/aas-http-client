@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import requests
-from pydantic import BaseModel, Field, PrivateAttr, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr, ValidationError
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
@@ -34,6 +34,8 @@ _logger = logging.getLogger(__name__)
 
 class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
+
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
 
     base_url: str = Field(..., alias="BaseUrl", description="Base URL of the AAS server.")
     auth_settings: AuthenticationConfig = Field(

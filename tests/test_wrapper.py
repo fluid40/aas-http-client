@@ -20,6 +20,7 @@ SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.json",
+    "./tests/server_configs/test_java_server_alias_config.json",
     "./tests/server_configs/test_dotnet_server_config.json",
     "./tests/server_configs/test_python_server_config.json"
 ]
