@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"md_docs_2CHANGELOG.html#autotoc_md6":[1,5],
+"md_docs_2CHANGELOG.html#autotoc_md7":[1,6],
 "md_docs_2CHANGELOG.html#autotoc_md8":[1,7],
 "md_docs_2CHANGELOG.html#autotoc_md9":[1,8],
 "md_docs_2configuration.html":[2],
@@ -126,14 +128,14 @@ var NAVTREEINDEX2 =
 "namespaceimplementations_1_1sm__implementation.html#a3c69331193beecd0bfc2d17b8afcd8e0":[5,0,4,4,1],
 "namespaceimplementations_1_1sm__registry__implementation.html":[5,0,4,5],
 "namespaceimplementations_1_1sm__registry__implementation.html#a21dd5cea263fd4243e840be039e245ac":[5,0,4,5,1],
-"namespacemembers.html":[5,1,0],
 "namespacemembers.html":[5,1,0,0],
+"namespacemembers.html":[5,1,0],
 "namespacemembers_a.html":[5,1,0,1],
 "namespacemembers_c.html":[5,1,0,2],
 "namespacemembers_d.html":[5,1,0,3],
 "namespacemembers_e.html":[5,1,0,4],
-"namespacemembers_func.html":[5,1,1,0],
 "namespacemembers_func.html":[5,1,1],
+"namespacemembers_func.html":[5,1,1,0],
 "namespacemembers_func_a.html":[5,1,1,1],
 "namespacemembers_func_c.html":[5,1,1,2],
 "namespacemembers_func_d.html":[5,1,1,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "namespacetests_1_1test__client.html#af401626cd146a3838f9f40df1327b8c0":[5,0,7,0,63],
 "namespacetests_1_1test__client.html#af45eb3852ae9292f498ad62d36822689":[5,0,7,0,36],
 "namespacetests_1_1test__client.html#aff3e72c5925c17b6a8bcfa176bf0a389":[5,0,7,0,65],
-"namespacetests_1_1test__client__reg.html":[5,0,7,1],
-"namespacetests_1_1test__client__reg.html#a03f806ff3cbd1ff875c8b2a34291edb1":[5,0,7,1,26],
-"namespacetests_1_1test__client__reg.html#a1038f8651f91ba6ad2b32fc1285b6226":[5,0,7,1,34]
+"namespacetests_1_1test__client__reg.html":[5,0,7,1]
 };
