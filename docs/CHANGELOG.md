@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.1.9] - 2026-06-26
+
+* 🚀Improvement: Add AASConnectionError for better error handling
+
 ## [1.1.8] - 2026-06-25
 
 * 🚀Improvement: Improved error handling if connection to server could not be established

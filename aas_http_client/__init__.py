@@ -4,7 +4,7 @@ import importlib.metadata
 from datetime import datetime, timezone
 
 from aas_http_client.classes.client import aas_client
-from aas_http_client.classes.client.aas_client import AasHttpClient
+from aas_http_client.classes.client.aas_client import AASConnectionError, AasHttpClient
 from aas_http_client.classes.client.implementations.authentication import AuthMethod
 from aas_http_client.classes.Configuration.config_classes import BasicAuth, BearerAuth, OAuth
 from aas_http_client.classes.wrapper import sdk_wrapper
@@ -27,6 +27,7 @@ __package__ = "aas-http-client"
 check_for_update()
 
 __all__ = [
+    "AASConnectionError",
     "AasHttpClient",
     "AuthMethod",
     "BasicAuth",

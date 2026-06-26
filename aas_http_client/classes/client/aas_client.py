@@ -32,6 +32,24 @@ from aas_http_client.utilities.http_helper import (
 _logger = logging.getLogger(__name__)
 
 
+class AASConnectionError(ConnectionError):
+    """Exception raised for errors in the AAS connection.
+
+    :param message: Error message
+    :param errors: Dictionary of error codes and their corresponding messages
+    """
+
+    def __init__(self, message: str, errors: dict[int, str]):
+        """
+        Initialize the AASConnectionError.
+
+        :param message: Error message
+        :param errors: Dictionary of error codes and their corresponding messages
+        """
+        super().__init__(message)
+        self.errors = errors
+
+
 class AasHttpClient(BaseModel):
     """Represents a AasHttpClient to communicate with a REST API."""
 
@@ -163,7 +181,7 @@ class AasHttpClient(BaseModel):
             except requests.exceptions.RequestException as e:
                 _logger.error(f"Error call REST API: {e}")
 
-        raise ConnectionError("Failed to connect to AAS server API", error_messages)
+        raise AASConnectionError("Failed to connect to AAS server API", error_messages)
 
     def set_token(self) -> str | None:
         """Set authentication token in session headers based on configured authentication method.
