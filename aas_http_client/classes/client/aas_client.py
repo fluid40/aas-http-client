@@ -48,6 +48,7 @@ class AASConnectionError(ConnectionError):
         """
         super().__init__(message)
         self.errors = errors
+        self.status_code = next(iter(errors), None)  # Get the first status code if available
 
 
 class AasHttpClient(BaseModel):
