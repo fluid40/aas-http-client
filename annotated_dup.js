@@ -1,6 +1,7 @@
 var annotated_dup =
 [
     [ "aas_client", "namespaceaas__client.html", [
+      [ "AASConnectionError", "classaas__client_1_1AASConnectionError.html", "classaas__client_1_1AASConnectionError" ],
       [ "AasHttpClient", "classaas__client_1_1AasHttpClient.html", "classaas__client_1_1AasHttpClient" ]
     ] ],
     [ "attachment", "namespaceattachment.html", [

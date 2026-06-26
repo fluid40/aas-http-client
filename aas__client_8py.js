@@ -1,5 +1,6 @@
 var aas__client_8py =
 [
+    [ "aas_client.AASConnectionError", "classaas__client_1_1AASConnectionError.html", "classaas__client_1_1AASConnectionError" ],
     [ "aas_client.AasHttpClient", "classaas__client_1_1AasHttpClient.html", "classaas__client_1_1AasHttpClient" ],
     [ "_create_client", "aas__client_8py.html#aa00ceadd1c30820ec57ae46b9edd35ac", null ],
     [ "create_by_config", "aas__client_8py.html#a0a95311c332397c732062cffc7652fae", null ],

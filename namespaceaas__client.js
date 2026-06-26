@@ -1,5 +1,6 @@
 var namespaceaas__client =
 [
+    [ "AASConnectionError", "classaas__client_1_1AASConnectionError.html", "classaas__client_1_1AASConnectionError" ],
     [ "AasHttpClient", "classaas__client_1_1AasHttpClient.html", "classaas__client_1_1AasHttpClient" ],
     [ "_create_client", "namespaceaas__client.html#aa00ceadd1c30820ec57ae46b9edd35ac", null ],
     [ "create_by_config", "namespaceaas__client.html#a0a95311c332397c732062cffc7652fae", null ],
