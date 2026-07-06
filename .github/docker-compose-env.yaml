@@ -22,7 +22,7 @@ services:
       - ./storage/python_server:/storage
 
   java_aas_server:
-    image: eclipsebasyx/aas-environment:2.0.0-SNAPSHOT
+    image: eclipsebasyx/aas-environment:2.0.0-milestone-09
     container_name: javaaasserver
     networks:
       - bridge
