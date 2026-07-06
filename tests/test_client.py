@@ -24,6 +24,8 @@ AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
+#"./tests/server_configs/test_go_server_config.json",
+
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.json",
     "./tests/server_configs/test_java_server_alias_config.json",
@@ -486,7 +488,7 @@ def test_012_patch_submodel_by_id(client: AasHttpClient, shared_sm: model.Submod
     if client.submodels is None:
         pytest.skip("Submodel API is not available in this client")
 
-    sm = model.Submodel(shared_sm.id_short)
+    sm = model.Submodel(shared_sm.id)
     sm.id_short = shared_sm.id_short
 
     description_text = "Patched description for unit tests"

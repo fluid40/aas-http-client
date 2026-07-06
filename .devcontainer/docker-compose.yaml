@@ -1,5 +1,5 @@
 services:
-  basyx_dotnet_repo_server:
+  dotnet_repo_server:
     image: engineeringmethodsag/fluid-basyx-dotnet-repo-server:latest
     container_name: dotnetaasserver
     networks:
@@ -70,7 +70,7 @@ services:
     networks:
       - bridge
 
-  java_aas_server:
+  java_aas_environment:
     image: eclipsebasyx/aas-environment:2.0.0-milestone-09
     container_name: javaaasserver
     networks:
@@ -91,28 +91,78 @@ services:
       mongo:
         condition: service_healthy
 
-  aas-web-ui:
-    image: eclipsebasyx/aas-gui:SNAPSHOT
-    container_name: aas_ui
-    ports:
-      - "8078:3000"
+  postgres:
+    container_name: postgres
+    image: postgres:18
     environment:
-      AAS_REGISTRY_PATH: http://localhost:8076/shell-descriptors
-      SUBMODEL_REGISTRY_PATH: http://localhost:8077/submodel-descriptors
-      AAS_REPO_PATH: http://localhost:8075/shells
-      SUBMODEL_REPO_PATH: http://localhost:8075/submodels
-      CD_REPO_PATH: http://localhost:8075/concept-descriptions
-      PRIMARY_COLOR: "#00A0C7"
-      LOGO_LIGHT_PATH: fluid40_light.png
-      LOGO_DARK_PATH: fluid40_dark.png
-      DASHBOARD_SERVICE_PATH:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: basyxTestDB
+    command: ["postgres", "-c", "listen_addresses=*"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d basyxTestDB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - ./logo:/usr/src/app/dist/Logo
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - bridge
+    restart: unless-stopped
+
+  go_aas_configuration:
+    container_name: aas_basyx_configuration
+    image: eclipsebasyx/basyxconfigurationservice-go:latest
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DBNAME=basyxTestDB
+      - POSTGRES_MAXOPENCONNECTIONS=500
+      - POSTGRES_MAXIDLECONNECTIONS=500
+      - POSTGRES_CONNMAXLIFETIMEMINUTES=5
     depends_on:
-      java_aas_server:
+      postgres:
         condition: service_healthy
     networks:
       - bridge
+    restart: "no"
+
+  go_aas_environment:
+    container_name: goaasserver
+    image: eclipsebasyx/aasenvironment-go:latest
+    command: ["/app/aasenvironmentservice"]
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVER_PORT=8082
+      - CORS_ALLOWEDORIGINS=*
+      - CORS_ALLOWEDHEADERS=*
+      - CORS_ALLOWEDCREDENTIALS=true
+      - CORS_ALLOWEDMETHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DBNAME=basyxTestDB
+      - POSTGRES_MAXOPENCONNECTIONS=500
+      - POSTGRES_MAXIDLECONNECTIONS=500
+      - POSTGRES_CONNMAXLIFETIMEMINUTES=5
+      - ABAC_ENABLED=false
+      - GENERAL_AASREGISTRYINTEGRATION=true
+      - GENERAL_SUBMODELREGISTRYINTEGRATION=true
+      - GENERAL_DISCOVERYINTEGRATION=true
+      - GENERAL_EXTERNALURL=http://localhost:8082
+      - GENERAL_AAS_PRECONFIG_PATHS=/app/preconfiguration
+    volumes:
+      - ./preconfiguration:/app/preconfiguration:ro
+    depends_on:
+      go_aas_configuration:
+        condition: service_completed_successfully
+    networks:
+      - bridge
+    restart: unless-stopped
 
   dev_container:
     build: .
@@ -129,3 +179,4 @@ networks:
 
 volumes:
   mongo_data:
+  postgres_data:
