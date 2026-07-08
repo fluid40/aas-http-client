@@ -6,6 +6,16 @@
 <!-- Title: aas_http_client.utilities.model_builder.create_base_asset_information Pages: 1 -->
 <svg width="372pt" height="49pt"
  viewBox="0.00 0.00 372.00 49.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<svg id="main" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" onload="init(evt)">
+<style type="text/css"><![CDATA[
+.node, .edge {opacity: 0.7;}
+.node.selected, .edge.selected {opacity: 1;}
+.edge:hover path { stroke: red; }
+.edge:hover polygon { stroke: red; fill: red; }
+]]></style>
+<script type="application/ecmascript" xlink:href="svg.min.js"/>
+<svg id="graph" class="graph">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 45)">
 <title>aas_http_client.utilities.model_builder.create_base_asset_information</title>
 <!-- Node1 -->
@@ -22,7 +32,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1model__builder.html#a63d3a0f8680ebc6f24cd60d6e4b21e0b" target="_top" xlink:title="Create a basic AAS.">
+<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1model__builder.html#a32d1c99b7a69e3f8e8926b1ba4e0776b" target="_top" xlink:title="Create a basic AAS.">
 <polygon fill="white" stroke="#666666" points="164,-35.5 0,-35.5 0,-5.5 164,-5.5 164,-35.5"/>
 <text text-anchor="start" x="8" y="-23.5" font-family="Helvetica,sans-Serif" font-size="10.00">aas_http_client.utilities.model</text>
 <text text-anchor="middle" x="82" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">_builder.create_base_aas</text>
@@ -39,4 +49,19 @@
 </g>
 </g>
 </g>
+</svg>
+</svg>
+
+<style type='text/css'>
+<![CDATA[
+[data-mouse-over-selected='false'] { opacity: 0.7; }
+[data-mouse-over-selected='true']  { opacity: 1.0; }
+]]>
+</style>
+<script type="application/ecmascript"><![CDATA[
+document.addEventListener('DOMContentLoaded', (event) => {
+  highlightEdges();
+  highlightAdjacentNodes();
+});
+]]></script>
 </svg>

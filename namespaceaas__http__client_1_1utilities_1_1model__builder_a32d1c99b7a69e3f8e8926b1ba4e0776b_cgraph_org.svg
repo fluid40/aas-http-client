@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1model__builder.html#a83a1008b3d0035d45f2af68b7c9dd3d7" target="_top" xlink:title="Return a basic AssetInformation instance.">
+<g id="a_Node000002"><a xlink:href="namespaceaas__http__client_1_1utilities_1_1model__builder.html#a4fe2d0328bbe643e42f2f86ed53e48bd" target="_top" xlink:title="Return a basic AssetInformation instance.">
 <polygon fill="white" stroke="#666666" points="364,-41 200,-41 200,0 364,0 364,-41"/>
 <text text-anchor="start" x="208" y="-29" font-family="Helvetica,sans-Serif" font-size="10.00">aas_http_client.utilities.model</text>
 <text text-anchor="start" x="208" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">_builder.create_base_asset</text>

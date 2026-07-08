@@ -1,7 +1,7 @@
 var model__builder_8py =
 [
-    [ "create_base_aas", "model__builder_8py.html#a63d3a0f8680ebc6f24cd60d6e4b21e0b", null ],
-    [ "create_base_asset_information", "model__builder_8py.html#a83a1008b3d0035d45f2af68b7c9dd3d7", null ],
+    [ "create_base_aas", "model__builder_8py.html#a32d1c99b7a69e3f8e8926b1ba4e0776b", null ],
+    [ "create_base_asset_information", "model__builder_8py.html#a4fe2d0328bbe643e42f2f86ed53e48bd", null ],
     [ "create_base_submodel", "model__builder_8py.html#afb195f7cf9d24644eb1b58e1bcc2431c", null ],
     [ "create_base_submodel_element_collection", "model__builder_8py.html#a8878e299b0e20105e41580f9b53e3717", null ],
     [ "create_base_submodel_element_property", "model__builder_8py.html#a2c1f3586593d1dcc14c85914b0f65be4", null ],
