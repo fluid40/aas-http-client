@@ -116,7 +116,12 @@ def create_base_submodel(identifier: str, id_short: str, display_name: str = "",
 
 
 def create_base_aas(
-    identifier: str, id_short: str, global_asset_identifier: str, display_name: str = "", description: str = ""
+    identifier: str,
+    id_short: str,
+    global_asset_identifier: str,
+    display_name: str = "",
+    description: str = "",
+    asset_kind: model.AssetKind = model.AssetKind.INSTANCE,
 ) -> model.AssetAdministrationShell:
     """Create a basic AAS.
 
@@ -125,12 +130,13 @@ def create_base_aas(
     :param global_asset_identifier: identifier of the global Asset
     :param display_name: display name of the AAS, defaults to ""
     :param description: description of the AAS, defaults to ""
+    :param asset_kind: kind of the Asset, defaults to AssetKind.INSTANCE
     :return: AssetAdministrationShell instance
     """
     if not global_asset_identifier:
         global_asset_identifier = identifier
 
-    asset_info = create_base_asset_information(global_asset_identifier)
+    asset_info = create_base_asset_information(global_asset_identifier, asset_kind)
 
     aas = model.AssetAdministrationShell(id_=identifier, asset_information=asset_info)
     aas.id_short = id_short
@@ -146,14 +152,14 @@ def create_base_aas(
     return aas
 
 
-def create_base_asset_information(identifier: str) -> model.AssetInformation:
+def create_base_asset_information(identifier: str, asset_kind: model.AssetKind = model.AssetKind.INSTANCE) -> model.AssetInformation:
     """Return a basic AssetInformation instance.
 
-    :param id_short: short ID of the AssetInformation
-    :param namespace: namespace of the AssetInformation, defaults to "basyx_python_aas_server"
+    :param identifier: identifier of the AssetInformation
+    :param asset_kind: kind of the Asset, defaults to AssetKind.INSTANCE
     :return: AssetInformation instance
     """
-    return model.AssetInformation(model.AssetKind.INSTANCE, identifier)
+    return model.AssetInformation(asset_kind, identifier)
 
 
 def create_reference(id: str) -> model.ModelReference:

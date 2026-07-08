@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.2.0] - 2026-07-08
+
+* 🚀Improvement: Enhance create_base_aas and create_base_asset_information functions in model builder to include asset_kind parameter for improved asset handling
+
 ## [1.1.10] - 2026-06-26
 
 * 🚀Improvement: Add AASConnectionError for better error handling
