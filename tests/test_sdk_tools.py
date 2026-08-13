@@ -143,7 +143,7 @@ def test_005c_convert_to_object():
     assert result is None
 
 def test_006a_copy(shared_aas: model.AssetAdministrationShell):
-    copied_element = sdk_tools.copy_submodel_element(shared_aas)
+    copied_element = sdk_tools.deep_copy(shared_aas)
 
     assert copied_element is not None
     assert isinstance(copied_element, model.AssetAdministrationShell)
@@ -153,7 +153,7 @@ def test_006a_copy(shared_aas: model.AssetAdministrationShell):
     assert copied_aas.id_short == shared_aas.id_short
 
 def test_006b_copy(shared_sm: model.Submodel):
-    copied_element = sdk_tools.copy_submodel_element(shared_sm)
+    copied_element = sdk_tools.deep_copy(shared_sm)
 
     assert copied_element is not None
     assert isinstance(copied_element, model.Submodel)
@@ -163,7 +163,7 @@ def test_006b_copy(shared_sm: model.Submodel):
     assert copied_sm.id_short == shared_sm.id_short
 
 def test_006c_copy(shared_sme: model.SubmodelElement):
-    copied_element = sdk_tools.copy_submodel_element(shared_sme)
+    copied_element = sdk_tools.deep_copy(shared_sme)
 
     assert copied_element is not None
     assert isinstance(copied_element, model.SubmodelElement)
@@ -172,7 +172,7 @@ def test_006c_copy(shared_sme: model.SubmodelElement):
     assert copied_sme.id_short == shared_sme.id_short
 
 def test_006d_copy(shared_sme_collection: model.SubmodelElementCollection):
-    copied_element = sdk_tools.copy_submodel_element(shared_sme_collection)
+    copied_element = sdk_tools.deep_copy(shared_sme_collection)
 
     assert copied_element is not None
     assert isinstance(copied_element, model.SubmodelElementCollection)

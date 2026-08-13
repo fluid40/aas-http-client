@@ -97,13 +97,13 @@ def convert_to_dict(object: Any) -> dict | None:
         return None
 
 
-def copy_submodel_element(submodel_element: Any) -> Any:
-    """Create a deep copy of a submodel element.
+def deep_copy(object: Any) -> Any:
+    """Create a deep copy of a BaSyx SDK framework object.
 
-    :param submodel_element: Submodel element to copy.
-    :return: A deep copy of the submodel element.
+    :param submodel_element: BaSyx SDK framework object to copy.
+    :return: A deep copy of the BaSyx SDK framework object.
     """
-    submodel_element_dict = convert_to_dict(submodel_element)
+    submodel_element_dict = convert_to_dict(object)
 
     if submodel_element_dict is None:
         _logger.error("Failed to convert submodel element to dictionary for copying.")

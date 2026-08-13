@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.2.1] - 2026-08-13
+
+* ✨Feat: Add deep copy function for framework objects to SDK tools.
+
 ## [1.2.0] - 2026-07-08
 
 * 🚀Improvement: Enhance create_base_aas and create_base_asset_information functions in model builder to include asset_kind parameter for improved asset handling
