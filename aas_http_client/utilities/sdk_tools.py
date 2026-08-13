@@ -90,9 +90,23 @@ def convert_to_dict(object: Any) -> dict | None:
 
     try:
         data_string = json.dumps(object, cls=basyx.aas.adapter.json.AASToJsonEncoder)
-        model_dict = json.loads(data_string)
-        return model_dict
+        return json.loads(data_string)
     except Exception as e:
         _logger.error(f"Encoding error: {e}")
         _logger.error(f"In object: {object}")
         return None
+
+
+def copy_submodel_element(submodel_element: Any) -> Any:
+    """Create a deep copy of a submodel element.
+
+    :param submodel_element: Submodel element to copy.
+    :return: A deep copy of the submodel element.
+    """
+    submodel_element_dict = convert_to_dict(submodel_element)
+
+    if submodel_element_dict is None:
+        _logger.error("Failed to convert submodel element to dictionary for copying.")
+        return None
+
+    return convert_to_object(submodel_element_dict)
