@@ -20,7 +20,7 @@ This guide will walk you through installing and using `aas-http-client` .
 
 Prerequisites:
 
-* Python 3.10 or newer
+* Python 3.13 or newer
 * Access to an AAS server endpoint
 
 Install via pip:
