@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.2.2] - 2026-08-14
+
+* 🧹Chore: Upgrade package versions in requirements.txt for improved compatibility and features.
+
 ## [1.2.1] - 2026-08-13
 
 * ✨Feat: Add deep copy function for framework objects to SDK tools.
