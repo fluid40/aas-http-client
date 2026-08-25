@@ -27,114 +27,115 @@ var NAVTREE =
   [ "AAS HTTP Client Documentation", "index.html", [
     [ "AAS HTTP Client", "index.html", "index" ],
     [ "📝 Changelog", "md_docs_2CHANGELOG.html", [
-      [ "[1.2.3] - 2026-08-14", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
-      [ "[1.2.1] - 2026-08-13", "md_docs_2CHANGELOG.html#autotoc_md2", null ],
-      [ "[1.2.0] - 2026-07-08", "md_docs_2CHANGELOG.html#autotoc_md3", null ],
-      [ "[1.1.10] - 2026-06-26", "md_docs_2CHANGELOG.html#autotoc_md4", null ],
-      [ "[1.1.8] - 2026-06-25", "md_docs_2CHANGELOG.html#autotoc_md5", null ],
-      [ "[1.1.6] - 2026-06-25", "md_docs_2CHANGELOG.html#autotoc_md6", null ],
-      [ "[1.1.3] - 2026-06-11", "md_docs_2CHANGELOG.html#autotoc_md7", null ],
-      [ "[1.1.1] - 2026-06-09", "md_docs_2CHANGELOG.html#autotoc_md8", null ],
-      [ "[1.1.0] - 2026-05-28", "md_docs_2CHANGELOG.html#autotoc_md9", null ],
-      [ "[1.0.14] - 2026-05-20", "md_docs_2CHANGELOG.html#autotoc_md10", null ],
-      [ "[1.0.12] - 2026-05-15", "md_docs_2CHANGELOG.html#autotoc_md11", null ],
-      [ "[1.0.11] - 2026-05-08", "md_docs_2CHANGELOG.html#autotoc_md12", null ],
-      [ "[1.0.9] - 2026-04-25", "md_docs_2CHANGELOG.html#autotoc_md13", null ],
-      [ "[1.0.8] - 2026-04-24", "md_docs_2CHANGELOG.html#autotoc_md14", null ],
-      [ "[1.0.4] - 2026-03-26", "md_docs_2CHANGELOG.html#autotoc_md15", null ],
-      [ "[1.0.0] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md16", null ],
-      [ "[0.9.7] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md17", null ],
-      [ "[0.9.6] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md18", null ],
-      [ "[0.9.5] - 2026-02-03", "md_docs_2CHANGELOG.html#autotoc_md19", null ],
-      [ "[0.9.4] - 2026-01-20", "md_docs_2CHANGELOG.html#autotoc_md20", null ],
-      [ "[0.9.2] - 2026-01-16", "md_docs_2CHANGELOG.html#autotoc_md21", null ],
-      [ "[0.9.1] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md22", null ],
-      [ "[0.9.0] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md23", null ],
-      [ "[0.8.5] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md24", null ],
-      [ "[0.8.2] - 2026-01-07", "md_docs_2CHANGELOG.html#autotoc_md25", null ],
-      [ "[0.8.0] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md26", null ],
-      [ "[0.7.5] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md27", null ],
-      [ "[0.7.2] - 2026-01-05", "md_docs_2CHANGELOG.html#autotoc_md28", null ],
-      [ "[0.7.1] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md29", null ],
-      [ "[0.7.0] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md30", null ],
-      [ "[0.6.2] - 2025-12-17", "md_docs_2CHANGELOG.html#autotoc_md31", null ],
-      [ "[0.6.1] - 2025-12-10", "md_docs_2CHANGELOG.html#autotoc_md32", null ],
-      [ "[0.6.0] - 2025-12-09", "md_docs_2CHANGELOG.html#autotoc_md33", null ],
-      [ "[0.5.6] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md34", null ],
-      [ "[0.5.5] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md35", null ],
-      [ "[0.5.4] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md36", null ],
-      [ "[0.2.6] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md37", null ],
-      [ "[0.2.5] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md38", null ]
+      [ "[1.2.4] - 2026-08-25", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
+      [ "[1.2.3] - 2026-08-14", "md_docs_2CHANGELOG.html#autotoc_md2", null ],
+      [ "[1.2.1] - 2026-08-13", "md_docs_2CHANGELOG.html#autotoc_md3", null ],
+      [ "[1.2.0] - 2026-07-08", "md_docs_2CHANGELOG.html#autotoc_md4", null ],
+      [ "[1.1.10] - 2026-06-26", "md_docs_2CHANGELOG.html#autotoc_md5", null ],
+      [ "[1.1.8] - 2026-06-25", "md_docs_2CHANGELOG.html#autotoc_md6", null ],
+      [ "[1.1.6] - 2026-06-25", "md_docs_2CHANGELOG.html#autotoc_md7", null ],
+      [ "[1.1.3] - 2026-06-11", "md_docs_2CHANGELOG.html#autotoc_md8", null ],
+      [ "[1.1.1] - 2026-06-09", "md_docs_2CHANGELOG.html#autotoc_md9", null ],
+      [ "[1.1.0] - 2026-05-28", "md_docs_2CHANGELOG.html#autotoc_md10", null ],
+      [ "[1.0.14] - 2026-05-20", "md_docs_2CHANGELOG.html#autotoc_md11", null ],
+      [ "[1.0.12] - 2026-05-15", "md_docs_2CHANGELOG.html#autotoc_md12", null ],
+      [ "[1.0.11] - 2026-05-08", "md_docs_2CHANGELOG.html#autotoc_md13", null ],
+      [ "[1.0.9] - 2026-04-25", "md_docs_2CHANGELOG.html#autotoc_md14", null ],
+      [ "[1.0.8] - 2026-04-24", "md_docs_2CHANGELOG.html#autotoc_md15", null ],
+      [ "[1.0.4] - 2026-03-26", "md_docs_2CHANGELOG.html#autotoc_md16", null ],
+      [ "[1.0.0] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md17", null ],
+      [ "[0.9.7] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md18", null ],
+      [ "[0.9.6] - 2026-02-17", "md_docs_2CHANGELOG.html#autotoc_md19", null ],
+      [ "[0.9.5] - 2026-02-03", "md_docs_2CHANGELOG.html#autotoc_md20", null ],
+      [ "[0.9.4] - 2026-01-20", "md_docs_2CHANGELOG.html#autotoc_md21", null ],
+      [ "[0.9.2] - 2026-01-16", "md_docs_2CHANGELOG.html#autotoc_md22", null ],
+      [ "[0.9.1] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md23", null ],
+      [ "[0.9.0] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md24", null ],
+      [ "[0.8.5] - 2026-01-08", "md_docs_2CHANGELOG.html#autotoc_md25", null ],
+      [ "[0.8.2] - 2026-01-07", "md_docs_2CHANGELOG.html#autotoc_md26", null ],
+      [ "[0.8.0] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md27", null ],
+      [ "[0.7.5] - 2026-01-06", "md_docs_2CHANGELOG.html#autotoc_md28", null ],
+      [ "[0.7.2] - 2026-01-05", "md_docs_2CHANGELOG.html#autotoc_md29", null ],
+      [ "[0.7.1] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md30", null ],
+      [ "[0.7.0] - 2025-12-18", "md_docs_2CHANGELOG.html#autotoc_md31", null ],
+      [ "[0.6.2] - 2025-12-17", "md_docs_2CHANGELOG.html#autotoc_md32", null ],
+      [ "[0.6.1] - 2025-12-10", "md_docs_2CHANGELOG.html#autotoc_md33", null ],
+      [ "[0.6.0] - 2025-12-09", "md_docs_2CHANGELOG.html#autotoc_md34", null ],
+      [ "[0.5.6] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md35", null ],
+      [ "[0.5.5] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md36", null ],
+      [ "[0.5.4] - 2025-12-01", "md_docs_2CHANGELOG.html#autotoc_md37", null ],
+      [ "[0.2.6] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md38", null ],
+      [ "[0.2.5] - 2025-08-18", "md_docs_2CHANGELOG.html#autotoc_md39", null ]
     ] ],
     [ "🛠️ Configuration Guide", "md_docs_2configuration.html", [
-      [ "Configuration Parameters", "md_docs_2configuration.html#autotoc_md40", [
-        [ "Parameters Overview", "md_docs_2configuration.html#autotoc_md41", null ],
-        [ "Key Points", "md_docs_2configuration.html#autotoc_md42", null ],
-        [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md43", null ]
+      [ "Configuration Parameters", "md_docs_2configuration.html#autotoc_md41", [
+        [ "Parameters Overview", "md_docs_2configuration.html#autotoc_md42", null ],
+        [ "Key Points", "md_docs_2configuration.html#autotoc_md43", null ],
+        [ "Example Configuration File", "md_docs_2configuration.html#autotoc_md44", null ]
       ] ],
-      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md44", [
-        [ "Basic Authentication", "md_docs_2configuration.html#autotoc_md45", null ],
-        [ "Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md46", null ],
-        [ "OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md47", null ],
-        [ "OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md48", null ]
+      [ "Authentication Methods", "md_docs_2configuration.html#autotoc_md45", [
+        [ "Basic Authentication", "md_docs_2configuration.html#autotoc_md46", null ],
+        [ "Bearer Token Authentication", "md_docs_2configuration.html#autotoc_md47", null ],
+        [ "OAuth2 Client Credentials", "md_docs_2configuration.html#autotoc_md48", null ],
+        [ "OAuth2 Password Grant", "md_docs_2configuration.html#autotoc_md49", null ]
       ] ],
-      [ "Best Practices", "md_docs_2configuration.html#autotoc_md49", [
-        [ "Security", "md_docs_2configuration.html#autotoc_md50", null ],
-        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md51", null ],
-        [ "Performance", "md_docs_2configuration.html#autotoc_md52", null ],
-        [ "Notes", "md_docs_2configuration.html#autotoc_md53", null ]
+      [ "Best Practices", "md_docs_2configuration.html#autotoc_md50", [
+        [ "Security", "md_docs_2configuration.html#autotoc_md51", null ],
+        [ "Configuration Management", "md_docs_2configuration.html#autotoc_md52", null ],
+        [ "Performance", "md_docs_2configuration.html#autotoc_md53", null ],
+        [ "Notes", "md_docs_2configuration.html#autotoc_md54", null ]
       ] ]
     ] ],
     [ "🚀 Getting Started", "md_docs_2getting__started.html", [
-      [ "Installation", "md_docs_2getting__started.html#autotoc_md56", null ],
-      [ "Usage", "md_docs_2getting__started.html#autotoc_md58", [
-        [ "Notes", "md_docs_2getting__started.html#autotoc_md59", null ],
-        [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md60", [
-          [ "Create by URL", "md_docs_2getting__started.html#autotoc_md61", null ],
-          [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md62", null ],
-          [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md63", null ]
+      [ "Installation", "md_docs_2getting__started.html#autotoc_md57", null ],
+      [ "Usage", "md_docs_2getting__started.html#autotoc_md59", [
+        [ "Notes", "md_docs_2getting__started.html#autotoc_md60", null ],
+        [ "Creation Methods", "md_docs_2getting__started.html#autotoc_md61", [
+          [ "Create by URL", "md_docs_2getting__started.html#autotoc_md62", null ],
+          [ "Create by Dictionary", "md_docs_2getting__started.html#autotoc_md63", null ],
+          [ "Create by Configuration File", "md_docs_2getting__started.html#autotoc_md64", null ]
         ] ],
-        [ "/Shell/ Endpoints", "md_docs_2getting__started.html#autotoc_md64", [
-          [ "Example: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md65", null ],
-          [ "Example: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md66", null ]
+        [ "/Shell/ Endpoints", "md_docs_2getting__started.html#autotoc_md65", [
+          [ "Example: List Asset Administration Shells (client)", "md_docs_2getting__started.html#autotoc_md66", null ],
+          [ "Example: Fetch one shell by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md67", null ]
         ] ],
-        [ "/Submodel/ Endpoints", "md_docs_2getting__started.html#autotoc_md67", [
-          [ "Example: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md68", null ],
-          [ "Example: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md69", null ]
+        [ "/Submodel/ Endpoints", "md_docs_2getting__started.html#autotoc_md68", [
+          [ "Example: List Submodels (client)", "md_docs_2getting__started.html#autotoc_md69", null ],
+          [ "Example: Fetch one submodel by ID (wrapper)", "md_docs_2getting__started.html#autotoc_md70", null ]
         ] ],
-        [ "/shell-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md70", [
-          [ "Example: List shell descriptors", "md_docs_2getting__started.html#autotoc_md71", null ],
-          [ "Example: Fetch one shell descriptor by ID", "md_docs_2getting__started.html#autotoc_md72", null ],
-          [ "Example: Register a shell descriptor", "md_docs_2getting__started.html#autotoc_md73", null ]
+        [ "/shell-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md71", [
+          [ "Example: List shell descriptors", "md_docs_2getting__started.html#autotoc_md72", null ],
+          [ "Example: Fetch one shell descriptor by ID", "md_docs_2getting__started.html#autotoc_md73", null ],
+          [ "Example: Register a shell descriptor", "md_docs_2getting__started.html#autotoc_md74", null ]
         ] ],
-        [ "/submodel-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md74", [
-          [ "Example: List submodel descriptors", "md_docs_2getting__started.html#autotoc_md75", null ],
-          [ "Example: Fetch one submodel descriptor by ID", "md_docs_2getting__started.html#autotoc_md76", null ],
-          [ "Example: Register a submodel descriptor", "md_docs_2getting__started.html#autotoc_md77", null ]
+        [ "/submodel-descriptors/ Endpoints", "md_docs_2getting__started.html#autotoc_md75", [
+          [ "Example: List submodel descriptors", "md_docs_2getting__started.html#autotoc_md76", null ],
+          [ "Example: Fetch one submodel descriptor by ID", "md_docs_2getting__started.html#autotoc_md77", null ],
+          [ "Example: Register a submodel descriptor", "md_docs_2getting__started.html#autotoc_md78", null ]
         ] ],
-        [ "Experimental Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md78", [
-          [ "Example: Download file content (wrapper)", "md_docs_2getting__started.html#autotoc_md79", null ],
-          [ "Example: Upload or replace file content (client)", "md_docs_2getting__started.html#autotoc_md80", null ]
+        [ "Experimental Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md79", [
+          [ "Example: Download file content (wrapper)", "md_docs_2getting__started.html#autotoc_md80", null ],
+          [ "Example: Upload or replace file content (client)", "md_docs_2getting__started.html#autotoc_md81", null ]
         ] ],
-        [ "Generic Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md81", [
-          [ "Example: Generic GET call", "md_docs_2getting__started.html#autotoc_md82", null ],
-          [ "Example: Generic POST/PUT/PATCH/DELETE calls", "md_docs_2getting__started.html#autotoc_md83", null ]
+        [ "Generic Endpoint Implementations", "md_docs_2getting__started.html#autotoc_md82", [
+          [ "Example: Generic GET call", "md_docs_2getting__started.html#autotoc_md83", null ],
+          [ "Example: Generic POST/PUT/PATCH/DELETE calls", "md_docs_2getting__started.html#autotoc_md84", null ]
         ] ]
       ] ]
     ] ],
     [ "👨‍⚕️ Troubleshooting", "md_docs_2troubleshooting.html", [
-      [ "Quick checklist", "md_docs_2troubleshooting.html#autotoc_md85", null ],
-      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md86", null ],
-      [ "HTTP 401 or 403 (authentication or authorization)", "md_docs_2troubleshooting.html#autotoc_md87", null ],
-      [ "HTTP 404 (resource not found)", "md_docs_2troubleshooting.html#autotoc_md88", null ],
-      [ "Empty list responses", "md_docs_2troubleshooting.html#autotoc_md89", null ],
-      [ "Timeouts or connection errors", "md_docs_2troubleshooting.html#autotoc_md90", null ],
-      [ "SSL and proxy issues", "md_docs_2troubleshooting.html#autotoc_md91", null ],
-      [ "Pagination issues", "md_docs_2troubleshooting.html#autotoc_md92", null ],
-      [ "Wrapper vs client endpoint availability", "md_docs_2troubleshooting.html#autotoc_md93", null ],
-      [ "Experimental endpoint issues", "md_docs_2troubleshooting.html#autotoc_md94", null ],
-      [ "Generic endpoint helper issues", "md_docs_2troubleshooting.html#autotoc_md95", null ],
-      [ "Debug logging", "md_docs_2troubleshooting.html#autotoc_md96", null ]
+      [ "Quick checklist", "md_docs_2troubleshooting.html#autotoc_md86", null ],
+      [ "Client creation", "md_docs_2troubleshooting.html#autotoc_md87", null ],
+      [ "HTTP 401 or 403 (authentication or authorization)", "md_docs_2troubleshooting.html#autotoc_md88", null ],
+      [ "HTTP 404 (resource not found)", "md_docs_2troubleshooting.html#autotoc_md89", null ],
+      [ "Empty list responses", "md_docs_2troubleshooting.html#autotoc_md90", null ],
+      [ "Timeouts or connection errors", "md_docs_2troubleshooting.html#autotoc_md91", null ],
+      [ "SSL and proxy issues", "md_docs_2troubleshooting.html#autotoc_md92", null ],
+      [ "Pagination issues", "md_docs_2troubleshooting.html#autotoc_md93", null ],
+      [ "Wrapper vs client endpoint availability", "md_docs_2troubleshooting.html#autotoc_md94", null ],
+      [ "Experimental endpoint issues", "md_docs_2troubleshooting.html#autotoc_md95", null ],
+      [ "Generic endpoint helper issues", "md_docs_2troubleshooting.html#autotoc_md96", null ],
+      [ "Debug logging", "md_docs_2troubleshooting.html#autotoc_md97", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -163,10 +164,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aas__client_8py.html",
-"classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#a79621180100ff5af2ee60ed067f5a5bf",
-"md_docs_2CHANGELOG.html#autotoc_md38",
-"namespacetests_1_1test__client.html#af401626cd146a3838f9f40df1327b8c0",
-"test__client_8py.html#abf849f3259ca908df4eb74e15bc19afa"
+"classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html#a34465375ffb56f56033bf2499faaa873",
+"md_docs_2CHANGELOG.html#autotoc_md32",
+"namespacetests_1_1test__client.html#ae5eba60a526fcf063af39bd54a0bc390",
+"test__client_8py.html#aa3fae8c73427cb85d724426e79ddafe7"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
