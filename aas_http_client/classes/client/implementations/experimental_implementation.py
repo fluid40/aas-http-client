@@ -32,10 +32,96 @@ class ExperimentalImplementation(BaseModel):
         session = client.get_session()
         if session is None:
             raise ValueError(
-                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating ExperimentalImplementation instance."
             )
 
         self._session: requests.Session = session
+
+    # GET /concept-descriptions
+    def get_concept_descriptions(self):
+        """Retrieves concept descriptions. Experimental feature - may not be supported by all servers."""
+        url = f"{self._client.base_url}/concept-descriptions"
+
+        self._client.set_token()  # ensures Authorization header is set
+
+        try:
+            response = self._session.get(url, timeout=self._client.time_out)
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                _logger.warning("Concept descriptions not found.")
+                _logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error calling REST API: {e}")
+            return None
+
+        return response.json()
+
+    # GET /concept-descriptions/{conceptDescriptionIdentifier}
+    def get_concept_description_by_id(self, concept_description_identifier: str):
+        """Retrieves a specific concept description by its identifier. Experimental feature - may not be supported by all servers.
+
+        :param concept_description_identifier: The unique identifier of the concept description
+        :return: Concept description data as a dictionary or None if not found
+        """
+        url = f"{self._client.base_url}/concept-descriptions/{concept_description_identifier}"
+
+        self._client.set_token()  # ensures Authorization header is set
+
+        try:
+            response = self._session.get(url, timeout=self._client.time_out)
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                _logger.debug(response.text)
+                return None
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return None
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error calling REST API: {e}")
+            return None
+
+        return response.json()
+
+    # POST /concept-descriptions
+    def post_concept_description(self, concept_description: dict) -> bool:
+        """Creates a new concept description. Experimental feature - may not be supported by all servers.
+
+        :param concept_description: Concept description data as a dictionary
+        :return: True if creation was successful, False otherwise
+        """
+        url = f"{self._client.base_url}/concept-descriptions"
+
+        self._client.set_token()  # ensures Authorization header is set
+
+        try:
+            response = self._session.post(url, json=concept_description, timeout=self._client.time_out)
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                _logger.warning("Concept descriptions endpoint not found.")
+                _logger.debug(response.text)
+                return False
+
+            if response.status_code != STATUS_CODE_200:
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error calling REST API: {e}")
+            return False
+
+        return True
 
     # GET /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def get_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bytes | None:

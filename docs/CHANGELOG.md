@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.2.4] - 2026-08-25
+
+* ✨Feat: Add concept descriptions functions to experimental implementations.
+
 ## [1.2.3] - 2026-08-14
 
 * 🧹Chore: Upgrade package versions in requirements.txt for improved compatibility and features.
