@@ -10,6 +10,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
+from aas_http_client.utilities.constants import LogIntensity
 from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
@@ -56,7 +57,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -91,7 +96,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -124,7 +133,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Asset Administration Shell Descriptor with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -159,7 +172,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -196,7 +213,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -231,7 +252,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -355,7 +380,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Shell Descriptor with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -390,7 +419,11 @@ class ShellRegistryImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Shell Descriptor with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Shell Descriptor with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 

@@ -76,7 +76,7 @@ class AasHttpClient(BaseModel):
     experimental: ExperimentalImplementation | None = Field(default=None)
     submodel_registry: SubmodelRegistryImplementation | None = Field(default=None)
     _cached_token: TokenData | None = PrivateAttr(default=None)
-    _log_intensity: LogIntensity = PrivateAttr(default=LogIntensity.High)
+    _log_intensity: LogIntensity = PrivateAttr(default=LogIntensity.HIGH)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
