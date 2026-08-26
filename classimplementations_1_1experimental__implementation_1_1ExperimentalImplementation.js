@@ -1,6 +1,7 @@
 var classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation =
 [
     [ "__init__", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#aad89eb1881937d8d8a3417ee6ade0596", null ],
+    [ "delete_concept_description_by_id", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#ad190a289053b48eadbbe8c94a42aa788", null ],
     [ "delete_file_by_path_submodel_repo", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a043a5b7f97ce6dec9478216b9c031fc3", null ],
     [ "get_concept_description_by_id", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a36c7b1c3f41b15eca2295a331277da2a", null ],
     [ "get_concept_descriptions", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#aa0a6cd6acd1ab3e327de5d2d00d18acf", null ],

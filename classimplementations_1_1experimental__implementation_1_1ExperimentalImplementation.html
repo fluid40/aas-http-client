@@ -124,6 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a88b0b541be1044625ee110926c997088" id="r_a88b0b541be1044625ee110926c997088"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a88b0b541be1044625ee110926c997088">post_concept_description</a> (self, dict concept_description)</td></tr>
 <tr class="memdesc:a88b0b541be1044625ee110926c997088"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new concept description.  <br /></td></tr>
 <tr class="separator:a88b0b541be1044625ee110926c997088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad190a289053b48eadbbe8c94a42aa788" id="r_ad190a289053b48eadbbe8c94a42aa788"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#ad190a289053b48eadbbe8c94a42aa788">delete_concept_description_by_id</a> (self, str concept_description_identifier)</td></tr>
+<tr class="memdesc:ad190a289053b48eadbbe8c94a42aa788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a specific concept description by its identifier.  <br /></td></tr>
+<tr class="separator:ad190a289053b48eadbbe8c94a42aa788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32ffc1729c1aca5075e137b586ca0398" id="r_a32ffc1729c1aca5075e137b586ca0398"><td class="memItemLeft" align="right" valign="top">bytes|None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a32ffc1729c1aca5075e137b586ca0398">get_file_by_path_submodel_repo</a> (self, str submodel_identifier, str id_short_path)</td></tr>
 <tr class="memdesc:a32ffc1729c1aca5075e137b586ca0398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads file content from a specific submodel element from the Submodel at a specified path.  <br /></td></tr>
 <tr class="separator:a32ffc1729c1aca5075e137b586ca0398"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,7 +148,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of Asset Administration Shell Registry related API calls. </p>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00029">29</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00030">30</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aad89eb1881937d8d8a3417ee6ade0596" name="aad89eb1881937d8d8a3417ee6ade0596"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad89eb1881937d8d8a3417ee6ade0596">&#9670;&#160;</a></span>__init__()</h2>
@@ -175,11 +178,51 @@ Protected Attributes</h2></td></tr>
 
 <p>Initializes the ExperimentalImplementation with the given client. </p>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00032">32</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00033">33</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad190a289053b48eadbbe8c94a42aa788" name="ad190a289053b48eadbbe8c94a42aa788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad190a289053b48eadbbe8c94a42aa788">&#9670;&#160;</a></span>delete_concept_description_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> bool implementations.experimental_implementation.ExperimentalImplementation.delete_concept_description_by_id </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>concept_description_identifier</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes a specific concept description by its identifier. </p>
+<p>Experimental feature - may not be supported by all servers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">concept_description_identifier</td><td>The unique identifier of the concept description </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if deletion was successful, False otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00136">136</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+
+</div>
+</div>
 <a id="a043a5b7f97ce6dec9478216b9c031fc3" name="a043a5b7f97ce6dec9478216b9c031fc3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a043a5b7f97ce6dec9478216b9c031fc3">&#9670;&#160;</a></span>delete_file_by_path_submodel_repo()</h2>
 
@@ -223,7 +266,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if deletion was successful, False otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00262">262</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00293">293</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -263,7 +306,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Concept description data as a dictionary or None if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00075">75</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00076">76</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -286,7 +329,7 @@ Protected Attributes</h2></td></tr>
 <p>Retrieves concept descriptions. </p>
 <p>Experimental feature - may not be supported by all servers. </p>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00045">45</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00046">46</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -333,7 +376,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Attachment file data as bytes (octet-stream) or None if an error occurred </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00136">136</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00167">167</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -373,7 +416,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if creation was successful, False otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00105">105</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00106">106</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -427,7 +470,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Attachment data as bytes or None if an error occurred </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00173">173</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00204">204</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -481,7 +524,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Attachment data as bytes or None if an error occurred </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00218">218</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00249">249</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
@@ -506,7 +549,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00033">33</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="experimental__implementation_8py_source.html#l00034">34</a> of file <a class="el" href="experimental__implementation_8py_source.html">experimental_implementation.py</a>.</p>
 
 </div>
 </div>
