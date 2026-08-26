@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.2.5] - 2026-07-08
+
+* 🚀Improvement: Add delete concept descriptions functions to experimental implementations.
+
 ## [1.2.4] - 2026-08-25
 
 * ✨Feat: Add concept descriptions functions to experimental implementations.

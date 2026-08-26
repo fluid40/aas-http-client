@@ -14,6 +14,7 @@ from pydantic import BaseModel
 from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
+    STATUS_CODE_201,
     STATUS_CODE_204,
     STATUS_CODE_404,
     log_response,
@@ -113,7 +114,37 @@ class ExperimentalImplementation(BaseModel):
                 _logger.debug(response.text)
                 return False
 
-            if response.status_code != STATUS_CODE_200:
+            if response.status_code != STATUS_CODE_201:
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error calling REST API: {e}")
+            return False
+
+        return True
+
+    # DELETE /concept-descriptions/{conceptDescriptionIdentifier}
+    def delete_concept_description_by_id(self, concept_description_identifier: str) -> bool:
+        """Deletes a specific concept description by its identifier. Experimental feature - may not be supported by all servers.
+
+        :param concept_description_identifier: The unique identifier of the concept description
+        :return: True if deletion was successful, False otherwise
+        """
+        url = f"{self._client.base_url}/concept-descriptions/{concept_description_identifier}"
+
+        self._client.set_token()  # ensures Authorization header is set
+
+        try:
+            response = self._session.delete(url, timeout=self._client.time_out)
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                _logger.debug(response.text)
+                return False
+
+            if response.status_code != STATUS_CODE_204:
                 log_response(response)
                 return False
 
