@@ -4,6 +4,13 @@ var annotated_dup =
       [ "AASConnectionError", "classaas__client_1_1AASConnectionError.html", "classaas__client_1_1AASConnectionError" ],
       [ "AasHttpClient", "classaas__client_1_1AasHttpClient.html", "classaas__client_1_1AasHttpClient" ]
     ] ],
+    [ "aas_http_client", "namespaceaas__http__client.html", [
+      [ "utilities", "namespaceaas__http__client_1_1utilities.html", [
+        [ "constants", "namespaceaas__http__client_1_1utilities_1_1constants.html", [
+          [ "LogIntensity", "classaas__http__client_1_1utilities_1_1constants_1_1LogIntensity.html", null ]
+        ] ]
+      ] ]
+    ] ],
     [ "attachment", "namespaceattachment.html", [
       [ "Attachment", "classattachment_1_1Attachment.html", null ]
     ] ],

@@ -1,5 +1,6 @@
 var namespaceaas__http__client_1_1utilities =
 [
+    [ "constants", "namespaceaas__http__client_1_1utilities_1_1constants.html", "namespaceaas__http__client_1_1utilities_1_1constants" ],
     [ "encoder", "namespaceaas__http__client_1_1utilities_1_1encoder.html", [
       [ "decode_base_64", "namespaceaas__http__client_1_1utilities_1_1encoder.html#a4533d1f30e7037372cbdfb1aaa200a97", null ],
       [ "encode_base_64", "namespaceaas__http__client_1_1utilities_1_1encoder.html#aec495f12ca2bd0c25c749226dae20750", null ]

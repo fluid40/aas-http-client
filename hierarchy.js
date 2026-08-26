@@ -25,6 +25,7 @@ var hierarchy =
       [ "implementations.sm_registry_implementation.SubmodelRegistryImplementation", "classimplementations_1_1sm__registry__implementation_1_1SubmodelRegistryImplementation.html", null ]
     ] ],
     [ "Enum", null, [
+      [ "aas_http_client.utilities.constants.LogIntensity", "classaas__http__client_1_1utilities_1_1constants_1_1LogIntensity.html", null ],
       [ "implementations.authentication.AuthMethod", "classimplementations_1_1authentication_1_1AuthMethod.html", null ],
       [ "sdk_wrapper.AssetKind", "classsdk__wrapper_1_1AssetKind.html", null ],
       [ "sdk_wrapper.Extent", "classsdk__wrapper_1_1Extent.html", null ],

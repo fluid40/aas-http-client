@@ -40,6 +40,7 @@ var classsdk__wrapper_1_1SdkWrapper =
     [ "put_submodels_by_id", "classsdk__wrapper_1_1SdkWrapper.html#a4ecdae372fd87b08894805328070ce74", null ],
     [ "put_thumbnail_aas_repository", "classsdk__wrapper_1_1SdkWrapper.html#a0e7fb919a2d9d2d87968757da95449c0", null ],
     [ "set_encoded_ids", "classsdk__wrapper_1_1SdkWrapper.html#a84080d398337904c6304ceeddfb938f2", null ],
+    [ "set_log_intensity", "classsdk__wrapper_1_1SdkWrapper.html#ac35cd85e5fbedd219869e629408117e1", null ],
     [ "_client", "classsdk__wrapper_1_1SdkWrapper.html#a0119e190bc478e1e7e4c61c4c391ad3b", null ],
     [ "base_url", "classsdk__wrapper_1_1SdkWrapper.html#a55062e0d14a46e060df3b485c4eaa4dc", null ]
 ];
