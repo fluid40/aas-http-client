@@ -12,6 +12,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
+from aas_http_client.utilities.constants import LogIntensity
 from aas_http_client.utilities.encoder import encode_base_64
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
@@ -34,7 +35,7 @@ class ShellRepoImplementation(BaseModel):
         session = client.get_session()
         if session is None:
             raise ValueError(
-                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating SubmodelRegistryImplementation instance."
+                "HTTP session is not initialized in the client. Call 'initialize()' method of the client before creating ShellRepoImplementation instance."
             )
 
         self._session: requests.Session = session
@@ -58,7 +59,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -92,12 +97,16 @@ class ShellRepoImplementation(BaseModel):
             response = self._session.put(url, json=request_body, timeout=self._client.time_out)
             _logger.debug(f"Call REST API url '{response.url}'")
 
-            if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+            if response.status_code == STATUS_CODE_404:  #
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
-            if response.status_code is not STATUS_CODE_204:
+            if response.status_code != STATUS_CODE_204:
                 log_response(response)
                 return False
 
@@ -126,7 +135,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -159,7 +172,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -224,7 +241,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -258,7 +279,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -370,7 +395,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -405,7 +434,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -441,7 +474,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -479,7 +516,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -512,7 +553,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -548,7 +593,11 @@ class ShellRepoImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 

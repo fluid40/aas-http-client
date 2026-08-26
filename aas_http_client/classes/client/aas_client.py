@@ -22,6 +22,7 @@ from aas_http_client.classes.client.implementations import (
     get_token,
 )
 from aas_http_client.classes.Configuration.config_classes import AuthenticationConfig
+from aas_http_client.utilities.constants import LogIntensity
 from aas_http_client.utilities.http_helper import (
     STATUS_CODE_200,
     STATUS_CODE_201,
@@ -75,6 +76,7 @@ class AasHttpClient(BaseModel):
     experimental: ExperimentalImplementation | None = Field(default=None)
     submodel_registry: SubmodelRegistryImplementation | None = Field(default=None)
     _cached_token: TokenData | None = PrivateAttr(default=None)
+    _log_intensity: LogIntensity = PrivateAttr(default=LogIntensity.High)
 
     def initialize(self):
         """Initialize the AasHttpClient with the given URL, username and password."""
@@ -106,6 +108,20 @@ class AasHttpClient(BaseModel):
         self.shell_registry = ShellRegistryImplementation(self)
         self.submodel_registry = SubmodelRegistryImplementation(self)
         self.experimental = ExperimentalImplementation(self)
+
+    def set_log_intensity(self, intensity: LogIntensity):
+        """Set the log intensity level for the client.
+
+        :param intensity: LogIntensity level to set (Standard or High)
+        """
+        self._log_intensity = intensity
+
+    def get_log_intensity(self) -> LogIntensity:
+        """Get the log intensity level for the client.
+
+        :return: The current LogIntensity level (Standard or High)
+        """
+        return self._log_intensity
 
     def get_auth_method(self) -> AuthMethod:
         """Get the authentication method used by the client.

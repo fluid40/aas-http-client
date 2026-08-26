@@ -5,6 +5,8 @@ import mimetypes
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from aas_http_client.utilities.constants import LogIntensity
+
 if TYPE_CHECKING:
     from aas_http_client.classes.client.aas_client import AasHttpClient
 
@@ -50,7 +52,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning("Concept descriptions not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning("Concept descriptions not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug("Concept descriptions not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -80,7 +86,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Concept description with id '{concept_description_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return None
 
@@ -110,7 +120,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning("Concept descriptions endpoint not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning("Concept descriptions endpoint not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug("Concept descriptions endpoint not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -140,7 +154,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Concept description with id '{concept_description_identifier}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Concept description with id '{concept_description_identifier}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -174,9 +192,15 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(
-                    f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
-                )
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(
+                        f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
+                    )
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(
+                        f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
+                    )
+
                 _logger.debug(response.text)
                 return None
 
@@ -220,7 +244,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -265,7 +293,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == STATUS_CODE_404:
-                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+
                 _logger.debug(response.text)
                 return False
 
@@ -300,7 +332,11 @@ class ExperimentalImplementation(BaseModel):
             _logger.debug(f"Call REST API url '{response.url}'")
 
             if response.status_code == 404:
-                _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                if self._client.get_log_intensity() == LogIntensity.High:
+                    _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.Standard:
+                    _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+
                 return False
 
             if response.status_code != STATUS_CODE_200:

@@ -21,6 +21,7 @@ from aas_http_client.classes.wrapper.pagination import (
     create_submodel_element_paging_data,
     create_submodel_paging_data,
 )
+from aas_http_client.utilities.constants import LogIntensity
 from aas_http_client.utilities.sdk_tools import convert_to_dict as _to_dict
 from aas_http_client.utilities.sdk_tools import convert_to_object as _to_object
 
@@ -122,6 +123,13 @@ class SdkWrapper:
 
         self._client = client
         self.base_url = client.base_url
+
+    def set_log_intensity(self, intensity: LogIntensity):
+        """Sets the log intensity level for the client.
+
+        :param intensity: LogIntensity level to set (Standard or High)
+        """
+        self._client.set_log_intensity(intensity)
 
     def set_encoded_ids(self, encoded_ids: IdEncoding):
         """Sets whether to use encoded IDs for API requests.
