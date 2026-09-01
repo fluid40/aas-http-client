@@ -169,3 +169,62 @@ def create_reference(id: str) -> model.ModelReference:
     :return: ModelReference instance
     """
     return model.ModelReference.from_referable(model.Submodel(id))
+
+
+def create_embedded_data_specification(
+    preferred_name: model.PreferredNameTypeIEC61360,
+    definition: model.DefinitionTypeIEC61360 | None,
+    short_name: model.ShortNameTypeIEC61360 | None,
+    unit: str | None,
+    unit_id: model.Reference | None,
+    data_type: model.DataTypeIEC61360 | None,
+    source_of_definition: str | None,
+    symbol: str | None,
+    value_format: str | None,
+    value_list: set[model.ValueReferencePair] | None,
+    value: str | None,
+    level_types: list[model.IEC61360LevelType] | None,
+) -> model.EmbeddedDataSpecification | None:
+    """Create an embedded data specification with the given parameters.
+
+    :param preferred_name: The preferred name of the concept description.
+    :param definition: The definition of the concept description.
+    :param short_name: The short name of the concept description.
+    :param unit: The unit of the concept description.
+    :param unit_id: The unit reference of the concept description.
+    :param data_type: The data type of the concept description.
+    :param source_of_definition: The source of definition of the concept description.
+    :param symbol: The symbol of the concept description.
+    :param value_format: The value format of the concept description.
+    :param value_list: The value list of the concept description.
+    :param value: The value of the concept description.
+    :param level_types: The level types of the concept description.
+    :return: An instance of EmbeddedDataSpecification if successful, None otherwise.
+    """
+    if not preferred_name:
+        _logger.warning("Preferred name is missing for the embedded data specification.")
+        return None
+
+    return model.EmbeddedDataSpecification(
+        data_specification=model.ExternalReference(
+            (
+                model.Key(
+                    type_=model.KeyTypes.GLOBAL_REFERENCE, value="https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/1"
+                ),
+            )
+        ),
+        data_specification_content=model.DataSpecificationIEC61360(
+            preferred_name=preferred_name,
+            definition=definition,
+            short_name=short_name,
+            unit=unit,
+            unit_id=unit_id,
+            data_type=data_type,
+            source_of_definition=source_of_definition,
+            symbol=symbol,
+            value_format=value_format,
+            value_list=value_list,
+            value=value,
+            level_types=level_types or (),
+        ),
+    )
