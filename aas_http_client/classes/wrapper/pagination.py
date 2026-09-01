@@ -26,39 +26,39 @@ class ShellPaginatedData:
     """Class representing paginated data for Asset Administration Shells."""
 
     paging_metadata: PagingMetadata
-    results: list[model.AssetAdministrationShell]
+    result: list[model.AssetAdministrationShell]
 
-    def __init__(self, cursor: str, results: list[model.AssetAdministrationShell]) -> None:
+    def __init__(self, cursor: str, result: list[model.AssetAdministrationShell]) -> None:
         """Initialize a paginated data object.
 
         :param paging_metadata: Paging metadata
         :param results: list of results
         """
         self.paging_metadata = PagingMetadata(cursor)
-        self.results = results
+        self.result = result
 
 
 class ReferencePaginatedData:
     """Class representing paginated data for References."""
 
     paging_metadata: PagingMetadata
-    results: list[model.ModelReference]
+    result: list[model.ModelReference]
 
-    def __init__(self, cursor: str, results: list[model.ModelReference]) -> None:
+    def __init__(self, cursor: str, result: list[model.ModelReference]) -> None:
         """Initialize a paginated data object.
 
         :param paging_metadata: Paging metadata
         :param results: list of results
         """
         self.paging_metadata = PagingMetadata(cursor)
-        self.results = results
+        self.result = result
 
 
 class SubmodelPaginatedData:
     """Class representing paginated data for Submodels."""
 
     paging_metadata: PagingMetadata
-    results: list[model.Submodel]
+    result: list[model.Submodel]
 
     def __init__(self, cursor: str, results: list[model.Submodel]) -> None:
         """Initialize a paginated data object.
@@ -67,30 +67,30 @@ class SubmodelPaginatedData:
         :param results: list of results
         """
         self.paging_metadata = PagingMetadata(cursor)
-        self.results = results
+        self.result = results
 
 
 class SubmodelElementPaginatedData:
     """Class representing paginated data for Submodel Elements."""
 
     paging_metadata: PagingMetadata
-    results: list[model.SubmodelElement]
+    result: list[model.SubmodelElement]
 
-    def __init__(self, cursor: str, results: list[model.SubmodelElement]) -> None:
+    def __init__(self, cursor: str, result: list[model.SubmodelElement]) -> None:
         """Initialize a paginated data object.
 
         :param paging_metadata: Paging metadata
         :param results: list of results
         """
         self.paging_metadata = PagingMetadata(cursor)
-        self.results = results
+        self.result = result
 
 
 class ShellDescriptorPaginatedData:
     """Class representing paginated data for Shell Descriptors."""
 
     paging_metadata: PagingMetadata
-    results: list[model.SubmodelElement]
+    result: list[model.SubmodelElement]
 
     def __init__(self, cursor: str, results: list[model.SubmodelElement]) -> None:
         """Initialize a paginated data object.
@@ -99,7 +99,7 @@ class ShellDescriptorPaginatedData:
         :param results: list of results
         """
         self.paging_metadata = PagingMetadata(cursor)
-        self.results = results
+        self.result = results
 
 
 def create_shell_paging_data(content: dict) -> ShellPaginatedData | None:
@@ -113,7 +113,7 @@ def create_shell_paging_data(content: dict) -> ShellPaginatedData | None:
     results: list = content.get("result", [])
     if not results or len(results) == 0:
         _logger.warning("No shells found on server.")
-        return ShellPaginatedData(cursor="", results=[])
+        return ShellPaginatedData(cursor="", result=[])
 
     for result in results:
         if not isinstance(result, dict):
@@ -133,7 +133,7 @@ def create_shell_paging_data(content: dict) -> ShellPaginatedData | None:
 
     return ShellPaginatedData(
         cursor=cursor,
-        results=aas_list,
+        result=aas_list,
     )
 
 
@@ -183,7 +183,7 @@ def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginat
     results: list = content.get("result", [])
     if not results or len(results) == 0:
         _logger.warning("No shells found on server.")
-        return SubmodelElementPaginatedData(cursor="", results=[])
+        return SubmodelElementPaginatedData(cursor="", result=[])
 
     for result in results:
         if not isinstance(result, dict):
@@ -203,7 +203,7 @@ def create_submodel_element_paging_data(content: dict) -> SubmodelElementPaginat
 
     return SubmodelElementPaginatedData(
         cursor=cursor,
-        results=sme_list,
+        result=sme_list,
     )
 
 
@@ -218,7 +218,7 @@ def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginat
     results: list = content.get("result", [])
     if not results or len(results) == 0:
         _logger.warning("No shells found on server.")
-        return SubmodelElementPaginatedData(cursor="", results=[])
+        return SubmodelElementPaginatedData(cursor="", result=[])
 
     for result in results:
         if not isinstance(result, dict):
@@ -238,7 +238,7 @@ def create_shell_descriptor_paging_data(content: dict) -> SubmodelElementPaginat
 
     return SubmodelElementPaginatedData(
         cursor=cursor,
-        results=sme_list,
+        result=sme_list,
     )
 
 
@@ -253,7 +253,7 @@ def create_reference_paging_data(content: dict) -> ReferencePaginatedData | None
     results: list = content.get("result", [])
     if not results or len(results) == 0:
         _logger.warning("No shells found on server.")
-        return ReferencePaginatedData(cursor="", results=[])
+        return ReferencePaginatedData(cursor="", result=[])
 
     for result in results:
         if not isinstance(result, dict):
@@ -273,5 +273,5 @@ def create_reference_paging_data(content: dict) -> ReferencePaginatedData | None
 
     return ReferencePaginatedData(
         cursor=cursor,
-        results=ref_list,
+        result=ref_list,
     )
