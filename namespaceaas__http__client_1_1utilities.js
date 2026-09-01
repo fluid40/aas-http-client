@@ -20,6 +20,7 @@ var namespaceaas__http__client_1_1utilities =
       [ "create_base_submodel", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb195f7cf9d24644eb1b58e1bcc2431c", null ],
       [ "create_base_submodel_element_collection", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#a8878e299b0e20105e41580f9b53e3717", null ],
       [ "create_base_submodel_element_property", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#a2c1f3586593d1dcc14c85914b0f65be4", null ],
+      [ "create_embedded_data_specification", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#ab04babf74de96c6c2a1a94e9f35c8ca6", null ],
       [ "create_reference", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e", null ],
       [ "create_submodel_from_file", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f", null ],
       [ "create_unique_short_id", "namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853", null ],

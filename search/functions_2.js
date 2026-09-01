@@ -14,12 +14,13 @@ var searchData=
   ['create_5fby_5fconfig_11',['create_by_config',['../namespacesdk__wrapper.html#ac1c77e3ade4f54d5fb2c5200fc1f3f75',1,'sdk_wrapper.create_by_config()'],['../namespaceaas__client.html#a0a95311c332397c732062cffc7652fae',1,'aas_client.create_by_config(Path config_file, str basic_auth_password=&quot;&quot;, str o_auth_client_secret=&quot;&quot;, str bearer_auth_token=&quot;&quot;)']]],
   ['create_5fby_5fdict_12',['create_by_dict',['../namespaceaas__client.html#a6a6000a51f0b24d55ad315db11aa89a9',1,'aas_client.create_by_dict()'],['../namespacesdk__wrapper.html#a5c796d9d83ba61c5be975ed4012b94e7',1,'sdk_wrapper.create_by_dict()']]],
   ['create_5fby_5furl_13',['create_by_url',['../namespaceaas__client.html#a6738a5df68cc02a8e541f45cd5b8184a',1,'aas_client.create_by_url()'],['../namespacesdk__wrapper.html#a476dfe3158e88434dfc873364e70b84a',1,'sdk_wrapper.create_by_url()']]],
-  ['create_5freference_14',['create_reference',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e',1,'aas_http_client::utilities::model_builder']]],
-  ['create_5freference_5fpaging_5fdata_15',['create_reference_paging_data',['../namespacepagination.html#a7ff9c6f134bee93ec9d7a9c3de087a9d',1,'pagination']]],
-  ['create_5fshell_5fdescriptor_5fpaging_5fdata_16',['create_shell_descriptor_paging_data',['../namespacepagination.html#a8f90f66f0d830c7d0912b2a4a189a3d0',1,'pagination']]],
-  ['create_5fshell_5fpaging_5fdata_17',['create_shell_paging_data',['../namespacepagination.html#af9aa3d094cc4851294d3c4e270b71487',1,'pagination']]],
-  ['create_5fsubmodel_5felement_5fpaging_5fdata_18',['create_submodel_element_paging_data',['../namespacepagination.html#a8da64aff16286f701851f70c62b8b869',1,'pagination']]],
-  ['create_5fsubmodel_5ffrom_5ffile_19',['create_submodel_from_file',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f',1,'aas_http_client::utilities::model_builder']]],
-  ['create_5fsubmodel_5fpaging_5fdata_20',['create_submodel_paging_data',['../namespacepagination.html#a7caff926cf8fe890e04e9e61e451f882',1,'pagination']]],
-  ['create_5funique_5fshort_5fid_21',['create_unique_short_id',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853',1,'aas_http_client::utilities::model_builder']]]
+  ['create_5fembedded_5fdata_5fspecification_14',['create_embedded_data_specification',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#ab04babf74de96c6c2a1a94e9f35c8ca6',1,'aas_http_client::utilities::model_builder']]],
+  ['create_5freference_15',['create_reference',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#afb4b8b8b3fd53025d25a2eac4bc4814e',1,'aas_http_client::utilities::model_builder']]],
+  ['create_5freference_5fpaging_5fdata_16',['create_reference_paging_data',['../namespacepagination.html#a7ff9c6f134bee93ec9d7a9c3de087a9d',1,'pagination']]],
+  ['create_5fshell_5fdescriptor_5fpaging_5fdata_17',['create_shell_descriptor_paging_data',['../namespacepagination.html#a8f90f66f0d830c7d0912b2a4a189a3d0',1,'pagination']]],
+  ['create_5fshell_5fpaging_5fdata_18',['create_shell_paging_data',['../namespacepagination.html#af9aa3d094cc4851294d3c4e270b71487',1,'pagination']]],
+  ['create_5fsubmodel_5felement_5fpaging_5fdata_19',['create_submodel_element_paging_data',['../namespacepagination.html#a8da64aff16286f701851f70c62b8b869',1,'pagination']]],
+  ['create_5fsubmodel_5ffrom_5ffile_20',['create_submodel_from_file',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#a050d6d02326ce1b60ae99d89bb14ce8f',1,'aas_http_client::utilities::model_builder']]],
+  ['create_5fsubmodel_5fpaging_5fdata_21',['create_submodel_paging_data',['../namespacepagination.html#a7caff926cf8fe890e04e9e61e451f882',1,'pagination']]],
+  ['create_5funique_5fshort_5fid_22',['create_unique_short_id',['../namespaceaas__http__client_1_1utilities_1_1model__builder.html#ac2addcb907182647ca202f2a80435853',1,'aas_http_client::utilities::model_builder']]]
 ];

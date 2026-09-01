@@ -1,5 +1,8 @@
 var NAVTREEINDEX4 =
 {
+"test__client_8py.html#a61600eeebc6084a71137048a04376765":[7,0,2,1,0],
+"test__client_8py.html#a7184000af689caf71f0ccb7970a988de":[7,0,2,1,7],
+"test__client_8py.html#a76166b80a752a5392b61d7e96e240e5c":[7,0,2,1,24],
 "test__client_8py.html#a7b5c74ec9abbff59ebeabe033b7e0289":[7,0,2,1,68],
 "test__client_8py.html#a7e77c883a48da963271d3ad0a5612441":[7,0,2,1,75],
 "test__client_8py.html#a821f67be6a77681a2cc255d0f50cd172":[7,0,2,1,71],

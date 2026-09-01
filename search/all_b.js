@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['a_20shell_20descriptor_0',['Example: Register a shell descriptor',['../md_docs_2getting__started.html#autotoc_md75',1,'']]],
-  ['a_20submodel_20descriptor_1',['Example: Register a submodel descriptor',['../md_docs_2getting__started.html#autotoc_md79',1,'']]],
+  ['a_20shell_20descriptor_0',['Example: Register a shell descriptor',['../md_docs_2getting__started.html#autotoc_md76',1,'']]],
+  ['a_20submodel_20descriptor_1',['Example: Register a submodel descriptor',['../md_docs_2getting__started.html#autotoc_md80',1,'']]],
   ['aas_20http_20client_2',['AAS HTTP Client',['../index.html',1,'']]],
   ['aas_5fclient_3',['aas_client',['../namespaceaas__client.html',1,'']]],
   ['aas_5fclient_2epy_4',['aas_client.py',['../aas__client_8py.html',1,'']]],
@@ -16,20 +16,20 @@ var searchData=
   ['aasconnectionerror_13',['AASConnectionError',['../classaas__client_1_1AASConnectionError.html',1,'aas_client']]],
   ['aashttpclient_14',['AasHttpClient',['../classaas__client_1_1AasHttpClient.html',1,'aas_client']]],
   ['add_5fsubmodel_5fto_5faas_15',['add_submodel_to_aas',['../namespaceaas__http__client_1_1utilities_1_1sdk__tools.html#a88b11b7a886583c6733bed61392bd277',1,'aas_http_client::utilities::sdk_tools']]],
-  ['administration_20shells_20client_16',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md67',1,'']]],
+  ['administration_20shells_20client_16',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md68',1,'']]],
   ['aimc_5fsm_5fid_17',['aimc_sm_id',['../namespacetests_1_1test__client.html#a821f67be6a77681a2cc255d0f50cd172',1,'tests.test_client.AIMC_SM_ID'],['../namespacetests_1_1test__wrapper.html#af97e1c888ddcb3557e5b509971bbaca8',1,'tests.test_wrapper.AIMC_SM_ID']]],
-  ['and_20proxy_20issues_18',['SSL and proxy issues',['../md_docs_2troubleshooting.html#autotoc_md93',1,'']]],
-  ['asset_20administration_20shells_20client_19',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md67',1,'']]],
+  ['and_20proxy_20issues_18',['SSL and proxy issues',['../md_docs_2troubleshooting.html#autotoc_md94',1,'']]],
+  ['asset_20administration_20shells_20client_19',['Example: List Asset Administration Shells (client)',['../md_docs_2getting__started.html#autotoc_md68',1,'']]],
   ['assetkind_20',['AssetKind',['../classsdk__wrapper_1_1AssetKind.html',1,'sdk_wrapper']]],
   ['attachment_21',['attachment',['../namespaceattachment.html',1,'attachment'],['../classattachment_1_1Attachment.html',1,'attachment.Attachment']]],
   ['attachment_2epy_22',['attachment.py',['../attachment_8py.html',1,'']]],
   ['auth_5fsettings_23',['auth_settings',['../classaas__client_1_1AasHttpClient.html#a9f0b48b593efda59219e04ba6a112840',1,'aas_client::AasHttpClient']]],
-  ['authentication_24',['authentication',['../md_docs_2configuration.html#autotoc_md47',1,'Basic Authentication'],['../md_docs_2configuration.html#autotoc_md48',1,'Bearer Token Authentication']]],
-  ['authentication_20methods_25',['Authentication Methods',['../md_docs_2configuration.html#autotoc_md46',1,'']]],
-  ['authentication_20or_20authorization_26',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md89',1,'']]],
+  ['authentication_24',['authentication',['../md_docs_2configuration.html#autotoc_md48',1,'Basic Authentication'],['../md_docs_2configuration.html#autotoc_md49',1,'Bearer Token Authentication']]],
+  ['authentication_20methods_25',['Authentication Methods',['../md_docs_2configuration.html#autotoc_md47',1,'']]],
+  ['authentication_20or_20authorization_26',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md90',1,'']]],
   ['authentication_2epy_27',['authentication.py',['../authentication_8py.html',1,'']]],
   ['authenticationconfig_28',['AuthenticationConfig',['../classconfig__classes_1_1AuthenticationConfig.html',1,'config_classes']]],
   ['authmethod_29',['AuthMethod',['../classimplementations_1_1authentication_1_1AuthMethod.html',1,'implementations::authentication']]],
-  ['authorization_30',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md89',1,'']]],
-  ['availability_31',['Wrapper vs client endpoint availability',['../md_docs_2troubleshooting.html#autotoc_md95',1,'']]]
+  ['authorization_30',['HTTP 401 or 403 (authentication or authorization)',['../md_docs_2troubleshooting.html#autotoc_md90',1,'']]],
+  ['availability_31',['Wrapper vs client endpoint availability',['../md_docs_2troubleshooting.html#autotoc_md96',1,'']]]
 ];
