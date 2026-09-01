@@ -1,5 +1,11 @@
 # 📝 Changelog
 
+## [1.2.9] - 2026-09-01
+
+* 🧹Chore: Refactor wrapper pagination classes to use singular 'result' instead of plural 'results' for consistency with JSON.
+* ✨Feat: Add create_embedded_data_specification function to model builder.
+* 🚀Improvement: Update dependencies in pyproject.toml and requirements.txt for consistency and version upgrades
+
 ## [1.2.8] - 2026-08-26
 
 * 🚀Improvement: Add delete concept descriptions functions to experimental implementations.

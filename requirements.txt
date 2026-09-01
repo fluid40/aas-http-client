@@ -1,12 +1,15 @@
 
-pydantic>=2.13.4
+# Runtime dependencies
+pydantic>=2.13.5
 requests>=2.34.2
-pytest>=9.1.1
-pytest-cov>=7.1.0
-build>=1.5.0
-python-json-logger>=4.1.0
-pre_commit>=4.6.2
-commitizen>=4.17.0
 basyx-python-sdk==2.1.0
 puremagic==2.2.0
+
+# Development and tooling
+pytest>=9.1.1
+pytest-cov>=7.1.0
+python-json-logger>=4.2.0
+build>=1.6.0
+pre-commit>=4.6.2
+commitizen>=4.18.0
 types-requests>=2.33.0.20260712
