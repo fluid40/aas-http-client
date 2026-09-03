@@ -32,6 +32,61 @@ services:
       - SERVER_PORT=8075
       - SERVER_HOST=javaaasserver
 
+ go_aas_configuration:
+    container_name: aas_basyx_configuration
+    image: eclipsebasyx/basyxconfigurationservice-go:latest
+    pull_policy: always
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DBNAME=basyxTestDB
+      - POSTGRES_MAXOPENCONNECTIONS=500
+      - POSTGRES_MAXIDLECONNECTIONS=500
+      - POSTGRES_CONNMAXLIFETIMEMINUTES=5
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - bridge
+    restart: "no"
+
+  go_aas_environment:
+    container_name: goaasserver
+    image: eclipsebasyx/aasenvironment-go:latest
+    pull_policy: always
+    command: ["/app/aasenvironmentservice"]
+    ports:
+      - "8070:8082"
+    environment:
+      - SERVER_PORT=8082
+      - CORS_ALLOWEDORIGINS=*
+      - CORS_ALLOWEDHEADERS=*
+      - CORS_ALLOWEDCREDENTIALS=true
+      - CORS_ALLOWEDMETHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DBNAME=basyxTestDB
+      - POSTGRES_MAXOPENCONNECTIONS=500
+      - POSTGRES_MAXIDLECONNECTIONS=500
+      - POSTGRES_CONNMAXLIFETIMEMINUTES=5
+      - ABAC_ENABLED=false
+      - GENERAL_AASREGISTRYINTEGRATION=true
+      - GENERAL_SUBMODELREGISTRYINTEGRATION=true
+      - GENERAL_DISCOVERYINTEGRATION=true
+      - GENERAL_EXTERNALURL=http://localhost:8082
+      - GENERAL_AAS_PRECONFIG_PATHS=/app/preconfiguration
+    volumes:
+      - ./preconfiguration:/app/preconfiguration:ro
+    depends_on:
+      go_aas_configuration:
+        condition: service_completed_successfully
+    networks:
+      - bridge
+    restart: unless-stopped
 
 networks:
   bridge:
