@@ -113,9 +113,10 @@ jobs:
             exit 1
           }
 
-          wait_for "Java AAS"   "http://localhost:8075/shells"
-          wait_for "dotNet AAS" "http://localhost:5043/shells"
-          wait_for "Python AAS" "http://localhost:5080/shells"
+          wait_for "Java Server"   "http://localhost:8075/shells"
+          wait_for "dotNet Server" "http://localhost:5043/shells"
+          wait_for "Python Server" "http://localhost:5080/shells"
+          wait_for "GO Server" "http://localhost:8070/shells"
 
       - name: Run wrapper tests
         run: pytest -v tests/test_wrapper.py
@@ -174,9 +175,10 @@ jobs:
             exit 1
           }
 
-          wait_for "Java AAS"   "http://localhost:8075/shells"
-          wait_for "dotNet AAS" "http://localhost:5043/shells"
-          wait_for "Python AAS" "http://localhost:5080/shells"
+          wait_for "Java Server"   "http://localhost:8075/shells"
+          wait_for "dotNet Server" "http://localhost:5043/shells"
+          wait_for "Python Server" "http://localhost:5080/shells"
+          wait_for "GO Server" "http://localhost:8070/shells"
           wait_for "AAS Registry" "http://localhost:8076/shell-descriptors"
           wait_for "SM Registry"  "http://localhost:8077/submodel-descriptors"
 
