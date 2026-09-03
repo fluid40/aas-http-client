@@ -27,7 +27,7 @@ var NAVTREE =
   [ "AAS HTTP Client Documentation", "index.html", [
     [ "AAS HTTP Client", "index.html", "index" ],
     [ "📝 Changelog", "md_docs_2CHANGELOG.html", [
-      [ "[1.2.14] - 2026-09-03", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
+      [ "[1.2.20] - 2026-09-03", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
       [ "[1.2.8] - 2026-08-26", "md_docs_2CHANGELOG.html#autotoc_md2", null ],
       [ "[1.2.4] - 2026-08-25", "md_docs_2CHANGELOG.html#autotoc_md3", null ],
       [ "[1.2.3] - 2026-08-14", "md_docs_2CHANGELOG.html#autotoc_md4", null ],

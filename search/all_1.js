@@ -15,7 +15,7 @@ var searchData=
   ['1_201_208_202026_2006_2025_12',['[1.1.8] - 2026-06-25',['../md_docs_2CHANGELOG.html#autotoc_md8',1,'']]],
   ['1_202_200_202026_2007_2008_13',['[1.2.0] - 2026-07-08',['../md_docs_2CHANGELOG.html#autotoc_md6',1,'']]],
   ['1_202_201_202026_2008_2013_14',['[1.2.1] - 2026-08-13',['../md_docs_2CHANGELOG.html#autotoc_md5',1,'']]],
-  ['1_202_2014_202026_2009_2003_15',['[1.2.14] - 2026-09-03',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
+  ['1_202_2020_202026_2009_2003_15',['[1.2.20] - 2026-09-03',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
   ['1_202_203_202026_2008_2014_16',['[1.2.3] - 2026-08-14',['../md_docs_2CHANGELOG.html#autotoc_md4',1,'']]],
   ['1_202_204_202026_2008_2025_17',['[1.2.4] - 2026-08-25',['../md_docs_2CHANGELOG.html#autotoc_md3',1,'']]],
   ['1_202_208_202026_2008_2026_18',['[1.2.8] - 2026-08-26',['../md_docs_2CHANGELOG.html#autotoc_md2',1,'']]],
@@ -35,9 +35,8 @@ var searchData=
   ['13_32',['[1.2.1] - 2026-08-13',['../md_docs_2CHANGELOG.html#autotoc_md5',1,'']]],
   ['14_33',['[1.2.3] - 2026-08-14',['../md_docs_2CHANGELOG.html#autotoc_md4',1,'']]],
   ['14_202026_2005_2020_34',['[1.0.14] - 2026-05-20',['../md_docs_2CHANGELOG.html#autotoc_md13',1,'']]],
-  ['14_202026_2009_2003_35',['[1.2.14] - 2026-09-03',['../md_docs_2CHANGELOG.html#autotoc_md1',1,'']]],
-  ['15_36',['[1.0.12] - 2026-05-15',['../md_docs_2CHANGELOG.html#autotoc_md14',1,'']]],
-  ['16_37',['[0.9.2] - 2026-01-16',['../md_docs_2CHANGELOG.html#autotoc_md24',1,'']]],
-  ['17_38',['17',['../md_docs_2CHANGELOG.html#autotoc_md34',1,'[0.6.2] - 2025-12-17'],['../md_docs_2CHANGELOG.html#autotoc_md21',1,'[0.9.6] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md20',1,'[0.9.7] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md19',1,'[1.0.0] - 2026-02-17']]],
-  ['18_39',['18',['../md_docs_2CHANGELOG.html#autotoc_md41',1,'[0.2.5] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md40',1,'[0.2.6] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md33',1,'[0.7.0] - 2025-12-18'],['../md_docs_2CHANGELOG.html#autotoc_md32',1,'[0.7.1] - 2025-12-18']]]
+  ['15_35',['[1.0.12] - 2026-05-15',['../md_docs_2CHANGELOG.html#autotoc_md14',1,'']]],
+  ['16_36',['[0.9.2] - 2026-01-16',['../md_docs_2CHANGELOG.html#autotoc_md24',1,'']]],
+  ['17_37',['17',['../md_docs_2CHANGELOG.html#autotoc_md34',1,'[0.6.2] - 2025-12-17'],['../md_docs_2CHANGELOG.html#autotoc_md21',1,'[0.9.6] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md20',1,'[0.9.7] - 2026-02-17'],['../md_docs_2CHANGELOG.html#autotoc_md19',1,'[1.0.0] - 2026-02-17']]],
+  ['18_38',['18',['../md_docs_2CHANGELOG.html#autotoc_md41',1,'[0.2.5] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md40',1,'[0.2.6] - 2025-08-18'],['../md_docs_2CHANGELOG.html#autotoc_md33',1,'[0.7.0] - 2025-12-18'],['../md_docs_2CHANGELOG.html#autotoc_md32',1,'[0.7.1] - 2025-12-18']]]
 ];
