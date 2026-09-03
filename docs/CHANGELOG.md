@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.2.10] - 2026-09-02
+## [1.2.13] - 2026-09-03
 
 * 🧹Chore: Refactor wrapper pagination classes to use singular 'result' instead of plural 'results' for consistency with JSON.
 * ✨Feat: Add create_embedded_data_specification function to model builder.
