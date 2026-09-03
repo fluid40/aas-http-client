@@ -51,10 +51,10 @@ jobs:
             exit 1
           }
 
-          wait_for "Java AAS"   "http://localhost:8075/shells"
-          wait_for "dotNet AAS" "http://localhost:5043/shells"
-          wait_for "Python AAS" "http://localhost:5080/shells"
-          wait_for "GO AAS" "http://localhost:8070/shells"
+          wait_for "Java Server"   "http://localhost:8075/shells"
+          wait_for "dotNet Server" "http://localhost:5043/shells"
+          wait_for "Python Server" "http://localhost:5080/shells"
+          wait_for "GO Server" "http://localhost:8070/shells"
 
       - name: Run client tests
         run: pytest -v tests/test_client.py
