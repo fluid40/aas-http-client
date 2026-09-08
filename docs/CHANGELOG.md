@@ -1,10 +1,14 @@
 # 📝 Changelog
 
+## [1.3.0] - 2026-09-08
+
+* 🚀Improvement: Add experimental file upload methods by octet stream.
+
 ## [1.2.20] - 2026-09-03
 
 * 🧹Chore: Refactor wrapper pagination classes to use singular 'result' instead of plural 'results' for consistency with JSON.
 * ✨Feat: Add create_embedded_data_specification function to model builder.
-* 🚀Improvement: Update dependencies in pyproject.toml and requirements.txt for consistency and version upgrades
+* 🚀Improvement: Update dependencies in pyproject.toml and requirements.txt for consistency and version upgrades.
 
 ## [1.2.8] - 2026-08-26
 

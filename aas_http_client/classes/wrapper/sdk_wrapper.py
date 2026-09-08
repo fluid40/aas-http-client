@@ -851,6 +851,25 @@ class SdkWrapper:
 
         return self._client.experimental.post_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
 
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def experimental_post_file_by_path_submodel_repo_stream(
+        self, submodel_identifier: str, id_short_path: str, file_octet_stream: Any, mime_type: str = "application/octet-stream"
+    ) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file_octet_stream: File content as a byte stream
+        :param mime_type: MIME type of the file content, defaults to "application/octet-stream"
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        if not self._client.experimental:
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        return self._client.experimental.post_file_by_path_submodel_repo_stream(submodel_identifier, id_short_path, file_octet_stream, mime_type)
+
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def experimental_put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
 
@@ -864,6 +883,23 @@ class SdkWrapper:
             return False
 
         return self._client.experimental.put_file_by_path_submodel_repo(submodel_identifier, id_short_path, file)
+
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def experimental_put_file_by_path_submodel_repo_stream(
+        self, submodel_identifier: str, id_short_path: str, file_octet_stream: Any, mime_type: str = "application/octet-stream"
+    ) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file: Path to the file to upload as attachment
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        if not self._client.experimental:
+            _logger.error("Experimental API is not initialized in the client. Call 'initialize()' method of the client before calling this method.")
+            return False
+
+        return self._client.experimental.put_file_by_path_submodel_repo_stream(submodel_identifier, id_short_path, file_octet_stream, mime_type)
 
     def experimental_delete_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str) -> bool:
         """Deletes file content of an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.

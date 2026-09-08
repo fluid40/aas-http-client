@@ -3,7 +3,7 @@
 import logging
 import mimetypes
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aas_http_client.utilities.constants import LogIntensity
 
@@ -263,6 +263,54 @@ class ExperimentalImplementation(BaseModel):
 
         return True
 
+    # POST /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def post_file_by_path_submodel_repo_stream(
+        self, submodel_identifier: str, id_short_path: str, file_octet_stream: Any, mime_type: str = "application/octet-stream"
+    ) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file_octet_stream: File content as a byte stream
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        if file_octet_stream is None:
+            _logger.error("Attachment file stream is None.")
+            return False
+
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
+
+        self._client.set_token()
+
+        try:
+            files = {"file": ("attachment", file_octet_stream, mime_type or "application/octet-stream")}
+            response = self._session.post(url, files=files, timeout=self._client.time_out)
+
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+
+                _logger.debug(response.text)
+                return False
+
+            # original dotnet server delivers 200 instead of 204
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
     # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
     def put_file_by_path_submodel_repo(self, submodel_identifier: str, id_short_path: str, file: Path) -> bool:
         """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
@@ -289,6 +337,54 @@ class ExperimentalImplementation(BaseModel):
             with file.open("rb") as f:
                 files = {"file": (file.name, f, mime_type or "application/octet-stream")}
                 response = self._session.put(url, files=files, timeout=self._client.time_out)
+
+            _logger.debug(f"Call REST API url '{response.url}'")
+
+            if response.status_code == STATUS_CODE_404:
+                if self._client.get_log_intensity() == LogIntensity.HIGH:
+                    _logger.warning(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
+                    _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
+
+                _logger.debug(response.text)
+                return False
+
+            # original dotnet server delivers 200 instead of 204
+            if response.status_code not in (STATUS_CODE_200, STATUS_CODE_204):
+                log_response(response)
+                return False
+
+        except requests.exceptions.RequestException as e:
+            _logger.error(f"Error call REST API: {e}")
+            return False
+
+        return True
+
+    # PUT /submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/attachment
+    def put_file_by_path_submodel_repo_stream(
+        self, submodel_identifier: str, id_short_path: str, file_octet_stream: Any, mime_type: str = "application/octet-stream"
+    ) -> bool:
+        """Uploads file content to an existing submodel element at a specified path within submodel elements hierarchy. Experimental feature - may not be supported by all servers.
+
+        :param submodel_identifier: The Submodels unique id
+        :param id_short_path: IdShort path to the submodel element (dot-separated)
+        :param file_octet_stream: File content as a byte stream
+        :return: Attachment data as bytes or None if an error occurred
+        """
+        if file_octet_stream is None:
+            _logger.error("Attachment file stream is None.")
+            return False
+
+        if not self._client.encoded_ids:
+            submodel_identifier = encode_base_64(submodel_identifier)
+
+        url = f"{self._client.base_url}/submodels/{submodel_identifier}/submodel-elements/{id_short_path}/attachment"
+
+        self._client.set_token()
+
+        try:
+            files = {"file": ("attachment", file_octet_stream, mime_type or "application/octet-stream")}
+            response = self._session.put(url, files=files, timeout=self._client.time_out)
 
             _logger.debug(f"Call REST API url '{response.url}'")
 
