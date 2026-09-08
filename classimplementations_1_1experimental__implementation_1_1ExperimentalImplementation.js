@@ -8,6 +8,8 @@ var classimplementations_1_1experimental__implementation_1_1ExperimentalImplemen
     [ "get_file_by_path_submodel_repo", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a32ffc1729c1aca5075e137b586ca0398", null ],
     [ "post_concept_description", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a88b0b541be1044625ee110926c997088", null ],
     [ "post_file_by_path_submodel_repo", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a0c3ee48c447e86fdae3346315d6e8a71", null ],
+    [ "post_file_by_path_submodel_repo_stream", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a20e6388fb34fec04e7de301767107649", null ],
     [ "put_file_by_path_submodel_repo", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#ab2cdecd907122b26c9109eafd9bdf2d6", null ],
+    [ "put_file_by_path_submodel_repo_stream", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a6dcea8ad5048234c47367d6a6ea2c68f", null ],
     [ "_client", "classimplementations_1_1experimental__implementation_1_1ExperimentalImplementation.html#a7099ca7b3f86ae4a14b496bfe16e39d4", null ]
 ];

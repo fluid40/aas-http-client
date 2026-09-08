@@ -1,5 +1,14 @@
 var NAVTREEINDEX4 =
 {
+"test__client_8py.html#a4a0c45cd30a5d0ff3739ad6a34bb6ed4":[7,0,2,1,25],
+"test__client_8py.html#a4bf796a167eb54a8fe804a1a3e21371b":[7,0,2,1,40],
+"test__client_8py.html#a4f46af5cc4505beb85b1067926606a36":[7,0,2,1,48],
+"test__client_8py.html#a50eb6ca5bc628c38a69695b84539d207":[7,0,2,1,46],
+"test__client_8py.html#a51cd1a1ab938f8906dbe5c3862f3137f":[7,0,2,1,20],
+"test__client_8py.html#a52f9e6846edce3580564f22fa97196e8":[7,0,2,1,35],
+"test__client_8py.html#a596c740df650995afb5fff44cf7de838":[7,0,2,1,1],
+"test__client_8py.html#a5c64959423d1883d260e28c40af91f88":[7,0,2,1,22],
+"test__client_8py.html#a6115d74a39a10ca0f46b698e0c5b5821":[7,0,2,1,61],
 "test__client_8py.html#a61600eeebc6084a71137048a04376765":[7,0,2,1,0],
 "test__client_8py.html#a7184000af689caf71f0ccb7970a988de":[7,0,2,1,7],
 "test__client_8py.html#a76166b80a752a5392b61d7e96e240e5c":[7,0,2,1,24],
