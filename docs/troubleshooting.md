@@ -241,7 +241,7 @@ Symptoms:
 Key behavior:
 
 * `get_endpoint` returns parsed JSON only for HTTP 200.
-* `put_endpoint`,   `post_endpoint`,   `patch_endpoint`,  `delete_endpoint` return `None` on success and parsed JSON on non-success.
+* `put_endpoint`,    `post_endpoint`,    `patch_endpoint`,  `delete_endpoint` return `None` on success and parsed JSON on non-success.
 
 What to check:
 
