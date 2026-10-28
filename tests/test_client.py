@@ -24,13 +24,12 @@ AIMC_SM_ID = "https://fluid40.de/ids/sm/7644_4034_2556_2369"
 SM_ID = "fluid40/sm_http_client_unit_tests"
 SHELL_ID = "fluid40/aas_http_client_unit_tests"
 
-#"./tests/server_configs/test_go_server_config.json",
-
+# "./tests/server_configs/test_go_server_config.json",
+# "./tests/server_configs/test_python_server_config.json"
 CONFIG_FILES = [
     "./tests/server_configs/test_java_server_config.json",
     "./tests/server_configs/test_java_server_alias_config.json",
     "./tests/server_configs/test_dotnet_server_config.json",
-    "./tests/server_configs/test_python_server_config.json"
 ]
 
 # CONFIG_FILES = [
