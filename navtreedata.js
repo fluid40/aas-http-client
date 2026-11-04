@@ -27,7 +27,7 @@ var NAVTREE =
   [ "AAS HTTP Client Documentation", "index.html", [
     [ "AAS HTTP Client", "index.html", "index" ],
     [ "📝 Changelog", "md_docs_2CHANGELOG.html", [
-      [ "[1.3.1] - 2026-11-04", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
+      [ "[1.3.2] - 2026-11-04", "md_docs_2CHANGELOG.html#autotoc_md1", null ],
       [ "[1.3.0] - 2026-09-08", "md_docs_2CHANGELOG.html#autotoc_md2", null ],
       [ "[1.2.20] - 2026-09-03", "md_docs_2CHANGELOG.html#autotoc_md3", null ],
       [ "[1.2.8] - 2026-08-26", "md_docs_2CHANGELOG.html#autotoc_md4", null ],
@@ -171,7 +171,7 @@ var NAVTREEINDEX =
 "classimplementations_1_1sm__implementation_1_1SubmodelRepoImplementation.html#ad4da2a0b09595208bedebb3499cf2fd6",
 "md_docs_2CHANGELOG.html#autotoc_md11",
 "namespacetests_1_1test__client.html#a7e77c883a48da963271d3ad0a5612441",
-"test__client_8py.html#a3d06802d99c6a80668015f0ec32f3b8b"
+"test__client_8py.html#a3bee8e8a5484c46a1eb22185fa4ece7b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

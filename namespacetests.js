@@ -155,7 +155,9 @@ var namespacetests =
       [ "test_001a_decode_base_64", "namespacetests_1_1test__utils.html#a18c187e0d9ff84e5b7ba15cae1dd1d16", null ],
       [ "test_001b_decode_base_64", "namespacetests_1_1test__utils.html#adb72ad8319d53435b67e119ad05de6ee", null ],
       [ "test_002a_encode_base_64", "namespacetests_1_1test__utils.html#a289e173c3fdbcbc913cebdfeb3fc8028", null ],
-      [ "test_002b_encode_base_64", "namespacetests_1_1test__utils.html#ae4da5ad808323b1c1fd07ed18425ef38", null ]
+      [ "test_002b_encode_base_64", "namespacetests_1_1test__utils.html#ae4da5ad808323b1c1fd07ed18425ef38", null ],
+      [ "test_003a_decode_base_64", "namespacetests_1_1test__utils.html#a8c4aaacdd103a19b07fc1d9ffd0483cc", null ],
+      [ "test_003b_decode_base_64", "namespacetests_1_1test__utils.html#a7752db882345733340e74c5ffa65f409", null ]
     ] ],
     [ "test_wrapper", "namespacetests_1_1test__wrapper.html", [
       [ "shared_aas", "namespacetests_1_1test__wrapper.html#a78e522516a61b06d525c00824c605de9", null ],
