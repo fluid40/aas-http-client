@@ -33,3 +33,15 @@ def test_002b_encode_base_64():
     assert encoded == "aHR0cHM6Ly9mbHVpZDQwLmRlL2lkcy9zbS8xNTE1XzUzMDZfNzYyNF81MzY3"
     new_decoded = encoder.decode_base_64(encoded)
     assert new_decoded == decoded
+
+def test_003a_decode_base_64():
+    encoded = "aHR0cHM6Ly9mbHVpZDQwLmRlL2lkcy9zbS8xNTE1XzUzMDZfNzYyNF81MzY3"
+    assert encoder.is_base_64_encoded(encoded)
+    encoded = "RW5lcmd5TW9uaXRvcmluZw"
+    assert encoder.is_base_64_encoded(encoded)
+
+def test_003b_decode_base_64():
+    decoded = "https://fluid40.de/ids/sm/1515_5306_7624_5367"
+    assert not encoder.is_base_64_encoded(decoded)
+    decoded == "EnergyMonitoring"
+    assert not encoder.is_base_64_encoded(decoded)

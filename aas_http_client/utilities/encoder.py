@@ -38,8 +38,8 @@ def is_base_64_encoded(value: str) -> bool:
     :return: True if the string is Base64 encoded, False otherwise
     """
     try:
-        decoded = base64.b64decode(value, validate=True)
+        decoded = decode_base_64(value)
     except (binascii.Error, ValueError):
         return False
 
-    return base64.b64encode(decoded).decode("ascii") == value
+    return encode_base_64(decoded) == value
