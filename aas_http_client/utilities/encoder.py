@@ -4,6 +4,7 @@ Provides some helper methods for base 64 encoding.
 """
 
 import base64
+import binascii
 
 
 def decode_base_64(text: str) -> str:
@@ -28,3 +29,17 @@ def encode_base_64(text: str) -> str:
     """
     encoded_bytes = base64.urlsafe_b64encode(text.encode("utf-8")).rstrip(b"=")
     return encoded_bytes.decode("utf-8")
+
+
+def is_base_64_encoded(value: str) -> bool:
+    """Check if a string is Base64 encoded.
+
+    :param value: String to check
+    :return: True if the string is Base64 encoded, False otherwise
+    """
+    try:
+        decoded = base64.b64decode(value, validate=True)
+    except (binascii.Error, ValueError):
+        return False
+
+    return base64.b64encode(decoded).decode("ascii") == value

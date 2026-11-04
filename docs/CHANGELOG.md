@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.3.1] - 2026-11-04
+
+* ✨Feat: Add function to check if a string is base 64 encoded.
+
 ## [1.3.0] - 2026-09-08
 
 * 🚀Improvement: Add experimental file upload methods by octet stream.
