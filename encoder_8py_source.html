@@ -122,34 +122,39 @@ $(document).ready(function(){initNavTree('encoder_8py_source.html',''); initResi
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">def </span>encode_base_64(text: str) -&gt; str:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">def </span>encode_base_64(text: str, add_padding: bool = <span class="keyword">False</span>) -&gt; str:</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="stringliteral">&quot;&quot;&quot;Encode a string to Base64.</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral"></span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">    :param text: String to encode</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="stringliteral">    :return: Base64 encoded string</span></div>
-<div class="foldopen" id="foldopen00029" data-start="" data-end="">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#aec495f12ca2bd0c25c749226dae20750">   29</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    encoded_bytes = base64.urlsafe_b64encode(text.encode(<span class="stringliteral">&quot;utf-8&quot;</span>)).rstrip(b<span class="stringliteral">&quot;=&quot;</span>)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> encoded_bytes.decode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="stringliteral">    :param add_padding: Whether to add padding to the encoded string</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="stringliteral">    :return: Base64 encoded string</span></div>
+<div class="foldopen" id="foldopen00030" data-start="" data-end="">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#ac21a960205d7bccd41f9f21cd2c533c7">   30</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    encoded_bytes = base64.urlsafe_b64encode(text.encode(<span class="stringliteral">&quot;utf-8&quot;</span>))</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> add_padding:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        encoded_bytes = encoded_bytes.rstrip(b<span class="stringliteral">&quot;=&quot;</span>)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">return</span> encoded_bytes.decode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">def </span><a class="code hl_function" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">is_base_64_encoded</a>(value: str) -&gt; bool:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="stringliteral">&quot;&quot;&quot;Check if a string is Base64 encoded.</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">    :param value: String to check</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">    :return: True if the string is Base64 encoded, False otherwise</span></div>
-<div class="foldopen" id="foldopen00039" data-start="" data-end="">
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">   39</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        decoded = <a class="code hl_function" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a4533d1f30e7037372cbdfb1aaa200a97">decode_base_64</a>(value)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">except</span> (binascii.Error, ValueError):</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> encode_base_64(decoded) == value</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">def </span><a class="code hl_function" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">is_base_64_encoded</a>(value: str) -&gt; bool:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="stringliteral">&quot;&quot;&quot;Check if a string is Base64 encoded.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="stringliteral">    :param value: String to check</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="stringliteral">    :return: True if the string is Base64 encoded, False otherwise</span></div>
+<div class="foldopen" id="foldopen00044" data-start="" data-end="">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">   44</a></span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        decoded = <a class="code hl_function" href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a4533d1f30e7037372cbdfb1aaa200a97">decode_base_64</a>(value)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">except</span> (binascii.Error, ValueError):</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> encode_base_64(decoded) == value</div>
 </div>
 <div class="ttc" id="anamespaceaas__http__client_1_1utilities_1_1encoder_html_a4533d1f30e7037372cbdfb1aaa200a97"><div class="ttname"><a href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a4533d1f30e7037372cbdfb1aaa200a97">aas_http_client.utilities.encoder.decode_base_64</a></div><div class="ttdeci">str decode_base_64(str text)</div><div class="ttdoc">Decode a Base64 encoded string.</div><div class="ttdef"><b>Definition</b> <a href="encoder_8py_source.html#l00015">encoder.py:15</a></div></div>
-<div class="ttc" id="anamespaceaas__http__client_1_1utilities_1_1encoder_html_a5bcee14f9c24e4268413b509f42219aa"><div class="ttname"><a href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">aas_http_client.utilities.encoder.is_base_64_encoded</a></div><div class="ttdeci">bool is_base_64_encoded(str value)</div><div class="ttdoc">Check if a string is Base64 encoded.</div><div class="ttdef"><b>Definition</b> <a href="encoder_8py_source.html#l00039">encoder.py:39</a></div></div>
+<div class="ttc" id="anamespaceaas__http__client_1_1utilities_1_1encoder_html_a5bcee14f9c24e4268413b509f42219aa"><div class="ttname"><a href="namespaceaas__http__client_1_1utilities_1_1encoder.html#a5bcee14f9c24e4268413b509f42219aa">aas_http_client.utilities.encoder.is_base_64_encoded</a></div><div class="ttdeci">bool is_base_64_encoded(str value)</div><div class="ttdoc">Check if a string is Base64 encoded.</div><div class="ttdef"><b>Definition</b> <a href="encoder_8py_source.html#l00044">encoder.py:44</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
