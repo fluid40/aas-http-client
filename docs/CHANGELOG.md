@@ -1,5 +1,9 @@
 # 📝 Changelog
 
+## [1.3.3] - 2026-11-06
+
+* 🚀Improvement: Update encode function to handle padding option
+
 ## [1.3.2] - 2026-11-04
 
 * ✨Feat: Add function to check if a string is base 64 encoded.

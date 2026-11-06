@@ -21,13 +21,18 @@ def decode_base_64(text: str) -> str:
     return decoded.decode("utf-8")
 
 
-def encode_base_64(text: str) -> str:
+def encode_base_64(text: str, add_padding: bool = False) -> str:
     """Encode a string to Base64.
 
     :param text: String to encode
+    :param add_padding: Whether to add padding to the encoded string
     :return: Base64 encoded string
     """
-    encoded_bytes = base64.urlsafe_b64encode(text.encode("utf-8")).rstrip(b"=")
+    encoded_bytes = base64.urlsafe_b64encode(text.encode("utf-8"))
+
+    if not add_padding:
+        encoded_bytes = encoded_bytes.rstrip(b"=")
+
     return encoded_bytes.decode("utf-8")
 
 
