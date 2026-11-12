@@ -64,7 +64,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -103,7 +102,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -140,7 +138,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -177,7 +174,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -246,7 +242,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -284,7 +279,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or thumbnail file not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_200:
@@ -400,7 +394,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -439,7 +432,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_201:
@@ -479,7 +471,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code not in (STATUS_CODE_204, STATUS_CODE_200):
@@ -521,7 +512,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -558,7 +548,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -598,7 +587,6 @@ class ShellRepoImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Asset Administration Shell with id '{aas_identifier}' or submodel with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
