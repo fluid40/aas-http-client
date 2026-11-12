@@ -57,7 +57,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug("Concept descriptions not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -91,7 +90,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Concept description with id '{concept_description_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -125,7 +123,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug("Concept descriptions endpoint not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_201:
@@ -159,7 +156,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Concept description with id '{concept_description_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -201,7 +197,6 @@ class ExperimentalImplementation(BaseModel):
                         f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' or file content not found."
                     )
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -249,7 +244,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -297,7 +291,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -346,7 +339,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
@@ -394,7 +386,6 @@ class ExperimentalImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel with id '{submodel_identifier}' or Submodel element with IDShort path '{id_short_path}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             # original dotnet server delivers 200 instead of 204
