@@ -1,6 +1,6 @@
 # 📝 Changelog
 
-## [1.3.3] - 2026-11-21
+## [1.3.3] - 2026-11-12
 
 * 🚀Improvement: Update basyx-python-sdk version to 2.2.0.
 * ✨Feat: Enhance model builder with new AAS creation functions:
