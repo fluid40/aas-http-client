@@ -1,9 +1,10 @@
 # 📝 Changelog
 
-## [1.3.5] - 2026-11-12
+## [1.3.6] - 2026-11-12
 
 * 🧹Chore: Update basyx-python-sdk version to 2.2.0.
 * 🚀Improvement: Enhance get_concept_descriptions method with query parameters.
+* 🐛Fix: Update response status code check to include STATUS_CODE_204 for thumbnail deletion.
 * ✨Feat: Enhance model builder with new AAS creation functions:
   + `create_base_asset_information`: Add parameter for specific asset IDs.
   + `create_specific_asset_id`: Add function to create specific asset IDs.
