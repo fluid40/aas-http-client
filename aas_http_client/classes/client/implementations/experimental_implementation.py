@@ -1,5 +1,6 @@
 """Experimental implementation of Asset Administration Shell Registry related API calls."""
 
+import json
 import logging
 import mimetypes
 from pathlib import Path
@@ -41,33 +42,50 @@ class ExperimentalImplementation(BaseModel):
         self._session: requests.Session = session
 
     # GET /concept-descriptions
-    def get_concept_descriptions(self):
-        """Retrieves concept descriptions. Experimental feature - may not be supported by all servers."""
+    def get_concept_descriptions(
+        self, id_short: str = "", is_case_of: str = "", data_specification_ref: str = "", limit: int = 100, cursor: str = ""
+    ):
+        """Retrieves concept descriptions. Experimental feature - may not be supported by all servers.
+
+        :param id_short: Filter by idShort
+        :param is_case_of: Filter by isCaseOf
+        :param data_specification_ref: Filter by dataSpecificationRef
+        :param limit: Maximum number of results to return
+        :param cursor: Cursor for pagination
+        :return: List of concept descriptions as dictionaries or None if an error occurs
+        """
         url = f"{self._client.base_url}/concept-descriptions"
+
+        # Build query parameters
+
+        params: dict[str, Any] = {}
+        if id_short:
+            params["idShort"] = id_short
+        if is_case_of:
+            params["isCaseOf"] = is_case_of
+        if data_specification_ref:
+            params["dataSpecificationRef"] = data_specification_ref
+        if limit:
+            params["limit"] = str(limit)
+        if cursor:
+            params["cursor"] = cursor
 
         self._client.set_token()  # ensures Authorization header is set
 
         try:
-            response = self._session.get(url, timeout=self._client.time_out)
+            response = self._session.get(url, timeout=self._client.time_out, params=params)
             _logger.debug(f"Call REST API url '{response.url}'")
-
-            if response.status_code == STATUS_CODE_404:
-                if self._client.get_log_intensity() == LogIntensity.HIGH:
-                    _logger.warning("Concept descriptions not found.")
-                elif self._client.get_log_intensity() == LogIntensity.STANDARD:
-                    _logger.debug("Concept descriptions not found.")
-
-                return None
 
             if response.status_code != STATUS_CODE_200:
                 log_response(response)
                 return None
 
         except requests.exceptions.RequestException as e:
-            _logger.error(f"Error calling REST API: {e}")
+            _logger.error(f"Error call REST API: {e}")
             return None
 
-        return response.json()
+        content = response.content.decode("utf-8")
+        return json.loads(content)
 
     # GET /concept-descriptions/{conceptDescriptionIdentifier}
     def get_concept_description_by_id(self, concept_description_identifier: str):
