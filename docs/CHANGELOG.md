@@ -1,5 +1,13 @@
 # 📝 Changelog
 
+## [1.3.3] - 2026-11-21
+
+* 🚀Improvement: Update basyx-python-sdk version to 2.2.0.
+* ✨Feat: Enhance model builder with new AAS creation functions:
+  + `create_base_asset_information`: Add parameter for specific asset IDs.
+  + `create_specific_asset_id`: Add function to create specific asset IDs.
+  + `create_base_aas_with_asset_information`: Add function to create a base AAS with parameter for asset information.
+
 ## [1.3.2] - 2026-11-04
 
 * ✨Feat: Add function to check if a string is base 64 encoded.

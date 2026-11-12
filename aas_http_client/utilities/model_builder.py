@@ -123,16 +123,19 @@ def create_base_aas(
     description: str = "",
     asset_kind: model.AssetKind = model.AssetKind.INSTANCE,
 ) -> model.AssetAdministrationShell:
-    """Create a basic AAS.
+    """Create a basic AAS and add base asset information.
 
     :param identifier: identifier of the AAS
     :param id_short: ID short of the AAS
-    :param global_asset_identifier: identifier of the global Asset
+    :param global_asset_identifier: identifier of the global Asset. if not provided, defaults to the AAS identifier
     :param display_name: display name of the AAS, defaults to ""
     :param description: description of the AAS, defaults to ""
     :param asset_kind: kind of the Asset, defaults to AssetKind.INSTANCE
     :return: AssetAdministrationShell instance
     """
+    if not identifier or not id_short:
+        raise ValueError("Both 'identifier' and 'id_short' must be provided.")
+
     if not global_asset_identifier:
         global_asset_identifier = identifier
 
@@ -152,14 +155,82 @@ def create_base_aas(
     return aas
 
 
-def create_base_asset_information(identifier: str, asset_kind: model.AssetKind = model.AssetKind.INSTANCE) -> model.AssetInformation:
+def create_base_aas_with_asset_information(
+    identifier: str,
+    id_short: str,
+    asset_information: model.AssetInformation,
+    display_name: str = "",
+    description: str = "",
+) -> model.AssetAdministrationShell:
+    """Create a basic AAS.
+
+    :param identifier: identifier of the AAS
+    :param id_short: ID short of the AAS
+    :param asset_information: asset information of the AAS
+    :param display_name: display name of the AAS, defaults to ""
+    :param description: description of the AAS, defaults to ""
+    :return: AssetAdministrationShell instance
+    """
+    if not identifier or not id_short or not asset_information:
+        raise ValueError("Both 'identifier', 'id_short', and 'asset_information' must be provided.")
+
+    aas = model.AssetAdministrationShell(id_=identifier, asset_information=asset_information)
+    aas.id_short = id_short
+
+    if description:
+        description_text = {"en": f"{description}"}
+        aas.description = model.MultiLanguageTextType(description_text)
+
+    if display_name:
+        display_name_text = {"en": f"{display_name}"}
+        aas.display_name = model.MultiLanguageNameType(display_name_text)
+
+    return aas
+
+
+def create_specific_asset_id(name: str, value: str, external_subject_reference_value: str | None = None) -> model.SpecificAssetId:
+    """Create a new SpecificAssetId instance.
+
+    :param name: name of the SpecificAssetId
+    :param value: value of the SpecificAssetId
+    :param external_subject_reference_value: optional external subject reference value
+    :return: A new SpecificAssetId object.
+    """
+    if not name or not value:
+        raise ValueError("Both 'name' and 'value' must be provided.")
+
+    external_subject_reference = None
+
+    if external_subject_reference_value:
+        external_subject_reference = model.ExternalReference(
+            (
+                model.Key(
+                    type_=model.KeyTypes.GLOBAL_REFERENCE,
+                    value=external_subject_reference_value,
+                ),
+            )
+        )
+
+    return model.SpecificAssetId(name=name, value=value, external_subject_id=external_subject_reference)
+
+
+def create_base_asset_information(
+    global_asset_id: str, asset_kind: model.AssetKind = model.AssetKind.INSTANCE, specific_asset_id: list[model.SpecificAssetId] | None = None
+) -> model.AssetInformation:
     """Return a basic AssetInformation instance.
 
-    :param identifier: identifier of the AssetInformation
+    :param global_asset_id: global asset ID of the AssetInformation
     :param asset_kind: kind of the Asset, defaults to AssetKind.INSTANCE
+    :param specific_asset_id: list of specific asset IDs, defaults to None
     :return: AssetInformation instance
     """
-    return model.AssetInformation(asset_kind, identifier)
+    if not global_asset_id:
+        raise ValueError("The 'global_asset_id' must be provided.")
+
+    if specific_asset_id is None:
+        specific_asset_id = []
+
+    return model.AssetInformation(asset_kind=asset_kind, global_asset_id=global_asset_id, specific_asset_id=specific_asset_id)
 
 
 def create_reference(id: str) -> model.ModelReference:
