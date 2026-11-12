@@ -63,7 +63,6 @@ class SubmodelRegistryImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return None
 
             if response.status_code != STATUS_CODE_200:
@@ -102,7 +101,6 @@ class SubmodelRegistryImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
@@ -139,7 +137,6 @@ class SubmodelRegistryImplementation(BaseModel):
                 elif self._client.get_log_intensity() == LogIntensity.STANDARD:
                     _logger.debug(f"Submodel Descriptor with id '{submodel_identifier}' not found.")
 
-                _logger.debug(response.text)
                 return False
 
             if response.status_code != STATUS_CODE_204:
