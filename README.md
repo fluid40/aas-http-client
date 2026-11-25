@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-%23f8a602?label=License&labelColor=%23992b2e)](https://github.com/fluid40/aas-http-client/blob/dk/doxygen/LICENSE)
 [![CI](https://github.com/fluid40/aas-http-client/actions/workflows/CI.yml/badge.svg?branch=main&cache-bust=1)](https://github.com/fluid40/aas-http-client/actions)
 
-AAS HTTP Client is a flexible Python library for interacting with Asset Administration Shell (AAS) and submodel repository servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the [AAS server specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html), ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.
+AAS HTTP Client is a flexible Python library for interacting with  Asset Administration Shell (AAS) repository and registry servers over HTTP. It uses standard Python dictionaries for function inputs and outputs, making it easy to integrate with a variety of workflows. The client implements the most widely used endpoints defined in the [AAS server specification](https://industrialdigitaltwin.io/aas-specifications/IDTA-01002/v3.1.1/specification/interfaces.html), ensuring compatibility with multiple AAS repository server implementations. This allows you to connect to different AAS servers without changing your client code.
 
 **Notes:**
 
@@ -28,7 +28,7 @@ AAS HTTP Client is a flexible Python library for interacting with Asset Administ
 ## 🚀 Features
 
 * ✅ Easy REST communication with AAS-compliant servers
-* ✅ Support for Registry, AAS, and Submodel Repository endpoints
+* ✅ Support for Registry, shell and Submodel Repository endpoints
 * ✅ Optional wrapper for the Eclipse BaSyx Python SDK
 * ✅ Built-in authentication (Bearer, OAuth, Basic)
 * ✅ Pagination support
